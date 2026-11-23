@@ -1,0 +1,10 @@
+# Run from the package root. Creates synthetic histories, not clinical benchmarks.
+source("R/schema.R")
+source("R/simulate.R")
+dir.create("data",showWarnings=FALSE)
+sim_perinatal<-rc_simulate(n=160,horizon=3,seed=20261122,time_unit="months")
+sim_oncology<-rc_simulate(n=160,horizon=3,seed=20261123,time_unit="years",rates=c(.5,.2,.15))
+sim_robotics<-rc_simulate(n=160,horizon=3,seed=20261124,time_unit="operating hours",rates=c(.7,.3,.1))
+save(sim_perinatal,file="data/sim_perinatal.rda",compress="xz",version=2)
+save(sim_oncology,file="data/sim_oncology.rda",compress="xz",version=2)
+save(sim_robotics,file="data/sim_robotics.rda",compress="xz",version=2)

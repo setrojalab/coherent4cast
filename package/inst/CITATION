@@ -1,0 +1,9 @@
+bibentry(
+  bibtype = "Manual",
+  title = "recurcast: Coherent Forecasts for Recurrent and Terminal Events",
+  author = c(person("Sunday A.", "Adetunji"),
+             person("Oluwatimileyin A.", "Adetunji")),
+  year = "2026",
+  note = "R package version 0.10.1, unpublished release candidate"
+)
+

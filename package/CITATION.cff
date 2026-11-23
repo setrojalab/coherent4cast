@@ -1,0 +1,19 @@
+cff-version: 1.2.0
+message: Please cite this software and the accompanying method manuscript.
+type: software
+title: 'recurcast: Coherent Forecasts for Recurrent and Terminal Events'
+version: 0.10.1
+license: GPL-3.0-only
+authors:
+  - family-names: Adetunji
+    given-names: Sunday A.
+    affiliation: Oregon State University
+  - family-names: Adetunji
+    given-names: Oluwatimileyin A.
+    affiliation: Bowen University
+abstract: >-
+  Development software for shared-gamma event-history estimation and coherent
+  prognostic forecasts, with finite-support sensitivity and calibration tools.
+  This metadata describes a local development version and does not indicate
+  publication on CRAN or assignment of a DOI.
+

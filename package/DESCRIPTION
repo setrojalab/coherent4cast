@@ -1,0 +1,26 @@
+Package: recurcast
+Type: Package
+Title: Coherent Forecasts for Recurrent and Terminal Events
+Version: 0.10.1
+Authors@R: c(
+    person("Sunday A.", "Adetunji", email = "adetunjs@oregonstate.edu",
+           role = c("aut", "cre")),
+    person("Oluwatimileyin A.", "Adetunji", role = "aut"))
+Description: Fits shared-frailty event-history models and computes joint-law
+    forecasts of recurrence burden, terminal-event risk and restricted survival.
+    Provides automatic coarsened-history integration, sparse propagation,
+    finite-path and continuous-time targeted estimation, scalable finite-support
+    recording-sensitivity bounds, evolving-covariate forecasts, alternative frailty
+    distributions, weighted conformal calculations, and calibration diagnostics.
+    Observation assumptions and numerical error bounds are retained
+    in returned objects. The estimands are prognostic rather than causal.
+License: GPL-3
+Encoding: UTF-8
+Depends: R (>= 4.1.0)
+Imports: Rcpp, stats, utils, graphics, digest, jsonlite
+LinkingTo: Rcpp
+Suggests: testthat (>= 3.0.0), survival, frailtypack, ggplot2, knitr, rmarkdown, nlme
+VignetteBuilder: knitr
+SystemRequirements: C++17
+Config/testthat/edition: 3
+NeedsCompilation: yes

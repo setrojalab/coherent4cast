@@ -1,0 +1,9 @@
+{
+  "n": 500,
+  "seed": 1702611220,
+  "grid": 64,
+  "valid": true,
+  "score": 5.301507666199967e-11,
+  "iterations": 4,
+  "reference": "Copied V5 F2 continuous-targeting oracle; original unchanged"
+}
