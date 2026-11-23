@@ -25,6 +25,16 @@ jobs:
         with:
           r-version: ${{ matrix.r }}
           use-public-rspm: true
+      - name: Make gettext headers available to macOS source dependencies
+        if: runner.os == 'macOS'
+        shell: bash
+        run: |
+          brew list gettext >/dev/null 2>&1 || brew install gettext
+          gettext_prefix="$(brew --prefix gettext)"
+          test -r "$gettext_prefix/include/libintl.h"
+          echo "CPATH=$gettext_prefix/include${CPATH:+:$CPATH}" >> "$GITHUB_ENV"
+          echo "LIBRARY_PATH=$gettext_prefix/lib${LIBRARY_PATH:+:$LIBRARY_PATH}" >> "$GITHUB_ENV"
+          echo "PKG_CONFIG_PATH=$gettext_prefix/lib/pkgconfig${PKG_CONFIG_PATH:+:$PKG_CONFIG_PATH}" >> "$GITHUB_ENV"
       - uses: r-lib/actions/setup-r-dependencies@f9a764fea8d5c63df6ef9a5c7795bf7deb5d7e05
         with:
           working-directory: package

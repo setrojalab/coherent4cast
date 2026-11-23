@@ -1,30 +1,31 @@
 # Release gate evidence
 
-This record describes internal review lenses, not independent professors or
-external certifications. A check passes only when the recorded execution
-supports the stated scope. External acceptance and service-level targets cannot
-be supplied by local tests. Targeted candidate 0.10.1 is under verification. The numerical check results below describe the preserved 0.10.0 baseline until the final candidate evidence replaces them. Earlier
-0.9.1 verification is retained in the separate baseline project.
+This record describes internal agent review roles, not independent professors
+or external certifications. Candidate 0.10.1 adds R interfaces and audit
+metadata while preserving every native source/header and Makevars hash from
+0.10.0. It is not a CRAN release or an accepted journal submission.
 
-| Gate | Required evidence | Current state | Internal lenses |
-|---|---|---|---|
-| G0 | Frozen oracle, license audit, name checks, API | Oracle frozen; CRAN and archive name checks clear, PyPI returns 404; Bioconductor request blocked | P6 and P5 |
-| G1 | Every public claim and theorem-to-code fixture traced | API.md and planning/claims_register.csv trace the implemented scope, measured results and deferred claims; internal review evidence retained | P2 and P1 |
-| G2 | Warning-free core and sanitizers | Six standalone C++17 test executables compile with strict warning flags and pass; combined R/C++ line coverage is 95.28487% without file exclusions. Linux sanitizer execution remains pending | P6 and P1 |
-| G3 | Deterministic oracle parity and numerical guards | Implemented-module fixtures pass, including gamma scores, coarsened likelihood, targeting EIF, LP/projection, regularization and extreme-weight conformal ranks | P1 and P3 |
-| G4 | Current R-devel and release tarball checks | Final 0.10.0 source checks on Windows R 4.6.2 and R-devel 4.7.0: 0 errors, 0 warnings, 0 notes and 917 passed expectations each. Fresh Windows binary installation also passes 917 expectations | P6 and P5 |
-| G5 | Frozen measured benchmarks | Four sample sizes and five repeats executed; raw results, hardware, hashes and unsuccessful quadrature/early convergence checks retained. General high-level 250000-unit fitting remains unmeasured | P3 and P6 |
-| G6 | Remote CI, security settings, platform matrix | Workflow files prepared; no remote workflow run or repository setting claimed | P6 and P3 |
-| G7 | Datasets, vignettes and scope statements | Three synthetic datasets, two canonical source-package adapters, five case studies and four evaluated vignettes completed; 46-page Rd reference manual rendered and checked | P2 and P4 |
-| G8 | Paper replication and cross-platform determinism | Two fresh Windows case-study fits give identical scientific values in all 15 CSV tables. All original 11 manuscript files, and all 16 current scientific manuscript files, agree between regenerated runs and the current paper materialization. Second OS pending | P3 and P1 |
-| G9 | CRAN acceptance | Not submitted; acceptance is an external outcome | P6 and P5 |
-| G10 | JSS-style manuscript and six-lens internal review | Official JSS-style PDF, editable Word, source, seven tables, four figures and six internal role reports completed; author approval and external peer review are separate | P5 and P3 |
-| G11 | Public DOI and arXiv posting | Not published; metadata and release instructions are prepared locally | P5 and P4 |
-| G12 | Versioning, support and reserved extension behavior | Policies prepared; behavior checked with API tests | P6 and P2 |
+| Gate | Executed evidence or remaining scope |
+|---|---|
+| G0: provenance and API | Preserved source/oracle records; 40 public exports and 33 registered S3 methods. Earlier package-name searches are historical evidence, not a fresh name reservation. |
+| G1: claim traceability | API.md, claims register and the targeted addendum distinguish implemented interfaces, assumptions and deferred extensions. |
+| G2: native safety and coverage | Six local C++17 fixtures pass strict warnings. Hosted Linux GCC and Clang each pass strict tests with and without ASAN/UBSAN: 4/4 jobs, run 45156913689. Combined R/C++ line coverage is 95.46236% (2777/2909), no excluded files. |
+| G3: numerical and interface contracts | All 917 predecessor assertions were re-executed successfully. The final candidate passes 1107 assertions, including ordinary survival, joint competing CIFs, cross-cause sandwich covariance, future covariate mappings, cause-aware validation and audit provenance. All 23 native files remain byte-identical. |
+| G4: checked artifacts | Windows R 4.6.2 and R-devel 4.7.0 source checks both report 0 errors, 0 warnings, 0 notes. Both execute 1107 passing assertions, 0 skips. A separately installed Windows binary passes the same 1107 assertions. |
+| G5: benchmark scope | Existing 0.10.0 measurements are retained as predecessor evidence; no new broad speed claim is inferred. The targeted synthetic and standard-regime drivers run against the final binary. |
+| G6: remote platforms | Private setrojalab/recurcast PR 1 exists. Native matrix completed successfully at source commit a0a11ce73d7c9360f7aba360959289268699b096. Hosted R-release/devel jobs on Linux/macOS/Windows are in progress as of this 2026-11-23 record; consult final project CI evidence for completed results. |
+| G7: documentation and data | Four vignettes build and check successfully. The 54-page Rd manual is rendered and inspected. Synthetic ADTTE/OMOP-style mappings pass 16 checks; these are analyst-controlled examples, not certified native adapters. |
+| G8: replication | Predecessor Windows numerical repeatability records remain explicitly labelled. Current targeted driver outputs and synthetic mapping checks are saved with final binary provenance. Cross-platform bitwise identity is not asserted. |
+| G9: CRAN | Not submitted; acceptance is an external outcome. |
+| G10: manuscript | Current JSS-style manuscript: 11 tables and 5 figures; separate targeted API/audit addendum. Word/PDF and source are supplied. Internal checks do not replace human author review or external peer review. |
+| G11: public release | No public DOI, arXiv, CRAN or JSS release has been made. The GitHub repository is private. |
+| G12: versioning and support | Additive 0.10.1 pre-1.0 candidate; legacy trajectory/forecast classes retained, explicit no-frailty alias, deterministic schema tags and structured audit exports. |
 
-Evidence paths in the project-level reviews directory contain command outputs
-and machine-readable summaries. Each lens should record its own review and an
-evidence-based second-lens check rather than a fabricated signature.
+Canonical local artifact and coverage evidence:
+`reviews/P6_final_verification.json`. Hosted evidence:
+`reviews/github_ci/` and `planning/GITHUB_REPOSITORY.json`.
 
-
+- [Private validation pull request](https://github.com/setrojalab/recurcast/pull/1)
+- [Native safety run](https://github.com/setrojalab/recurcast/actions/runs/45156913689)
+- [R platform run](https://github.com/setrojalab/recurcast/actions/runs/45156913651)
 

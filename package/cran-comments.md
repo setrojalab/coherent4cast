@@ -1,32 +1,36 @@
-## Development status
+## Candidate status
 
-This package has not been submitted to CRAN. This file records actual checks
-and must be updated before submission. A workflow definition is not an executed
-cross-platform result.
+Unpublished candidate 0.10.1. This package has not been submitted to CRAN.
 
-## Preserved 0.10.0 baseline checks (0.10.1 checks pending)
+## Local source and binary checks completed 2026-11-23
 
-Windows 11 x64, GCC 14.3.0 from Rtools45. Source archives were checked with
-`R CMD check --as-cran --no-manual` under isolated R 4.6.2 release and R-devel
-4.7.0 (2026-11-17 r90926) installations. Both final frozen-source checks have
-0 errors, 0 warnings and 0 notes. Each reports 917 passed test expectations,
-0 failures, 0 warnings and 0 skips. All four vignettes are built and included,
-and their outputs rebuild successfully during checking. A standard Rd PDF
-46-page reference manual was generated separately. The Windows binary was
-installed in a fresh library and passed the same 917 assertions. Combined
-R/C++ line coverage is 95.28487%, with no excluded files.
+Windows 11 x64, Rtools45 GCC 14.3.0. R CMD check --as-cran --no-manual
+reports 0 errors, 0 warnings and 0 notes under R 4.6.2 release and R-devel 4.7.0
+(2026-11-17 r90926). Each source check executes 1107 passing test expectations,
+with 0 failures, 0 warnings and 0 skips. A fresh Windows binary installation passes
+the same 1107 assertions. The checked source archives include all four compiled
+vignettes and their index; vignette outputs are rebuilt during checking.
 
-Exact logs, archive hashes and source-content comparisons are recorded in
-the project-level `reviews/P6_candidate0100_checks.json` and
-`reviews/P6_frozen_archive_sources.csv`. These are local Windows results,
-not CRAN acceptance or evidence from other operating systems.
+The separately generated 54-page Rd reference manual has been rendered and
+inspected. Combined R/C++ line coverage is 95.46236% (2777/2909 lines), with
+no file exclusions. All 23 native files match the unchanged 0.10.0 baseline.
 
-## External checks still required
+Exact logs, source comparisons and SHA256 checksums are in the project-level
+reviews/P6_candidate0101_checks.json, reviews/P6_frozen_archive_sources.csv
+and reviews/P6_final_verification.json.
 
-Linux and macOS; sanitizer/valgrind execution; win-builder and macOS builder;
-confirmation of maintainer/author authorization for public submission.
-The core test and R package CI workflows are provided but no remote run has
-been represented as completed.
+## Hosted native checks completed; R platform matrix in progress
 
+The private setrojalab/recurcast repository contains the authorized candidate.
+All four Linux standalone-native jobs pass: GCC/Clang strict warnings,
+with and without AddressSanitizer and UndefinedBehaviorSanitizer.
+Source commit: a0a11ce73d7c9360f7aba360959289268699b096.
+Native run: https://github.com/setrojalab/recurcast/actions/runs/45156913689.
 
+The R-release/devel matrix on Linux, macOS and Windows was started and is
+still in progress as of this dated record. Final project evidence records its
+actual completed results; a queued workflow is not a passing check.
+Platform run: https://github.com/setrojalab/recurcast/actions/runs/45156913651.
 
+Public submission, win-builder/macOS-builder service results and CRAN
+acceptance are not claimed by these local or hosted tests.
