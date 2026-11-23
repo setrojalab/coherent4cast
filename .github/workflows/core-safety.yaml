@@ -1,6 +1,7 @@
 name: Native strict checks and sanitizers
 on:
   push:
+    branches: [main]
   pull_request:
   workflow_dispatch:
 permissions:
@@ -35,3 +36,4 @@ jobs:
         with:
           name: native-${{ matrix.compiler }}-sanitize-${{ matrix.sanitize }}
           path: package/ci-logs
+

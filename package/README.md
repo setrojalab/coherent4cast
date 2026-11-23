@@ -8,17 +8,17 @@ risk and restricted survival from it. The R interface exposes a C++17 numerical
 core, checks event eligibility and observation assumptions, and retains
 convergence and numerical diagnostics in returned objects.
 
-This unpublished candidate version is `0.10.0`. Local verification does not imply
+This unpublished candidate version is `0.10.1`. Local verification does not imply
 CRAN acceptance, independent software review or clinical validation.
 
 ## Install the supplied source archive
 
-Install Rcpp, then install the archive locally. A C++17 toolchain is required
+Install Rcpp, digest and jsonlite, then install the archive locally. A C++17 toolchain is required
 for source installation; use Rtools on Windows.
 
 ```r
-install.packages("Rcpp")
-install.packages("recurcast_0.10.0.tar.gz", repos=NULL, type="source")
+install.packages(c("Rcpp", "digest", "jsonlite"))
+install.packages("recurcast_0.10.1.tar.gz", repos=NULL, type="source")
 library("recurcast")
 ```
 
@@ -41,7 +41,7 @@ records are not redistributed inside this package.
 | Task | Interface |
 |---|---|
 | Validate intervals and construct predictable counts | `as_trajectory()`, `build_history()` |
-| Fit gamma, lognormal or estimated discrete frailty | `recurcast(frailty=...)`, `rc_frailty_loglik()` |
+| Fit zero-variance, gamma, lognormal or estimated discrete frailty | `recurcast(frailty=...)`, `rc_frailty_loglik()` |
 | Generate and integrate coarsened histories | `rc_coarsen_fibre()`, `recurcast(observation="coarsened")` |
 | Forecast from a posterior history mixture | `predict(newdata_observation="coarsened")`, `rc_predict_coarsened()` |
 | Propagate probabilities and cumulative rewards | `predict()`, `rc_generator_csr()`, `rc_propagate_sparse()` |
@@ -53,11 +53,36 @@ records are not redistributed inside this package.
 | Invert weighted or certified conformal ranks | `rc_conformal()` |
 | Compute a known-dispersion exact pivot | `rc_pivot()` |
 | Evaluate held-out forecasts | `validate()` |
+| Fit standard survival or absorbing competing causes | `rc_surv()`, `rc_competing()` |
+| Export captured context, diagnostics and explicit SHA-256 fingerprints | `rc_audit_report()` |
 
-Use `vignette(package="recurcast")` for the three worked guides and the help
+Use `vignette(package="recurcast")` for the four worked guides and the help
 pages for precise assumptions. The finite-path, continuous-time likelihood,
 confidence-projection and prediction-set modules have different validity
 conditions. Calling one does not certify all the others.
+
+## Targeted 0.10.1 interfaces
+
+`frailty = "none"` fixes latent variance at zero. `rc_surv()` fits the full
+piecewise-exponential proportional-hazards likelihood, not Cox partial
+likelihood. `rc_competing()` fits cause-specific no-frailty models and combines
+all hazards in one generator to calculate cumulative incidence and survival.
+It does not automatically produce CIF confidence bands. Competing-event
+validation weights earlier competing events as observed noncases at their
+event time, not as censoring.
+
+`rc_trajectory` and `rc_forecast` are additive classes; use `as_trajectory()`
+and `predict()` rather than treating those class names as functions. Explicit
+absorbing-cause labels and observed-pattern metadata do not infer scientific
+eligibility or the missingness mechanism. `rc_audit_report()` separates
+captured context from report export and states each hash representation;
+it does not confer anonymity, causal identification or regulatory approval.
+
+The project-level `replication/standard_regimes.R` and
+`replication/standards_mapping.R` scripts give executable wrapper and synthetic
+ADTTE/OMOP-style mapping examples. The latter are analyst-controlled examples,
+not native certified adapters. Offline execution requires dependencies to be
+installed in advance.
 
 ## Reproducibility
 

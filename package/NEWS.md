@@ -13,7 +13,9 @@
 - Add automatic coarsened-history fibres and posterior mixtures at forecast origins.
 - Add sparse state propagation and structural finite-support bound calculations.
 - Add continuous-time CAR targeting with explicit boundary diagnostics and a
-  separately declared complete-follow-up bounded projection.
+  separately declared bounded observed-reward projection that retains censoring uncertainty.
+  Its unconditional finite-sample guarantee requires using that construction
+  throughout; automatic Gaussian/projection switching does not inherit it.
 - Add lognormal and estimated discrete frailty likelihoods alongside shared gamma.
 - Add declared scheduled and Gaussian longitudinal future-covariate trajectories.
 - Keep the 0.9.1 project and its recorded evidence unchanged; verification of

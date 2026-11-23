@@ -1,6 +1,7 @@
 name: R package platform checks
 on:
   push:
+    branches: [main]
   pull_request:
   workflow_dispatch:
 permissions:
@@ -36,3 +37,4 @@ jobs:
           error-on: '"warning"'
           upload-results: always
           artifact-name: check-${{ matrix.os }}-${{ matrix.r }}
+

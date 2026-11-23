@@ -45,8 +45,25 @@ estimator. The data-dependent automatic Gaussian/projection switch does not
 inherit a uniform finite-sample guarantee: request `interval="projection"`
 throughout when invoking that confidence construction. Explicit intervention
 arguments require a causal estimand and identification analysis and remain
-outside this prognostic software. Python bindings, FHIR/OMOP and causal regimes
-retain their separate later-release scope.
+outside this prognostic software. Python bindings, native FHIR/OMOP adapters and causal regimes
+retain their separate later-release scope. The project now includes explicit
+synthetic OMOP-style mapping examples; these are not native adapters.
+
+Version 0.10.1 adds R-level interfaces without modifying the native kernels:
+
+| Interface or class | Implemented scope | Qualification |
+|---|---|---|
+| `recurcast(frailty="none")` | Explicit zero-variance boundary | Retains regression and the full likelihood; no latent frailty integration. |
+| `rc_surv()` | Standard survival through a no-frailty, piecewise-exponential proportional-hazards likelihood | Supports declared exact contiguous risk intervals from origin; not Cox partial likelihood or delayed-entry correction. |
+| `rc_competing()` | Cause-specific no-frailty hazards combined into common-generator CIFs and survival | Explicit mutually exclusive absorbing causes; joint subject-score sandwich; no automatic CIF confidence bands. |
+| `validate()` on `recurcast_competing` | One selected cause's fixed-horizon cumulative incidence | Earlier competing events are noncases weighted at event time; censoring positivity/independence assumptions remain. |
+| `rc_trajectory`, `rc_forecast` | Additive data and prediction classes with legacy inheritance | These are class names, not new estimator functions. Pattern metadata do not infer a scientific model. |
+| `rc_audit_report()` | List, JSON or text report with captured context, diagnostics and explicit source-file hashes | SHA-256 states its serialized-object/file-byte representation; export is distinct from fitting and does not certify regulatory compliance. |
+
+`replication/standards_mapping.R` in the project archive provides small synthetic
+ADTTE/OMOP-style transformations and checks. Selection of parameters, episode
+rules, observation origins and terminal ascertainment remains explicit. These
+examples neither validate arbitrary clinical coding nor claim a certified adapter.
 
 The exported C++ headers contain no R headers. Rcpp bridges handle conversion
 and registration. Validation of the data-frame schema is implemented in R;
