@@ -19,18 +19,25 @@ Exact logs, source comparisons and SHA256 checksums are in the project-level
 reviews/P6_candidate0101_checks.json, reviews/P6_frozen_archive_sources.csv
 and reviews/P6_final_verification.json.
 
-## Hosted native checks completed; R platform matrix in progress
+## Hosted platform and native checks completed
 
-The private setrojalab/recurcast repository contains the authorized candidate.
-All four Linux standalone-native jobs pass: GCC/Clang strict warnings,
+All six hosted R-release/devel checks on Linux, macOS and Windows report
+Status: OK, with 0 errors, 0 warnings, 0 notes and 1107 passing assertions
+per job. All four Linux standalone-native jobs pass: GCC/Clang strict warnings,
 with and without AddressSanitizer and UndefinedBehaviorSanitizer.
-Source commit: a0a11ce73d7c9360f7aba360959289268699b096.
-Native run: https://github.com/setrojalab/recurcast/actions/runs/45156913689.
+Tested source commit: fbf6429e37aa91e159d878a8228d62803b287056.
+Platform run: https://github.com/setrojalab/recurcast/actions/runs/45164392545.
+Native run: https://github.com/setrojalab/recurcast/actions/runs/45164392550.
 
-The R-release/devel matrix on Linux, macOS and Windows was started and is
-still in progress as of this dated record. Final project evidence records its
-actual completed results; a queued workflow is not a passing check.
-Platform run: https://github.com/setrojalab/recurcast/actions/runs/45156913651.
+The earlier macOS R-devel Matrix dependency failure occurred before recurcast
+was checked. The workflow-only gettext environment correction resolved it;
+the original failed log and correction are retained. A subsequent attempt
+stalled in the oversized repository-status diagnostic before dependency
+installation. Source-only CRAN configuration on macOS devel avoids probes of
+nonexistent binary and unused Bioconductor repositories; no dependencies or
+checks were removed. That superseded log is also retained. Package scientific
+source and the local checked artifacts were unchanged.
 
-Public submission, win-builder/macOS-builder service results and CRAN
-acceptance are not claimed by these local or hosted tests.
+These are package/test/example/vignette checks, not full cross-platform
+clinical case-study replication or bitwise equality. Public submission,
+win-builder/macOS-builder service results and CRAN acceptance are not claimed.
