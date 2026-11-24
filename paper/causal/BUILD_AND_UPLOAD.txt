@@ -1,0 +1,47 @@
+SAME MANUSCRIPT FOR JSS AND ARXIV
+
+01_RecurCast_JSS_arXiv_Manuscript.pdf is the final compiled manuscript.
+RecurCast_JSS_arXiv_LaTeX.zip is the clean source archive for that PDF.
+Top-level file: main.tex. Compiler: pdfLaTeX (PDF mode).
+
+After extracting the archive into an empty directory:
+  pdflatex -no-shell-escape main.tex
+  bibtex main
+  pdflatex -no-shell-escape main.tex
+  pdflatex -no-shell-escape main.tex
+
+The supplied main.bbl can also be used directly by arXiv without rerunning
+BibTeX. jss.cls and jss.bst are the official unmodified JSS style files.
+The source uses the JSS article/nojss prepublication layout: it does not
+invent a journal volume, issue, DOI, submission date or acceptance date.
+The arXiv and JSS copies have the same text, equations, tables and figures.
+
+ARXIV
+Upload RecurCast_JSS_arXiv_LaTeX.zip. Select main.tex and pdfLaTeX/PDF mode.
+The source ZIP contains only the eleven required files: main.tex, main.bbl,
+refs.bib, jss.cls, jss.bst, causal_check_record.tex and five used PDF figures. It has no main PDF,
+build logs, unused graphics, sample template, cover letter, hidden folder,
+second top-level manuscript, external-document link, index or glossary.
+No shell escape, on-demand figure conversion, JavaScript, external font
+download or current-date macro is required. Inspect arXiv's generated PDF
+before completing submission. Local compilation used TeX Live 2026;
+arXiv currently defaults to TeX Live 2025, so its portal preview is the
+final server-side check. No arXiv server acceptance is claimed here.
+
+JSS
+Upload the final manuscript PDF as the article. Also attach the software
+source tarball from 03_CRAN and RecurCast_JSS_replication.zip from
+02_JSS_replication. The LaTeX ZIP is available when source is requested.
+JSS_supplements contains the verification supplement, metrics guide and
+0.10.1 API/audit addendum. The baseline-causal vignette supplied with the
+package documents the additional causal API; Table 12 and its sources are
+in the updated manuscript and computational supplement. The first two retain their labelled 0.10.0
+provenance. referenced_work_for_review contains the cited unpublished
+methodological paper and supplement; these are not the software article.
+All upload files are below JSS's 50 MB per-file limit.
+
+The included software is GPL-3. Article-license selection, author
+certifications and final submission confirmation belong to the portals.
+Public repository: https://github.com/setrojalab/recurcast
+Versioned software release: https://github.com/setrojalab/recurcast/releases/tag/v0.10.1
+The CRAN source archive is unchanged; acceptance remains pending.

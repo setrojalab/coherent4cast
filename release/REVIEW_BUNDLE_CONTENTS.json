@@ -1,0 +1,1517 @@
+{
+  "version": "0.10.1",
+  "visibility": "private",
+  "tested_source_commit": "fbf6429e37aa91e159d878a8228d62803b287056",
+  "platform_run": 45164392545,
+  "native_run": 45164392550,
+  "package_assertions_per_job": 1107,
+  "exclusions": [
+    "internal source materials and plans",
+    "cover letters and internal reviews",
+    "workstation build logs",
+    "fitted patient objects",
+    "unbundled-oracle scripts"
+  ],
+  "files": [
+    {
+      "path": ".github/workflows/R-CMD-check.yaml",
+      "bytes": 2095,
+      "sha256": "0d475996756c47ce787e8d840d50f653af841d90cf00a91f1ac162eff0d357eb",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": ".github/workflows/core-safety.yaml",
+      "bytes": 1137,
+      "sha256": "a4569241e8e2bdfdd677dea095adbdc3b1ae5941b81cf1fb02e264ea00ef102b",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "CITATION.cff",
+      "bytes": 740,
+      "sha256": "f962b3177ec708950aa780041dfcd0cbadfe14e5a041b91fb57a229cbf99cb3a",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "LICENSE.md",
+      "bytes": 741,
+      "sha256": "a55f73b060c3036a98de6f2371d888aae606ac385dd8e92d695be0573e5b3814",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/.Rbuildignore",
+      "bytes": 351,
+      "sha256": "9d5ec39fd97298fe7554ff6b365dfedf825195c6f975ae44ded667b3417f4220",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/.github/CODEOWNERS",
+      "bytes": 590,
+      "sha256": "2565a58c09e123c5e7b32a3a85141cd0217900109dad989c65cac872d1a893de",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/.github/ISSUE_TEMPLATE/bug_report.md",
+      "bytes": 321,
+      "sha256": "0c2d42d94e032b6683361ac9dec9f9a43bc69a16a1d2eaa66fa0c54c1e4c7fb4",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/.github/dependabot.yml",
+      "bytes": 113,
+      "sha256": "e49b0bad89c4caf2a07bb3fa625ff431977115a81a39b455061e96534be291a0",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/.github/workflows/R-CMD-check.yaml",
+      "bytes": 1896,
+      "sha256": "45167df4ca16f03cc60d0e8916d894bcfb37795d401277a0d7efe56a2a9f7f8a",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/.github/workflows/core-safety.yaml",
+      "bytes": 1174,
+      "sha256": "44df6105bf2f4ec3530e039ad56714261f673237c9595b0f921bf345796bd2cf",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/.github/workflows/coverage.yaml",
+      "bytes": 938,
+      "sha256": "b96c4ebaebf6c8a6d3cdb90fdb7aa3f8da1959cb0f0973986a4a3092c0c95e4b",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/.gitignore",
+      "bytes": 149,
+      "sha256": "cb8f6d82425dd4410647aa6816de92380cd899612a9ab4053966e1517a057860",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/.zenodo.json",
+      "bytes": 618,
+      "sha256": "e08e98753d32e8a091da226ebfd40f10df91a7007847983019c7e279ad99be92",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/API.md",
+      "bytes": 9981,
+      "sha256": "46838013e744e09e84f3e5df869fac3ea88fd8737be43b8ad5e72110896450c1",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/CITATION.cff",
+      "bytes": 714,
+      "sha256": "938fec45741574462cced4897716f72bcaa55a4ac175c29f15e2ec4bab244f2a",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/CODE_OF_CONDUCT.md",
+      "bytes": 405,
+      "sha256": "2d19ef9b566e32381cc9039dc27170cdb31d6624413bffcb87611a96a64287c0",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/CONTRIBUTING.md",
+      "bytes": 805,
+      "sha256": "d956aaf319fb6a3473aa467eeeef0dd28df0e0f2f59308e16d0326619314b626",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/DESCRIPTION",
+      "bytes": 1219,
+      "sha256": "66e9886a6b0fdf43a0f131dcbcab9c0a6c7f281fa75f62a9f06b19e1725d3b50",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/GATES.md",
+      "bytes": 3639,
+      "sha256": "1887fac9f46d46ee5fcb494313675e838507ddbd31797d0bf6089d4d37d53484",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/LICENSE.md",
+      "bytes": 741,
+      "sha256": "a55f73b060c3036a98de6f2371d888aae606ac385dd8e92d695be0573e5b3814",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/NAMESPACE",
+      "bytes": 2202,
+      "sha256": "e55ff8d17f27584bbdc29336aaf173c85a3181ad1708752f8cd31d27d8605f5f",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/NEWS.md",
+      "bytes": 2067,
+      "sha256": "82097429015a590a5716e800fc4814a5fb3dd034db45899003dfbd7e5a0b4865",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/R/RcppExports.R",
+      "bytes": 3114,
+      "sha256": "aba3e8bf356c2747711e5be09c746020e6b7eb9ed8894211723f740ca898cc28",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/R/adapters.R",
+      "bytes": 12410,
+      "sha256": "95df6a8e32043e2932635db01cfb2dad8710811e1f847d14fb736005dd076277",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/R/audit.R",
+      "bytes": 11723,
+      "sha256": "f9270b5a8642486d590fc069a9f3e06e0a7668a97ad29b4858426eeb200b1518",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/R/coarsen_fibre.R",
+      "bytes": 10972,
+      "sha256": "896cd7add50ba7b2509dfceaa65ddec9c6f0791eac0e77c092fd034c6071f373",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/R/colon_fibre.R",
+      "bytes": 3480,
+      "sha256": "c06609f0df49b4331f799c27d9bb0a5071478f222c9dc169c13e7d936609e849",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/R/covariate_evolution.R",
+      "bytes": 7611,
+      "sha256": "cea9a8d5afae0df41c6e0b29cf3deaf8bc926088effc31cd2d0925febf2fb22d",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/R/fit.R",
+      "bytes": 15650,
+      "sha256": "2b8d47e82d3fec32117e57c81c9f7efc85269190e9ca5f02784143e753bf85d0",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/R/forecast.R",
+      "bytes": 12180,
+      "sha256": "a8c2ba1ee7735afa201bf41e784812c59da62d876547438ea313d80e1fd5a1bd",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/R/frailty.R",
+      "bytes": 10951,
+      "sha256": "7a74a55606e2c54105a41346be7dde0a083328a6ff1f32a47fac7808c6d4220c",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/R/inference.R",
+      "bytes": 17301,
+      "sha256": "f57ec8a345157971d5b0c154e70cea6965cb1083620543a7e79567f41e225eb7",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/R/kernels.R",
+      "bytes": 7912,
+      "sha256": "60a6f9f12f2b7ef3dfc1c438e35ecba103a88b42ed6d3e6c9bbcb80461f47765",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/R/methods.R",
+      "bytes": 8600,
+      "sha256": "d76d3343938fc4b428b710426503219af6c2382c0a4ff65cb1fc5a7fd6424716",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/R/predict_coarsened.R",
+      "bytes": 7409,
+      "sha256": "61108e0421dc7a64df95d32c7da3f2dcfe91ececf985d0827c6c08375761948e",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/R/predict_paths.R",
+      "bytes": 4696,
+      "sha256": "c0c95ae5bf1f0a21878ace93ee7966a0c3a74dd9bbbba80a634cc8b9140e2407",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/R/regularize.R",
+      "bytes": 4973,
+      "sha256": "f87a726f6cb313af06a0be90a48e220b7f855b03e163aca9fb33701edf50b160",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/R/schema.R",
+      "bytes": 10820,
+      "sha256": "9c8740419790c634c79e072abf4f11adfbb9c0c601dbc497d9b6daa4e1247f16",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/R/simulate.R",
+      "bytes": 2731,
+      "sha256": "b35f51a59ea858de548f99a44d94f1431760fbc308577d3a8308accd5d6ff7a6",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/R/sparse.R",
+      "bytes": 7641,
+      "sha256": "4a7ba5e0f65ce44c1437891f7bc5db5bee8b2c3cb8cb01d31a2665c29446aace",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/R/targeting_continuous.R",
+      "bytes": 29266,
+      "sha256": "f96ca56df201f75e14db248033bf4f64ad78646880cd429d1ad6648aa8c2a1d9",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/R/wrappers.R",
+      "bytes": 17618,
+      "sha256": "58aec5200ff488c3aa55f28698e52a8d22a5c4f66f6b1fbe25626162e531de16",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/README.md",
+      "bytes": 5465,
+      "sha256": "22f4589e537a7cd4469aae4131c7ce819b1f29d4179dbb6fc56980e3a4e6459b",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/SECURITY.md",
+      "bytes": 619,
+      "sha256": "3546bc4693226884ecfa862262181c5c8ed2b8a40135dedab3f775fa258a3228",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/SUPPORT.md",
+      "bytes": 788,
+      "sha256": "2de6ce32c44be2711f6362fb0d6dfa10aa8e5229bd519776b4698db75b20d5bc",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/VERSIONING.md",
+      "bytes": 1344,
+      "sha256": "42b70bd795fc1df1dbdb692e8d9b5523583f5489fab674cd4a8720f7b61afdf0",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/_pkgdown.yml",
+      "bytes": 1273,
+      "sha256": "9f1948a8a88bac5c5523f94344c5648dbee2bf14987181b107fa5e4ef6534514",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/cran-comments.md",
+      "bytes": 2464,
+      "sha256": "7c368057a27523acbafa560e8f15f49ca4bcac73d93a6a4433e86ab32c4d2438",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/data-raw/generate_synthetic.R",
+      "bytes": 657,
+      "sha256": "b12a3d67d6f6f775ef67b3e4281958ac4ed919d21c6d66e8c67ea70d4effeabe",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/data/sim_oncology.rda",
+      "bytes": 3968,
+      "sha256": "c0a1471cb1b253e9a5915f7a27ecdaee2153c9365a2562cf92719c50ebad01cb",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/data/sim_perinatal.rda",
+      "bytes": 4700,
+      "sha256": "a370f869334e04743eea1b3c6312fa35947f764d1624c0bd682d74734fecefc2",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/data/sim_robotics.rda",
+      "bytes": 5112,
+      "sha256": "5282224138bc1c3013aed0ebfc7e917d66a4c254377b3264162d2e17a6f241aa",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/inst/CITATION",
+      "bytes": 298,
+      "sha256": "75e20d8fe624e25abc362295962d4a909135bb957769c46e65fc6db561131816",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/inst/benchmarks/frailty_boundary.R",
+      "bytes": 940,
+      "sha256": "948c922b28e3d27da1d20d8ca7de56d0cb6ee9577f82c94bd0a3250e4d0d4304",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/inst/benchmarks/frailty_future.R",
+      "bytes": 3713,
+      "sha256": "bff56862b8a5591e8dfc5ef0b9b585ec83152ec6e54b7ff2f2273c58b43faed1",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/inst/benchmarks/sparse_scaling.R",
+      "bytes": 1898,
+      "sha256": "b7b63ae08df4b4cd45daefb854a458bd844fcce9ac800454492f476595fd287a",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/inst/include/librecurcast/coarsen.hpp",
+      "bytes": 3382,
+      "sha256": "60431d9fde1dcc0a98b5e84ee29a80c67ce3b0f41c3635ae4fad368091709b4f",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/inst/include/librecurcast/conformal.hpp",
+      "bytes": 1845,
+      "sha256": "e3c4d3069775200a03bd30874fc1e4393e117a5d823f817b651aad7b09ed5363",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/inst/include/librecurcast/continuous_target.hpp",
+      "bytes": 13120,
+      "sha256": "c09d3e89788869820cbfedd8cd41828aea3fada306fd4aa0cf248af816044c6f",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/inst/include/librecurcast/fibre.hpp",
+      "bytes": 8971,
+      "sha256": "753205d373e936e1b2cfeee9ab46e048cf176f563be788e2db28322b734938b6",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/inst/include/librecurcast/gamma_lik.hpp",
+      "bytes": 6138,
+      "sha256": "d5b22bdf4f200ed35a5af591a3d3668721e15f8402f8303d953ae00efc155f94",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/inst/include/librecurcast/history.hpp",
+      "bytes": 1978,
+      "sha256": "bf71ac0beca902d50a20571536f40a862d6fc7bc322ba5527bcec7b9bd1cdc26",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/inst/include/librecurcast/lp_bounds.hpp",
+      "bytes": 8497,
+      "sha256": "c771ecd87d303561c173a896e0af7ebce6ea8326088c9b913ae7b64787aeb1c3",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/inst/include/librecurcast/pivot.hpp",
+      "bytes": 1649,
+      "sha256": "6ba4b25e7fb63dc86c948945c864bdc438c97176ef6bd8703dbdf5752af6f744",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/inst/include/librecurcast/rng.hpp",
+      "bytes": 1166,
+      "sha256": "4faaed9d1b5301d6a55ae627b553d623eadb447eb238aa83c9764795e051a223",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/inst/include/librecurcast/sparse_bounds.hpp",
+      "bytes": 8153,
+      "sha256": "4520e52647a953a1ee5406a89e48c179a897e20fc05f4adf03cade65279b3208",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/inst/include/librecurcast/sparse_uniformize.hpp",
+      "bytes": 7104,
+      "sha256": "cf0ba7db71a03b1e3f8c75b64d544ecde4650c5720be0309bd202faa5d0478f4",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/inst/include/librecurcast/target.hpp",
+      "bytes": 5032,
+      "sha256": "f47fd35d163a19a0f6b48bd16216187b318f2c0b43ee2393a807a48c4c0a2fe9",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/inst/include/librecurcast/uniformize.hpp",
+      "bytes": 6650,
+      "sha256": "59e7046e1155319a3fe6052de05e42172a4922f653c46c2eba5dfcdedf20f83e",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/man/as_trajectory.Rd",
+      "bytes": 2618,
+      "sha256": "210b47f80c7f3d947dd7f17d4d29a85d97613f7261a89590a96731322c1be9ec",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/man/augment.Rd",
+      "bytes": 684,
+      "sha256": "60b1d33cce9215b4fc28f9bb74eac74114ab08456af1a2ed365f9a079bc3ce54",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/man/autoplot.Rd",
+      "bytes": 784,
+      "sha256": "4b8359a58de56694172970cf2438f724d30a98df692c75d7b763452a5c4019da",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/man/bounds.Rd",
+      "bytes": 750,
+      "sha256": "0fdb0c33e6c0d9cba9bb8d27352d43779ef02493ef031b1635183ab3ffd5bf44",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/man/build_history.Rd",
+      "bytes": 995,
+      "sha256": "efd83c69e6b45bdc167077a8673bc59b22aecffc65d7dcb98f6a303388e1a704",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/man/conformal.Rd",
+      "bytes": 715,
+      "sha256": "173ed34f79b5c034e086741be0fb185196ab974a2d1988dab15347b9ea018059",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/man/glance.Rd",
+      "bytes": 678,
+      "sha256": "22d34e7c0c776e89cc2f56fea64cde7d7642d375dbe90dc4e22e6f8f55fb2ffe",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/man/predict.recurcast.Rd",
+      "bytes": 3925,
+      "sha256": "c6e825f63b77bf45bbdb3b7c6fa1446a549a76ce87d9567388ae2c64de0d5256",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/man/predict.recurcast_targeted.Rd",
+      "bytes": 3771,
+      "sha256": "5515de720b627c5e1f02a4af78f91b59076318653eb5e9e25f80562711fe5ed5",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/man/rc_audit_report.Rd",
+      "bytes": 3534,
+      "sha256": "8642284cd18e7f15ffeaeb040a8444b8be8929f394098d768887e797687710a8",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/man/rc_band.Rd",
+      "bytes": 1671,
+      "sha256": "29201f7cc31d90650de521d8e9abbd86b7a2fa508d402ca0f237fe293dc74bf0",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/man/rc_bounds.Rd",
+      "bytes": 2657,
+      "sha256": "448326ab4cd874a1ba2a1ebbc33c7894492b42b2a9dacd925153fd8c281147f7",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/man/rc_bounds_sparse.Rd",
+      "bytes": 4274,
+      "sha256": "6b85badbba1166a2153612bd60cbaf5bf574a5624be9a6372294b594aa11b571",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/man/rc_coarsen.Rd",
+      "bytes": 1848,
+      "sha256": "1962a436063e0be105855067045c46a6b236030e9132400e01173838c2199f2f",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/man/rc_coarsen_fibre.Rd",
+      "bytes": 4979,
+      "sha256": "3edbcdd25e52056fbcff77f81f77eef3a314709a06f30a5261193e99b8f51ab3",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/man/rc_colon.Rd",
+      "bytes": 2926,
+      "sha256": "3a1842ef433c15c5d7ecd1f44d3459ac3af6c0356b0cb492b8e618f19ead5150",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/man/rc_colon_fibre.Rd",
+      "bytes": 2399,
+      "sha256": "68239401f862127572e9e08a94461695d5b85bc2c27ab11d9be4153039743396",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/man/rc_competing.Rd",
+      "bytes": 5218,
+      "sha256": "3fef93206e66c1fa16284ca74abcf6f5ee55867e9d7a322484efdf4a3430033d",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/man/rc_conformal.Rd",
+      "bytes": 2283,
+      "sha256": "5f58750488e0892c7fa6a9c62a8dd0f22e92b41acbb22df2098866b7cfd34050",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/man/rc_cornish_fisher.Rd",
+      "bytes": 1154,
+      "sha256": "a623fe5394dc15b4aad66fe6a516736d3e77e076d6d31d6de6d7aaf878c8e1c6",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/man/rc_covariate_model.Rd",
+      "bytes": 1881,
+      "sha256": "1289e3ba2e23d8a09fee26fd65ede4e9dcf86da9ec9d955d75d4fb1b733546e7",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/man/rc_fibre_mcse.Rd",
+      "bytes": 1161,
+      "sha256": "edf427430b5c2d39789b57dafb7d6936a7708e0079eec3d16a37fcbfa7d6de2c",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/man/rc_filter_paths.Rd",
+      "bytes": 1221,
+      "sha256": "6587084697198d635db0b6f0cf8d4f1266abe27d1a5cc2da32307ae714df5d44",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/man/rc_frailty_diagnose.Rd",
+      "bytes": 2058,
+      "sha256": "b59a9b8fd528714247f0cff4073925b6f9c73782c85a358fa969b6225f1a0a02",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/man/rc_frailty_loglik.Rd",
+      "bytes": 2595,
+      "sha256": "229d78ff0987f3df23d78d56ad8f7d23eaeaea9583d272f7ba277fa8d0e8ecd1",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/man/rc_generator_csr.Rd",
+      "bytes": 1362,
+      "sha256": "bf9bbb68a0d78284fed4c058a60b75e2582a4e82eed6b761c860a77bced84dda",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/man/rc_identify.Rd",
+      "bytes": 1325,
+      "sha256": "80a2852847486cf731ad041094bb956f296dcaa188fc20e5ebf1fb61ea4d4cb3",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/man/rc_loglik.Rd",
+      "bytes": 1618,
+      "sha256": "3ef4e4df85b824a70a6e5fbc5d2d0db6470e73ff84f0ec22821a86a82546fd91",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/man/rc_pivot.Rd",
+      "bytes": 1179,
+      "sha256": "9640e52011ee8b5d60f87145976082e162dcfde80b11d830402d48423111ebfc",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/man/rc_predict_coarsened.Rd",
+      "bytes": 2875,
+      "sha256": "13e8c08163d42c616e59a0f5a56436039a3d6927f8149ff16c1c2680c03d4570",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/man/rc_predict_paths.Rd",
+      "bytes": 2286,
+      "sha256": "3aa827754c731208724ff22855f1f2896acc40a4193b53109f9fc05d0bf580c2",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/man/rc_propagate.Rd",
+      "bytes": 1844,
+      "sha256": "f806013ece2064dc3fedcaf3f025c78f7955041b424e1a2308071826dcd0c6bd",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/man/rc_propagate_sparse.Rd",
+      "bytes": 3046,
+      "sha256": "3e37d8cbdb336d4c125cf7e5c0c8b389775556a7a1d60628a974c879d7473871",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/man/rc_readmission.Rd",
+      "bytes": 1809,
+      "sha256": "2c015f2b1cbe01bd14c5c6ad6da9010c99bfcf0223b15589a577e1c7717dfab2",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/man/rc_regularize.Rd",
+      "bytes": 1203,
+      "sha256": "c9c7dc204d4b3a05cadc053077268ede24b8079f7b5dbee24160087c6b0a2dbf",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/man/rc_simulate.Rd",
+      "bytes": 1745,
+      "sha256": "44928a20bbcca584b829f7b8647f09069d5bb22ca6dffcd85b2dbff5896a485e",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/man/rc_surv.Rd",
+      "bytes": 3652,
+      "sha256": "1fde94d2beeaef12008f77ba8130e7277855cc7671e1d0bc4145b268618bfbb6",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/man/rc_target.Rd",
+      "bytes": 2532,
+      "sha256": "aa69f9958c624046f3ca7686ce71d7894a876d3d094bf04ce06c67c1ed65249d",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/man/recurcast.Rd",
+      "bytes": 5068,
+      "sha256": "716d2b5c66c591b9c077b8b9f7f41735d88ba0bb96fe7e1b84b2daefc1b73b41",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/man/recurcast_control.Rd",
+      "bytes": 2259,
+      "sha256": "06d7aa3c39e8b4924a097bdcd61ab657f8303d6cd8b6badfbfd8c8a98010167f",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/man/sim_oncology.Rd",
+      "bytes": 626,
+      "sha256": "cd9555715277b6fa58781d60bd50dec556fa9f81da0070fdc9fd005d3cf204eb",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/man/sim_perinatal.Rd",
+      "bytes": 630,
+      "sha256": "09a574ae1e1144fe9077f5fc0d9aeed8b84fd3d0f247c3efa52f87cc3c3428c3",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/man/sim_robotics.Rd",
+      "bytes": 626,
+      "sha256": "6466522e0299d54adf7f58d2f96ea880a2dbe466a3ed2072bb5738065d95412a",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/man/summary.recurcast.Rd",
+      "bytes": 753,
+      "sha256": "7a52e57627cc89d982db22d1ee269ec99dde7941816d3e4f5ac51ee19e04eda1",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/man/summary.recurcast_targeted.Rd",
+      "bytes": 1442,
+      "sha256": "263f15b44f611fed3f035e9f1bac7509c4a22517c137c9be6d86ae95055549ec",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/man/targeting_spec.Rd",
+      "bytes": 4946,
+      "sha256": "e916a9cc648573614b7eba8eeb22ee8ddc8ebc4eefd6478aeb93f8ba73a6160e",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/man/tidy.Rd",
+      "bytes": 666,
+      "sha256": "726d1c238b84a9326bb889f0813235d204a3ba24a612e182699c008cac4774b2",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/man/validate.Rd",
+      "bytes": 1000,
+      "sha256": "8808cfd2d6a2ccf4ccd565cc7e38713e5f6665d60f30b4da005ae0252977066c",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/man/validate.recurcast_competing.Rd",
+      "bytes": 2785,
+      "sha256": "d9a0676426fd4330f9e115052f9119c652549279980f0a34dc7d854d00260acb",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/src/Makevars",
+      "bytes": 49,
+      "sha256": "346c0bb8af0e2b681c9c4823cf7bbed9ff6db1a51468ffc3493aa80975664564",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/src/Makevars.win",
+      "bytes": 49,
+      "sha256": "346c0bb8af0e2b681c9c4823cf7bbed9ff6db1a51468ffc3493aa80975664564",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/src/RcppExports.cpp",
+      "bytes": 18790,
+      "sha256": "70d8e5bb99216f0bc26b4d16e147ad1302b86d8e7c3af7118f324469ccc4a133",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/src/continuous_bridge.cpp",
+      "bytes": 2385,
+      "sha256": "7f9f609d46e3139176ec7e7cce61ea81ac102a88b4d627838017469649a78540",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/src/core_bridge.cpp",
+      "bytes": 4119,
+      "sha256": "adb9d77d77d27e900dff02077fcdc5e2ad1c1e0be7899c3380c7f7f98cfec7a5",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/src/fibre_bridge.cpp",
+      "bytes": 2085,
+      "sha256": "9c8a63186852d2e2625f906167fc6555db4d965f19510968e27bb74b030240a4",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/src/frailty_bridge.cpp",
+      "bytes": 3217,
+      "sha256": "bbd05f4ffc7c644a8c7b0de149339cfe846a10aba41c4598170fcb5eb288a24f",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/src/history_bridge.cpp",
+      "bytes": 1009,
+      "sha256": "7235a28f2133128fbf461ed8507c9336f725cdccdddb28592ca286d4dac64799",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/src/inference_bridge.cpp",
+      "bytes": 3344,
+      "sha256": "46f11657961266af3c79ba87669d43706cd0cdb161367997cf8635b618b8fc70",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/src/sparse_bridge.cpp",
+      "bytes": 3520,
+      "sha256": "dd3daf728df50e4b2731ae9a58b7e80b3a9bc00b9d5fd5fdaa2b745d454f911b",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/tests/core/history_test.cpp",
+      "bytes": 554,
+      "sha256": "3315697f04fd66451e9f081cd5af92720c9bc76949af1f33c3762b76e94be550",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/tests/core/test_extra_headers.cpp",
+      "bytes": 1526,
+      "sha256": "d87338ae698cb3ecbb00269951ed4d04d40d49f2ad7869c70f5528470568577a",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/tests/core/test_inference.cpp",
+      "bytes": 1794,
+      "sha256": "c4a1002f0be468edc0db749bdb81aed1407374e239f6b36757cf311aa325c8b7",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/tests/core/test_kernels.cpp",
+      "bytes": 4962,
+      "sha256": "3c64aa110b1920874c9aa3f3622ae6e983c6f9d13b079493c5eea6f63351d770",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/tests/core/test_rng.cpp",
+      "bytes": 1103,
+      "sha256": "b129ee2670564be48df5b99e60f26e3811ce2932dc1ea6c3c9560fab79b5e2ca",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/tests/core/test_sparse.cpp",
+      "bytes": 5226,
+      "sha256": "d25a59e07ff0c51053f53e4de900db780eebc31fc802553a38ef52cc4b079587",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/tests/testthat.R",
+      "bytes": 61,
+      "sha256": "762e8decd4ffa81d25fba90221e9b8fea873b938970ddf48ff98409a7bde5d41",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/tests/testthat/fixtures/bounds_expected.csv",
+      "bytes": 379,
+      "sha256": "682a979df83e9f6cdcd369c09b9bcb2015cad3ff00a15f66bf0fb3c42882af29",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/tests/testthat/fixtures/continuous_target_eif.csv",
+      "bytes": 40956,
+      "sha256": "afaf591be6ab510e3a96825047af729bcd8cabb6bd0de2b71d7f5f4dcb30e1a2",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/tests/testthat/fixtures/continuous_target_expected.csv",
+      "bytes": 264,
+      "sha256": "600f21e77ba4624c72dbe5703eac857064e240faafa1cbd596c910d13f5a5edc",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/tests/testthat/fixtures/continuous_target_provenance.json",
+      "bytes": 207,
+      "sha256": "bce35c7c78b583bc2f3dca6850e50776240fa3f2d99930ff73167f4507001f51",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/tests/testthat/fixtures/continuous_target_rates.csv",
+      "bytes": 353085,
+      "sha256": "3070d7b4b70aebe344567fb44e5cb9b0e9b1cd120fd560006ffac3d853ae5c55",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/tests/testthat/fixtures/continuous_target_subjects.csv",
+      "bytes": 37288,
+      "sha256": "aa0f4ce6b134b938111d88058de9ba0a18182edf21cb5debc374d5b3f5bec201",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/tests/testthat/fixtures/gamma_design.csv",
+      "bytes": 143,
+      "sha256": "277d3cf8ad48f2c7b29ba3e07ea64fd2ee2c42cf6d1e3a253f8618abb0e5686d",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/tests/testthat/fixtures/gamma_estimated_information.csv",
+      "bytes": 188,
+      "sha256": "0cfdd2d7b21dc83851d99621e752ef9d9e2da8951900a1b970deaca211271996",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/tests/testthat/fixtures/gamma_estimated_loglik.csv",
+      "bytes": 92,
+      "sha256": "28d2ed89736286434d0c82ac51d4622711e109f3d384285c5f3a0cb516368e74",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/tests/testthat/fixtures/gamma_estimated_scores.csv",
+      "bytes": 239,
+      "sha256": "178fa4e19a87252209e8642b6e9bd5611659bddb58f773f74e33931528ef2e63",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/tests/testthat/fixtures/gamma_fixed_information.csv",
+      "bytes": 84,
+      "sha256": "9174596ee70e9353bea6063ffe780b3a7f194c1adb30124b6307f3584743259a",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/tests/testthat/fixtures/gamma_fixed_loglik.csv",
+      "bytes": 92,
+      "sha256": "28d2ed89736286434d0c82ac51d4622711e109f3d384285c5f3a0cb516368e74",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/tests/testthat/fixtures/gamma_fixed_scores.csv",
+      "bytes": 155,
+      "sha256": "748a431b3e288387b5ace80b2315dbb00503aafef4da29a34d1613210079fd58",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/tests/testthat/fixtures/gamma_poisson_information.csv",
+      "bytes": 85,
+      "sha256": "e996f5767c54b92e34b243532f3678ea8e6fac2e798c669593133552842f559e",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/tests/testthat/fixtures/gamma_poisson_loglik.csv",
+      "bytes": 93,
+      "sha256": "5eca067203c46f62b65f8e9f699ebb40efe37e85cbd015ce78c515afedd8f1aa",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/tests/testthat/fixtures/gamma_poisson_scores.csv",
+      "bytes": 154,
+      "sha256": "b9bd2f15b00cb741f678da8f2f4b0712db3c8dcb52dec9e44bc39cc1537baa80",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/tests/testthat/fixtures/oracle_provenance.json",
+      "bytes": 204,
+      "sha256": "5114b13b4f57b321ded10a45951bae602c0a9d7a13505cb02ab93b8bc484c68b",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/tests/testthat/fixtures/projection_expected.csv",
+      "bytes": 716,
+      "sha256": "000a77f97778da71580ed4150c44b8500f20c979482b53f87c01a5a43f1585f3",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/tests/testthat/fixtures/propagation_ordered.csv",
+      "bytes": 126,
+      "sha256": "8f8ad9eaded8fab6f84ec9c5835ada43969a8cc6065392ead98d743cc504524f",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/tests/testthat/fixtures/propagation_single.csv",
+      "bytes": 128,
+      "sha256": "003e727cb71cd533350aadc891cf456099a74a99a35c66decbbc779776ff4ff9",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/tests/testthat/fixtures/target_eif.csv",
+      "bytes": 67287,
+      "sha256": "2c2983faa85d9c3ff5cd730554f9441213d64cdef0e07249dfea586abe804eab",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/tests/testthat/fixtures/target_expected.csv",
+      "bytes": 174,
+      "sha256": "f386069ab02a70e0c353c957e6e17a7a21c94264603831c80d1ad882b22a6a99",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/tests/testthat/fixtures/target_features.csv",
+      "bytes": 271,
+      "sha256": "03109437b2a64c8e0ba946f0dc2166f46c78efbccfe700af7f7fb2c7de37d685",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/tests/testthat/fixtures/target_laws.csv",
+      "bytes": 564,
+      "sha256": "724665040071b88e00cf612b058770cf9fb17b107c8ba440c877edf5e157811a",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/tests/testthat/fixtures/target_subjects.csv",
+      "bytes": 6942,
+      "sha256": "411717152d27127fff2a70f2eaf3d5631206a29bef828acd7c8289eaa3dc1b37",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/tests/testthat/test-adapters.R",
+      "bytes": 5438,
+      "sha256": "d941ac8ba4eed632a67d18b5d09ffea216c223a30d16a7a9763406a3a5b0c2ed",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/tests/testthat/test-automatic-observation-contracts.R",
+      "bytes": 6108,
+      "sha256": "8fb7fb10281955eb9b80d3494a5ff5f013d3e5a187b7e633bac67917ac628b49",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/tests/testthat/test-coarsen-fibre.R",
+      "bytes": 8486,
+      "sha256": "e67f1c66f5439fd8b71504f220289d6bfcb47ca50a5479b0def14dc19b251a71",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/tests/testthat/test-cross-module-guards.R",
+      "bytes": 4873,
+      "sha256": "b04983aec1574e4c4ab6c37c160ca3846c84120954db977796cc39718cf0b22d",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/tests/testthat/test-dirty-data.R",
+      "bytes": 7466,
+      "sha256": "b5ded2194a987f6c52e42963e3637a47c2971a6f69a066ab55a3c37042f2db4a",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/tests/testthat/test-engineering.R",
+      "bytes": 1122,
+      "sha256": "48c8922d9442a4ad09849545fef6de4ed74c4755a9b1dc2beb92ce5783855583",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/tests/testthat/test-frailty-future.R",
+      "bytes": 7081,
+      "sha256": "915e91683ecea5653ac6789f8d7517f4dac134293d3edd90e33ca81fbe7482c5",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/tests/testthat/test-future-scenario-contracts.R",
+      "bytes": 4046,
+      "sha256": "b3cdddfae68913724378f1accb2fa2c0e5533f68b085345250efc5a2c057ef94",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/tests/testthat/test-inference-boundaries.R",
+      "bytes": 13820,
+      "sha256": "46dbf5c82bb1bece53164e6fe2738336d36c13fbcb29f7ab8422812f001f58cc",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/tests/testthat/test-inference.R",
+      "bytes": 6513,
+      "sha256": "a3ec37eca37a1f9f0f887feb5eec342ddc7298a921ea0c0655f08d660bd09c0b",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/tests/testthat/test-kernels.R",
+      "bytes": 4101,
+      "sha256": "692db7ea6189fe3a2b8df00f3c5c8790f492d3b7a18c0dd16fb3fc92c64c9155",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/tests/testthat/test-observation-workflows.R",
+      "bytes": 7307,
+      "sha256": "4aad4d17b04730489041a5741c98f6866d15daf5fd07d8ed69d5b2e2dd6bef08",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/tests/testthat/test-performance-contracts.R",
+      "bytes": 3983,
+      "sha256": "7b6cfc4893d30fa9575a53e6abeedd135dfa5c5150aa6ef0280cf787cf5b8322",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/tests/testthat/test-predict-coarsened.R",
+      "bytes": 4605,
+      "sha256": "d476ab4353f9938af55e56ae66714075e00bd0fe00f7fc0e6a778489f6cc33f8",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/tests/testthat/test-quadrature-refinement.R",
+      "bytes": 1416,
+      "sha256": "3d184aa676867ab572a41228bfa863a314d32dea422dca78f655d1610d7a4084",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/tests/testthat/test-schema-audit.R",
+      "bytes": 10387,
+      "sha256": "be6535b0752fe480c64915078f2eba4ef4e167f3a971abd8ca3a4b303a540ee6",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/tests/testthat/test-sparse-boundaries.R",
+      "bytes": 4061,
+      "sha256": "7a5d6fa5ec52bd820aca712985df94b024253fef661a9b2685e8f4c4fb911237",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/tests/testthat/test-sparse.R",
+      "bytes": 5205,
+      "sha256": "47c6d893a220faeaf9016b95556bc7e383543ac42076a6e538f4d4fd4aeb1115",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/tests/testthat/test-standard-wrappers.R",
+      "bytes": 6029,
+      "sha256": "943382f8fbaaaa7e62ee68aff9624d792ca2e38d20b6bf05b2a40f43c2adc118",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/tests/testthat/test-targeting-continuous.R",
+      "bytes": 7835,
+      "sha256": "29fb44640b9d956b02bf287a1212b4a82b1fb9d0d9d4df142697a7487e7bca1d",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/tests/testthat/test-targeting-integration-boundaries.R",
+      "bytes": 6734,
+      "sha256": "d8d53eb50f758ead23c31b30e5e947cbbddd475b8d38ba5ce049154a6936ab2a",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/tests/testthat/test-validation-numeric-ties.R",
+      "bytes": 828,
+      "sha256": "f42baef0ad7440e18fe7ce248b0710ce84bbb8483e346d42f3df7a79caf02789",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/tests/testthat/test-workflow.R",
+      "bytes": 5261,
+      "sha256": "907e018f096344c01ca169f32217e16c6388bbf42d0e3849134a60b1c0bc7705",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/tests/testthat/test-wrapper-contracts.R",
+      "bytes": 5262,
+      "sha256": "70943c19619387e9492b5f89dc0abd00215229140bf7571faf1bc12513c6dacf",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/tests/testthat/test-wrapper-independent-audit.R",
+      "bytes": 4226,
+      "sha256": "c8cde107724247f9c2e08e11b36d82d0c3d3c245fa54382db45e8c62f994d2e1",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/tools/check-core.sh",
+      "bytes": 474,
+      "sha256": "04d0280191779b1645a287665a517dd7249fc0f1153531f0c80f8b7748d4db4e",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/tools/update-namespace.R",
+      "bytes": 1973,
+      "sha256": "05fc9a4626b15e52ac9e51b7e6e1a8cad87510e5a66834dd9dcd05cc4584ab87",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/vignettes/extended-workflows.Rmd",
+      "bytes": 5150,
+      "sha256": "6f8fbd52436914ac5188b0a17b0eb67a9f6bfcdaf57e0269a5f956eb5c596968",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/vignettes/getting-started.Rmd",
+      "bytes": 3375,
+      "sha256": "d85fdb876c3b757d3c72a66691304d2af82ed67c2be78b0fb8e9f85f33157465",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/vignettes/incomplete-observation.Rmd",
+      "bytes": 4507,
+      "sha256": "3ad5648878177d7cfec4fbeb4a5bf3041ef50c27e1137ffe7c57eccb379d15a4",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "package/vignettes/validation-calibration.Rmd",
+      "bytes": 3780,
+      "sha256": "c1d7a6bdfa198902d2068a020b6a800d86df22cb740ac58dd1751dc5a3fdf720",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "paper/01_RecurCast_JSS_Software_Paper.docx",
+      "bytes": 527081,
+      "sha256": "424dd787c32d8cb60709cf21615e3f57e2c8fb0bf13886807b8a76c5b9c85932",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "paper/01_RecurCast_JSS_Software_Paper.pdf",
+      "bytes": 569711,
+      "sha256": "b5f610b26419dcb127e81387f482383d132e907c5ca2921b69b6aaa6fdf3c2dc",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "paper/05_Revision_Verification_Supplement.docx",
+      "bytes": 39905,
+      "sha256": "15f26808e412410187ee0aad951fc166ee03af06f01ca9628479c2aa78d52523",
+      "provenance": "inherited 0.10.0 scientific companion"
+    },
+    {
+      "path": "paper/05_Revision_Verification_Supplement.pdf",
+      "bytes": 481760,
+      "sha256": "1c35b7bd4c93569ef7d4b46736f0bff6a15d596151a7ebf1f42821840af1c8d7",
+      "provenance": "inherited 0.10.0 scientific companion"
+    },
+    {
+      "path": "paper/06_Cross_Field_Metrics_and_Usability_Guide.docx",
+      "bytes": 95250,
+      "sha256": "0c407f13a85913af171e6fbc48872f3a2e5586250ff79a7c0678742796543e0a",
+      "provenance": "inherited 0.10.0 scientific companion"
+    },
+    {
+      "path": "paper/06_Cross_Field_Metrics_and_Usability_Guide.pdf",
+      "bytes": 448655,
+      "sha256": "2378967e82958a08cc22f8f3ade9de8885406a87b0abf348fe53d9f2505edd44",
+      "provenance": "inherited 0.10.0 scientific companion"
+    },
+    {
+      "path": "paper/07_Targeted_API_And_Audit_Addendum.docx",
+      "bytes": 21819,
+      "sha256": "3e8cd039151c152ceaedba141dba92a1ac3d8d359d1fafd2830e1aafcc0e9c8c",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "paper/07_Targeted_API_And_Audit_Addendum.pdf",
+      "bytes": 359274,
+      "sha256": "ecf652d0a6dd0eba5761104c187c19fa214d0ec21c6edbe216a32d8a707bb4a3",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "release/recurcast_0.10.1.tar.gz",
+      "bytes": 272100,
+      "sha256": "2d2e3a152799e45fbdf56f89455b1563d8735ecf7223a78fd9779ca97e74afe6",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "release/recurcast_0.10.1.zip",
+      "bytes": 1138124,
+      "sha256": "3dd6f95a3ba2f2948d1629bb066ba37de03fec51606dca3cad83dc5482ce7ab0",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "release/recurcast_0.10.1_Reference_Manual.pdf",
+      "bytes": 274272,
+      "sha256": "86de7de9cea536de1fbfb320d62013e1a03cda505897c277f0fafd037eb0aa88",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "replication/README.md",
+      "bytes": 4132,
+      "sha256": "214c74de4a179e40dce97dfd2b18dc92ac583b27b43e0b7eaa6d6482fc3b9f38",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "replication/check_research_metrics.R",
+      "bytes": 6567,
+      "sha256": "419e49fa23d5925af8098f23b206a5e8eff345840ea32294b4dc78d90d058e4c",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "replication/cross_field_usability.R",
+      "bytes": 14439,
+      "sha256": "e6e4a423ab9c29271f13262a721a0cf9f2c4e6b09b939c273bc9f5a08b738ef4",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "replication/plot_cross_field_usability.R",
+      "bytes": 3537,
+      "sha256": "65f518cdc6c84f41ea121f9b65943da49a52c6e17aec51bc1f96f175819ca9f3",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "replication/reproduce_cases.R",
+      "bytes": 731,
+      "sha256": "582600be2e6c4a67649047c1e0f23410db2e4bfc34b071ead172478373a96eb8",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "replication/research_metrics.R",
+      "bytes": 10486,
+      "sha256": "646a0257c4f084a74b8b48ab182b17d86aaea2ec2c4022a161d47ac06523ca0a",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "replication/results/standard_regimes/INTERPRETATION.txt",
+      "bytes": 560,
+      "sha256": "bf618ccfe03b81a7b3727261c7b6d0c16c5fb96e0ee6b8ab5ef55f6045c06a95",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "replication/results/standard_regimes/competing_closed_form_parity.csv",
+      "bytes": 2210,
+      "sha256": "d933b8883ac83293d8579840d2a435a4806faafb57f7131b78bea9f22a90a6d3",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "replication/results/standard_regimes/competing_validation_hand_example.csv",
+      "bytes": 269,
+      "sha256": "99d9ecaf41ee4b1b80067fc22fc50b343ddcf9e3e91b6628edc9a513869fc2e2",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "replication/results/standard_regimes/lung_design.csv",
+      "bytes": 123,
+      "sha256": "030e5501d253e864878eb6fa838ae7253037c18461574efa9e9faee34e871f98",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "replication/results/standard_regimes/lung_heldout_metrics.csv",
+      "bytes": 375,
+      "sha256": "cfec70799bf8be0989833ef8dff58968c9251477ba8b5b10151f300382a5c415",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "replication/results/standards_mapping/INTERPRETATION.txt",
+      "bytes": 1061,
+      "sha256": "75c92e0209358a591162a5785031051af96b51e7fec18c3ceda7a976cd509702",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "replication/results/standards_mapping/adtte_os_intervals.csv",
+      "bytes": 187,
+      "sha256": "697c2d8b7c04145aa50a52f953063d684c20148edf6dda03973234bc827fc791",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "replication/results/standards_mapping/mapping_checks.csv",
+      "bytes": 1079,
+      "sha256": "adc49893723fa3a58bd489ef1b74b75c36201a5b52fc2f96ddb5f61cb1b724a1",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "replication/results/standards_mapping/omop_toy_episodes.csv",
+      "bytes": 260,
+      "sha256": "ad025cbc530ed3eebf26454745e60ee32440d684b33b6d3e0351a17404d9528f",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "replication/results/standards_mapping/omop_toy_intervals.csv",
+      "bytes": 235,
+      "sha256": "937ed0b92fca5fae7f2211e685a271a34a7df95ca7d1704a604ab4335931e5a8",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "replication/results/standards_mapping/synthetic_adtte_source.csv",
+      "bytes": 391,
+      "sha256": "d8dd9a8c5f8b2db8220d5836692dc7398bb39e7b24ec7a056812f3addc57b9a5",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "replication/results/standards_mapping/synthetic_omop_condition_occurrence.csv",
+      "bytes": 290,
+      "sha256": "767908015edaccac359d0a330836c373bb3881a774541dff014646cdc6d3455d",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "replication/results/standards_mapping/synthetic_omop_death.csv",
+      "bytes": 40,
+      "sha256": "4fde9390201e2041254c12f46946be040c73564ea6eb9594ee09f1e8fdea029d",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "replication/results/standards_mapping/synthetic_omop_observation_period.csv",
+      "bytes": 150,
+      "sha256": "453f11d0f6cc6623828410ec792504c8f8f6f982eb86bad121166e62b0d7d11a",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "replication/results/standards_mapping/synthetic_omop_person.csv",
+      "bytes": 22,
+      "sha256": "f15191e80fac2daf83b8d370615113be2af13c59ebbb1bc3ab1bc6e34854a4d2",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "replication/run_case_studies.R",
+      "bytes": 12417,
+      "sha256": "ebe27aab42f22dcaaf28c5c75bdd53e420cc7f50f06075e80ff2d81334b5e808",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "replication/standard_regimes.R",
+      "bytes": 4758,
+      "sha256": "b50245ea55b42cfc2c5d637065c41a46e1b91f575eb3b5af4fb82e35c9973609",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "replication/standards_mapping.R",
+      "bytes": 8028,
+      "sha256": "7b31c28cefe293f38d6881ee8b9cfe9883846e2522e5ce3ae3fb8b7f1fc913a0",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "reviews/P6_PORTABLE_RESEARCH_BUNDLE.json",
+      "bytes": 3459,
+      "sha256": "0e0a75730680071adec5a95672ca931f435089075df39b6a80725b476b0796e9",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "reviews/P6_candidate0101_checks.json",
+      "bytes": 2093,
+      "sha256": "7a5b4d1ddfdc8d622632a97a9a61fb12eaa2647537faf21ced22fc9996b0fb79",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "reviews/P6_manual_qa.json",
+      "bytes": 6727,
+      "sha256": "d9009e7f7bdf1ec3338b5fe452c68cd7508d5f6aa5cc638e9a28ff3dbe143d0c",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "reviews/P6_native_baseline_hashes.json",
+      "bytes": 3939,
+      "sha256": "0bff9a2c83ee00dad5e6ed887cc7b95fc1d81c8722d9d0a24fc530dcbe728b37",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "reviews/P6_native_invariance.json",
+      "bytes": 3662,
+      "sha256": "bac256048588982cd97f2387c396a628c4a7873f8a99d3b8565651760ad543ec",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "reviews/P6_revision_coverage_summary.json",
+      "bytes": 203,
+      "sha256": "3ea624820f78af78aef991b55ed7f0db68bc2a823e4448e14d4be6160c89988f",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "reviews/github_ci/final_ci_summary.json",
+      "bytes": 2268,
+      "sha256": "2fdb582e0c0154c42e2d85b9206fd080626b668b2bc93ed2ffb9ca6c1187fa93",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "reviews/github_ci/job_137657475287.log",
+      "bytes": 16651,
+      "sha256": "a658148b9adaf3a1b54fe7cd39c947dac0fd0e9ffa02e82aa6e9883844b52188",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "reviews/github_ci/job_137657475701.log",
+      "bytes": 952266,
+      "sha256": "e711a11e143ba47ab06f55d25e3d6b50b05780de0a36f01163483817912e556b",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "reviews/github_ci/job_137657475716.log",
+      "bytes": 16661,
+      "sha256": "7566aaadf63d9533ea8ae9561c9529a1689ad65bd93d149b7009faf49b7a8992",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "reviews/github_ci/job_137657475763.log",
+      "bytes": 16786,
+      "sha256": "e3dcc14d36f4c18dbcf804c4319a68daf07383ef480ecf30993e461b480200d3",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "reviews/github_ci/job_137657475889.log",
+      "bytes": 16779,
+      "sha256": "e4a17f50da87c36391c0ead1b5b120c98389576f0047dcf5b15fd358ed506a95",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "reviews/github_ci/job_137657475989.log",
+      "bytes": 927895,
+      "sha256": "4e427bbdbdeae420ce80a278262cd32dbadb9bf6eac87f7edc99da28e2159d1d",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "reviews/github_ci/job_137657476015.log",
+      "bytes": 789158,
+      "sha256": "1b15812af8685303ac169421a977c667b29f35b148ff15c35f95f92c0ae55673",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "reviews/github_ci/job_137657476082.log",
+      "bytes": 859987,
+      "sha256": "212f1f5cb3c8784dd5bbcd92f026a8199afe6025ea5c2bb4d7fee99deea9587e",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "reviews/github_ci/job_137657476101.log",
+      "bytes": 777143,
+      "sha256": "f7f9e8be09b09e9f9fc6f13be6709b959f82f0912515c80ace1e34847d1b541d",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "reviews/github_ci/job_137657476146.log",
+      "bytes": 803383,
+      "sha256": "a9b0296c39d405945e63c89ebd129511fbf26fabbfad1eaed4abda6ca78cb263",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "reviews/github_ci/local_source_parity.json",
+      "bytes": 957,
+      "sha256": "4d7a736d126be2831fddc9b3d7b6cbccbeda679da60ee6cb48fe85e987948ea7",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "reviews/github_ci/macos_gettext_fix.json",
+      "bytes": 881,
+      "sha256": "cbeac4159730751a110a3283e8ecfb49d69cdb601f48e27f45923763180963a6",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "reviews/github_ci/macos_source_repository_fix.json",
+      "bytes": 1145,
+      "sha256": "67bd66c2cf2eb62b8ee97b36fc29054aedb5bc5ca6f930158265681418787c3e",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "reviews/github_ci/native_run_45164392550.json",
+      "bytes": 8499,
+      "sha256": "5bec6d3c05a451a5064472fc680451430eb6ba839bd0c80db00d2737a3f9d6d9",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "reviews/github_ci/platform_run_45164392545.json",
+      "bytes": 17813,
+      "sha256": "7a55bfc986397ea11f60c8f56c4b5e10316407e5b5b121e8711a7df14f2d98c7",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "reviews/github_ci/uploaded_source_manifest.json",
+      "bytes": 32341,
+      "sha256": "aa5981a3ca50ffe40677f9573488ab6f676d9a2b699285ae267bd7f820eb8c81",
+      "provenance": "0.10.1 review candidate material"
+    },
+    {
+      "path": "README.md",
+      "bytes": 2607,
+      "sha256": "c67681ff4f3a982feb8b5c645f9cdaa7d9dded3322b72b6216a8f6902d1e5bf0",
+      "provenance": "distribution-specific reading and provenance guide"
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+name: Native strict checks and sanitizers
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  native:
+    strategy:
+      fail-fast: false
+      matrix:
+        compiler: [g++, clang++]
+        sanitize: [0, 1]
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: package
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - name: Run every standalone native fixture
+        run: |
+          set -euo pipefail
+          mkdir -p ci-logs
+          "$CXX" --version | tee ci-logs/compiler.txt
+          bash tools/check-core.sh 2>&1 | tee ci-logs/native-tests.txt
+        env:
+          CXX: ${{ matrix.compiler }}
+          SANITIZE: ${{ matrix.sanitize }}
+          ASAN_OPTIONS: detect_leaks=1:halt_on_error=1
+          UBSAN_OPTIONS: halt_on_error=1:print_stacktrace=1
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: native-${{ matrix.compiler }}-sanitize-${{ matrix.sanitize }}
+          path: package/ci-logs
+

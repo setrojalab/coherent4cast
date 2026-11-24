@@ -1,0 +1,14 @@
+{
+  "title": "recurcast: Coherent Forecasts for Recurrent and Terminal Events",
+  "upload_type": "software",
+  "version": "0.10.1",
+  "description": "Development implementation of coherent event-history forecasts. Public release awaits completion of recorded release gates.",
+  "creators": [
+    {"name": "Adetunji, Sunday A.", "affiliation": "Oregon State University"},
+    {"name": "Adetunji, Oluwatimileyin A.", "affiliation": "Bowen University"}
+  ],
+  "license": "GPL-3.0-only",
+  "access_right": "open",
+  "keywords": ["recurrent events", "survival analysis", "dynamic prediction", "partial identification"]
+}
+

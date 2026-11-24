@@ -1,0 +1,91 @@
+---
+title: "Getting started with recurrent and terminal event forecasts"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Getting started with recurrent and terminal event forecasts}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse=TRUE,comment="#>",fig.width=6,fig.height=4)
+library("recurcast")
+```
+
+## Define the history and the question
+
+The package takes one row per observed counting-process interval. A subject can
+have recurrent events until one absorbing terminal event. `event_type = 0`
+means that no recurrent event was observed at the interval end; it does not mean
+that an unmonitored interval was event free. Every analysis declares a time unit.
+
+```{r data}
+data("sim_perinatal")
+head(sim_perinatal)
+trajectory <- as_trajectory(sim_perinatal, event_types=c("1","2"),
+                            time_unit="months")
+history <- build_history(trajectory, cap=2)
+head(history$counts)
+```
+
+These data are simulated. The domain label demonstrates data organization; it
+does not establish a maternal-health risk model. Counts used as intensity
+features are capped at two, while predicted event burden continues to count
+events occurring after the cap.
+
+## Fit one event-history law
+
+```{r fit}
+fit <- recurcast(~x, sim_perinatal, event_types=c("1","2"),
+                time_unit="months")
+print(fit)
+glance(fit)
+head(tidy(fit))
+```
+
+Each event type and the terminal event has a separate baseline, covariate
+coefficient and history dependence. A shared mean-one gamma frailty induces
+dependence. Analytic gamma integration produces subject scores and information;
+the covariance estimate clusters contributions by independent subject.
+Inspect `fit$convergence` before using regular Wald inference. A boundary or
+nonpositive-information fit remains visibly flagged.
+
+## Forecast at an explicit landmark
+
+```{r predict}
+one <- sim_perinatal[sim_perinatal$id == 1, ]
+forecast <- predict(fit, newdata=one, landmark=0,
+                    horizon=c(.25,.5,1), type="all")
+forecast[, c("unit","horizon","target","estimate")]
+plot(forecast, target="risk")
+```
+
+`risk` is terminal-event probability; `survival` is its complement. `burden_1`
+and `burden_2` are expected additional counts stopped by the terminal event.
+`rmst` is expected time alive within the forecast horizon. The fitted law
+produces all these quantities. Future rows are not used as landmark history.
+Measured covariates are held at their landmark values during this forecast.
+
+The output reports uniformization series error separately from floating-point
+probability error. Neither is a bound on gamma quadrature error. Compare
+quadrature resolutions when a mixture forecast is sensitive to numerical
+integration.
+
+```{r quadrature}
+q15 <- predict(fit, one, landmark=0, horizon=1, quadrature=15)
+q30 <- predict(fit, one, landmark=0, horizon=1, quadrature=30)
+abs(q15$estimate-q30$estimate)
+```
+
+## Reproduce and inspect assumptions
+
+```{r audit}
+fit$audit$assumptions
+fit$audit$data_hash_algorithm
+attr(forecast,"assumptions")
+```
+
+An integrity fingerprint helps detect changed inputs; it does not establish
+correct observation assumptions. Predictions are prognostic quantities, not
+treatment effects. Complete histories, rounded dates and unrecorded intervals
+require distinct observation specifications.

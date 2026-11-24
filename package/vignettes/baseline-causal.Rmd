@@ -1,0 +1,136 @@
+---
+title: "Baseline treatment contrasts for recurrent and terminal events"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Baseline treatment contrasts for recurrent and terminal events}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+library(recurcast)
+```
+
+## The estimand and its identification
+
+`rc_causal()` implements the baseline binary-treatment extension in Supplement
+S12 of the methodological manuscript. It estimates what the mean event burden,
+terminal risk and time alive would be if the baseline population received
+treatment 1, compared with treatment 0. Both arm means use the same baseline
+population. The ordinary prognostic `predict()` interface retains its original
+interpretation.
+
+For outcome reward $F_j$, the intervention mean is
+\[
+\psi_j(w)=E[F_j\{Y(w)\}]=E\{v_j^w(0,X)\}.
+\]
+Here $w$ is the fixed baseline assignment (0 or 1), $Y(w)$ the potential complete
+event history, $j$ an outcome coordinate, $X$ baseline covariates, and
+$v_j^w(0,X)$ the backward value under arm $w$ at the origin. The last equality
+requires consistency, no interference, conditional treatment exchangeability,
+positive treatment probabilities and conditionally independent right censoring.
+Observed data cannot establish the exchangeability assumption.
+
+The arm-specific influence function is
+\[
+D_j^w=v_j^w(0,X)-\psi_j(w)+
+\frac{I(W=w)}{e_w(X)}\sum_k\int_0^\tau
+\frac{Y_C(t) B_{jk}^w(t,\mathcal H_{t-})}{G_w(t)}
+\{dN_k(t)-\lambda_k^w(t)dt\}.
+\]
+Here $W$ is observed baseline treatment, $e_w(X)$ its conditional probability,
+$k$ an event mark, $\tau$ the assessment horizon, $Y_C(t)$ the observation
+indicator, $G_w(t)$ censor survival, $\mathcal H_{t-}$ the event history before
+$t$, $N_k(t)$ its counting process, $\lambda_k^w(t)$ the arm-specific intensity,
+and $B_{jk}^w$ the outcome's jump increment. A terminal event stops recurrence.
+The integral is evaluated only while the history is observed and alive.
+
+The target update multiplies each eligible intensity by
+$\exp\{\sum_j\epsilon_j B_{jk}^w/(e_wG_w)\}$, where $\epsilon_j$ is a fitted
+fluctuation coefficient and the remaining symbols are those defined above.
+Zero ineligible rates remain zero. Initial event rates, treatment probabilities
+and censor hazards are learned without the subject's validation fold. Targeting
+then solves the pooled validation score; it does not claim that the entire
+updated law was fitted outside that fold.
+
+## A reproducible example
+
+The following synthetic histories illustrate the interface. The independent
+subject identifier defines an arbitrary, externally assigned treatment label;
+the generator below contains no treatment effect. This is a software example,
+not clinical evidence about an intervention.
+
+```{r fit}
+d <- rc_simulate(200, horizon = 1, rates = c(.9, .5, .4),
+                 dispersion = 0, censor_rate = .1, seed = 701)
+d$treatment <- as.integer(d$id %% 2)
+d$censored <- as.integer(d$event_type == 0 & d$terminal == 0 & d$stop < 1)
+fit <- rc_causal(~x, d, treatment = "treatment", horizon = 1,
+  censor = "censored", time_unit = "years", propensity = .5,
+  spec = list(history_cap = 2L, working = "loglinear"))
+predict(fit)
+```
+
+`propensity=.5` declares the known allocation probability. In observational
+data, omit that argument to estimate training-fold stratum proportions, or
+supply independently fitted fold-by-stratum probabilities. Every stratum needs
+both arms in each training sample. Treatment may not change during follow-up;
+the confounder formula may not include post-treatment variables.
+
+```{r diagnostics}
+fit$diagnostics
+lapply(fit$arms, function(a) a$EIF_mean)
+glance(fit)
+rc_causal_contrast(fit, "ratio", interval = "multiplier", draws = 1000, seed = 4)
+```
+
+The `ratio` is a burden ratio for count outcomes, a risk ratio for terminal
+events, and a restricted-mean-time ratio for time alive. It is not a hazard
+ratio. Ratio intervals use the log scale. The difference influence function is
+$D_j^1-D_j^0$, where $D_j^1$ and $D_j^0$ are the two arm gradients for the same
+person; their covariance must not be discarded. The covariance of the
+estimated mean vector is the sample covariance of its individual gradients
+divided by the number of independent subjects.
+
+## Interpretation, supported data and diagnostics
+
+The implementation uses finite discrete baseline strata and a retained count
+state. The count cap is a state summary, not a cap on the accumulated recurrent
+burden: repeat events still accrue their rewards at a self-transition. Treating
+that retained state as sufficient is a scientific model assumption. The default
+event nuisance model is log-linear in retained counts within each arm/stratum;
+the censor nuisance is a constant arm/stratum hazard. Custom out-of-fold event
+arrays may vary by time bin. Censor survival is strictly checked, not clipped.
+
+Double robustness means that the estimating-function remainder vanishes when
+the event intensities are correct or the product of treatment probability and
+censor survival is correct. It is not enough that the treatment model alone is
+correct when informative censoring is misspecified. Asymptotic efficiency also
+requires appropriate convergence rates, regularity and a solved targeting
+score. A sparse or nonconverged coordinate retains its estimate and a status
+flag; regular confidence limits are withheld.
+
+The `interpolation_error` diagnostic samples interpolation discrepancies.
+It is not a uniform error certificate. Repeat a fit at a finer `grid` and
+compare estimates and scores when numerical accuracy matters. The companion
+verification script checks an analytic exponential example independently and
+checks probability-one reduction against the unchanged prognostic kernel.
+
+This entry point does not implement time-varying treatment, unmeasured
+treatment-confounding bounds, delayed entry or coarsened causal histories.
+The separate recording-sensitivity API addresses incomplete event recording;
+its intervals are not silently relabelled as causal treatment bounds.
+
+```{r audit}
+report <- rc_audit_report(fit, include_session = FALSE)
+report$model$targeting
+report$convergence
+```
+
+## References
+
+Rytgaard HC, Gerds TA, van der Laan MJ (2022). Continuous-time targeted minimum
+loss-based estimation of intervention-specific mean outcomes.
+*The Annals of Statistics*, 50(5), 2469-2491.
+<https://doi.org/10.1214/21-AOS2114>.

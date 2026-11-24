@@ -1,0 +1,23 @@
+cff-version: 1.2.0
+message: "Please cite this software when using recurcast."
+type: software
+title: "recurcast: Coherent Forecasts for Recurrent and Terminal Events"
+version: 0.10.1
+authors:
+  - family-names: Adetunji
+    given-names: Sunday A.
+  - family-names: Adetunji
+    given-names: Oluwatimileyin A.
+repository-code: "https://github.com/setrojalab/recurcast"
+license: GPL-3.0-only
+abstract: "R package for coherent recurrent and terminal event forecasts, observation-aware inference and baseline treatment contrasts under explicit identification assumptions."
+keywords:
+  - recurrent events
+  - survival analysis
+  - dynamic prediction
+  - frailty
+  - incomplete observation
+
+
+date-released: "2026-11-23"
+url: "https://github.com/setrojalab/recurcast/releases/tag/v0.10.1"

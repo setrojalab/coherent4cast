@@ -1,0 +1,34 @@
+Package: recurcast
+Type: Package
+Title: Coherent Forecasts for Recurrent and Terminal Events
+Version: 0.10.1
+Authors@R: c(
+    person("Sunday A.", "Adetunji", email = "sundayadetunjisa@gmail.com",
+           role = c("aut", "cre")),
+    person("Oluwatimileyin A.", "Adetunji", role = "aut"))
+Description: Fits shared-frailty event-history models and computes joint-law
+    forecasts of recurrence burden, terminal-event risk and restricted survival.
+    Provides automatic coarsened-history integration, sparse propagation,
+    finite-path and continuous-time targeted estimation, scalable finite-support
+    recording-sensitivity bounds, evolving-covariate forecasts, alternative frailty
+    distributions, weighted conformal calculations, and calibration diagnostics.
+    Adds baseline binary-treatment g-formula estimates, cross-fitted
+    intensity targeting and influence-function contrasts under explicit
+    consistency, exchangeability, positivity and censoring assumptions.
+    Observation assumptions and numerical diagnostics are retained in returned
+    objects; prognostic forecasts and causal treatment contrasts are distinct.
+License: GPL-3
+Encoding: UTF-8
+Depends: R (>= 4.1.0)
+Imports: Rcpp, stats, utils, graphics, digest, jsonlite
+LinkingTo: Rcpp
+Suggests: testthat (>= 3.0.0), survival, frailtypack, ggplot2, knitr,
+        rmarkdown, nlme
+VignetteBuilder: knitr
+SystemRequirements: C++17
+Config/testthat/edition: 3
+NeedsCompilation: yes
+Packaged: 2026-11-23 10:33:27 UTC; ugorjih
+Author: Sunday A. Adetunji [aut, cre],
+  Oluwatimileyin A. Adetunji [aut]
+Maintainer: Sunday A. Adetunji <sundayadetunjisa@gmail.com>

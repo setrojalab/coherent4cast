@@ -1,0 +1,106 @@
+---
+title: "Targeting and sensitivity analysis under incomplete observation"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Targeting and sensitivity analysis under incomplete observation}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse=TRUE,comment="#>")
+library("recurcast")
+```
+
+## Specify the complete support
+
+The finite-path interface observes a baseline stratum for everyone and a complete
+path only for recorded subjects. This is a whole-path recording experiment,
+not the same observation model as right censoring. Here two windows have marks
+zero (no event), one and two (recurrent types), and three (terminal event).
+Absorption leaves thirteen legal paths.
+
+```{r support}
+paths <- as.matrix(expand.grid(second=0:3, first=0:2)[,c("first","second")])
+paths <- rbind(paths,c(3,NA))
+features <- cbind(count1=rowSums(paths==1,na.rm=TRUE),
+                  count2=rowSums(paths==2,na.rm=TRUE),
+                  terminal=as.numeric(rowSums(paths==3,na.rm=TRUE)>0),
+                  grid_alive=1+as.numeric(paths[,1]!=3))
+features
+```
+
+The fourth target is restricted survival on this two-window grid; it is not a
+continuous-time restricted mean without further modelling.
+
+## Fit nuisances in training folds and evaluate influence functions
+
+```{r targeting}
+set.seed(104)
+n <- 800
+strata <- rep(0:1,length.out=n)
+path <- sample(seq_len(nrow(features)),n,replace=TRUE)
+recorded <- rbinom(n,1,.8-.3*strata)
+path[recorded==0] <- NA
+folds <- sample(rep(1:5,length.out=n))
+target <- rc_target(path,recorded,strata,features,folds=folds)
+data.frame(target=names(target$estimate),estimate=target$estimate,
+           se=target$se,EIF_mean=target$EIF_mean,
+           EIF_variance=target$EIF_variance)
+target$convergence
+```
+
+The estimator uses training-fold path and recording probabilities and a common
+exponential tilt. The individual efficient influence function (EIF) combines a
+regression prediction with a recording-weighted residual. Missing paths are
+never read. The output retains folds, nuisances, updated laws and score residuals.
+MAR conditional on the stratum and recording positivity identify these targets.
+Efficiency further requires regularity and nuisance-rate conditions; a small
+empirical EIF mean alone does not prove efficiency.
+
+## Replace point identification with a declared sensitivity region
+
+This separate example has three complete atoms, known recording fraction 0.7,
+and a terminal indicator on the third atom. The parameter `kappa` bounds the
+relative odds of missing versus recorded mass. Its unit value supplies the
+random-recording boundary for this finite model.
+
+```{r bounds}
+counts <- c(50,30,20)
+results <- lapply(c(1,2,4),function(k) {
+  b <- rc_bounds(counts/sum(counts),c(0,0,1),kappa=k,
+                 recording_fraction=.7,counts=counts)
+  data.frame(kappa=k,lower=b$lower,upper=b$upper,
+             confidence_lower=b$outer$lower,
+             confidence_upper=b$outer$upper)
+})
+do.call(rbind,results)
+```
+
+The plug-in bounds describe identification uncertainty. The outer confidence
+limits additionally account for multinomial sampling through simultaneous
+Clopper-Pearson constraints. The linear programs use recorded-law constraints,
+not EIF scores. This distinction preserves the assumptions of both procedures.
+An unknown recording fraction requires a different model or a separately
+specified sensitivity analysis.
+
+## Rounded dates require legal path integration
+
+`rc_colon()` builds an explicit day-coarsening experiment from the public
+`survival` dataset. A recorded recurrence and death on the same day permits
+recurrence before death inside that day. It does not permit omitting the
+documented recurrence. Four and eight quadrature nodes can be compared.
+The adapter loads data from its source package rather than bundling patient rows.
+
+```{r colon, eval=FALSE}
+a <- rc_colon(nodes=4,covariate="node4")
+fit <- recurcast(a$formula,a$data,event_types=a$event_types,
+                 nonrecurrent=a$nonrecurrent,time_unit="years",
+                 breaks=c(0,1,3,Inf),observation="coarsened",
+                 coarsening=a$coarsening)
+```
+
+For a coarsened forecast at a landmark, construct compatible past paths ending
+at that landmark and call `rc_predict_paths()`. Passing full-follow-up paths
+would disclose future outcomes and is rejected. Each legal past retains its
+own posterior gamma component; the mixture is averaged after propagation.

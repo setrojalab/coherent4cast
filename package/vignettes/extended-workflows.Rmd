@@ -1,0 +1,121 @@
+---
+title: "Coarsened histories, targeted inference and evolving covariates"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Coarsened histories, targeted inference and evolving covariates}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse=TRUE,comment="#>")
+library(recurcast)
+```
+
+The five revision modules share an interface but retain their own observation
+models and numerical diagnostics. This guide uses synthetic data throughout.
+
+## Fit a trajectory law and inspect its assumptions
+
+```{r fit}
+d <- rc_simulate(100,horizon=2,seed=72,time_unit="years")
+fit <- recurcast(~x,d,time_unit="years",
+                 control=recurcast_control(history_cap=0,phi_fixed=.4))
+fit$convergence$code
+summary(fit)$frailty_diagnostics$null_variance_test
+```
+
+The gamma law is a working distribution for shared heterogeneity. Other
+distributions can be fitted by changing one argument. Lognormal fitting checks
+quadrature refinement; discrete fitting estimates normalized support and weights.
+
+```{r alternative}
+lnfit <- suppressWarnings(recurcast(~x,d,time_unit="years",frailty="lognormal",
+  control=recurcast_control(history_cap=0,phi_fixed=.4)))
+lnfit$audit$quadrature_refinement
+```
+
+A family comparison is available through
+`rc_frailty_diagnose(fit, alternatives=TRUE)`. Its AIC values compare fitted
+working distributions. They are not a chi-square test of nonnested models.
+
+## Retain uncertainty about an event time
+
+Suppose a recorded recurrence occurred between years 0.2 and 0.4. The person
+is known to be alive and followed through year 1. The record below does not
+claim that an unmonitored interval contains zero events: its specified count
+and mark are complete, while the event time is coarsened.
+
+```{r coarsening}
+history <- data.frame(id=901,event_time_lower=.2,event_time_upper=.4,
+                      event_type="1",terminal=0,followup=1,x=0)
+fibre <- rc_coarsen_fibre(history,event_types=c("1","2"),
+                         time_unit="years",nodes=4)
+fibre$tie_audit
+pred <- predict(fit,newdata=history,landmark=1,horizon=.5,type="all",
+                newdata_observation="coarsened")
+pred[,c("unit","target","estimate","series_error_bound")]
+```
+
+The calculation averages forecasts after posterior updating over each compatible
+history. It does not replace the histories by their mean event time.
+
+## Use ordered future covariates
+
+The next example stipulates a covariate update at year 1.25. It is a prediction
+scenario, not a causal effect of changing treatment.
+
+```{r schedule}
+schedule <- data.frame(id=901,time=1.25,x=1)
+predict(fit,history,landmark=1,horizon=.5,type="risk",
+        newdata_observation="coarsened",covariate_evolution="locf",
+        newdata_future=schedule)
+```
+
+For a stochastic longitudinal submodel, fit `rc_covariate_model()` on a training
+measurement table. Supply `covariate_history` separately to prediction: interval
+boundaries are not repeated biomarker measurements. The model integrates future
+Gaussian random-coefficient trajectories and reports Monte Carlo error. It
+assumes that future events do not feed back into covariate evolution, conditional
+on the supplied past. It is not a joint latent measurement-error survival fit.
+
+## Cross-fit and target continuous-time rewards
+
+The continuous targeting engine uses an explicitly declared sufficient-state,
+right-censoring experiment. It does not silently inherit the shared-frailty
+likelihood model above. Here the simulator's final event-free interval ending
+before the administrative horizon identifies a right-censoring time.
+
+```{r targeting}
+d$censored <- as.integer(d$event_type==0 & d$terminal==0 & d$stop<2)
+targeted <- suppressWarnings(recurcast(~x,d,time_unit="years",targeting="continuous",
+  control=recurcast_control(history_cap=1),
+  targeting_spec=list(horizon=2,censor="censored",nfolds=3,grid=32)))
+summary(targeted)$estimates
+predict(targeted,draws=300)
+```
+
+Inspect `inference_status` with every interval. A solved EIF equation does not
+establish regularity when a mark has no observed events. Boundary outputs use
+the stated nonparametric outer-set calculation where available, rather than
+presenting a nearly zero standard error as reliable precision. Without a known
+upper bound, an uncapped recurrence burden cannot receive a finite upper limit
+from a distribution-free bounded-reward argument.
+
+## Use sparse propagation and large-support sensitivity bounds
+
+```{r sparse}
+Q <- rc_generator_csr(3,from=c(1,1,2),to=c(2,3,3),rate=c(.3,.1,.2))
+rc_propagate_sparse(c(1,0,0),Q,1,reward=c(1,1,0))
+p <- rep(1/100,100)
+region <- rc_bounds(p,numerator=seq(0,1,length.out=100),
+                    kappa=2,recording_fraction=.7)
+c(lower=region$lower,upper=region$upper)
+region$method
+```
+
+The scalable bound solver exploits the specific recording-odds and coarsening
+constraints; it is not a general-purpose sparse linear-programming replacement.
+Its certificates refer to the numerical finite-support experiment. Observation
+assumptions, target definitions and denominator positivity remain part of the
+analysis specification.

@@ -1,0 +1,10 @@
+*.o
+*.so
+*.dll
+*.exe
+*.Rcheck/
+*.tar.gz
+.Rhistory
+.RData
+.Rproj.user/
+build/

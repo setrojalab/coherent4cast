@@ -1,0 +1,68 @@
+template:
+  bootstrap: 5
+home:
+  title: Coherent recurrent and terminal event forecasts
+articles:
+- title: Workflows
+  navbar: Workflows
+  contents:
+  - getting-started
+  - incomplete-observation
+  - validation-calibration
+  - extended-workflows
+reference:
+- title: Data and model
+  contents:
+  - as_trajectory
+  - build_history
+  - recurcast
+  - recurcast_control
+  - rc_simulate
+  - rc_readmission
+  - rc_colon
+- title: Likelihood and forecasts
+  contents:
+  - rc_loglik
+  - rc_coarsen
+  - predict.recurcast
+  - rc_propagate
+  - rc_filter_paths
+  - rc_predict_paths
+  - rc_regularize
+  - rc_frailty_loglik
+  - rc_frailty_diagnose
+  - rc_covariate_model
+  - rc_coarsen_fibre
+  - rc_colon_fibre
+  - rc_fibre_mcse
+  - rc_predict_coarsened
+  - rc_generator_csr
+  - rc_propagate_sparse
+- title: Inference and validation
+  contents:
+  - rc_target
+  - rc_bounds
+  - rc_bounds_sparse
+  - targeting_spec
+  - predict.recurcast_targeted
+  - summary.recurcast_targeted
+  - rc_conformal
+  - rc_pivot
+  - rc_cornish_fisher
+  - rc_identify
+  - rc_band
+  - validate
+- title: Model summaries
+  contents:
+  - summary.recurcast
+  - tidy
+  - glance
+  - augment
+  - bounds
+  - conformal
+  - autoplot
+- title: Synthetic examples
+  contents:
+  - sim_perinatal
+  - sim_oncology
+  - sim_robotics

@@ -1,0 +1,82 @@
+{
+  "candidate_commit": "fbf6429e37aa91e159d878a8228d62803b287056",
+  "platform_run": 45164392545,
+  "native_run": 45164392550,
+  "platform_jobs": [
+    {
+      "name": "check (ubuntu-latest, devel)",
+      "id": 137657475701,
+      "status": "success",
+      "check_status": "OK",
+      "errors": 0,
+      "warnings": 0,
+      "notes": 0,
+      "passed_assertions": 1107,
+      "skips": 0,
+      "log": "reviews/github_ci/job_137657475701.log"
+    },
+    {
+      "name": "check (ubuntu-latest, release)",
+      "id": 137657475989,
+      "status": "success",
+      "check_status": "OK",
+      "errors": 0,
+      "warnings": 0,
+      "notes": 0,
+      "passed_assertions": 1107,
+      "skips": 0,
+      "log": "reviews/github_ci/job_137657475989.log"
+    },
+    {
+      "name": "check (macos-latest, release)",
+      "id": 137657476015,
+      "status": "success",
+      "check_status": "OK",
+      "errors": 0,
+      "warnings": 0,
+      "notes": 0,
+      "passed_assertions": 1107,
+      "skips": 0,
+      "log": "reviews/github_ci/job_137657476015.log"
+    },
+    {
+      "name": "check (macos-latest, devel)",
+      "id": 137657476082,
+      "status": "success",
+      "check_status": "OK",
+      "errors": 0,
+      "warnings": 0,
+      "notes": 0,
+      "passed_assertions": 1107,
+      "skips": 0,
+      "log": "reviews/github_ci/job_137657476082.log"
+    },
+    {
+      "name": "check (windows-latest, devel)",
+      "id": 137657476101,
+      "status": "success",
+      "check_status": "OK",
+      "errors": 0,
+      "warnings": 0,
+      "notes": 0,
+      "passed_assertions": 1107,
+      "skips": 0,
+      "log": "reviews/github_ci/job_137657476101.log"
+    },
+    {
+      "name": "check (windows-latest, release)",
+      "id": 137657476146,
+      "status": "success",
+      "check_status": "OK",
+      "errors": 0,
+      "warnings": 0,
+      "notes": 0,
+      "passed_assertions": 1107,
+      "skips": 0,
+      "log": "reviews/github_ci/job_137657476146.log"
+    }
+  ],
+  "native_jobs_passed": 4,
+  "all_ten_jobs_passed": true,
+  "scope": "Package checks, examples, vignettes and 1107 tests per R/OS job; not full 15-table clinical case-study replication or bitwise identity."
+}

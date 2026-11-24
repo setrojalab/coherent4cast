@@ -1,0 +1,7 @@
+{
+  "origin": "preserved oracle_v5/code",
+  "seed": 20261122,
+  "target_n": 800,
+  "target_valid": true,
+  "scope": "Deterministic numerical parity fixtures; not a fresh simulation coverage claim"
+}
