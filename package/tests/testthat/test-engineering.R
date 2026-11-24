@@ -12,6 +12,7 @@ test_that("native entry points are registered and dynamic lookup is disabled", {
                 `_recurcast_rc_cpp_history` = 7L,
                 `_recurcast_rc_cpp_cf` = 5L,
                 `_recurcast_rc_cpp_continuous_target` = 9L,
+                `_recurcast_rc_cpp_causal_target` = 10L,
                 `_recurcast_cpp_rc_coarsen_fibre` = 12L,
                 `_recurcast_cpp_rc_mixture_lik` = 12L,
                 `_recurcast_cpp_rc_propagate_sparse` = 9L,
@@ -20,3 +21,4 @@ test_that("native entry points are registered and dynamic lookup is disabled", {
   actual <- vapply(calls, function(x) x$numParameters, integer(1))
   expect_equal(actual[names(expected)], expected)
 })
+
