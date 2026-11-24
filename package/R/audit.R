@@ -5,7 +5,8 @@
   if (!is.call(call)) return("Call was not captured as an R call; no expression is reconstructed.")
   values <- as.list(call)
   protected <- c("data", "newdata", "paths", "weights", "subset", "coarsening", "targeting_spec",
-    "newdata_future", "covariate_history", "initial_laws", "recording", "labels")
+    "newdata_future", "covariate_history", "initial_laws", "recording", "labels",
+    "spec", "propensity", "folds")
   named <- names(values)
   for (i in seq_along(values)[-1L]) {
     # match.call() names supplied arguments. Unnamed arbitrary expressions and

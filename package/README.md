@@ -38,6 +38,16 @@ records are not redistributed inside this package.
 
 ## Main interfaces
 
+`rc_causal()` adds the static binary baseline-treatment extension from
+Supplement S12. It standardizes both arm-specific event laws over the same
+baseline population and returns contrasts with their joint EIF covariance.
+`rc_causal_contrast()` provides differences, ratios and log ratios. These
+outputs require consistency, conditional treatment exchangeability,
+positivity and conditionally independent censoring. They are distinct from
+ordinary prognostic forecasts. See `vignette("baseline-causal")` for the
+supported finite-state/stratum model and worked example.
+
+
 | Task | Interface |
 |---|---|
 | Validate intervals and construct predictable counts | `as_trajectory()`, `build_history()` |
