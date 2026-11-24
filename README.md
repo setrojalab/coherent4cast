@@ -1,143 +1,68 @@
-# recurcast 0.10.1
+# recurcast 0.10.1 — baseline causal extension
 
 Coherent survival modelling and dynamic forecasting of history-dependent multitype recurrent events and terminal risk under incomplete observation.
 
-**Private review candidate.** This repository remains private while review is in progress. Access is limited to authorized collaborators. Version 0.10.1 has not been accepted by CRAN or a journal; the accompanying software article is a draft for review.
+This is a **private review candidate**, on `release/0.10.1-causal` ([draft PR 2](https://github.com/setrojalab/recurcast/pull/2)). The preceding validation branch and its archives are preserved. This revision adds the static binary-treatment extension in Supplement S12 of the Version 13 method paper. The earlier prognostic numerical kernels are unchanged; a separate causal targeting kernel is added.
 
-`recurcast` fits an event-history probability law and derives type-specific expected recurrence counts, terminal-event risk, survival and restricted mean time alive or operational. The R interface retains observation assumptions, convergence flags and numerical diagnostics. It includes no-frailty standard-survival and competing-event interfaces alongside the recurrent-event model.
+## Install the current candidate
 
-## Install from the review branch
-
-An authorized GitHub account and credentials recognized by `remotes` are required for this private repository. For example, `remotes` can use a locally configured `GITHUB_PAT`. Its [official installation documentation](https://remotes.r-lib.org/reference/install_github.html) describes authentication and build options.
+An authorized GitHub account and locally configured credentials are needed for this private repository. Source installation requires a C++17 toolchain, including the appropriate Rtools on Windows.
 
 ```r
 install.packages(c("remotes", "Rcpp", "digest", "jsonlite"))
-remotes::install_github(
-  "setrojalab/recurcast",
-  subdir = "package",
-  ref = "release/0.10.1-validation",
-  dependencies = NA,
-  upgrade = "never"
-)
+remotes::install_github("setrojalab/recurcast", subdir = "package",
+  ref = "release/0.10.1-causal", dependencies = NA, upgrade = "never")
 library(recurcast)
-packageVersion("recurcast")
 ```
 
-The package is in the `package/` subdirectory. Source installation requires a C++17 compiler toolchain; use the appropriate Rtools for Windows. The review branch can advance, so retain the installed commit and package version when recording an analysis. These instructions do not grant access to the private repository.
+The current source archive, reference manual and submission comments are under [`release/causal/`](release/causal/). Use those files for this revision. Older archives elsewhere in `release/`, including the previous Windows binary, retain their historical provenance and do not include this causal extension.
 
-## Download the review materials
+## Baseline treatment contrasts
 
-The [clean review bundle](release/recurcast_0.10.1_review_bundle.zip) groups the supplied package, documentation and replication materials. It excludes internal planning notes; the local full working archive is retained separately. Check downloaded files against [SHA-256 checksums](release/SHA256SUMS_GITHUB.txt). These downloads remain subject to this private repository's access controls.
-
-## Install a supplied archive
-
-Download the appropriate artifact while signed into an authorized account:
-
-- [Source archive](release/recurcast_0.10.1.tar.gz).
-- [Windows binary](release/recurcast_0.10.1.zip), built for the recorded Windows R environment.
-- [Reference manual](release/recurcast_0.10.1_Reference_Manual.pdf).
-
-After downloading the repository or placing the files in a local `release/` directory, run **one** installation route:
+`rc_causal()` estimates recurrent-event burden, terminal-event risk and restricted mean time alive under treatment 1 and treatment 0, standardized over the same baseline population. `rc_causal_contrast()` returns differences, ratios or log ratios using the full joint influence-function covariance.
 
 ```r
-install.packages(c("Rcpp", "digest", "jsonlite"))
-
-# Source route: requires a C++17 toolchain.
-install.packages("release/recurcast_0.10.1.tar.gz",
-                 repos = NULL, type = "source")
-
-# Alternative Windows route: use a compatible Windows R installation.
-# install.packages("release/recurcast_0.10.1.zip",
-#                  repos = NULL, type = "win.binary")
+d <- rc_simulate(200, horizon = 1, rates = c(.9, .5, .4),
+                 dispersion = 0, censor_rate = .1, seed = 701)
+d$treatment <- as.integer(d$id %% 2)
+d$censored <- as.integer(d$event_type == 0 & d$terminal == 0 & d$stop < 1)
+fit <- rc_causal(~ x, d, treatment = "treatment", horizon = 1,
+  censor = "censored", time_unit = "years", propensity = .5,
+  spec = list(history_cap = 2L, working = "loglinear"))
+predict(fit)
+fit$diagnostics
+rc_audit_report(fit)
 ```
 
-Optional dependencies support specific examples: `survival` supplies the lung and colon data, `frailtypack` supplies the readmission data, and `nlme` supports estimated Gaussian longitudinal covariate models. Installation and downloading dependencies require access to their sources; fitting and prediction can run offline once the required environment is installed.
+This example is synthetic and contains no treatment effect in its generator. See the [causal vignette](package/vignettes/baseline-causal.Rmd) and [reference help](package/man/rc_causal.Rd) for data contracts and assumptions. The implementation supports exact histories, finite baseline strata and a retained count state. Treatment is assigned at baseline and remains fixed. Causal identification requires consistency, conditional exchangeability, treatment positivity and independent censoring. The regular intervals are asymptotic. Time-varying treatment policies and unmeasured treatment-confounding bounds are not estimated by this entry point.
 
-## First fit and forecast
+## Existing interfaces
 
-The bundled demonstration data are synthetic:
+| Task | Functions |
+|---|---|
+| Recurrent/terminal event histories and forecasts | `as_trajectory()`, `recurcast()`, `predict()` |
+| Standard survival and competing risks | `rc_surv()`, `rc_competing()` |
+| Baseline causal effects | `rc_causal()`, `rc_causal_contrast()` |
+| Recording sensitivity | `rc_bounds()`, `bounds()` |
+| Held-out prediction assessment | `validate()` |
+| Provenance and numerical diagnostics | `rc_audit_report()` |
 
-```r
-library(recurcast)
-data("sim_perinatal", package = "recurcast")
+The prognostic APIs retain their original interpretation. Recording sensitivity and treatment confounding are separate problems. Synthetic agreement and numerical error tolerances do not establish clinical benefit or regulatory certification.
 
-fit <- recurcast(~ x, sim_perinatal,
-                 event_types = c("1", "2"), time_unit = "months")
-print(fit)
+## Paper and reproducibility
 
-one <- sim_perinatal[sim_perinatal$id == 1, ]
-predict(fit, newdata = one, landmark = 0,
-        horizon = c(0.25, 0.5, 1), type = "all")
-```
+- [Updated software paper](paper/causal/01_RecurCast_JSS_arXiv_Manuscript.pdf) and [clean JSS/arXiv LaTeX](paper/causal/RecurCast_JSS_arXiv_LaTeX.zip).
+- [Current source package](release/causal/recurcast_0.10.1.tar.gz), [reference manual](release/causal/recurcast_0.10.1_Reference_Manual.pdf), and [CRAN comments](release/causal/cran-comments.txt).
+- [Computational supplement](release/causal/RecurCast_JSS_replication.zip): execute `Rscript --vanilla code.R` after extracting and installing the package. This reproduces the original tables and figures and executes the added causal example and analytic remainder check.
+- [Causal replication source](replication/causal/run_causal.R) and [independent matrix-exponential oracle](replication/causal/causal_oracle.py).
+- [SHA-256 manifest](release/causal/SHA256SUMS.txt).
 
-Expected recurrence counts are burdens, not occurrence probabilities. Predictions condition on the declared landmark, eligibility and covariate-evolution rule. Numerical error diagnostics are not sampling confidence intervals.
+The package contains five evaluated vignettes in its checked source archive. A direct GitHub installation requires `build_vignettes = TRUE` and the listed vignette dependencies if evaluated vignettes are wanted locally.
 
-| Analysis task | Entry point | Scope |
-|---|---|---|
-| Recurrent and terminal histories | `as_trajectory()`, `recurcast()`, `predict()` | Explicit event marks, independent units, time units and observation model. |
-| No-frailty model | `recurcast(frailty = "none")` | Fixes latent frailty variance at zero. |
-| Standard survival | `rc_surv()` | Full piecewise-exponential proportional-hazards likelihood; not Cox partial likelihood. |
-| Mutually exclusive absorbing causes | `rc_competing()`, then `predict()` | Combines all cause hazards into coherent cumulative incidence and survival; no automatic CIF confidence bands. |
-| Held-out prediction evaluation | `validate()` | Ten native metrics with declared censoring assumptions; earlier competing events are observed noncases for cause-specific validation. |
-| Traceable audit export | `rc_audit_report()` | Captured and export context, numerical summaries and explicit SHA-256 fingerprints; not regulatory certification. |
+## Verification
 
-`rc_trajectory` and `rc_forecast` are additive S3 classes. Use the existing `as_trajectory()` and `predict()` functions; the class names are not new estimator functions. Observed-pattern labels do not infer scientific recurrence, causal structure or the missingness mechanism.
+The final source archive passed full Windows R-devel `R CMD check --as-cran`: **0 errors, 0 warnings, 1 new-submission note**, including all **1,187 expectations**, five vignettes, examples and PDF/HTML manual checks. The new code was checked at commit `f8228270a64bede49e92694ff097e00b656d1126`: six Linux/macOS/Windows R-release/R-devel jobs passed, as did four GCC/Clang jobs with and without ASAN/UBSAN. The seven native fixtures include independent analytic causal EIF agreement and exact probability-one reduction to the preceding targeting engine. See the [record](reviews/causal_revision/summary.json), [R workflow](https://github.com/setrojalab/recurcast/actions/runs/45324158268) and [native workflow](https://github.com/setrojalab/recurcast/actions/runs/45324158206).
 
-## Worked examples and help
+The current causal module has not been assigned the earlier version's measured line-coverage percentage. Historical research grids and clinical analyses remain labelled as such; the five original application examples remain prognostic.
 
-From a downloaded checkout's root, after installing the package and the relevant optional dependencies:
-
-```sh
-Rscript replication/standard_regimes.R
-Rscript replication/standards_mapping.R
-```
-
-- [Standard-regime examples](replication/standard_regimes.R) check a constructed two-cause model against closed-form forecasts and demonstrate a declared training/holdout analysis using `survival::lung`.
-- [Standards-mapping examples](replication/standards_mapping.R) use wholly synthetic ADTTE/OMOP-style tables. They expose analysis-parameter selection, censor coding, episode construction, time origins and terminal stopping. They are analyst-controlled examples, not native certified adapters.
-- [API and assumptions](package/API.md) map the exported functions to their statistical and computational contracts.
-
-`RECURCAST_LIBRARY` selects a local installed library. `RECURCAST_STANDARD_OUTPUT` and `RECURCAST_MAPPING_OUTPUT` select separate output directories. A GitHub package installation alone does not download the project-level replication directory; use the repository checkout for these scripts.
-
-```r
-help(package = "recurcast")
-help("rc_surv", package = "recurcast")
-help("rc_competing", package = "recurcast")
-help("rc_audit_report", package = "recurcast")
-vignette(package = "recurcast")
-```
-
-The supplied checked archives contain four evaluated HTML vignettes. A direct `remotes::install_github()` build omits vignette building by default. To build them from source, use `build_vignettes = TRUE`, install the vignette dependencies listed in DESCRIPTION and provide Pandoc. The vignette sources are also readable here:
-
-- [Getting started](package/vignettes/getting-started.Rmd).
-- [Incomplete observation](package/vignettes/incomplete-observation.Rmd).
-- [Validation and calibration](package/vignettes/validation-calibration.Rmd).
-- [Extended workflows](package/vignettes/extended-workflows.Rmd).
-
-## Manuscript and targeted addendum
-
-- **Software article:** [PDF](paper/01_RecurCast_JSS_Software_Paper.pdf), [editable Word](paper/01_RecurCast_JSS_Software_Paper.docx).
-- **Targeted API and Audit Addendum:** [PDF](paper/07_Targeted_API_And_Audit_Addendum.pdf), [editable Word](paper/07_Targeted_API_And_Audit_Addendum.docx).
-- **Inherited 0.10.0 scientific companion — Revision Verification Supplement:** [PDF](paper/05_Revision_Verification_Supplement.pdf), [editable Word](paper/05_Revision_Verification_Supplement.docx). It develops the unchanged mathematical and computational modules.
-- **Inherited 0.10.0 scientific companion — Cross-Field Metrics and Usability Guide:** [PDF](paper/06_Cross_Field_Metrics_and_Usability_Guide.pdf), [editable Word](paper/06_Cross_Field_Metrics_and_Usability_Guide.docx). It explains the unchanged forecast, validation and reporting modules. These inherited documents are not newly executed 0.10.1 studies.
-
-The article retains the original method equations and version-labelled numerical evidence. The addendum describes the 0.10.1 wrappers, classes, audit record, mapping examples, worked calculation and package roadmap. Earlier companion documents 02–06, when retained in the archive, describe the unchanged 0.10.0 modules and are labelled as inherited material.
-
-## Validation status
-
-The completed local Windows source checks on R 4.6.2 and R-devel 4.7.0 reported zero errors, warnings or notes. Each source environment and the freshly installed Windows binary passed 1,107 test expectations without failures, warnings or skips. Measured R/C++ line coverage was 95.46236% (2,777/2,909 executable lines), with no file exclusions. All 23 native source/header/Makevars files match the preserved 0.10.0 version.
-
-At tested commit `fbf6429e37aa91e159d878a8228d62803b287056`, all six hosted R-release/R-devel checks on Linux, macOS and Windows completed with `Status: OK`, each passing 1,107 expectations with no failures, warnings or skips ([R workflow](https://github.com/setrojalab/recurcast/actions/runs/45164392545)). All four Ubuntu native jobs passed GCC/Clang strict builds and AddressSanitizer/UndefinedBehaviorSanitizer runs ([native workflow](https://github.com/setrojalab/recurcast/actions/runs/45164392550)).
-
-The execution history retains two earlier macOS R-devel infrastructure interruptions: a missing gettext header during dependency compilation and a stalled repository-status diagnostic before installation. Workflow-only configuration changes resolved both without modifying package science or native code. These results cover the tested configurations and fixtures. See [the release gate record](package/GATES.md) and the private repository's Actions records for scope and logs.
-
-## Statistical interpretation
-
-The package is prognostic. A shared probability law gives internally compatible forecasts under its model; it does not establish that treatment, monitoring or another intervention prevents events. Source-data semantics, risk sets, recording assumptions and model regularity remain part of the analysis.
-
-Finite-path targeting, continuous-time targeting, recording-sensitivity bounds and prediction-set calculations have different assumptions. When invoking the observed-reward finite-sample confidence construction, request `interval = "projection"` throughout. Data-dependent switching between approximate Gaussian and projection intervals does not itself inherit that guarantee. Some sparse or nonregular fits withhold regular intervals; uncapped recurrence burdens may have uninformative outer limits.
-
-Additional reporting functions in `replication/research_metrics.R` are sourced companion code, not package exports. They do not turn predictive accuracy or fixed-cost accounting into a causal benefit claim. The possible future names `recurbounds`, `recurcausal` and `recurmetrics` describe a roadmap; this review candidate remains one package and repository.
-
-## Authors and citation
-
-Sunday A. Adetunji and Oluwatimileyin A. Adetunji. Use `citation("recurcast")` or the [citation file](CITATION.cff) for the current software citation. The [license file](LICENSE.md) records the package's GPL-3 licensing. A private repository, a passing software check or an audit hash is not a claim of public release, regulatory approval, clinical validation or journal acceptance.
+Authors: Sunday A. Adetunji and Oluwatimileyin A. Adetunji. Maintainer: sundayadetunjisa@gmail.com. License: GPL-3. No CRAN or journal submission, public release, or acceptance is claimed.

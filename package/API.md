@@ -1,6 +1,9 @@
 # Public API and statistical scope
 
-This development API implements the accompanying RecurCast method. The theorem
+This development API implements the accompanying RecurCast method.
+The current 0.10.1 causal revision adds `rc_causal()` and
+`rc_causal_contrast()` from Version 13 Supplement S12. The older theorem
+references in the retained prognostic table below keep their Version 5 provenance. The theorem
 numbers below refer to the supplied, unpublished Version 5 manuscript; they are
 not citations to an externally published result. All time units and forecast
 horizons are explicit. Nonregular fits retain visible diagnostics.
@@ -43,13 +46,15 @@ Each targeting mode declares its own observation model through `targeting_spec`.
 The continuous engine is not an unrestricted MNAR or hidden-frailty efficient
 estimator. The data-dependent automatic Gaussian/projection switch does not
 inherit a uniform finite-sample guarantee: request `interval="projection"`
-throughout when invoking that confidence construction. Explicit intervention
-arguments require a causal estimand and identification analysis and remain
-outside this prognostic software. Python bindings, native FHIR/OMOP adapters and causal regimes
+throughout when invoking that confidence construction. The existing prognostic `intervention` argument remains reserved.
+Use the separate `rc_causal()` entry point for static binary baseline effects.
+Python bindings, native FHIR/OMOP adapters and time-varying causal regimes
 retain their separate later-release scope. The project now includes explicit
 synthetic OMOP-style mapping examples; these are not native adapters.
 
-Version 0.10.1 adds R-level interfaces without modifying the native kernels:
+The initial 0.10.1 interface additions below preserved the native kernels.
+The causal revision adds a separate C++ kernel and generated registration;
+the earlier prognostic kernels remain unchanged:
 
 | Interface or class | Implemented scope | Qualification |
 |---|---|---|
@@ -72,3 +77,32 @@ The simulation uses R's local L'Ecuyer-CMRG stream with caller-state restoration
 the separate tested PCG32 header supplies a future binding-compatible stream.
 Identical seeds in unrelated language RNG implementations are not claimed to
 produce identical data.
+
+
+## Baseline causal extension (Version 13, Supplement S12)
+
+`rc_causal()` cross-fits event intensities, treatment probabilities and censor
+survival, then targets arm-specific intensities using the treatment- and
+censoring-weighted backward-value jump contrasts. All subjects contribute to
+the baseline standardization of both arms. `rc_causal_contrast()` uses the
+joint subject-level EIF covariance for differences, ratios and log ratios.
+
+The targets are expected recurrent counts, terminal risk and restricted mean
+time alive under a static baseline binary treatment. Consistency, conditional
+exchangeability, treatment positivity, independent censoring and sufficient
+retained state are explicit assumptions. Event-model correctness or correct
+treatment-probability/censor-survival product gives the stated remainder
+property; regular efficient inference requires the additional rate conditions.
+
+The implementation uses exact contiguous histories, at most 30 discrete
+baseline strata, six recurrent marks and 128 living states. Time-varying
+treatment regimes, coarsened causal histories and unmeasured treatment-
+confounding sensitivity are outside this API. See `?rc_causal` and the
+baseline-causal vignette for the full input contract and diagnostic definitions.
+
+Verification includes 80 added expectations, an independent analytic EIF
+oracle, exact probability-one reduction to the previous targeting kernel, a
+1,600-person synthetic example, grid refinement, a dense matrix-exponential
+oracle, and a separate million-subject analytic remainder calculation.
+See `reviews/causal_revision/` for the current checks. No broad new causal
+coverage simulation or clinical benefit is claimed by these checks.

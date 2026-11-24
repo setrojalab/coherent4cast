@@ -66,7 +66,7 @@ supported finite-state/stratum model and worked example.
 | Fit standard survival or absorbing competing causes | `rc_surv()`, `rc_competing()` |
 | Export captured context, diagnostics and explicit SHA-256 fingerprints | `rc_audit_report()` |
 
-Use `vignette(package="recurcast")` for the four worked guides and the help
+Use `vignette(package="recurcast")` for the five worked guides and the help
 pages for precise assumptions. The finite-path, continuous-time likelihood,
 confidence-projection and prediction-set modules have different validity
 conditions. Calling one does not certify all the others.
