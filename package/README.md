@@ -38,6 +38,16 @@ records are not redistributed inside this package.
 
 ## Main interfaces
 
+`rc_causal()` adds the static binary baseline-treatment extension from
+Supplement S12. It standardizes both arm-specific event laws over the same
+baseline population and returns contrasts with their joint EIF covariance.
+`rc_causal_contrast()` provides differences, ratios and log ratios. These
+outputs require consistency, conditional treatment exchangeability,
+positivity and conditionally independent censoring. They are distinct from
+ordinary prognostic forecasts. See `vignette("baseline-causal")` for the
+supported finite-state/stratum model and worked example.
+
+
 | Task | Interface |
 |---|---|
 | Validate intervals and construct predictable counts | `as_trajectory()`, `build_history()` |
@@ -56,7 +66,7 @@ records are not redistributed inside this package.
 | Fit standard survival or absorbing competing causes | `rc_surv()`, `rc_competing()` |
 | Export captured context, diagnostics and explicit SHA-256 fingerprints | `rc_audit_report()` |
 
-Use `vignette(package="recurcast")` for the four worked guides and the help
+Use `vignette(package="recurcast")` for the five worked guides and the help
 pages for precise assumptions. The finite-path, continuous-time likelihood,
 confidence-projection and prediction-set modules have different validity
 conditions. Calling one does not certify all the others.

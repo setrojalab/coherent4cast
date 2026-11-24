@@ -18,4 +18,4 @@ if (requireNamespace("frailtypack", quietly = TRUE)) {
 }
 }
 \seealso{\code{\link{rc_colon}}, \code{\link{recurcast}}}
-\references{The source-package data dictionary is in the frailtypack reference manual, entry readmission: \url{https://cran.r-project.org/web/packages/frailtypack/frailtypack.pdf}.}
+\references{The source-package data dictionary is in the frailtypack reference manual, entry readmission: \url{https://CRAN.R-project.org/package=frailtypack}.}

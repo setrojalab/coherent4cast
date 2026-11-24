@@ -10,6 +10,26 @@ Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
 Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
+// rc_cpp_causal_target
+Rcpp::List rc_cpp_causal_target(Rcpp::NumericVector rates, Rcpp::NumericVector censor, Rcpp::NumericVector propensity, Rcpp::IntegerMatrix next_state, Rcpp::IntegerVector subject_group, Rcpp::NumericMatrix records, int bins, double horizon, int maxit, double tolerance);
+RcppExport SEXP _recurcast_rc_cpp_causal_target(SEXP ratesSEXP, SEXP censorSEXP, SEXP propensitySEXP, SEXP next_stateSEXP, SEXP subject_groupSEXP, SEXP recordsSEXP, SEXP binsSEXP, SEXP horizonSEXP, SEXP maxitSEXP, SEXP toleranceSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type rates(ratesSEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type censor(censorSEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type propensity(propensitySEXP);
+    Rcpp::traits::input_parameter< Rcpp::IntegerMatrix >::type next_state(next_stateSEXP);
+    Rcpp::traits::input_parameter< Rcpp::IntegerVector >::type subject_group(subject_groupSEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericMatrix >::type records(recordsSEXP);
+    Rcpp::traits::input_parameter< int >::type bins(binsSEXP);
+    Rcpp::traits::input_parameter< double >::type horizon(horizonSEXP);
+    Rcpp::traits::input_parameter< int >::type maxit(maxitSEXP);
+    Rcpp::traits::input_parameter< double >::type tolerance(toleranceSEXP);
+    rcpp_result_gen = Rcpp::wrap(rc_cpp_causal_target(rates, censor, propensity, next_state, subject_group, records, bins, horizon, maxit, tolerance));
+    return rcpp_result_gen;
+END_RCPP
+}
 // rc_cpp_continuous_target
 Rcpp::List rc_cpp_continuous_target(Rcpp::NumericVector rates, Rcpp::NumericVector censor, Rcpp::IntegerMatrix next_state, Rcpp::IntegerVector subject_group, Rcpp::NumericMatrix records, int bins, double horizon, int maxit, double tolerance);
 RcppExport SEXP _recurcast_rc_cpp_continuous_target(SEXP ratesSEXP, SEXP censorSEXP, SEXP next_stateSEXP, SEXP subject_groupSEXP, SEXP recordsSEXP, SEXP binsSEXP, SEXP horizonSEXP, SEXP maxitSEXP, SEXP toleranceSEXP) {
@@ -257,6 +277,7 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
+    {"_recurcast_rc_cpp_causal_target", (DL_FUNC) &_recurcast_rc_cpp_causal_target, 10},
     {"_recurcast_rc_cpp_continuous_target", (DL_FUNC) &_recurcast_rc_cpp_continuous_target, 9},
     {"_recurcast_cpp_rc_loglik", (DL_FUNC) &_recurcast_cpp_rc_loglik, 7},
     {"_recurcast_cpp_rc_coarsen", (DL_FUNC) &_recurcast_cpp_rc_coarsen, 5},

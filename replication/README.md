@@ -7,14 +7,13 @@ An optional `RECURCAST_LIBRARY` environment variable selects a nondefault R
 library; otherwise the ordinary R library search path is used.
 
 Install the required dependencies in R, then install the supplied source archive
-or run `R CMD INSTALL package` with a C++17 toolchain. The supplied Windows ZIP
-was built and tested under R 4.6.2; source installation is the portable route
-for other R versions and operating systems.
+or run `R CMD INSTALL package` with a C++17 toolchain. The current causal source archive is the portable route for this release.
+Historical Windows ZIP files elsewhere in the repository predate the causal extension.
 
 ```r
 install.packages(c("Rcpp", "digest", "jsonlite", "survival",
                    "frailtypack", "nlme", "ggplot2"))
-install.packages("release/recurcast_0.10.1.tar.gz", repos = NULL,
+install.packages("release/causal/recurcast_0.10.1.tar.gz", repos = NULL,
                  type = "source")
 ```
 
@@ -65,3 +64,10 @@ establish causal identification, prospective clinical benefit or regulatory
 compliance. The older `README_revision.md` and V5-oracle Python scripts belong
 to the historical method-validation archive; they are not prerequisites for
 this eight-script software-reproduction bundle.
+
+
+## Complete article reproduction and causal extension
+
+Download and extract [RecurCast_JSS_replication.zip](../release/causal/RecurCast_JSS_replication.zip), then run `Rscript --vanilla code.R` from the extracted `recurcast-replication` directory. This reconstructs the article tables and figures, runs the synthetic causal example and verifies the analytic remainder calculation. See its README.txt for fresh fits and longer experiments.
+
+The causal runner and independent oracle are also available under `replication/causal/`. Their reported numerical results concern the explicitly specified synthetic experiments and causal assumptions.

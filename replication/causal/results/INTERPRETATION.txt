@@ -1,0 +1,7 @@
+Synthetic baseline-treatment experiment, not a clinical treatment-effect claim.
+1,600 subjects; two recurrent marks and one absorbing terminal event; binary observed baseline confounder.
+Independent dense matrix-exponential population oracle supplied by causal_oracle.py.
+Cross-fitted treatment probabilities, event rates and constant censor hazards; known generating model is within the declared state class.
+All tables are freshly calculated. Joint arm EIF covariance is retained. Grid refinement is a numerical check, not sampling coverage.
+The one-million-subject remainder check uses a separate one-terminal-event design and analytic integration.
+No new empirical causal coverage, universal efficiency or finite-sample guarantee is inferred from these checks.
