@@ -41,10 +41,11 @@ The implementation supports at most 30 baseline strata, six recurrent marks and 
 \examples{
 d <- rc_simulate(80, horizon = 1, rates = c(.9, .5, .4),
                  dispersion = 0, censor_rate = 0, seed = 71)
-d$treatment <- as.integer(d$id %% 2)
+d$treatment <- as.integer(d$id \%\% 2)
 d$censored <- 0L
 fit <- rc_causal(~1, d, "treatment", 1, "censored", "years",
   propensity = .5, spec = list(complete_followup = TRUE, working = "pooled"))
 predict(fit, interval = "none")
 fit$diagnostics
 }
+
