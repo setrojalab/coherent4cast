@@ -15,8 +15,11 @@ certification or journal acceptance. Earlier records remain in versioned files.
 | Numerical evidence | Analytic causal EIF discrepancy 4.37e-13 or less; exact probability-one reduction; synthetic grid-refinement discrepancy 1.36e-8 or less. |
 | Replication | Original 13 table files/five figures reproduced; added causal example and independent remainder check executed. |
 | Coverage | Earlier measured line coverage has not been reassigned to the new causal code. |
-| Release | Private draft PR 2. No submission to CRAN/JSS/arXiv, no merge, and no public release. |
+| Release | Public v0.10.1. Source archive submitted to CRAN; acceptance pending. No JSS/arXiv submission performed by this update. |
 
 Current artifacts: `release/causal/`. Current check logs: `reviews/causal_revision/`.
 R workflow: https://github.com/setrojalab/recurcast/actions/runs/45324158268
 Native workflow: https://github.com/setrojalab/recurcast/actions/runs/45324158206
+
+The public-release update changes documentation and availability links only. Tested implementation: f8228270a64bede49e92694ff097e00b656d1126. All 158 audited package source, help, test, vignette and data files match the submitted archive after line-ending normalization. See reviews/public_release/repository_completeness.json.
+

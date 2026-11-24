@@ -1,203 +1,45 @@
 {
   "version": "0.10.1",
-  "visibility": "private",
-  "status": "unpublished review candidate",
-  "tested_source_commit": "fbf6429e37aa91e159d878a8228d62803b287056",
-  "platform_run": 45164392545,
-  "native_run": 45164392550,
-  "scope": "Complete package under package/ plus installable archives, manuals, current and version-labelled companion manuscripts, portable examples and a clean 250-file review bundle.",
-  "source_preservation": "R/C++ package implementation unchanged from the tested source commit; package/GATES.md and package/cran-comments.md contain final status updates.",
-  "files": [
+  "release_date": "2026-11-23",
+  "repository": "https://github.com/setrojalab/recurcast",
+  "release": "https://github.com/setrojalab/recurcast/releases/tag/v0.10.1",
+  "distribution_status": "Public source release; CRAN submission pending review",
+  "tested_executable_commit": "f8228270a64bede49e92694ff097e00b656d1126",
+  "publication_base_commit": "bcd203f90231e92b2da7c6eaed7300eff316ee6d",
+  "change_scope": "Availability documentation and article links; executable package source unchanged",
+  "package_source_comparison": "158 files match submitted source after line-ending normalization",
+  "validation": {
+    "R_platform_jobs_passed": 6,
+    "native_compiler_sanitizer_jobs_passed": 4,
+    "expectations_per_R_job": 1187,
+    "R_workflow": "https://github.com/setrojalab/recurcast/actions/runs/45324158268",
+    "native_workflow": "https://github.com/setrojalab/recurcast/actions/runs/45324158206"
+  },
+  "artifacts": [
     {
-      "path": "README.md",
-      "local_source": "build/github_distribution/README.md",
-      "bytes": 11700,
-      "sha256": "3fc81726755b20eafa0362fe26f0b732a90439a7b895e9328be970802ef35789",
-      "git_blob_sha": "93ff860ac9b03ad18bb4b52ee86f32d37dc02d6f"
+      "path": "release/causal/recurcast_0.10.1.tar.gz",
+      "bytes": 296389,
+      "sha256": "cb246be1086c6b8970403df522d8e697d840354b5e0982e77e6ad762a26304dc"
     },
     {
-      "path": "CITATION.cff",
-      "local_source": "CITATION.cff",
-      "bytes": 740,
-      "sha256": "f962b3177ec708950aa780041dfcd0cbadfe14e5a041b91fb57a229cbf99cb3a",
-      "git_blob_sha": "e605ee119224e2e0d9af6ac047420b072bcc8d2b"
+      "path": "release/causal/recurcast_0.10.1_Reference_Manual.pdf",
+      "bytes": 292581,
+      "sha256": "4baf3c33844f1c73f9569c8f8ec5543ff34a8346716b09eb2f6527b3219c1d3a"
     },
     {
-      "path": "LICENSE.md",
-      "local_source": "LICENSE.md",
-      "bytes": 741,
-      "sha256": "a55f73b060c3036a98de6f2371d888aae606ac385dd8e92d695be0573e5b3814",
-      "git_blob_sha": "12f2a168e10d0ca7cf2175e6fa4e391bdb019072"
+      "path": "paper/causal/01_RecurCast_JSS_arXiv_Manuscript.pdf",
+      "bytes": 586314,
+      "sha256": "0cfb22e9f5849255805478019b8df0ec0031437b0d6185373d8a15c386c1a595"
     },
     {
-      "path": "package/GATES.md",
-      "local_source": "package/GATES.md",
-      "bytes": 3639,
-      "sha256": "1887fac9f46d46ee5fcb494313675e838507ddbd31797d0bf6089d4d37d53484",
-      "git_blob_sha": "e59d9bf558de7f77b4980580e4cdfdce85736024"
+      "path": "paper/causal/RecurCast_JSS_arXiv_LaTeX.zip",
+      "bytes": 76441,
+      "sha256": "7e9e7fadc703e6ec145ff27cef78f8d0d4a5932bae1345c43847f5e5bc199e50"
     },
     {
-      "path": "package/cran-comments.md",
-      "local_source": "package/cran-comments.md",
-      "bytes": 2464,
-      "sha256": "7c368057a27523acbafa560e8f15f49ca4bcac73d93a6a4433e86ab32c4d2438",
-      "git_blob_sha": "c8269385d0c1ec74ee85cb89ee25023ad2cd9517"
-    },
-    {
-      "path": "replication/standard_regimes.R",
-      "local_source": "replication/standard_regimes.R",
-      "bytes": 4758,
-      "sha256": "b50245ea55b42cfc2c5d637065c41a46e1b91f575eb3b5af4fb82e35c9973609",
-      "git_blob_sha": "9f8e764a1efc7f12140c2b658c100dbebe6966f1"
-    },
-    {
-      "path": "replication/standards_mapping.R",
-      "local_source": "replication/standards_mapping.R",
-      "bytes": 8028,
-      "sha256": "7b31c28cefe293f38d6881ee8b9cfe9883846e2522e5ce3ae3fb8b7f1fc913a0",
-      "git_blob_sha": "3a922abcfd4eee36dc264a52637c369cb2a3376d"
-    },
-    {
-      "path": "replication/research_metrics.R",
-      "local_source": "replication/research_metrics.R",
-      "bytes": 10486,
-      "sha256": "646a0257c4f084a74b8b48ab182b17d86aaea2ec2c4022a161d47ac06523ca0a",
-      "git_blob_sha": "310c43b06395f04cb6e05abae7d0d1cf88025b21"
-    },
-    {
-      "path": "replication/check_research_metrics.R",
-      "local_source": "replication/check_research_metrics.R",
-      "bytes": 6567,
-      "sha256": "419e49fa23d5925af8098f23b206a5e8eff345840ea32294b4dc78d90d058e4c",
-      "git_blob_sha": "86fb387731cfb12d13d5f9d9b89348f7591a31b7"
-    },
-    {
-      "path": "replication/cross_field_usability.R",
-      "local_source": "replication/cross_field_usability.R",
-      "bytes": 14439,
-      "sha256": "e6e4a423ab9c29271f13262a721a0cf9f2c4e6b09b939c273bc9f5a08b738ef4",
-      "git_blob_sha": "e933f5e3997b3b143edbdaa7893b0f7dc7ebfb4a"
-    },
-    {
-      "path": "replication/plot_cross_field_usability.R",
-      "local_source": "replication/plot_cross_field_usability.R",
-      "bytes": 3537,
-      "sha256": "65f518cdc6c84f41ea121f9b65943da49a52c6e17aec51bc1f96f175819ca9f3",
-      "git_blob_sha": "4f6c6893ae2f30e12854229cd322d22048cf927e"
-    },
-    {
-      "path": "replication/run_case_studies.R",
-      "local_source": "replication/run_case_studies.R",
-      "bytes": 12417,
-      "sha256": "ebe27aab42f22dcaaf28c5c75bdd53e420cc7f50f06075e80ff2d81334b5e808",
-      "git_blob_sha": "84c9f83a3b482f56d19e366a00dd5327dd9e76b5"
-    },
-    {
-      "path": "replication/reproduce_cases.R",
-      "local_source": "replication/reproduce_cases.R",
-      "bytes": 731,
-      "sha256": "582600be2e6c4a67649047c1e0f23410db2e4bfc34b071ead172478373a96eb8",
-      "git_blob_sha": "59931977787f8e65ea88893ca2dba513baea474f"
-    },
-    {
-      "path": "replication/README.md",
-      "local_source": "replication/README.md",
-      "bytes": 4132,
-      "sha256": "214c74de4a179e40dce97dfd2b18dc92ac583b27b43e0b7eaa6d6482fc3b9f38",
-      "git_blob_sha": "2e87b73bf968558fe594b8023b57db019ddd1f56"
-    },
-    {
-      "path": "release/SHA256SUMS_GITHUB.txt",
-      "local_source": "release/SHA256SUMS_GITHUB.txt",
-      "bytes": 386,
-      "sha256": "b3eb47664dd14f160b6e82cf6129b18babcd961f6338949944ad1787bcd9c481",
-      "git_blob_sha": "abd13aacbf912c434a5d914767e5d7c65d34c8a4"
-    },
-    {
-      "path": "release/REVIEW_BUNDLE_CONTENTS.json",
-      "local_source": "release/REVIEW_BUNDLE_CONTENTS.json",
-      "bytes": 58989,
-      "sha256": "ac6834ddfeaf690f295188916fecefedbe655453c5044304fbfa9a08a3a6e7aa",
-      "git_blob_sha": "688285926e37b44b40155cfa183fd12043e1dde7"
-    },
-    {
-      "path": "reviews/github_ci/final_ci_summary.json",
-      "local_source": "reviews/github_ci/final_ci_summary.json",
-      "bytes": 2268,
-      "sha256": "2fdb582e0c0154c42e2d85b9206fd080626b668b2bc93ed2ffb9ca6c1187fa93",
-      "git_blob_sha": "ec9776a8e033b5e2169f877285c32a02bb1e143e"
-    },
-    {
-      "path": "release/recurcast_0.10.1.tar.gz",
-      "bytes": 272100,
-      "sha256": "2d2e3a152799e45fbdf56f89455b1563d8735ecf7223a78fd9779ca97e74afe6",
-      "git_blob_sha": "6d1a59149eb0d24e5fc53c1f949f1d3801a761d5"
-    },
-    {
-      "path": "release/recurcast_0.10.1.zip",
-      "bytes": 1138124,
-      "sha256": "3dd6f95a3ba2f2948d1629bb066ba37de03fec51606dca3cad83dc5482ce7ab0",
-      "git_blob_sha": "bd59a75dea919451fe00de56073994e9bd48460d"
-    },
-    {
-      "path": "release/recurcast_0.10.1_Reference_Manual.pdf",
-      "bytes": 274272,
-      "sha256": "86de7de9cea536de1fbfb320d62013e1a03cda505897c277f0fafd037eb0aa88",
-      "git_blob_sha": "4838416f66f0948f8eccd20ed5dd38a486c6530b"
-    },
-    {
-      "path": "paper/01_RecurCast_JSS_Software_Paper.docx",
-      "bytes": 527081,
-      "sha256": "424dd787c32d8cb60709cf21615e3f57e2c8fb0bf13886807b8a76c5b9c85932",
-      "git_blob_sha": "0d34373ea042a90d719fb1ec8a2c1434a74d2b18"
-    },
-    {
-      "path": "paper/01_RecurCast_JSS_Software_Paper.pdf",
-      "bytes": 569711,
-      "sha256": "b5f610b26419dcb127e81387f482383d132e907c5ca2921b69b6aaa6fdf3c2dc",
-      "git_blob_sha": "65c878dc2476e011b1f7f1c033ea6fde441a7ec8"
-    },
-    {
-      "path": "paper/06_Cross_Field_Metrics_and_Usability_Guide.pdf",
-      "bytes": 448655,
-      "sha256": "2378967e82958a08cc22f8f3ade9de8885406a87b0abf348fe53d9f2505edd44",
-      "git_blob_sha": "05655cba1a17ac7975cdc38bbd6cf585fdd86f32"
-    },
-    {
-      "path": "paper/05_Revision_Verification_Supplement.pdf",
-      "bytes": 481760,
-      "sha256": "1c35b7bd4c93569ef7d4b46736f0bff6a15d596151a7ebf1f42821840af1c8d7",
-      "git_blob_sha": "e8d54952619fe6286e627337bb680ddda2db41b4"
-    },
-    {
-      "path": "paper/05_Revision_Verification_Supplement.docx",
-      "bytes": 39905,
-      "sha256": "15f26808e412410187ee0aad951fc166ee03af06f01ca9628479c2aa78d52523",
-      "git_blob_sha": "385901735b6df66ba803e7a9857eb6612dae3d37"
-    },
-    {
-      "path": "paper/06_Cross_Field_Metrics_and_Usability_Guide.docx",
-      "bytes": 95250,
-      "sha256": "0c407f13a85913af171e6fbc48872f3a2e5586250ff79a7c0678742796543e0a",
-      "git_blob_sha": "9b03e91e6848853f9c580cfb76208384c026f22f"
-    },
-    {
-      "path": "paper/07_Targeted_API_And_Audit_Addendum.pdf",
-      "bytes": 359274,
-      "sha256": "ecf652d0a6dd0eba5761104c187c19fa214d0ec21c6edbe216a32d8a707bb4a3",
-      "git_blob_sha": "3b5a7c6346d0ced3280594fd4761776c3697154a"
-    },
-    {
-      "path": "paper/07_Targeted_API_And_Audit_Addendum.docx",
-      "bytes": 21819,
-      "sha256": "3e8cd039151c152ceaedba141dba92a1ac3d8d359d1fafd2830e1aafcc0e9c8c",
-      "git_blob_sha": "c2f7bab465c74eac8ef7984ef15f039d3ce62b67"
-    },
-    {
-      "path": "release/recurcast_0.10.1_review_bundle.zip",
-      "bytes": 5282715,
-      "sha256": "9c6d455d16073147ea8fb153ce05b9731d9a64583de026278b42dcf7ee98ba62",
-      "git_blob_sha": "b2353340f0cbf73a56405966bb054d42a3ce9dce"
+      "path": "release/causal/RecurCast_JSS_replication.zip",
+      "bytes": 9531635,
+      "sha256": "363fc0ecaf80b15f8562fce54ddf052dbe1bbfd54f9e36abf7f69959a916b726"
     }
   ]
 }

@@ -14,3 +14,7 @@ Possible cross-list: stat.ME, subject to arXiv category selection and moderation
 Journal reference and DOI: leave blank unless actually assigned.
 Software license: GPL-3. Select the article license separately in the portal.
 Funding: none. Competing interests: none.
+
+Public software repository: https://github.com/setrojalab/recurcast
+Versioned release: https://github.com/setrojalab/recurcast/releases/tag/v0.10.1
+CRAN status: submitted; acceptance pending.

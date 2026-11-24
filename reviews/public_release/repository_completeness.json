@@ -1,0 +1,662 @@
+{
+  "audited_commit": "bcd203f90231e92b2da7c6eaed7300eff316ee6d",
+  "tree_complete": true,
+  "remote_files": 249,
+  "package_files_compared": 158,
+  "normalization": "Line endings and trailing blank lines only",
+  "missing_required_files": [],
+  "source_mismatches": [],
+  "submitted_archive_sha256": "cb246be1086c6b8970403df522d8e697d840354b5e0982e77e6ad762a26304dc",
+  "required_files": [
+    "package/DESCRIPTION",
+    "package/NAMESPACE",
+    "package/R/causal.R",
+    "package/inst/include/librecurcast/causal_target.hpp",
+    "package/src/causal_bridge.cpp",
+    "package/tests/testthat/test-causal.R",
+    "package/tests/core/test_causal.cpp",
+    "package/vignettes/baseline-causal.Rmd",
+    "CITATION.cff",
+    "LICENSE.md",
+    "release/causal/recurcast_0.10.1.tar.gz",
+    "release/causal/RecurCast_JSS_replication.zip",
+    "release/causal/recurcast_0.10.1_Reference_Manual.pdf",
+    "paper/causal/01_RecurCast_JSS_arXiv_Manuscript.pdf",
+    "paper/causal/RecurCast_JSS_arXiv_LaTeX.zip",
+    "reviews/causal_revision/check_logs.zip"
+  ],
+  "package_comparisons": [
+    {
+      "path": "package/NAMESPACE",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/R/RcppExports.R",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/R/adapters.R",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/R/audit.R",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/R/causal.R",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/R/coarsen_fibre.R",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/R/colon_fibre.R",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/R/covariate_evolution.R",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/R/fit.R",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/R/forecast.R",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/R/frailty.R",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/R/inference.R",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/R/kernels.R",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/R/methods.R",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/R/predict_coarsened.R",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/R/predict_paths.R",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/R/regularize.R",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/R/schema.R",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/R/simulate.R",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/R/sparse.R",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/R/targeting_continuous.R",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/R/wrappers.R",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/data/sim_oncology.rda",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/data/sim_perinatal.rda",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/data/sim_robotics.rda",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/inst/include/librecurcast/causal_target.hpp",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/inst/include/librecurcast/coarsen.hpp",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/inst/include/librecurcast/conformal.hpp",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/inst/include/librecurcast/continuous_target.hpp",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/inst/include/librecurcast/fibre.hpp",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/inst/include/librecurcast/gamma_lik.hpp",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/inst/include/librecurcast/history.hpp",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/inst/include/librecurcast/lp_bounds.hpp",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/inst/include/librecurcast/pivot.hpp",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/inst/include/librecurcast/rng.hpp",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/inst/include/librecurcast/sparse_bounds.hpp",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/inst/include/librecurcast/sparse_uniformize.hpp",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/inst/include/librecurcast/target.hpp",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/inst/include/librecurcast/uniformize.hpp",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/man/as_trajectory.Rd",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/man/augment.Rd",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/man/autoplot.Rd",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/man/bounds.Rd",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/man/build_history.Rd",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/man/conformal.Rd",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/man/glance.Rd",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/man/predict.recurcast.Rd",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/man/predict.recurcast_targeted.Rd",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/man/rc_audit_report.Rd",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/man/rc_band.Rd",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/man/rc_bounds.Rd",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/man/rc_bounds_sparse.Rd",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/man/rc_causal.Rd",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/man/rc_causal_contrast.Rd",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/man/rc_coarsen.Rd",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/man/rc_coarsen_fibre.Rd",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/man/rc_colon.Rd",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/man/rc_colon_fibre.Rd",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/man/rc_competing.Rd",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/man/rc_conformal.Rd",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/man/rc_cornish_fisher.Rd",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/man/rc_covariate_model.Rd",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/man/rc_fibre_mcse.Rd",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/man/rc_filter_paths.Rd",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/man/rc_frailty_diagnose.Rd",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/man/rc_frailty_loglik.Rd",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/man/rc_generator_csr.Rd",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/man/rc_identify.Rd",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/man/rc_loglik.Rd",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/man/rc_pivot.Rd",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/man/rc_predict_coarsened.Rd",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/man/rc_predict_paths.Rd",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/man/rc_propagate.Rd",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/man/rc_propagate_sparse.Rd",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/man/rc_readmission.Rd",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/man/rc_regularize.Rd",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/man/rc_simulate.Rd",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/man/rc_surv.Rd",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/man/rc_target.Rd",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/man/recurcast.Rd",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/man/recurcast_control.Rd",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/man/sim_oncology.Rd",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/man/sim_perinatal.Rd",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/man/sim_robotics.Rd",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/man/summary.recurcast.Rd",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/man/summary.recurcast_targeted.Rd",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/man/targeting_spec.Rd",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/man/tidy.Rd",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/man/validate.Rd",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/man/validate.recurcast_competing.Rd",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/src/Makevars",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/src/Makevars.win",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/src/RcppExports.cpp",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/src/causal_bridge.cpp",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/src/continuous_bridge.cpp",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/src/core_bridge.cpp",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/src/fibre_bridge.cpp",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/src/frailty_bridge.cpp",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/src/history_bridge.cpp",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/src/inference_bridge.cpp",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/src/sparse_bridge.cpp",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/tests/testthat.R",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/tests/testthat/fixtures/bounds_expected.csv",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/tests/testthat/fixtures/continuous_target_eif.csv",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/tests/testthat/fixtures/continuous_target_expected.csv",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/tests/testthat/fixtures/continuous_target_provenance.json",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/tests/testthat/fixtures/continuous_target_rates.csv",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/tests/testthat/fixtures/continuous_target_subjects.csv",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/tests/testthat/fixtures/gamma_design.csv",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/tests/testthat/fixtures/gamma_estimated_information.csv",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/tests/testthat/fixtures/gamma_estimated_loglik.csv",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/tests/testthat/fixtures/gamma_estimated_scores.csv",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/tests/testthat/fixtures/gamma_fixed_information.csv",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/tests/testthat/fixtures/gamma_fixed_loglik.csv",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/tests/testthat/fixtures/gamma_fixed_scores.csv",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/tests/testthat/fixtures/gamma_poisson_information.csv",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/tests/testthat/fixtures/gamma_poisson_loglik.csv",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/tests/testthat/fixtures/gamma_poisson_scores.csv",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/tests/testthat/fixtures/oracle_provenance.json",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/tests/testthat/fixtures/projection_expected.csv",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/tests/testthat/fixtures/propagation_ordered.csv",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/tests/testthat/fixtures/propagation_single.csv",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/tests/testthat/fixtures/target_eif.csv",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/tests/testthat/fixtures/target_expected.csv",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/tests/testthat/fixtures/target_features.csv",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/tests/testthat/fixtures/target_laws.csv",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/tests/testthat/fixtures/target_subjects.csv",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/tests/testthat/test-adapters.R",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/tests/testthat/test-automatic-observation-contracts.R",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/tests/testthat/test-causal.R",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/tests/testthat/test-coarsen-fibre.R",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/tests/testthat/test-cross-module-guards.R",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/tests/testthat/test-dirty-data.R",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/tests/testthat/test-engineering.R",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/tests/testthat/test-frailty-future.R",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/tests/testthat/test-future-scenario-contracts.R",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/tests/testthat/test-inference-boundaries.R",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/tests/testthat/test-inference.R",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/tests/testthat/test-kernels.R",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/tests/testthat/test-observation-workflows.R",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/tests/testthat/test-performance-contracts.R",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/tests/testthat/test-predict-coarsened.R",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/tests/testthat/test-quadrature-refinement.R",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/tests/testthat/test-schema-audit.R",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/tests/testthat/test-sparse-boundaries.R",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/tests/testthat/test-sparse.R",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/tests/testthat/test-standard-wrappers.R",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/tests/testthat/test-targeting-continuous.R",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/tests/testthat/test-targeting-integration-boundaries.R",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/tests/testthat/test-validation-numeric-ties.R",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/tests/testthat/test-workflow.R",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/tests/testthat/test-wrapper-contracts.R",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/tests/testthat/test-wrapper-independent-audit.R",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/vignettes/baseline-causal.Rmd",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/vignettes/extended-workflows.Rmd",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/vignettes/getting-started.Rmd",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/vignettes/incomplete-observation.Rmd",
+      "matches_submitted_source": true
+    },
+    {
+      "path": "package/vignettes/validation-calibration.Rmd",
+      "matches_submitted_source": true
+    }
+  ]
+}

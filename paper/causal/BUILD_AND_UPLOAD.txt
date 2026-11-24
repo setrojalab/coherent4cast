@@ -42,4 +42,6 @@ All upload files are below JSS's 50 MB per-file limit.
 
 The included software is GPL-3. Article-license selection, author
 certifications and final submission confirmation belong to the portals.
-GitHub remains private; reviewers can use the attached source and scripts.
+Public repository: https://github.com/setrojalab/recurcast
+Versioned software release: https://github.com/setrojalab/recurcast/releases/tag/v0.10.1
+The CRAN source archive is unchanged; acceptance remains pending.
