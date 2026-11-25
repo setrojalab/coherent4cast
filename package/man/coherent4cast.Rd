@@ -1,6 +1,5 @@
 \name{coherent4cast}
 \alias{coherent4cast}
-\alias{recurcast}
 \title{Fit a coherent recurrent and terminal event law}
 \description{Estimate a common law with shared frailty or an explicitly specified targeted estimation experiment.}
 \usage{
@@ -17,17 +16,6 @@ coherent4cast(formula, data, unit = "id", start = "start",
     targeting_spec = NULL, coarsening_control = list()) 
 
 
-recurcast(formula, data, unit = "id", start = "start", 
-    stop = "stop", event_type = "event_type", terminal = "terminal", 
-    observed = NULL, event_types = NULL, time_unit, 
-    breaks = c(0, Inf), observation = c("exact", "coarsened"), 
-    targeting = "none", control = coherent4cast_control(), 
-    weights = NULL, subset = NULL, na.action = stats::na.fail, 
-    labels = NULL, nonrecurrent = character(), coarsening = NULL, 
-    intervention = NULL, estimand = NULL, seed = 1L, 
-    frailty = c("gamma", "lognormal", "discrete", "none"), 
-    frailty_points = 2L, frailty_diagnostics = TRUE, 
-    targeting_spec = NULL, coarsening_control = list()) 
 }
 \arguments{
 \item{formula}{A one-sided formula for predictable measured covariates. Interval outcomes are prohibited as covariates.}
@@ -69,4 +57,3 @@ print(fit)
 glance(fit)
 }
 
-\note{The legacy function name \code{recurcast} remains an alias for migration from the former package name. New code should use \code{coherent4cast}.}

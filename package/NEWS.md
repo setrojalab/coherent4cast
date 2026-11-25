@@ -1,12 +1,13 @@
-# coherent4cast 0.10.2
+# coherent4cast 0.10.3
 
-- Renamed the package from recurcast to coherent4cast and updated its title, DLL registration, documentation and publication links.
-- The R S3 interface and Rcpp/C++17 architecture are retained. Numerical kernel source files are unchanged.
-- Use library(coherent4cast), coherent4cast() and coherent4cast_control(). The earlier function names remain compatibility aliases; rc_* interfaces retain their names.
-- Returned classes and audit labels use the new package name. Refit saved objects made by the earlier package before using methods from the renamed namespace.
-- This release requires fresh package and platform checks; the historical records below describe earlier releases.
+- Standardize all public functions, native namespaces, include paths, documentation and distribution files on coherent4cast.
+- The fitting entry points are coherent4cast() and coherent4cast_control(); transitional aliases have been removed.
+- Numerical formulas, algorithms and S3 classes are unchanged from 0.10.2.
+- Fresh package, native-kernel and cross-platform checks are recorded for this source revision.
 
-# recurcast 0.10.1 (unpublished targeted revision)
+## Earlier development history
+
+# coherent4cast 0.10.1 (unpublished targeted revision)
 
 - Add the S12 baseline binary-treatment extension through rc_causal() and
   rc_causal_contrast(): common-population g-formula standardization, cross-fitted
@@ -24,7 +25,7 @@
 - Record causal revision checks separately from the earlier platform and
   sanitizer results; previous runs do not validate newly added code.
 
-# recurcast 0.10.0 (unpublished release candidate)
+# coherent4cast 0.10.0 (unpublished release candidate)
 
 - Add automatic coarsened-history fibres and posterior mixtures at forecast origins.
 - Add sparse state propagation and structural finite-support bound calculations.
@@ -37,7 +38,7 @@
 - Keep the 0.9.1 project and its recorded evidence unchanged; verification of
   this revision is recorded separately.
 
-# recurcast 0.9.1 (unpublished release candidate)
+# coherent4cast 0.9.1 (unpublished release candidate)
 
 - Assemble the first local release candidate after internal 0.9.0.9000
   development snapshots. This version has not been published to CRAN.
@@ -45,7 +46,7 @@
   floating-point limit, with a regression test.
 - Retain the generated vignette index in source package builds.
 
-Development implementation of the Version 5 RecurCast computational methods.
+Development implementation of the Version 5 coherent4cast computational methods.
 The release gates, measured checks and unexecuted platform checks are recorded
 outside the installable package. A development version does not indicate CRAN
 acceptance or a published software paper.

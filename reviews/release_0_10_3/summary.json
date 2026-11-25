@@ -1,0 +1,13 @@
+{
+  "package": "coherent4cast",
+  "version": "0.10.3",
+  "local_check": {
+    "errors": 0,
+    "warnings": 0,
+    "notes": 1,
+    "note": "New submission",
+    "expectations": 1187,
+    "vignettes": 5
+  },
+  "scope": "First complete check passed. Final source-archive check is repeated after installation-documentation correction. Cross-platform checks are run on this source commit."
+}

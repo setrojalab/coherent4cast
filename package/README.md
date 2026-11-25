@@ -8,7 +8,7 @@ risk and restricted survival from it. The R interface exposes a C++17 numerical
 core, checks event eligibility and observation assumptions, and retains
 convergence and numerical diagnostics in returned objects.
 
-This unpublished candidate version is `0.10.1`. Local verification does not imply
+This release candidate is `0.10.3`. Local verification does not imply
 CRAN acceptance, independent software review or clinical validation.
 
 ## Install the supplied source archive
@@ -18,7 +18,7 @@ for source installation; use Rtools on Windows.
 
 ```r
 install.packages(c("Rcpp", "digest", "jsonlite"))
-install.packages("coherent4cast_0.10.1.tar.gz", repos=NULL, type="source")
+install.packages("coherent4cast_0.10.3.tar.gz", repos=NULL, type="source")
 library("coherent4cast")
 ```
 
@@ -71,7 +71,7 @@ pages for precise assumptions. The finite-path, continuous-time likelihood,
 confidence-projection and prediction-set modules have different validity
 conditions. Calling one does not certify all the others.
 
-## Targeted 0.10.1 interfaces
+## Standard data and audit interfaces
 
 `frailty = "none"` fixes latent variance at zero. `rc_surv()` fits the full
 piecewise-exponential proportional-hazards likelihood, not Cox partial

@@ -1,0 +1,8 @@
+{
+  "baseline_version": "0.10.2",
+  "current_version": "0.10.3",
+  "generator_identical": true,
+  "coefficient_max_absolute_difference": 0,
+  "covariance_max_absolute_difference": 0,
+  "forecast_max_absolute_difference": 0
+}

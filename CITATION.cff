@@ -2,7 +2,7 @@ cff-version: 1.2.0
 message: "Please cite this software when using coherent4cast."
 type: software
 title: "coherent4cast: Coherent Survival Modelling and Event Forecasting"
-version: 0.10.2
+version: 0.10.3
 authors:
   - family-names: Adetunji
     given-names: Sunday A.

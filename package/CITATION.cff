@@ -2,7 +2,7 @@ cff-version: 1.2.0
 message: Please cite this software and the accompanying method manuscript.
 type: software
 title: 'coherent4cast: Coherent Survival Modelling and Event Forecasting'
-version: 0.10.2
+version: 0.10.3
 license: GPL-3.0-only
 authors:
   - family-names: Adetunji

@@ -1,23 +1,9 @@
-# Versioning
+# Version policy
 
-The current unpublished release candidate is 0.10.1, following the separately
-preserved 0.10.0 and 0.9.1 candidates and internal 0.9.0.9000 snapshots. Version 1.0.0 is reserved for a
-release candidate whose numerical, documentation, packaging and platform gates
-have been evaluated. A version string is not evidence of CRAN acceptance.
+The current release candidate is 0.10.3. Public fitting functions are coherent4cast() and coherent4cast_control(). Use the coherent4cast namespace for all package calls. The native C++ namespace and installed headers follow the same identity.
 
-For public releases from 1.0 onward, patch releases repair defects without
-intentional API changes and minor releases add backwards-compatible functions.
-The explicitly numbered pre-1.0 candidate 0.10.1 contains targeted additive
-R interfaces while preserving the native kernels. Major releases may change estimands or
-interfaces. Deprecated arguments warn for at least one minor release before
-removal. Every release reruns deterministic oracle fixtures and public examples.
+The 0.10.3 release removes transitional fitting aliases. The numerical formulas and algorithms are unchanged from 0.10.2; parity checks and fresh package checks are recorded under reviews/release_0_10_3 in the repository. Earlier experiment values remain labeled by the version that produced them.
 
-Version 1.1 plans include Python bindings, external schema adapters, valuation
-helpers and parallel execution. Version 2 plans concern causal and spatial
-extensions with separate identifying assumptions. The intervention argument
-must produce a structured unsupported-feature error in version 1.
+During the pre-1.0 phase, interface changes are described in NEWS.md. Scripts should record the package version, declared observation assumptions, time units, event eligibility and random seeds. Refit objects created by earlier development packages before using the current namespace.
 
-Before releases, inspect reverse dependencies and compare benchmark regressions.
-The planned 90-day adoption review measures actual downloads, issue responses,
-external checks and citations; none is a present result.
-
+CRAN acceptance is separate from local validation and GitHub distribution.

@@ -1,13 +1,10 @@
 {
   "package": "coherent4cast",
-  "version": "0.10.2",
+  "version": "0.10.3",
   "date": "2026-11-24",
   "repository": "https://github.com/setrojalab/coherent4cast",
   "website": "https://setrojalab.github.io/coherent4cast/",
   "arxiv": "https://arxiv.org/abs/2611.32075",
-  "predecessor_package": "recurcast",
-  "predecessor_version": "0.10.1",
-  "numerical_kernels_unchanged": true,
-  "cran_status": "rename submission in preparation; acceptance not asserted",
-  "verification": "reviews/rename_0_10_2"
+  "cran_status": "0.10.2 submitted; 0.10.3 validation in progress",
+  "verification": "reviews/release_0_10_3"
 }

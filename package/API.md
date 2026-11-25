@@ -1,7 +1,7 @@
 # Public API and statistical scope
 
 This development API implements the accompanying coherent4cast method.
-The current 0.10.1 causal revision adds `rc_causal()` and
+The current 0.10.3 release includes `rc_causal()` and
 `rc_causal_contrast()` from Version 13 Supplement S12. The older theorem
 references in the retained prognostic table below keep their Version 5 provenance. The theorem
 numbers below refer to the supplied, unpublished Version 5 manuscript; they are

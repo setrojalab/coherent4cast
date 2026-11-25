@@ -1,7 +1,7 @@
-#include <librecurcast/sparse_uniformize.hpp>
-#include <librecurcast/sparse_bounds.hpp>
-#include <librecurcast/uniformize.hpp>
-#include <librecurcast/lp_bounds.hpp>
+#include <libcoherent4cast/sparse_uniformize.hpp>
+#include <libcoherent4cast/sparse_bounds.hpp>
+#include <libcoherent4cast/uniformize.hpp>
+#include <libcoherent4cast/lp_bounds.hpp>
 #include <cassert>
 #include <chrono>
 #include <iomanip>
@@ -9,7 +9,7 @@
 #include <iostream>
 #include <random>
 int main(int argc,char** argv) {
- using namespace recurcast;std::cout<<std::setprecision(17);
+ using namespace coherent4cast;std::cout<<std::setprecision(17);
  CSRGenerator q{3,{0,2,3,3},{1,2,2},{0.3,0.2,0.4}};
  const std::vector<double> dense{-0.5,0.3,0.2,0,-0.4,0.4,0,0,0},p{1,0,0},reward{1,0.3,1,0.5,0,0};
  const auto s=sparse_uniformize(p,q,2.7,reward,2,1e-13);

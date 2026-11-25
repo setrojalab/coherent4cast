@@ -1,5 +1,5 @@
 # Current software article
 
-The current software article, including the baseline-treatment causal extension and public installation links, is [the JSS/arXiv manuscript](causal/01_RecurCast_JSS_arXiv_Manuscript.pdf). Its [clean LaTeX archive](causal/RecurCast_JSS_arXiv_LaTeX.zip) rebuilds that PDF. See [build and upload instructions](causal/BUILD_AND_UPLOAD.txt).
+[Manuscript PDF](coherent4cast/01_coherent4cast_JSS_arXiv_Manuscript.pdf) and [clean LaTeX source](coherent4cast/coherent4cast_JSS_arXiv_LaTeX.zip).
 
-The earlier 01_RecurCast_JSS_Software_Paper DOCX/PDF files are preserved historical versions. The verification supplement, metrics guide and targeted API addendum retain the version-specific provenance stated inside each file.
+The article includes the baseline-treatment causal extension, public installation instructions and the package interfaces. [Reference manual and replication archive](../release/coherent4cast/) provide the accompanying documentation and executable examples. Earlier document revisions remain recoverable from Git history.

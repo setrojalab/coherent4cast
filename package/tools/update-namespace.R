@@ -13,7 +13,7 @@ defs <- unlist(lapply(list.files(file.path(path, "R"), full.names = TRUE), funct
       as.character(e[[2]]) else ""
   }, character(1))
 }))
-exports <- c(intersect(public, defs), "recurcast", "recurcast_control")
+exports <- intersect(public, defs)
 methods <- defs[grepl("^(print|summary|predict|plot|coef|vcov|logLik|nobs|tidy|glance|augment|autoplot|bounds|conformal|validate)\\.", defs)]
 registration <- vapply(methods, function(m) {
   split <- regexpr("\\.", m)

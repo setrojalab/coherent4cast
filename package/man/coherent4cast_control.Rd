@@ -1,6 +1,5 @@
 \name{coherent4cast_control}
 \alias{coherent4cast_control}
-\alias{recurcast_control}
 \title{Estimation and propagation controls}
 \description{Declare numerical and sufficient-state settings.}
 \usage{
@@ -11,11 +10,6 @@ coherent4cast_control(maxit = 300L, tolerance = 1e-08, history_cap = 2L,
         2.5), quadrature_tolerance = 1e-07, quadrature_max = 1024L) 
 
 
-recurcast_control(maxit = 300L, tolerance = 1e-08, history_cap = 2L, 
-    phi_fixed = NULL, start_phi = 0.5, quadrature = 30L, 
-    propagation_tolerance = 1e-12, max_states = 50000L, 
-    coefficient_bounds = c(-12, 8), log_phi_bounds = c(-5, 
-        2.5), quadrature_tolerance = 1e-07, quadrature_max = 1024L) 
 }
 \arguments{
 \item{maxit}{Maximum optimizer iterations.}
@@ -38,4 +32,3 @@ recurcast_control(maxit = 300L, tolerance = 1e-08, history_cap = 2L,
 coherent4cast_control(phi_fixed=0,history_cap=1)
 }
 
-\note{The legacy function name \code{recurcast_control} remains an alias for migration from the former package name. New code should use \code{coherent4cast_control}.}
