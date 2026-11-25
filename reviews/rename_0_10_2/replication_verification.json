@@ -1,0 +1,11 @@
+{
+  "date": "2026-11-24",
+  "package": "coherent4cast",
+  "version": "0.10.2",
+  "execution": "Rscript code.R",
+  "status": "passed",
+  "scope": "Reaggregated saved Monte Carlo outputs, reconstructed tables and figures, reran quickstart, sensitivity and causal examples. Historical Monte Carlo cohorts were not rerun for the name change.",
+  "archive_sha256": "39390219043b073706af17facedfaf58667299925fd35d020a00b2c3d9c85fd3",
+  "archive_bytes": 9533827
+}
+

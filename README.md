@@ -46,6 +46,7 @@ Change `library(recurcast)` to `library(coherent4cast)` and qualified calls to t
 - [Software paper on arXiv](https://arxiv.org/abs/2611.32075); earlier versions retain their original title.
 - [Renamed manuscript PDF](paper/coherent4cast/01_coherent4cast_JSS_arXiv_Manuscript.pdf) and [clean LaTeX source](paper/coherent4cast/coherent4cast_JSS_arXiv_LaTeX.zip).
 - [CRAN source archive](release/coherent4cast/coherent4cast_0.10.2.tar.gz), [reference manual](release/coherent4cast/coherent4cast_0.10.2_Reference_Manual.pdf) and [submission comments](release/coherent4cast/cran-comments.txt).
+- [Complete computational replication archive](release/coherent4cast/coherent4cast_JSS_replication.zip).
 - [Tutorial sources](package/vignettes), [replication scripts](replication) and [rename verification](reviews/rename_0_10_2).
 
 ## Verification
@@ -53,3 +54,4 @@ Change `library(recurcast)` to `library(coherent4cast)` and qualified calls to t
 Fresh checks for the renamed package are recorded under `reviews/rename_0_10_2`; GitHub Actions runs the six Linux/macOS/Windows R-release/R-devel jobs and four GCC/Clang native jobs with and without ASAN/UBSAN. Historical check totals are not assigned to this release without rerunning them. The numerical kernel file hashes are compared with the preceding public source revision.
 
 Authors: Sunday A. Adetunji and Oluwatimileyin A. Adetunji. Maintainer: sundayadetunjisa@gmail.com. Source license: GPL-3.
+
