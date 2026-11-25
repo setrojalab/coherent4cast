@@ -5,6 +5,8 @@
   "repository": "https://github.com/setrojalab/coherent4cast",
   "website": "https://setrojalab.github.io/coherent4cast/",
   "arxiv": "https://arxiv.org/abs/2611.32075",
-  "cran_status": "0.10.2 submitted; 0.10.3 validation in progress",
-  "verification": "reviews/release_0_10_3"
+  "cran_status": "0.10.3 prepared and checked; 0.10.2 previously submitted; acceptance not asserted",
+  "verification": "reviews/release_0_10_3",
+  "source_sha256": "7c095cb3483df9b8f19018f6a086b1dee8762b4f5e4551c698cd64a262efbe77"
 }
+

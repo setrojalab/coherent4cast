@@ -1,0 +1,210 @@
+ cell               method    B coverage        MCSE
+    0                 Wald 5000   0.9314 0.003574746
+    0 Transformed Gaussian 5000   0.9510 0.003052835
+    1                 Wald 5000   0.9460 0.003196373
+    1 Transformed Gaussian 5000   0.9516 0.003035043
+    2                 Wald 5000   0.5582 0.007023002
+    2 Transformed Gaussian 5000   0.5942 0.006944442
+    3                 Wald 5000   0.8612 0.004889470
+    3 Transformed Gaussian 5000   0.9254 0.003715773
+Generated paper tables and vector figures from replication/results/benchmarks_final and five case studies.
+Revision materials generated from completed recorded evidence.
+                           file matches_recorded_table
+   benchmark_interpretation.tex                   TRUE
+            benchmark_table.tex                   TRUE
+       case_forecasts_table.tex                   TRUE
+                 case_table.tex                   TRUE
+ continuous_validation_text.tex                   TRUE
+         frailty_comparison.tex                   TRUE
+                    numbers.tex                   TRUE
+               parity_table.tex                   TRUE
+           quickstart_table.tex                   TRUE
+              related_table.tex                   TRUE
+            revision_checks.tex                   TRUE
+      revision_verification.tex                   TRUE
+           validation_table.tex                   TRUE
+
+ quickstart.csv 
+ unit landmark horizon   target   estimate time_unit series_error_bound
+    1        0    0.25     risk 0.05472122    months       1.049805e-14
+    1        0    0.25 survival 0.94527878    months       1.049805e-14
+    1        0    0.25     rmst 0.24309160    months       4.452754e-14
+    1        0    0.25 burden_1 0.14775183    months       5.516718e-14
+    1        0    0.25 burden_2 0.07285942    months       2.318784e-14
+    1        0    0.50     risk 0.10623072    months       1.516158e-14
+    1        0    0.50 survival 0.89376928    months       1.516158e-14
+    1        0    0.50     rmst 0.47290688    months       6.933788e-14
+    1        0    0.50 burden_1 0.29168033    months       1.000622e-13
+    1        0    0.50 burden_2 0.14359744    months       4.205808e-14
+    1        0    1.00     risk 0.20002552    months       2.462030e-14
+    1        0    1.00 survival 0.79997448    months       2.462030e-14
+    1        0    1.00     rmst 0.89584131    months       1.488333e-13
+    1        0    1.00 burden_1 0.56599435    months       2.118571e-13
+    1        0    1.00 burden_2 0.27744718    months       8.904769e-14
+ probability_roundoff_bound frailty_compression_bound covariate_mcse
+               9.177036e-15                         0              0
+               9.177036e-15                         0              0
+               9.177036e-15                         0              0
+               9.177036e-15                         0              0
+               9.177036e-15                         0              0
+               9.245962e-15                         0              0
+               9.245962e-15                         0              0
+               9.245962e-15                         0              0
+               9.245962e-15                         0              0
+               9.245962e-15                         0              0
+               9.342029e-15                         0              0
+               9.342029e-15                         0              0
+               9.342029e-15                         0              0
+               9.342029e-15                         0              0
+               9.342029e-15                         0              0
+ covariate_evolution
+              freeze
+              freeze
+              freeze
+              freeze
+              freeze
+              freeze
+              freeze
+              freeze
+              freeze
+              freeze
+              freeze
+              freeze
+              freeze
+              freeze
+              freeze
+
+ sensitivity.csv 
+ kappa     lower upper         cl        cu
+   1.0 0.2000000 0.200 0.11361675 0.3124518
+   1.1 0.1945455 0.206 0.11051811 0.3218254
+   1.2 0.1900000 0.212 0.10793591 0.3311989
+   1.3 0.1861538 0.218 0.10575098 0.3405725
+   1.4 0.1828571 0.224 0.10387817 0.3499460
+   1.5 0.1800000 0.230 0.10225508 0.3593196
+   1.6 0.1775000 0.236 0.10083487 0.3686932
+   1.7 0.1752941 0.242 0.09958174 0.3780667
+   1.8 0.1733333 0.248 0.09846785 0.3874403
+   1.9 0.1715789 0.254 0.09747121 0.3968138
+   2.0 0.1700000 0.260 0.09657424 0.4061874
+   2.1 0.1685714 0.266 0.09576269 0.4155609
+   2.2 0.1672727 0.272 0.09502492 0.4249345
+   2.3 0.1660870 0.278 0.09435130 0.4290361
+   2.4 0.1650000 0.284 0.09373382 0.4327728
+   2.5 0.1640000 0.290 0.09316574 0.4362105
+   2.6 0.1630769 0.296 0.09264135 0.4393838
+   2.7 0.1622222 0.302 0.09215581 0.4423220
+   2.8 0.1614286 0.308 0.09170495 0.4450504
+   2.9 0.1606897 0.314 0.09128518 0.4475906
+   3.0 0.1600000 0.320 0.09089340 0.4499615
+   3.1 0.1593548 0.326 0.09052689 0.4521794
+   3.2 0.1587500 0.332 0.09018330 0.4542586
+   3.3 0.1581818 0.338 0.08986052 0.4562119
+   3.4 0.1576471 0.344 0.08955673 0.4580503
+   3.5 0.1571429 0.350 0.08927030 0.4597836
+   3.6 0.1566667 0.356 0.08899979 0.4614206
+   3.7 0.1562162 0.362 0.08874389 0.4629691
+   3.8 0.1557895 0.368 0.08850147 0.4644362
+   3.9 0.1553846 0.374 0.08827148 0.4658280
+   4.0 0.1550000 0.380 0.08805298 0.4671502
+
+ revision_verification.csv 
+                   V1
+     Automatic fibres
+    Louis information
+        Sparse bounds
+ Large-support bounds
+      CSR propagation
+ Continuous targeting
+      Future schedule
+    Lognormal frailty
+                                                         V2
+  929 colon subjects; log likelihood vs specialized adapter
+                     Generated paths vs specialized adapter
+ 80 independent HiGHS problems; maximum endpoint difference
+                   50,000 atoms; fractional certificate gap
+                    50,000 states; probability series bound
+                      Individual EIF vs unchanged V5 oracle
+                        Ordered forecast vs analytic oracle
+             40-node log likelihood vs adaptive integration
+                    V3
+ $3.14\\times10^{-13}$
+ $1.14\\times10^{-13}$
+ $1.72\\times10^{-15}$
+ $4.28\\times10^{-18}$
+ $3.74\\times10^{-14}$
+ $7.77\\times10^{-16}$
+ $1.75\\times10^{-15}$
+ $1.98\\times10^{-13}$
+During startup - Warning message:
+Setting LC_CTYPE=C.UTF-8 failed 
+[1] "{\n  \"report_schema_version\": \"1.0\",\n  \"report_type\": \"coherent4cast_audit_report\",\n  \"fit_context\": {\n    \"captured_at_utc\": \"2026-11-25T07:37:22.119235Z\",\n    \"session\": {\n      \"R_version\": \"R Under development (unstable) (2026-11-17 r90926 ucrt)\",\n      \"platform\": \"x86_64-w64-mingw32\",\n      \"coherent4cast_version\": \"0.10.3\",\n      \"session_info\": [\"R Under development (unstable) (2026-11-17 r90926 ucrt)\", \"Platform: x86_64-w64-mingw32/x64\", \"Running under: Windows 11 x64 (build 26100)\", \"\", \"Matrix products: default\", \"  LAPACK version 3.12.1\", \"\", \"locale:\", \"[1] LC_COLLATE=English_United States.utf8 \", \"[2] LC_CTYPE=C                            \", \"[3] LC_MONETARY=English_United States.utf8\", \"[4] LC_NUMERIC=C                          \", \"[5] LC_TIME=English_United States.utf8    \", \"system code page: 65001\", \"\", \"time zone: America/Los_Angeles\", \"tzcode source: internal\", \"\", \"attached base packages:\", \"[1] stats     graphics  grDevices utils     datasets  methods   base     \", \"\", \"other attached packages:\", \"[1] coherent4cast_0.10.3\", \"\", \"loaded via a namespace (and not attached):\", \"[1] compiler_4.7.0 tools_4.7.0    Rcpp_1.1.2    \"]\n    },\n    \"data_fingerprint\": {\n      \"algorithm\": \"SHA-256\",\n      \"value\": \"5d35f4763ee5feda543c36e198db872b5b14e6604d07967d221b60fa4885ce2a\",\n      \"representation\": \"R serialize(data, NULL, version = 3); SHA-256 of the resulting raw bytes\",\n      \"serialization_version\": 3,\n      \"rows\": 2984,\n      \"scope\": \"Integrity of this serialized object, including its attributes; not semantic equality across R versions, schema reorderings or platforms.\"\n    },\n    \"legacy_fingerprint\": null,\n    \"status\": \"Context captured by the fitting workflow.\"\n  },\n  \"model\": {\n    \"class\": [\"coherent4cast_causal\", \"coherent4cast\"],\n    \"call\": \"rc_causal(formula = ~x, data = .audit_data_argument_redacted, treatment = \\\"treatment\\\", horizon = 1, censor = \\\"censored\\\", time_unit = \\\"years\\\", event_types = c(\\\"1\\\", \\\"2\\\"), spec = .audit_data_argument_redacted, seed = 81)\",\n    \"wrapper_call\": null,\n    \"formula\": \"~x\",\n    \"schema\": {\n      \"unit\": \"id\",\n      \"start\": \"start\",\n      \"stop\": \"stop\",\n      \"event_type\": \"event_type\",\n      \"terminal\": \"terminal\",\n      \"observed\": null,\n      \"event_types\": [\"1\", \"2\"],\n      \"time_unit\": \"years\",\n      \"observation\": \"exact\",\n      \"original_rows\": 2984,\n      \"dropped_rows\": 0,\n      \"terminal_cause\": null,\n      \"terminal_causes_observed\": [],\n      \"regime\": \"joint_recurrent_terminal\"\n    },\n    \"regime_details\": {\n      \"observed_pattern\": \"recurrent_nonterminal_events_observed\",\n      \"nonterminal_types_declared\": [\"1\", \"2\"],\n      \"nonterminal_types_observed\": [\"1\", \"2\"],\n      \"maximum_observed_nonterminal_events_per_unit\": 6,\n      \"units_with_multiple_nonterminal_events\": 371,\n      \"terminal_events_observed\": 546,\n      \"terminal_cause_column\": null,\n      \"terminal_causes_observed\": [],\n      \"model_inferred\": false,\n      \"scope\": \"Observed event counts do not determine whether recurrence is scientifically possible. Competing absorbing causes are described only when terminal_cause was explicitly declared and multiple causes occur. These labels do not select a likelihood, event-eligibility rule or causal model.\"\n    },\n    \"observation_process\": \"exact\",\n    \"observation_process_details\": {\n      \"declaration\": \"exact\",\n      \"monitoring_column\": null,\n      \"unmonitored_rows\": [],\n      \"gap_rows\": [],\n      \"delayed_entry_rows\": [],\n      \"continuous_observation_from_zero\": true,\n      \"missingness_mechanism\": \"not identified by schema validation\",\n      \"scope\": \"Exact/coarsened is an analyst declaration, not a verified MAR/CAR/MNAR assumption. An observed zero, an unmonitored interval, a between-row gap and delayed entry are distinct. Delayed entry is tagged here; fit and prediction interfaces retain their own supported-observation checks.\"\n    },\n    \"independent_units\": 1600,\n    \"complete_paths\": null,\n    \"targeting\": \"baseline_causal\",\n    \"frailty\": null,\n    \"absorbing_causes\": null,\n    \"seed\": 81,\n    \"assumptions\": [\"static baseline binary treatment; consistency and no interference\", \"conditional treatment exchangeability given declared baseline strata (not empirically testable)\", \"positive treatment probabilities and conditionally independent right censoring with positive survival\", \"independent subjects; sufficient retained count state; no simultaneous distinct jumps\", \"correct event intensities OR correct treatment-probability times censor-survival product for consistency\", \"EIF asymptotics require nuisance convergence, product-rate and targeting regularity conditions\", \"finite-state/time-grid approximation must be assessed; no finite-sample coverage guarantee\"]\n  },\n  \"convergence\": {\n    \"valid\": true,\n    \"score_solved\": true,\n    \"code\": \"regular_asymptotic\",\n    \"score\": 1.8370123578974e-09\n  },\n  \"numerical\": {\n    \"fitting\": {\n      \"numerical_error\": 3.12418035885997e-10,\n      \"minimum_censor_survival\": 0.71810077742615\n    },\n    \"prediction\": null,\n    \"prediction_assumptions\": null,\n    \"scope\": \"Numerical bounds and simulation errors are not sampling confidence intervals. Quadrature, time-grid, propagation, covariate Monte Carlo and parameter uncertainty remain distinct.\"\n  },\n  \"source_files\": [],\n  \"export\": {\n    \"created_at_utc\": \"2026-11-25T07:37:22.613162Z\",\n    \"session\": {\n      \"R_version\": \"R Under development (unstable) (2026-11-17 r90926 ucrt)\",\n      \"platform\": \"x86_64-w64-mingw32\",\n      \"coherent4cast_version\": \"0.10.3\",\n      \"session_info\": [\"R Under development (unstable) (2026-11-17 r90926 ucrt)\", \"Platform: x86_64-w64-mingw32/x64\", \"Running under: Windows 11 x64 (build 26100)\", \"\", \"Matrix products: default\", \"  LAPACK version 3.12.1\", \"\", \"locale:\", \"[1] LC_COLLATE=English_United States.utf8 \", \"[2] LC_CTYPE=C                            \", \"[3] LC_MONETARY=English_United States.utf8\", \"[4] LC_NUMERIC=C                          \", \"[5] LC_TIME=English_United States.utf8    \", \"system code page: 65001\", \"\", \"time zone: America/Los_Angeles\", \"tzcode source: internal\", \"\", \"attached base packages:\", \"[1] stats     graphics  grDevices utils     datasets  methods   base     \", \"\", \"other attached packages:\", \"[1] coherent4cast_0.10.3\", \"\", \"loaded via a namespace (and not attached):\", \"[1] compiler_4.7.0 tools_4.7.0    Rcpp_1.1.2     digest_0.6.39 \"]\n    },\n    \"data_fingerprint\": {\n      \"algorithm\": \"SHA-256\",\n      \"value\": \"5d35f4763ee5feda543c36e198db872b5b14e6604d07967d221b60fa4885ce2a\",\n      \"representation\": \"R serialize(data, NULL, version = 3); SHA-256 of the resulting raw bytes\",\n      \"serialization_version\": 3,\n      \"rows\": 2984,\n      \"scope\": \"Integrity of this serialized object, including its attributes; not semantic equality across R versions, schema reorderings or platforms.\"\n    },\n    \"fingerprint_scope\": \"Current object data at export, not a reconstruction of historical fit data or source provenance.\"\n  },\n  \"interpretation\": [\"Subject-record tables and identifier columns are not exported automatically. Model expressions, category labels and explicitly supplied paths should still be reviewed before sharing. Hashes are integrity fingerprints, not anonymization guarantees.\", \"Only explicitly supplied source_files are read and hashed. These hashes describe files at export time, not proof that those files produced the fit.\", \"No success flag certifies model assumptions, causal identification, finite-sample coverage, publication acceptance or regulatory validity.\", 
+\"A missing fit timestamp/session remains missing. Export metadata is stored separately.\", \"JSON null represents unavailable or nonfinite numeric values; consult convergence flags and nonfinite counts.\"]\n}"
+           target   contrast      arm0      arm1    estimate  std_error
+burden_1 burden_1 difference 0.7088242 0.5659244 -0.14289978 0.05071185
+burden_2 burden_2 difference 0.3113098 0.3471159  0.03580603 0.03704189
+risk         risk difference 0.4078130 0.3487282 -0.05908475 0.02890654
+rmst         rmst difference 0.7922452 0.8172826  0.02503738 0.01762712
+                lower       upper     inference_status   oracle0   oracle1
+burden_1 -0.242293183 -0.04350637 pointwise_asymptotic 0.7601225 0.5612370
+burden_2 -0.036794740  0.10840680 pointwise_asymptotic 0.3153838 0.3671151
+risk     -0.115740532 -0.00242897 pointwise_asymptotic 0.4123689 0.3346920
+rmst     -0.009511136  0.05958589 pointwise_asymptotic 0.7826398 0.8264983
+         oracle_difference
+burden_1       -0.19888549
+burden_2        0.05173126
+risk           -0.07767688
+rmst            0.04385848
+  arm        score iterations min_propensity min_censor_survival
+0   0 1.837012e-09          4      0.2702492           0.7181008
+1   1 2.891154e-10          4      0.2902973           0.7778264
+  interpolation_error
+0        3.124180e-10
+1        1.812117e-10
+                 setting       n  estimate     truth          bias
+1            all_correct 1000000 0.5930560 0.5934303 -0.0003743091
+2          event_correct 1000000 0.5932882 0.5934303 -0.0001421343
+3 weight_product_correct 1000000 0.5926826 0.5934303 -0.0007477333
+4              all_wrong 1000000 0.6633051 0.5934303  0.0698747421
+  analytic_remainder         mcse   discrepancy
+1         0.00000000 0.0009600177 -0.0003743091
+2         0.00000000 0.0004399736 -0.0001421343
+3         0.00000000 0.0009836978 -0.0007477333
+4         0.07019829 0.0004412233 -0.0003235453 
+   target   contrast      arm0      arm1    estimate  std_error        lower
+ burden_1 difference 0.7088242 0.5659244 -0.14289978 0.05071185 -0.242293183
+ burden_2 difference 0.3113098 0.3471159  0.03580603 0.03704189 -0.036794740
+     risk difference 0.4078130 0.3487282 -0.05908475 0.02890654 -0.115740532
+     rmst difference 0.7922452 0.8172826  0.02503738 0.01762712 -0.009511136
+       upper     inference_status   oracle0   oracle1 oracle_difference
+ -0.04350637 pointwise_asymptotic 0.7601225 0.5612370       -0.19888549
+  0.10840680 pointwise_asymptotic 0.3153838 0.3671151        0.05173126
+ -0.00242897 pointwise_asymptotic 0.4123689 0.3346920       -0.07767688
+  0.05958589 pointwise_asymptotic 0.7826398 0.8264983        0.04385848
+R Under development (unstable) (2026-11-17 r90926 ucrt)
+Platform: x86_64-w64-mingw32/x64
+Running under: Windows 11 x64 (build 26100)
+
+Matrix products: default
+  LAPACK version 3.12.1
+
+locale:
+[1] C
+system code page: 65001
+
+time zone: America/Los_Angeles
+tzcode source: internal
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+[1] coherent4cast_0.10.3
+
+loaded via a namespace (and not attached):
+ [1] compiler_4.7.0 cli_3.6.6      tools_4.7.0    otel_0.3.0    
+ [5] Rcpp_1.1.2     knitr_1.52     xfun_0.62      digest_0.6.39 
+ [9] jsonlite_2.0.0 rlang_1.3.0    evaluate_1.0.5
+
+Manuscript reconstruction completed.
+

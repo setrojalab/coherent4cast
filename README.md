@@ -51,7 +51,8 @@ Use `library(coherent4cast)`, `coherent4cast()` and `coherent4cast_control()`. T
 
 ## Verification
 
-Fresh checks for this package are recorded under `reviews/release_0_10_3`; GitHub Actions runs the six Linux/macOS/Windows R-release/R-devel jobs and four GCC/Clang native jobs with and without ASAN/UBSAN. Historical check totals are not assigned to this release without rerunning them. Native numerical equivalence is checked after normalizing only the namespace and header identifiers.
+Version 0.10.3 passed a fresh R CMD check --as-cran with 0 errors, 0 warnings and 1 new-submission note, including 1,187 test expectations and five vignettes. All six Linux/macOS/Windows R-release/R-devel jobs and all four GCC/Clang native jobs with and without ASAN/UBSAN passed. [Verification records](reviews/release_0_10_3) identify the exact tested revision and archive checksum. Numerical comparisons with 0.10.2 gave identical coefficients, covariance estimates and forecasts. The source, archive members and rendered PDF text were scanned for obsolete package identifiers.
 
 Authors: Sunday A. Adetunji and Oluwatimileyin A. Adetunji. Maintainer: sundayadetunjisa@gmail.com. Source license: GPL-3.
+
 

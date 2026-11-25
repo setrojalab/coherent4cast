@@ -1,13 +1,26 @@
 {
   "package": "coherent4cast",
   "version": "0.10.3",
+  "source_sha256": "7c095cb3483df9b8f19018f6a086b1dee8762b4f5e4551c698cd64a262efbe77",
   "local_check": {
     "errors": 0,
     "warnings": 0,
     "notes": 1,
     "note": "New submission",
     "expectations": 1187,
-    "vignettes": 5
+    "vignettes": 5,
+    "manuals": [
+      "PDF",
+      "HTML"
+    ]
   },
-  "scope": "First complete check passed. Final source-archive check is repeated after installation-documentation correction. Cross-platform checks are run on this source commit."
+  "platform_jobs_passed": 6,
+  "native_sanitizer_jobs_passed": 4,
+  "tested_source_commit": "e06edb1ccab4e816d7fe23e44b924c7d8d31976b",
+  "numerical_parity_max_absolute_difference": 0,
+  "ci_runs": [
+    45570154240,
+    45570154250
+  ]
 }
+
