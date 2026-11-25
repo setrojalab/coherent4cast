@@ -4,7 +4,7 @@ rc_predict_paths <- function(object, paths, owner, log_weights, landmark, horizo
                              type = c("risk", "burden", "survival", "rmst", "all"),
                              quadrature = object$control$quadrature,...) {
   type <- match.arg(type)
-  if (!inherits(object, "recurcast")) .rc_error("fit", "object must be a recurcast fit.")
+  if (!inherits(object, "coherent4cast")) .rc_error("fit", "object must be a coherent4cast fit.")
   if (length(landmark) != 1L || !is.finite(landmark) || landmark <= 0)
     .rc_error("landmark", "A path mixture requires a positive finite landmark.")
   s <- object$schema
@@ -59,7 +59,7 @@ rc_predict_paths <- function(object, paths, owner, log_weights, landmark, horizo
     ans
   })
   ans <- do.call(rbind, out); rownames(ans) <- NULL
-  class(ans) <- c("recurcast_prediction", "rc_forecast", "data.frame")
+  class(ans) <- c("coherent4cast_prediction", "rc_forecast", "data.frame")
   attr(ans, "path_weights") <- data.frame(path = ids, owner = owner, posterior_weight = posterior)
   family <- if (is.null(object$frailty)) "gamma" else object$frailty
   attr(ans, "assumptions") <- unique(c(

@@ -1,16 +1,16 @@
-\name{validate.recurcast_competing}
-\alias{validate.recurcast_competing}
+\name{validate.coherent4cast_competing}
+\alias{validate.coherent4cast_competing}
 \title{Validate a cumulative-incidence forecast}
 \description{Evaluates a selected cause's cumulative-incidence forecasts with
 inverse-censoring weights while retaining earlier competing events as
 observed noncases.}
 \usage{
-\method{validate}{recurcast_competing}(object, time, status,
+\method{validate}{coherent4cast_competing}(object, time, status,
   horizon, cause, predicted, censor_survival = NULL,
   threshold = 0.2, strata = NULL, ...)
 }
 \arguments{
-\item{object}{A fitted \code{recurcast_competing} object.}
+\item{object}{A fitted \code{coherent4cast_competing} object.}
 \item{time}{Aligned nonnegative follow-up times in the fitted time unit.}
 \item{status}{Aligned cause or censoring labels from the fitted mapping.}
 \item{horizon}{One positive finite assessment horizon on the same time scale.}

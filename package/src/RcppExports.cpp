@@ -12,7 +12,7 @@ Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 
 // rc_cpp_causal_target
 Rcpp::List rc_cpp_causal_target(Rcpp::NumericVector rates, Rcpp::NumericVector censor, Rcpp::NumericVector propensity, Rcpp::IntegerMatrix next_state, Rcpp::IntegerVector subject_group, Rcpp::NumericMatrix records, int bins, double horizon, int maxit, double tolerance);
-RcppExport SEXP _recurcast_rc_cpp_causal_target(SEXP ratesSEXP, SEXP censorSEXP, SEXP propensitySEXP, SEXP next_stateSEXP, SEXP subject_groupSEXP, SEXP recordsSEXP, SEXP binsSEXP, SEXP horizonSEXP, SEXP maxitSEXP, SEXP toleranceSEXP) {
+RcppExport SEXP _coherent4cast_rc_cpp_causal_target(SEXP ratesSEXP, SEXP censorSEXP, SEXP propensitySEXP, SEXP next_stateSEXP, SEXP subject_groupSEXP, SEXP recordsSEXP, SEXP binsSEXP, SEXP horizonSEXP, SEXP maxitSEXP, SEXP toleranceSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -32,7 +32,7 @@ END_RCPP
 }
 // rc_cpp_continuous_target
 Rcpp::List rc_cpp_continuous_target(Rcpp::NumericVector rates, Rcpp::NumericVector censor, Rcpp::IntegerMatrix next_state, Rcpp::IntegerVector subject_group, Rcpp::NumericMatrix records, int bins, double horizon, int maxit, double tolerance);
-RcppExport SEXP _recurcast_rc_cpp_continuous_target(SEXP ratesSEXP, SEXP censorSEXP, SEXP next_stateSEXP, SEXP subject_groupSEXP, SEXP recordsSEXP, SEXP binsSEXP, SEXP horizonSEXP, SEXP maxitSEXP, SEXP toleranceSEXP) {
+RcppExport SEXP _coherent4cast_rc_cpp_continuous_target(SEXP ratesSEXP, SEXP censorSEXP, SEXP next_stateSEXP, SEXP subject_groupSEXP, SEXP recordsSEXP, SEXP binsSEXP, SEXP horizonSEXP, SEXP maxitSEXP, SEXP toleranceSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -51,7 +51,7 @@ END_RCPP
 }
 // cpp_rc_loglik
 List cpp_rc_loglik(NumericVector theta, IntegerVector unit, NumericVector exposure, NumericMatrix design, NumericVector event, double phi_fixed, bool information);
-RcppExport SEXP _recurcast_cpp_rc_loglik(SEXP thetaSEXP, SEXP unitSEXP, SEXP exposureSEXP, SEXP designSEXP, SEXP eventSEXP, SEXP phi_fixedSEXP, SEXP informationSEXP) {
+RcppExport SEXP _coherent4cast_cpp_rc_loglik(SEXP thetaSEXP, SEXP unitSEXP, SEXP exposureSEXP, SEXP designSEXP, SEXP eventSEXP, SEXP phi_fixedSEXP, SEXP informationSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -68,7 +68,7 @@ END_RCPP
 }
 // cpp_rc_coarsen
 List cpp_rc_coarsen(NumericVector loglik, NumericMatrix scores, NumericVector information, IntegerVector owner, NumericVector log_weights);
-RcppExport SEXP _recurcast_cpp_rc_coarsen(SEXP loglikSEXP, SEXP scoresSEXP, SEXP informationSEXP, SEXP ownerSEXP, SEXP log_weightsSEXP) {
+RcppExport SEXP _coherent4cast_cpp_rc_coarsen(SEXP loglikSEXP, SEXP scoresSEXP, SEXP informationSEXP, SEXP ownerSEXP, SEXP log_weightsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -83,7 +83,7 @@ END_RCPP
 }
 // cpp_rc_propagate
 List cpp_rc_propagate(NumericVector probability, NumericMatrix generator, double duration, NumericMatrix reward, double tolerance, int max_terms);
-RcppExport SEXP _recurcast_cpp_rc_propagate(SEXP probabilitySEXP, SEXP generatorSEXP, SEXP durationSEXP, SEXP rewardSEXP, SEXP toleranceSEXP, SEXP max_termsSEXP) {
+RcppExport SEXP _coherent4cast_cpp_rc_propagate(SEXP probabilitySEXP, SEXP generatorSEXP, SEXP durationSEXP, SEXP rewardSEXP, SEXP toleranceSEXP, SEXP max_termsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -99,7 +99,7 @@ END_RCPP
 }
 // cpp_rc_coarsen_fibre
 List cpp_rc_coarsen_fibre(NumericVector lower, NumericVector upper, IntegerVector mark, LogicalVector terminal, double followup, NumericVector breaks, NumericVector nodes, NumericVector weights, int max_perms, int draws, double seed, int max_paths);
-RcppExport SEXP _recurcast_cpp_rc_coarsen_fibre(SEXP lowerSEXP, SEXP upperSEXP, SEXP markSEXP, SEXP terminalSEXP, SEXP followupSEXP, SEXP breaksSEXP, SEXP nodesSEXP, SEXP weightsSEXP, SEXP max_permsSEXP, SEXP drawsSEXP, SEXP seedSEXP, SEXP max_pathsSEXP) {
+RcppExport SEXP _coherent4cast_cpp_rc_coarsen_fibre(SEXP lowerSEXP, SEXP upperSEXP, SEXP markSEXP, SEXP terminalSEXP, SEXP followupSEXP, SEXP breaksSEXP, SEXP nodesSEXP, SEXP weightsSEXP, SEXP max_permsSEXP, SEXP drawsSEXP, SEXP seedSEXP, SEXP max_pathsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -121,7 +121,7 @@ END_RCPP
 }
 // cpp_rc_mixture_lik
 List cpp_rc_mixture_lik(NumericVector beta, IntegerVector unit, NumericVector exposure, NumericMatrix X, NumericVector event, NumericVector h, NumericVector g, NumericMatrix dh, NumericMatrix dg, NumericVector d2h, NumericVector d2g, bool information);
-RcppExport SEXP _recurcast_cpp_rc_mixture_lik(SEXP betaSEXP, SEXP unitSEXP, SEXP exposureSEXP, SEXP XSEXP, SEXP eventSEXP, SEXP hSEXP, SEXP gSEXP, SEXP dhSEXP, SEXP dgSEXP, SEXP d2hSEXP, SEXP d2gSEXP, SEXP informationSEXP) {
+RcppExport SEXP _coherent4cast_cpp_rc_mixture_lik(SEXP betaSEXP, SEXP unitSEXP, SEXP exposureSEXP, SEXP XSEXP, SEXP eventSEXP, SEXP hSEXP, SEXP gSEXP, SEXP dhSEXP, SEXP dgSEXP, SEXP d2hSEXP, SEXP d2gSEXP, SEXP informationSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -143,7 +143,7 @@ END_RCPP
 }
 // rc_cpp_history
 Rcpp::List rc_cpp_history(Rcpp::IntegerVector unit, Rcpp::NumericVector start, Rcpp::NumericVector stop, Rcpp::IntegerVector mark, int types, double cap, double decay);
-RcppExport SEXP _recurcast_rc_cpp_history(SEXP unitSEXP, SEXP startSEXP, SEXP stopSEXP, SEXP markSEXP, SEXP typesSEXP, SEXP capSEXP, SEXP decaySEXP) {
+RcppExport SEXP _coherent4cast_rc_cpp_history(SEXP unitSEXP, SEXP startSEXP, SEXP stopSEXP, SEXP markSEXP, SEXP typesSEXP, SEXP capSEXP, SEXP decaySEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -160,7 +160,7 @@ END_RCPP
 }
 // rc_cpp_target
 Rcpp::List rc_cpp_target(Rcpp::NumericMatrix counts, Rcpp::NumericMatrix initial, Rcpp::NumericMatrix features, Rcpp::NumericVector recording, double n, int maxit, double tolerance);
-RcppExport SEXP _recurcast_rc_cpp_target(SEXP countsSEXP, SEXP initialSEXP, SEXP featuresSEXP, SEXP recordingSEXP, SEXP nSEXP, SEXP maxitSEXP, SEXP toleranceSEXP) {
+RcppExport SEXP _coherent4cast_rc_cpp_target(SEXP countsSEXP, SEXP initialSEXP, SEXP featuresSEXP, SEXP recordingSEXP, SEXP nSEXP, SEXP maxitSEXP, SEXP toleranceSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -177,7 +177,7 @@ END_RCPP
 }
 // rc_cpp_bounds
 Rcpp::List rc_cpp_bounds(Rcpp::NumericVector p, Rcpp::NumericVector numerator, Rcpp::NumericVector denominator, double kappa, double rho, Rcpp::NumericVector lower, Rcpp::NumericVector upper, Rcpp::IntegerVector observation_map);
-RcppExport SEXP _recurcast_rc_cpp_bounds(SEXP pSEXP, SEXP numeratorSEXP, SEXP denominatorSEXP, SEXP kappaSEXP, SEXP rhoSEXP, SEXP lowerSEXP, SEXP upperSEXP, SEXP observation_mapSEXP) {
+RcppExport SEXP _coherent4cast_rc_cpp_bounds(SEXP pSEXP, SEXP numeratorSEXP, SEXP denominatorSEXP, SEXP kappaSEXP, SEXP rhoSEXP, SEXP lowerSEXP, SEXP upperSEXP, SEXP observation_mapSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -195,7 +195,7 @@ END_RCPP
 }
 // rc_cpp_conformal
 Rcpp::NumericVector rc_cpp_conformal(Rcpp::NumericVector scores, Rcpp::NumericVector candidates, Rcpp::NumericVector lower, Rcpp::NumericVector upper, Rcpp::NumericVector candidate_upper);
-RcppExport SEXP _recurcast_rc_cpp_conformal(SEXP scoresSEXP, SEXP candidatesSEXP, SEXP lowerSEXP, SEXP upperSEXP, SEXP candidate_upperSEXP) {
+RcppExport SEXP _coherent4cast_rc_cpp_conformal(SEXP scoresSEXP, SEXP candidatesSEXP, SEXP lowerSEXP, SEXP upperSEXP, SEXP candidate_upperSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -210,7 +210,7 @@ END_RCPP
 }
 // rc_cpp_pivot
 Rcpp::NumericVector rc_cpp_pivot(Rcpp::NumericVector times, double dispersion, Rcpp::NumericVector quantiles);
-RcppExport SEXP _recurcast_rc_cpp_pivot(SEXP timesSEXP, SEXP dispersionSEXP, SEXP quantilesSEXP) {
+RcppExport SEXP _coherent4cast_rc_cpp_pivot(SEXP timesSEXP, SEXP dispersionSEXP, SEXP quantilesSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -223,7 +223,7 @@ END_RCPP
 }
 // rc_cpp_cf
 Rcpp::NumericVector rc_cpp_cf(Rcpp::NumericVector z, double n, double skewness, double kurtosis, int order);
-RcppExport SEXP _recurcast_rc_cpp_cf(SEXP zSEXP, SEXP nSEXP, SEXP skewnessSEXP, SEXP kurtosisSEXP, SEXP orderSEXP) {
+RcppExport SEXP _coherent4cast_rc_cpp_cf(SEXP zSEXP, SEXP nSEXP, SEXP skewnessSEXP, SEXP kurtosisSEXP, SEXP orderSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -238,7 +238,7 @@ END_RCPP
 }
 // cpp_rc_propagate_sparse
 List cpp_rc_propagate_sparse(NumericVector probability, IntegerVector offsets, IntegerVector columns, NumericVector rates, double duration, NumericMatrix reward, double tolerance, int max_terms, int max_chunks);
-RcppExport SEXP _recurcast_cpp_rc_propagate_sparse(SEXP probabilitySEXP, SEXP offsetsSEXP, SEXP columnsSEXP, SEXP ratesSEXP, SEXP durationSEXP, SEXP rewardSEXP, SEXP toleranceSEXP, SEXP max_termsSEXP, SEXP max_chunksSEXP) {
+RcppExport SEXP _coherent4cast_cpp_rc_propagate_sparse(SEXP probabilitySEXP, SEXP offsetsSEXP, SEXP columnsSEXP, SEXP ratesSEXP, SEXP durationSEXP, SEXP rewardSEXP, SEXP toleranceSEXP, SEXP max_termsSEXP, SEXP max_chunksSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -257,7 +257,7 @@ END_RCPP
 }
 // cpp_rc_bounds_sparse
 List cpp_rc_bounds_sparse(NumericVector p, NumericVector numerator, NumericVector denominator, double kappa, double rho, NumericVector lower, NumericVector upper, IntegerVector observation_map, double tolerance, int max_iterations);
-RcppExport SEXP _recurcast_cpp_rc_bounds_sparse(SEXP pSEXP, SEXP numeratorSEXP, SEXP denominatorSEXP, SEXP kappaSEXP, SEXP rhoSEXP, SEXP lowerSEXP, SEXP upperSEXP, SEXP observation_mapSEXP, SEXP toleranceSEXP, SEXP max_iterationsSEXP) {
+RcppExport SEXP _coherent4cast_cpp_rc_bounds_sparse(SEXP pSEXP, SEXP numeratorSEXP, SEXP denominatorSEXP, SEXP kappaSEXP, SEXP rhoSEXP, SEXP lowerSEXP, SEXP upperSEXP, SEXP observation_mapSEXP, SEXP toleranceSEXP, SEXP max_iterationsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -277,25 +277,25 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_recurcast_rc_cpp_causal_target", (DL_FUNC) &_recurcast_rc_cpp_causal_target, 10},
-    {"_recurcast_rc_cpp_continuous_target", (DL_FUNC) &_recurcast_rc_cpp_continuous_target, 9},
-    {"_recurcast_cpp_rc_loglik", (DL_FUNC) &_recurcast_cpp_rc_loglik, 7},
-    {"_recurcast_cpp_rc_coarsen", (DL_FUNC) &_recurcast_cpp_rc_coarsen, 5},
-    {"_recurcast_cpp_rc_propagate", (DL_FUNC) &_recurcast_cpp_rc_propagate, 6},
-    {"_recurcast_cpp_rc_coarsen_fibre", (DL_FUNC) &_recurcast_cpp_rc_coarsen_fibre, 12},
-    {"_recurcast_cpp_rc_mixture_lik", (DL_FUNC) &_recurcast_cpp_rc_mixture_lik, 12},
-    {"_recurcast_rc_cpp_history", (DL_FUNC) &_recurcast_rc_cpp_history, 7},
-    {"_recurcast_rc_cpp_target", (DL_FUNC) &_recurcast_rc_cpp_target, 7},
-    {"_recurcast_rc_cpp_bounds", (DL_FUNC) &_recurcast_rc_cpp_bounds, 8},
-    {"_recurcast_rc_cpp_conformal", (DL_FUNC) &_recurcast_rc_cpp_conformal, 5},
-    {"_recurcast_rc_cpp_pivot", (DL_FUNC) &_recurcast_rc_cpp_pivot, 3},
-    {"_recurcast_rc_cpp_cf", (DL_FUNC) &_recurcast_rc_cpp_cf, 5},
-    {"_recurcast_cpp_rc_propagate_sparse", (DL_FUNC) &_recurcast_cpp_rc_propagate_sparse, 9},
-    {"_recurcast_cpp_rc_bounds_sparse", (DL_FUNC) &_recurcast_cpp_rc_bounds_sparse, 10},
+    {"_coherent4cast_rc_cpp_causal_target", (DL_FUNC) &_coherent4cast_rc_cpp_causal_target, 10},
+    {"_coherent4cast_rc_cpp_continuous_target", (DL_FUNC) &_coherent4cast_rc_cpp_continuous_target, 9},
+    {"_coherent4cast_cpp_rc_loglik", (DL_FUNC) &_coherent4cast_cpp_rc_loglik, 7},
+    {"_coherent4cast_cpp_rc_coarsen", (DL_FUNC) &_coherent4cast_cpp_rc_coarsen, 5},
+    {"_coherent4cast_cpp_rc_propagate", (DL_FUNC) &_coherent4cast_cpp_rc_propagate, 6},
+    {"_coherent4cast_cpp_rc_coarsen_fibre", (DL_FUNC) &_coherent4cast_cpp_rc_coarsen_fibre, 12},
+    {"_coherent4cast_cpp_rc_mixture_lik", (DL_FUNC) &_coherent4cast_cpp_rc_mixture_lik, 12},
+    {"_coherent4cast_rc_cpp_history", (DL_FUNC) &_coherent4cast_rc_cpp_history, 7},
+    {"_coherent4cast_rc_cpp_target", (DL_FUNC) &_coherent4cast_rc_cpp_target, 7},
+    {"_coherent4cast_rc_cpp_bounds", (DL_FUNC) &_coherent4cast_rc_cpp_bounds, 8},
+    {"_coherent4cast_rc_cpp_conformal", (DL_FUNC) &_coherent4cast_rc_cpp_conformal, 5},
+    {"_coherent4cast_rc_cpp_pivot", (DL_FUNC) &_coherent4cast_rc_cpp_pivot, 3},
+    {"_coherent4cast_rc_cpp_cf", (DL_FUNC) &_coherent4cast_rc_cpp_cf, 5},
+    {"_coherent4cast_cpp_rc_propagate_sparse", (DL_FUNC) &_coherent4cast_cpp_rc_propagate_sparse, 9},
+    {"_coherent4cast_cpp_rc_bounds_sparse", (DL_FUNC) &_coherent4cast_cpp_rc_bounds_sparse, 10},
     {NULL, NULL, 0}
 };
 
-RcppExport void R_init_recurcast(DllInfo *dll) {
+RcppExport void R_init_coherent4cast(DllInfo *dll) {
     R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
     R_useDynamicSymbols(dll, FALSE);
 }

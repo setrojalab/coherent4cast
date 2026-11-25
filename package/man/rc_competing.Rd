@@ -1,13 +1,13 @@
 \name{rc_competing}
 \alias{rc_competing}
-\alias{predict.recurcast_competing}
-\alias{print.recurcast_competing}
-\alias{coef.recurcast_competing}
-\alias{vcov.recurcast_competing}
-\alias{logLik.recurcast_competing}
-\alias{tidy.recurcast_competing}
-\alias{summary.recurcast_competing}
-\alias{glance.recurcast_competing}
+\alias{predict.coherent4cast_competing}
+\alias{print.coherent4cast_competing}
+\alias{coef.coherent4cast_competing}
+\alias{vcov.coherent4cast_competing}
+\alias{logLik.coherent4cast_competing}
+\alias{tidy.coherent4cast_competing}
+\alias{summary.coherent4cast_competing}
+\alias{glance.coherent4cast_competing}
 \title{Cause-specific hazards and coherent competing-risk forecasts}
 \description{Fits separate no-frailty cause-specific piecewise-exponential
 hazards and integrates all fitted causes jointly to obtain cumulative
@@ -16,19 +16,19 @@ incidence and event-free survival.}
 rc_competing(formula, data, time = "time", status = "status",
   unit = NULL, start = NULL, causes = NULL, censor_code = 0,
   time_unit, breaks = c(0, Inf),
-  control = recurcast_control(), ...)
-\method{predict}{recurcast_competing}(object, newdata = NULL,
+  control = coherent4cast_control(), ...)
+\method{predict}{coherent4cast_competing}(object, newdata = NULL,
   landmark = 0, horizon,
   type = c("cif", "survival", "risk", "rmst", "all"),
   covariate_evolution = c("freeze", "locf"),
   newdata_future = NULL, ...)
-\method{print}{recurcast_competing}(x, ...)
-\method{coef}{recurcast_competing}(object, ...)
-\method{vcov}{recurcast_competing}(object, ...)
-\method{logLik}{recurcast_competing}(object, ...)
-\method{tidy}{recurcast_competing}(x, ...)
-\method{summary}{recurcast_competing}(object, ...)
-\method{glance}{recurcast_competing}(x, ...)
+\method{print}{coherent4cast_competing}(x, ...)
+\method{coef}{coherent4cast_competing}(object, ...)
+\method{vcov}{coherent4cast_competing}(object, ...)
+\method{logLik}{coherent4cast_competing}(object, ...)
+\method{tidy}{coherent4cast_competing}(x, ...)
+\method{summary}{coherent4cast_competing}(object, ...)
+\method{glance}{coherent4cast_competing}(x, ...)
 }
 \arguments{
 \item{formula}{A one-sided covariate formula or a supported \code{Surv}
@@ -46,9 +46,9 @@ Each declared cause must have an observed event. Label \code{"0"} is reserved.}
 factor's censoring level when the status column is a factor.}
 \item{time_unit}{Common explicit unit for all times and horizons.}
 \item{breaks}{Baseline-hazard cut points from zero to infinity.}
-\item{control}{Controls from \code{recurcast_control()}. Frailty variance is
+\item{control}{Controls from \code{coherent4cast_control()}. Frailty variance is
 fixed at zero by this interface.}
-\item{object, x}{A fitted \code{recurcast_competing} object.}
+\item{object, x}{A fitted \code{coherent4cast_competing} object.}
 \item{newdata}{Records using the fitted mapping or eligible covariate-only
 profiles. A profile declares event-free eligibility at the landmark.}
 \item{landmark}{Nonnegative assessment time.}
@@ -59,7 +59,7 @@ any-cause risk, restricted mean event-free time, or all targets.}
 declared last-observation-carried-forward updates.}
 \item{newdata_future}{Declared future covariate updates with the original
 unit-column mapping, or \code{unit} when rows supplied the identifiers.}
-\item{...}{Named fit arguments forwarded to \code{recurcast()}; fixed schema,
+\item{...}{Named fit arguments forwarded to \code{coherent4cast()}; fixed schema,
 observation and no-frailty settings cannot be overridden. The prediction
 method rejects unsupported arguments. Other methods accept generic arguments.}
 }
@@ -79,7 +79,7 @@ The log likelihood is the sum of fitted cause-specific contributions. With
 arbitrary case weights, its AIC-style summary is a weighted descriptive
 criterion and need not have ordinary likelihood calibration. The forecasts
 are prognostic; competing-risk mapping does not identify intervention effects.}
-\value{A \code{recurcast_competing} object containing cause-specific fits,
+\value{A \code{coherent4cast_competing} object containing cause-specific fits,
 joint coefficients and covariance, schema, convergence and audit information.
 Prediction returns a long forecast data frame including targets,
 assumptions and numerical propagation error bounds.}
@@ -91,6 +91,6 @@ fit <- rc_competing(~ 1, d, causes = c("a", "b"),
 coef(fit)
 predict(fit, landmark = 0, horizon = 1, type = "all")
 }
-\seealso{\code{\link{rc_surv}}, \code{\link{validate.recurcast_competing}},
+\seealso{\code{\link{rc_surv}}, \code{\link{validate.coherent4cast_competing}},
 \code{\link{rc_audit_report}}}
 \keyword{survival}

@@ -222,7 +222,7 @@ rc_causal <- function(formula, data, treatment, horizon, censor, time_unit,
   ans$audit$captured_at_utc <- .rc_audit_time()
   ans$audit$fit_session <- .rc_audit_session()
   ans$audit$data_fingerprint <- .rc_audit_data_fingerprint(d)
-  class(ans) <- c("recurcast_causal", "recurcast")
+  class(ans) <- c("coherent4cast_causal", "coherent4cast")
   if (!valid) warning("Some causal coordinates did not satisfy score, event-count or variance criteria; inspect diagnostics. Regular intervals are withheld for those coordinates.", call. = FALSE)
   ans
 }
@@ -230,7 +230,7 @@ rc_causal <- function(formula, data, treatment, horizon, censor, time_unit,
 rc_causal_contrast <- function(object, contrast = c("difference", "ratio", "log_ratio"),
                                level = .95, interval = c("wald", "multiplier", "none"),
                                draws = 2000L, seed = 1L) {
-  if (!inherits(object, "recurcast_causal")) .rc_error("causal_object", "Use an rc_causal fit.")
+  if (!inherits(object, "coherent4cast_causal")) .rc_error("causal_object", "Use an rc_causal fit.")
   contrast <- match.arg(contrast); interval <- match.arg(interval)
   .rc_scalar(level, "confidence level", 0, 1, TRUE)
   a <- object$arms[["1"]]$estimate; b <- object$arms[["0"]]$estimate
@@ -272,19 +272,19 @@ rc_causal_contrast <- function(object, contrast = c("difference", "ratio", "log_
   result
 }
 
-predict.recurcast_causal <- function(object, contrast = "difference", ...) rc_causal_contrast(object, contrast, ...)
-tidy.recurcast_causal <- function(x, ...) rc_causal_contrast(x, ...)
-coef.recurcast_causal <- function(object, ...) object$estimate
-vcov.recurcast_causal <- function(object, ...) object$covariance
-logLik.recurcast_causal <- function(object, ...) .rc_error("causal_loglik", "The cross-fitted causal fit does not define one joint parametric maximized log likelihood.")
-glance.recurcast_causal <- function(x, ...) data.frame(n = x$n, horizon = x$horizon,
+predict.coherent4cast_causal <- function(object, contrast = "difference", ...) rc_causal_contrast(object, contrast, ...)
+tidy.coherent4cast_causal <- function(x, ...) rc_causal_contrast(x, ...)
+coef.coherent4cast_causal <- function(object, ...) object$estimate
+vcov.coherent4cast_causal <- function(object, ...) object$covariance
+logLik.coherent4cast_causal <- function(object, ...) .rc_error("causal_loglik", "The cross-fitted causal fit does not define one joint parametric maximized log likelihood.")
+glance.coherent4cast_causal <- function(x, ...) data.frame(n = x$n, horizon = x$horizon,
     valid = x$convergence$valid, score = x$convergence$score,
     minimum_propensity = x$diagnostics$minimum_arm_propensity,
     minimum_censor_survival = x$diagnostics$minimum_censor_survival,
     interpolation_error = x$diagnostics$interpolation_error)
-summary.recurcast_causal <- function(object, ...) list(estimates = rc_causal_contrast(object, ...),
+summary.coherent4cast_causal <- function(object, ...) list(estimates = rc_causal_contrast(object, ...),
     diagnostics = object$diagnostics, assumptions = object$assumptions, convergence = object$convergence)
-print.recurcast_causal <- function(x, ...) {
+print.coherent4cast_causal <- function(x, ...) {
   cat("Baseline-treatment causal extension (conditional on stated identification assumptions)\n")
   print(rc_causal_contrast(x, ...), row.names = FALSE)
   invisible(x)

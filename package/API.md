@@ -1,6 +1,6 @@
 # Public API and statistical scope
 
-This development API implements the accompanying RecurCast method.
+This development API implements the accompanying coherent4cast method.
 The current 0.10.1 causal revision adds `rc_causal()` and
 `rc_causal_contrast()` from Version 13 Supplement S12. The older theorem
 references in the retained prognostic table below keep their Version 5 provenance. The theorem
@@ -11,7 +11,7 @@ horizons are explicit. Nonregular fits retain visible diagnostics.
 | Interface | Input and result | Mathematical or computational basis | Evidence |
 |---|---|---|---|
 | `as_trajectory`, `build_history` | Counting-process intervals; validated schema and predictable counts, recency and gaps | Left-continuous history; no future event in a current covariate | Dirty-data tests; compiled history tests |
-| `recurcast`, `recurcast_control` | One-sided formula and complete or automatically expanded coarsened histories; fitted common law | Gamma, lognormal or estimated discrete frailty, analytic scores and Louis information; explicit targeting dispatch | Gamma oracle; alternative-frailty derivative, integration and refinement checks |
+| `coherent4cast`, `coherent4cast_control` | One-sided formula and complete or automatically expanded coarsened histories; fitted common law | Gamma, lognormal or estimated discrete frailty, analytic scores and Louis information; explicit targeting dispatch | Gamma oracle; alternative-frailty derivative, integration and refinement checks |
 | `rc_loglik` | Expanded risk rows; individual likelihood, score and information | Closed-form gamma Laplace integration | Python oracle errors below declared tolerances |
 | `rc_coarsen` | Legal path likelihoods and integration weights; observed-data likelihood and Louis information | Sum over the observation fibre; no discarded tied records | Independent mixture calculation and `colon` adapter parity |
 | `predict`, `augment`, `rc_propagate` | Landmark, durations and sufficient count state; terminal risk, burden, survival and restricted mean time alive | Ordered uniformization; one frailty value retained across segments, then integrated; Theorem 3 | Mass, semigroup, analytic constant-rate and quadrature tests |
@@ -36,8 +36,8 @@ Version 0.10.0 adds the following integrated interfaces:
 | `rc_coarsen_fibre`, `rc_colon_fibre`, `rc_fibre_mcse` | Legal point/window histories with exact order enumeration and quadrature, or disclosed importance sampling above a permutation budget | Duplicate histories excluded; terminal ordering enforced; all 929 colon participants retained |
 | `rc_generator_csr`, `rc_propagate_sparse` | Ordered sparse state propagation and integrated rewards | Dense-oracle agreement, series/roundoff bounds, 50,000-state benchmark |
 | `rc_bounds_sparse` and automatic `rc_bounds` dispatch | Exact structural reduction for the existing odds/coarsening fractional problem | 80 independent HiGHS comparisons; 50,000 atoms; sparse fallback records dense numerical failures |
-| `recurcast(targeting="continuous")` | Cross-fitted continuous-time sufficient-state CAR intensity targeting | Actual-time martingale EIF and common-law update; oracle agreement and 20,000 separately registered cohorts, including retained sparse failures |
-| `recurcast(targeting="finite_path")` | Explicit finite-support subject-level MAR targeting | Existing finite-path estimator exposed through fit/predict; score and regularity diagnostics |
+| `coherent4cast(targeting="continuous")` | Cross-fitted continuous-time sufficient-state CAR intensity targeting | Actual-time martingale EIF and common-law update; oracle agreement and 20,000 separately registered cohorts, including retained sparse failures |
+| `coherent4cast(targeting="finite_path")` | Explicit finite-support subject-level MAR targeting | Existing finite-path estimator exposed through fit/predict; score and regularity diagnostics |
 | `predict(..., interval="projection")` on targeted fits | Conservative observed-reward confidence outer sets | Hoeffding/Bonferroni proof and 15,000 separately registered cohorts; uncapped recurrent burden has outer support [0,infinity] |
 | `rc_covariate_model`, `predict(covariate_evolution=...)` | Frozen, scheduled or Gaussian longitudinal future trajectories | Explicit measured-history conditioning, ordered propagation, Monte Carlo error and grid checks; no latent measurement-error joint-survival claim |
 | `rc_frailty_loglik`, `rc_frailty_diagnose` | Gamma, refined lognormal or estimated mean-one discrete frailty | Analytic derivatives/Louis checks, adaptive quadrature audit, boundary score and descriptive nonnested AIC |
@@ -58,10 +58,10 @@ the earlier prognostic kernels remain unchanged:
 
 | Interface or class | Implemented scope | Qualification |
 |---|---|---|
-| `recurcast(frailty="none")` | Explicit zero-variance boundary | Retains regression and the full likelihood; no latent frailty integration. |
+| `coherent4cast(frailty="none")` | Explicit zero-variance boundary | Retains regression and the full likelihood; no latent frailty integration. |
 | `rc_surv()` | Standard survival through a no-frailty, piecewise-exponential proportional-hazards likelihood | Supports declared exact contiguous risk intervals from origin; not Cox partial likelihood or delayed-entry correction. |
 | `rc_competing()` | Cause-specific no-frailty hazards combined into common-generator CIFs and survival | Explicit mutually exclusive absorbing causes; joint subject-score sandwich; no automatic CIF confidence bands. |
-| `validate()` on `recurcast_competing` | One selected cause's fixed-horizon cumulative incidence | Earlier competing events are noncases weighted at event time; censoring positivity/independence assumptions remain. |
+| `validate()` on `coherent4cast_competing` | One selected cause's fixed-horizon cumulative incidence | Earlier competing events are noncases weighted at event time; censoring positivity/independence assumptions remain. |
 | `rc_trajectory`, `rc_forecast` | Additive data and prediction classes with legacy inheritance | These are class names, not new estimator functions. Pattern metadata do not infer a scientific model. |
 | `rc_audit_report()` | List, JSON or text report with captured context, diagnostics and explicit source-file hashes | SHA-256 states its serialized-object/file-byte representation; export is distinct from fitting and does not certify regulatory compliance. |
 

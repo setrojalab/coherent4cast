@@ -9,7 +9,7 @@ vignette: >
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(collapse=TRUE,comment="#>")
-library(recurcast)
+library(coherent4cast)
 ```
 
 The five revision modules share an interface but retain their own observation
@@ -19,8 +19,8 @@ models and numerical diagnostics. This guide uses synthetic data throughout.
 
 ```{r fit}
 d <- rc_simulate(100,horizon=2,seed=72,time_unit="years")
-fit <- recurcast(~x,d,time_unit="years",
-                 control=recurcast_control(history_cap=0,phi_fixed=.4))
+fit <- coherent4cast(~x,d,time_unit="years",
+                 control=coherent4cast_control(history_cap=0,phi_fixed=.4))
 fit$convergence$code
 summary(fit)$frailty_diagnostics$null_variance_test
 ```
@@ -30,8 +30,8 @@ distributions can be fitted by changing one argument. Lognormal fitting checks
 quadrature refinement; discrete fitting estimates normalized support and weights.
 
 ```{r alternative}
-lnfit <- suppressWarnings(recurcast(~x,d,time_unit="years",frailty="lognormal",
-  control=recurcast_control(history_cap=0,phi_fixed=.4)))
+lnfit <- suppressWarnings(coherent4cast(~x,d,time_unit="years",frailty="lognormal",
+  control=coherent4cast_control(history_cap=0,phi_fixed=.4)))
 lnfit$audit$quadrature_refinement
 ```
 
@@ -88,8 +88,8 @@ before the administrative horizon identifies a right-censoring time.
 
 ```{r targeting}
 d$censored <- as.integer(d$event_type==0 & d$terminal==0 & d$stop<2)
-targeted <- suppressWarnings(recurcast(~x,d,time_unit="years",targeting="continuous",
-  control=recurcast_control(history_cap=1),
+targeted <- suppressWarnings(coherent4cast(~x,d,time_unit="years",targeting="continuous",
+  control=coherent4cast_control(history_cap=1),
   targeting_spec=list(horizon=2,censor="censored",nfolds=3,grid=32)))
 summary(targeted)$estimates
 predict(targeted,draws=300)

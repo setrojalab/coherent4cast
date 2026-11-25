@@ -1,72 +1,55 @@
-# recurcast 0.10.1
+# coherent4cast
 
-Coherent survival modelling and dynamic forecasting of history-dependent multitype recurrent events and terminal risk under incomplete observation.
+**Coherent Survival Modelling and Event Forecasting**
 
-**Public source release:** [v0.10.1](https://github.com/setrojalab/recurcast/releases/tag/v0.10.1). This version includes the static binary-treatment extension in Supplement S12 of the method paper, alongside the original likelihood, forecasting, targeting and sensitivity interfaces. The earlier prognostic numerical kernels are unchanged; a separate causal targeting kernel is added.
+An R package for survival modelling and dynamic forecasts of history-dependent recurrent and terminal events under incomplete observation. It provides a common probability law for recurrent-event burden, terminal-event risk and restricted mean time alive, with explicit observation assumptions and numerical diagnostics.
 
-The source archive has been submitted to CRAN. Acceptance is pending; install from the versioned GitHub release below in the meantime.
+This is version **0.10.2**, renamed from `recurcast`. The S3/Rcpp/C++17 architecture and numerical kernels are retained. Historical releases and verification records remain available under their original names. The renamed package has not yet been accepted by CRAN.
 
-## Install version 0.10.1
-
-This repository is public; no GitHub subscription or access token is required. Source installation requires a C++17 toolchain, including the appropriate Rtools on Windows.
+## Install
 
 ```r
 install.packages(c("remotes", "Rcpp", "digest", "jsonlite"))
-remotes::install_github("setrojalab/recurcast", subdir = "package",
-  ref = "v0.10.1", dependencies = NA, upgrade = "never")
-library(recurcast)
+remotes::install_github("setrojalab/coherent4cast", subdir = "package",
+  dependencies = NA, upgrade = "never")
+library(coherent4cast)
+data(sim_perinatal)
+fit <- coherent4cast(~ x, sim_perinatal, time_unit = "months",
+                     event_types = c("1", "2"))
+print(fit)
 ```
 
-The current source archive, reference manual and submission comments are under [`release/causal/`](release/causal/). Use those files for this revision. Older archives elsewhere in `release/`, including the previous Windows binary, retain their historical provenance and do not include this causal extension.
+Source installation requires a C++17 toolchain (the matching Rtools on Windows). The repository is public; no GitHub subscription is required. Use `build_vignettes = TRUE` with the vignette dependencies installed to build the five tutorials.
 
-## Baseline treatment contrasts
-
-`rc_causal()` estimates recurrent-event burden, terminal-event risk and restricted mean time alive under treatment 1 and treatment 0, standardized over the same baseline population. `rc_causal_contrast()` returns differences, ratios or log ratios using the full joint influence-function covariance.
-
-```r
-d <- rc_simulate(200, horizon = 1, rates = c(.9, .5, .4),
-                 dispersion = 0, censor_rate = .1, seed = 701)
-d$treatment <- as.integer(d$id %% 2)
-d$censored <- as.integer(d$event_type == 0 & d$terminal == 0 & d$stop < 1)
-fit <- rc_causal(~ x, d, treatment = "treatment", horizon = 1,
-  censor = "censored", time_unit = "years", propensity = .5,
-  spec = list(history_cap = 2L, working = "loglinear"))
-predict(fit)
-fit$diagnostics
-rc_audit_report(fit)
-```
-
-This example is synthetic and contains no treatment effect in its generator. See the [causal vignette](package/vignettes/baseline-causal.Rmd) and [reference help](package/man/rc_causal.Rd) for data contracts and assumptions. The implementation supports exact histories, finite baseline strata and a retained count state. Treatment is assigned at baseline and remains fixed. Causal identification requires consistency, conditional exchangeability, treatment positivity and independent censoring. The regular intervals are asymptotic. Time-varying treatment policies and unmeasured treatment-confounding bounds are not estimated by this entry point.
-
-## Existing interfaces
+## Interfaces
 
 | Task | Functions |
 |---|---|
-| Recurrent/terminal event histories and forecasts | `as_trajectory()`, `recurcast()`, `predict()` |
+| Event-history validation and model fitting | `as_trajectory()`, `coherent4cast()`, `coherent4cast_control()` |
+| Dynamic forecasting | `predict()` |
 | Standard survival and competing risks | `rc_surv()`, `rc_competing()` |
-| Baseline causal effects | `rc_causal()`, `rc_causal_contrast()` |
+| Baseline treatment contrasts | `rc_causal()`, `rc_causal_contrast()` |
+| Cross-fitted targeting | `rc_target()` and supported `targeting` specifications |
 | Recording sensitivity | `rc_bounds()`, `bounds()` |
 | Held-out prediction assessment | `validate()` |
-| Provenance and numerical diagnostics | `rc_audit_report()` |
+| Provenance and diagnostics | `rc_audit_report()` |
 
-The prognostic APIs retain their original interpretation. Recording sensitivity and treatment confounding are separate problems. Synthetic agreement and numerical error tolerances do not establish clinical benefit or regulatory certification.
+The baseline causal interface requires consistency, conditional exchangeability, treatment positivity and independent censoring. It does not estimate longitudinal treatment policies. Forecast uncertainty, recording-sensitivity bounds and causal contrasts retain their distinct assumptions.
 
-## Paper and reproducibility
+## Migration
 
-- [Updated software paper](paper/causal/01_RecurCast_JSS_arXiv_Manuscript.pdf) and [clean JSS/arXiv LaTeX](paper/causal/RecurCast_JSS_arXiv_LaTeX.zip).
-- [Current source package](release/causal/recurcast_0.10.1.tar.gz), [reference manual](release/causal/recurcast_0.10.1_Reference_Manual.pdf), and [CRAN comments](release/causal/cran-comments.txt).
-- [Computational supplement](release/causal/RecurCast_JSS_replication.zip): execute `Rscript --vanilla code.R` after extracting and installing the package. This reproduces the original tables and figures and executes the added causal example and analytic remainder check.
-- [Causal replication source](replication/causal/run_causal.R) and [independent matrix-exponential oracle](replication/causal/causal_oracle.py).
-- [SHA-256 manifest](release/causal/SHA256SUMS.txt).
+Change `library(recurcast)` to `library(coherent4cast)` and qualified calls to the new namespace. New scripts should use `coherent4cast()` and `coherent4cast_control()`; `recurcast()` and `recurcast_control()` remain aliases in this package. The `rc_*` function names are unchanged. Returned S3 class and audit labels use the new name; refit saved objects from the previous package before applying methods from the new namespace.
 
-The package contains five evaluated vignettes in its checked source archive. A direct GitHub installation requires `build_vignettes = TRUE` and the listed vignette dependencies if evaluated vignettes are wanted locally.
+## Paper, documentation and source
+
+- [Documentation website](https://setrojalab.github.io/coherent4cast/).
+- [Software paper on arXiv](https://arxiv.org/abs/2611.32075); earlier versions retain their original title.
+- [Renamed manuscript PDF](paper/coherent4cast/01_coherent4cast_JSS_arXiv_Manuscript.pdf) and [clean LaTeX source](paper/coherent4cast/coherent4cast_JSS_arXiv_LaTeX.zip).
+- [CRAN source archive](release/coherent4cast/coherent4cast_0.10.2.tar.gz), [reference manual](release/coherent4cast/coherent4cast_0.10.2_Reference_Manual.pdf) and [submission comments](release/coherent4cast/cran-comments.txt).
+- [Tutorial sources](package/vignettes), [replication scripts](replication) and [rename verification](reviews/rename_0_10_2).
 
 ## Verification
 
-The final source archive passed full Windows R-devel `R CMD check --as-cran`: **0 errors, 0 warnings, 1 new-submission note**, including all **1,187 expectations**, five vignettes, examples and PDF/HTML manual checks. The new code was checked at commit `f8228270a64bede49e92694ff097e00b656d1126`: six Linux/macOS/Windows R-release/R-devel jobs passed, as did four GCC/Clang jobs with and without ASAN/UBSAN. The seven native fixtures include independent analytic causal EIF agreement and exact probability-one reduction to the preceding targeting engine. See the [record](reviews/causal_revision/summary.json), [R workflow](https://github.com/setrojalab/recurcast/actions/runs/45324158268) and [native workflow](https://github.com/setrojalab/recurcast/actions/runs/45324158206).
+Fresh checks for the renamed package are recorded under `reviews/rename_0_10_2`; GitHub Actions runs the six Linux/macOS/Windows R-release/R-devel jobs and four GCC/Clang native jobs with and without ASAN/UBSAN. Historical check totals are not assigned to this release without rerunning them. The numerical kernel file hashes are compared with the preceding public source revision.
 
-The public-release update changes availability documentation and article links; it does not change the tested R or C++ implementation. All 158 audited package source, help, test, vignette and data files match the submitted archive after line-ending normalization.
-
-The current causal module has not been assigned the earlier version's measured line-coverage percentage. Historical research grids and clinical analyses remain labelled as such; the five original application examples remain prognostic.
-
-Authors: Sunday A. Adetunji and Oluwatimileyin A. Adetunji. Maintainer: sundayadetunjisa@gmail.com. License: GPL-3. CRAN submission is pending review. Journal acceptance and an arXiv identifier have not been assigned.
+Authors: Sunday A. Adetunji and Oluwatimileyin A. Adetunji. Maintainer: sundayadetunjisa@gmail.com. Source license: GPL-3.

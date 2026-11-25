@@ -1,5 +1,5 @@
-library(recurcast)
-out<-Sys.getenv("RECURCAST_BENCHMARK_OUT",unset="frailty_boundary_results")
+library(coherent4cast)
+out<-Sys.getenv("COHERENT4CAST_BENCHMARK_OUT",unset="frailty_boundary_results")
 dir.create(out,recursive=TRUE,showWarnings=FALSE)
 set.seed(202611230)
 B<-5000L;result<-list()

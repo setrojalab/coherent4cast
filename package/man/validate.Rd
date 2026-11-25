@@ -1,7 +1,7 @@
 \name{validate}
 \alias{validate}
 \alias{validate.default}
-\alias{validate.recurcast}
+\alias{validate.coherent4cast}
 \title{Validate dynamic predictions}
 \description{Calculate censoring-adjusted discrimination, calibration and threshold statistics.}
 \usage{

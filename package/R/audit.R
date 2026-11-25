@@ -19,7 +19,7 @@
 
 .rc_audit_session <- function() {
   list(R_version = R.version.string, platform = R.version$platform,
-    recurcast_version = tryCatch(as.character(utils::packageVersion("recurcast")), error = function(e) NA_character_),
+    coherent4cast_version = tryCatch(as.character(utils::packageVersion("coherent4cast")), error = function(e) NA_character_),
     session_info = capture.output(utils::sessionInfo()))
 }
 
@@ -73,7 +73,7 @@
 
 .rc_audit_text <- function(report) {
   show <- function(x) if (is.null(x)) "Not captured / not supplied." else capture.output(print(x))
-  c("RecurCast audit report", paste("Report schema:", report$report_schema_version),
+  c("coherent4cast audit report", paste("Report schema:", report$report_schema_version),
     paste("Exported at UTC:", report$export$created_at_utc),
     paste("Fit context captured at UTC:", if (is.null(report$fit_context$captured_at_utc)) "not captured" else report$fit_context$captured_at_utc),
     "", "Captured call (data-bearing expressions redacted):", show(report$model$call),
@@ -96,14 +96,14 @@ rc_audit_report <- function(object, predictions = NULL, source_files = NULL,
                             format = c("list", "json", "text"), file = NULL,
                             include_session = TRUE) {
   format <- match.arg(format)
-  if (!inherits(object, c("recurcast", "recurcast_competing", "surv_trajectory", "recurcast_prediction")))
-    .rc_error("audit_object", "Use a fitted RecurCast object, validated trajectory or RecurCast prediction table.")
+  if (!inherits(object, c("coherent4cast", "coherent4cast_competing", "surv_trajectory", "coherent4cast_prediction")))
+    .rc_error("audit_object", "Use a fitted coherent4cast object, validated trajectory or coherent4cast prediction table.")
   if (!is.logical(include_session) || length(include_session) != 1L || is.na(include_session))
     .rc_error("audit_session", "include_session must be TRUE or FALSE.")
   if (!is.null(file) && (!is.character(file) || length(file) != 1L || is.na(file) || !nzchar(file)))
     .rc_error("audit_file", "file must be NULL or one output path.")
   is_data <- inherits(object, "surv_trajectory")
-  is_prediction <- inherits(object, "recurcast_prediction")
+  is_prediction <- inherits(object, "coherent4cast_prediction")
   data <- if (is_data) object else if (!is_prediction && is.data.frame(object$data)) object$data else NULL
   audit <- if (is_data || is_prediction || is.null(object$audit)) list() else object$audit
   schema <- if (is_data) attr(object, "rc_schema") else if (!is_prediction) object$schema else NULL
@@ -131,15 +131,15 @@ rc_audit_report <- function(object, predictions = NULL, source_files = NULL,
     observation_process_details = if (is.null(data)) NULL else attr(data, "observation_process_details"),
     independent_units = if (!is_data && !is_prediction) object$n else if (is_data) length(unique(data$.rc_unit)) else NULL,
     complete_paths = if (!is_data && !is_prediction) object$npaths else NULL,
-    targeting = if (inherits(object, "recurcast_competing")) "none" else if (!is_data && !is_prediction) object$targeting else NULL,
-    frailty = if (inherits(object, "recurcast_competing")) "none" else if (!is_data && !is_prediction) object$frailty else NULL,
-    absorbing_causes = if (inherits(object, "recurcast_competing")) object$causes else NULL,
+    targeting = if (inherits(object, "coherent4cast_competing")) "none" else if (!is_data && !is_prediction) object$targeting else NULL,
+    frailty = if (inherits(object, "coherent4cast_competing")) "none" else if (!is_data && !is_prediction) object$frailty else NULL,
+    absorbing_causes = if (inherits(object, "coherent4cast_competing")) object$causes else NULL,
     seed = audit$seed, assumptions = audit$assumptions)
   numerical <- list(fitting = audit[intersect(names(audit), c("quadrature_refinement", "quadrature_stable", "numerical_error", "minimum_censor_survival"))],
     prediction = .rc_audit_numerical_summary(predictions),
     prediction_assumptions = if (is.null(predictions)) NULL else attr(predictions, "assumptions"),
     scope = "Numerical bounds and simulation errors are not sampling confidence intervals. Quadrature, time-grid, propagation, covariate Monte Carlo and parameter uncertainty remain distinct.")
-  report <- list(report_schema_version = "1.0", report_type = "recurcast_audit_report",
+  report <- list(report_schema_version = "1.0", report_type = "coherent4cast_audit_report",
     fit_context = context, model = model,
     convergence = if (!is_data && !is_prediction) object$convergence else NULL,
     numerical = numerical, source_files = .rc_audit_sources(source_files, exported_at),

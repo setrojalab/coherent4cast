@@ -1,4 +1,4 @@
-# Companion reporting functions, sourced explicitly; not recurcast exports.
+# Companion reporting functions, sourced explicitly; not coherent4cast exports.
 # One independent validation unit per row at a prespecified landmark/horizon.
 # The package fit and censoring assumptions remain necessary.
 
@@ -9,7 +9,7 @@ rc_research_report <- function(predicted, time, status, horizon,
                                false_positive_cost = NULL,
                                false_negative_cost = NULL,
                                loss_unit = NULL) {
-  if (!requireNamespace("recurcast", quietly = TRUE)) stop("Install recurcast first.")
+  if (!requireNamespace("coherent4cast", quietly = TRUE)) stop("Install coherent4cast first.")
   if (!is.numeric(thresholds) || !length(thresholds) || anyNA(thresholds) ||
       any(!is.finite(thresholds)) || any(thresholds <= 0 | thresholds >= 1) ||
       anyDuplicated(thresholds)) stop("Use unique thresholds strictly inside (0,1).")
@@ -26,7 +26,7 @@ rc_research_report <- function(predicted, time, status, horizon,
     stop("Supply both nonnegative finite costs and a nonempty loss_unit.")
 
   calculate <- function(p, tt, ss, gg) {
-    ans <- recurcast::validate(p, tt, ss, horizon, censor_survival = gg,
+    ans <- coherent4cast::validate(p, tt, ss, horizon, censor_survival = gg,
                               threshold = thresholds[1L])
     w <- ans$weights; y <- as.numeric(ss == 1 & tt <= horizon)
     if(any(!is.finite(w)))stop("Inverse censoring weights exceed the finite numerical range; revise the horizon or censoring model.")

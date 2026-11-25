@@ -1,14 +1,14 @@
 \name{rc_audit_report}
 \alias{rc_audit_report}
 \title{Export Fit Provenance and Numerical Diagnostics}
-\description{Create a list, JSON or text audit from a fitted RecurCast object, validated trajectory or prediction table. Subject records are not included. Fit context and export context remain distinct.}
+\description{Create a list, JSON or text audit from a fitted coherent4cast object, validated trajectory or prediction table. Subject records are not included. Fit context and export context remain distinct.}
 \usage{
 rc_audit_report(object, predictions = NULL, source_files = NULL,
   format = c("list", "json", "text"), file = NULL,
   include_session = TRUE)
 }
 \arguments{
-\item{object}{A fitted \code{recurcast}, \code{recurcast_competing}, validated trajectory or \code{recurcast_prediction} object.}
+\item{object}{A fitted \code{coherent4cast}, \code{coherent4cast_competing}, validated trajectory or \code{coherent4cast_prediction} object.}
 \item{predictions}{Optional prediction data frame. Recognized numerical error columns are summarized without exporting unit identifiers or individual predictions.}
 \item{source_files}{Explicit paths to existing source files to hash at export time. Directories are rejected and no directory or repository is scanned automatically.}
 \item{format}{Return a nested R list, a JSON character string or readable text lines.}
@@ -50,4 +50,4 @@ report <- rc_audit_report(trajectory, include_session = FALSE)
 report$export$data_fingerprint$algorithm
 report$fit_context$status
 }
-\seealso{\code{as_trajectory}, \code{recurcast}, \code{rc_surv}, \code{rc_competing}}
+\seealso{\code{as_trajectory}, \code{coherent4cast}, \code{rc_surv}, \code{rc_competing}}

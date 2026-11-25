@@ -1,5 +1,5 @@
 # Static scientific plots from an executed cross_field_usability.R run.
-out <- Sys.getenv("RECURCAST_CROSS_FIELD_OUTPUT", "replication/results/cross_field_usability")
+out <- Sys.getenv("COHERENT4CAST_CROSS_FIELD_OUTPUT", "replication/results/cross_field_usability")
 report <- readRDS(file.path(out, "companion_report.rds"))
 if (!is.null(report$bootstrap_draws)) write.csv(data.frame(replicate = seq_len(nrow(report$bootstrap_draws)),
   report$bootstrap_draws, check.names = FALSE), file.path(out, "companion_bootstrap_draws.csv"), row.names = FALSE)

@@ -1,9 +1,9 @@
-# recurcast
+# coherent4cast
 
 Coherent survival modelling and dynamic forecasting of history-dependent
 multitype recurrent events and terminal risk under incomplete observation.
 
-`recurcast` fits one event-history law and derives recurrent burden, terminal
+`coherent4cast` fits one event-history law and derives recurrent burden, terminal
 risk and restricted survival from it. The R interface exposes a C++17 numerical
 core, checks event eligibility and observation assumptions, and retains
 convergence and numerical diagnostics in returned objects.
@@ -18,15 +18,15 @@ for source installation; use Rtools on Windows.
 
 ```r
 install.packages(c("Rcpp", "digest", "jsonlite"))
-install.packages("recurcast_0.10.1.tar.gz", repos=NULL, type="source")
-library("recurcast")
+install.packages("coherent4cast_0.10.1.tar.gz", repos=NULL, type="source")
+library("coherent4cast")
 ```
 
 ## Fit and forecast
 
 ```r
 data("sim_perinatal")
-fit <- recurcast(~x,sim_perinatal,event_types=c("1","2"),time_unit="months")
+fit <- coherent4cast(~x,sim_perinatal,event_types=c("1","2"),time_unit="months")
 print(fit)
 one <- sim_perinatal[sim_perinatal$id==1,]
 predict(fit,one,landmark=0,horizon=c(.25,.5,1),type="all")
@@ -51,11 +51,11 @@ supported finite-state/stratum model and worked example.
 | Task | Interface |
 |---|---|
 | Validate intervals and construct predictable counts | `as_trajectory()`, `build_history()` |
-| Fit zero-variance, gamma, lognormal or estimated discrete frailty | `recurcast(frailty=...)`, `rc_frailty_loglik()` |
-| Generate and integrate coarsened histories | `rc_coarsen_fibre()`, `recurcast(observation="coarsened")` |
+| Fit zero-variance, gamma, lognormal or estimated discrete frailty | `coherent4cast(frailty=...)`, `rc_frailty_loglik()` |
+| Generate and integrate coarsened histories | `rc_coarsen_fibre()`, `coherent4cast(observation="coarsened")` |
 | Forecast from a posterior history mixture | `predict(newdata_observation="coarsened")`, `rc_predict_coarsened()` |
 | Propagate probabilities and cumulative rewards | `predict()`, `rc_generator_csr()`, `rc_propagate_sparse()` |
-| Cross-fit finite-path MAR or continuous-time CAR targets | `recurcast(targeting=..., targeting_spec=...)` |
+| Cross-fit finite-path MAR or continuous-time CAR targets | `coherent4cast(targeting=..., targeting_spec=...)` |
 | Compute scalable finite-support recording bounds | `rc_bounds()`, `rc_bounds_sparse()` |
 | Integrate declared future covariates | `predict(covariate_evolution=...)`, `rc_covariate_model()` |
 | Diagnose the frailty boundary and compare families | `summary()`, `rc_frailty_diagnose(alternatives=TRUE)` |
@@ -66,7 +66,7 @@ supported finite-state/stratum model and worked example.
 | Fit standard survival or absorbing competing causes | `rc_surv()`, `rc_competing()` |
 | Export captured context, diagnostics and explicit SHA-256 fingerprints | `rc_audit_report()` |
 
-Use `vignette(package="recurcast")` for the five worked guides and the help
+Use `vignette(package="coherent4cast")` for the five worked guides and the help
 pages for precise assumptions. The finite-path, continuous-time likelihood,
 confidence-projection and prediction-set modules have different validity
 conditions. Calling one does not certify all the others.
@@ -109,7 +109,7 @@ It does not infer arbitrary hidden histories without an observation model.
 
 ## Licence and citation
 
-The software is distributed under GPL-3. Use `citation("recurcast")` for the
+The software is distributed under GPL-3. Use `citation("coherent4cast")` for the
 development software citation. Publication identifiers will be added only after
 they exist. See `CONTRIBUTING.md`, `SECURITY.md` and `SUPPORT.md` for development
 and support policies.

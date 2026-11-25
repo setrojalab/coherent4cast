@@ -1,6 +1,6 @@
 .rc_inference_stop <- function(message, code = "invalid_inference_input") {
   stop(structure(list(message = message, call = NULL, code = code),
-                 class = c("recurcast_error", "error", "condition")))
+                 class = c("coherent4cast_error", "error", "condition")))
 }
 .rc_scalar <- function(x, name, lower = -Inf, upper = Inf, open = FALSE) {
   if (length(x) != 1L || !is.numeric(x) || !is.finite(x) ||
@@ -10,7 +10,7 @@
 }
 .rc_core_call <- function(expr) {
   tryCatch(expr, error = function(e) {
-    if (inherits(e, "recurcast_error")) stop(e)
+    if (inherits(e, "coherent4cast_error")) stop(e)
     .rc_inference_stop(conditionMessage(e), "numerical_inference_failure")
   })
 }

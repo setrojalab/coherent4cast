@@ -1,8 +1,8 @@
 script <- sub("^--file=", "", grep("^--file=", commandArgs(FALSE), value=TRUE)[1])
 base <- normalizePath(file.path(dirname(script), ".."), winslash="/")
-if(nzchar(Sys.getenv("RECURCAST_LIBRARY"))) .libPaths(c(Sys.getenv("RECURCAST_LIBRARY"),.libPaths()))
+if(nzchar(Sys.getenv("COHERENT4CAST_LIBRARY"))) .libPaths(c(Sys.getenv("COHERENT4CAST_LIBRARY"),.libPaths()))
 source(file.path(base,"replication/research_metrics.R"))
-library(recurcast)
+library(coherent4cast)
 checks <- list()
 check <- function(name,ok) {checks[[length(checks)+1L]] <<- data.frame(check=name,pass=isTRUE(ok)); if(!isTRUE(ok))stop(name)}
 same <- function(a,b,tol=1e-12)isTRUE(all.equal(as.numeric(a),as.numeric(b),tolerance=tol))

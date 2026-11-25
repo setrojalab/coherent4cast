@@ -1,12 +1,12 @@
 # Reproducible revision validation; no target is imposed on fitted estimates.
-library(recurcast)
-out<-Sys.getenv("RECURCAST_BENCHMARK_OUT",unset="frailty_future_results")
+library(coherent4cast)
+out<-Sys.getenv("COHERENT4CAST_BENCHMARK_OUT",unset="frailty_future_results")
 dir.create(out,showWarnings=FALSE,recursive=TRUE)
 set.seed(1204)
 trace<-list();fits<-list();a<-rc_readmission()
 for(fam in c("gamma","lognormal","discrete")) {
-  elapsed<-system.time(fit<-suppressWarnings(recurcast(a$formula,a$data,time_unit="years",event_types="1",frailty=fam,
-    frailty_diagnostics=TRUE,control=recurcast_control(history_cap=1,quadrature=40,maxit=500))))[["elapsed"]]
+  elapsed<-system.time(fit<-suppressWarnings(coherent4cast(a$formula,a$data,time_unit="years",event_types="1",frailty=fam,
+    frailty_diagnostics=TRUE,control=coherent4cast_control(history_cap=1,quadrature=40,maxit=500))))[["elapsed"]]
   fits[[fam]]<-fit
   if(nrow(fit$audit$quadrature_refinement))write.csv(fit$audit$quadrature_refinement,file.path(out,paste0(fam,"_fit_quadrature_audit.csv")),row.names=FALSE)
   diag<-fit$frailty_diagnostics$null_variance_test
@@ -24,7 +24,7 @@ write.csv(quad,file.path(out,"lognormal_quadrature.csv"),row.names=FALSE)
 stopifnot(tail(quad$absolute_error,1)<1e-10)
 # A separate synthetic model gives an independent closed-form forecast check.
 d<-rc_simulate(n=150,seed=321,history_cap=0,dispersion=0)
-f<-suppressWarnings(recurcast(~x,d,time_unit="years",frailty_diagnostics=FALSE,control=recurcast_control(phi_fixed=0,history_cap=0)))
+f<-suppressWarnings(coherent4cast(~x,d,time_unit="years",frailty_diagnostics=FALSE,control=coherent4cast_control(phi_fixed=0,history_cap=0)))
 f$coefficients[grepl(":x$",names(coef(f)))]<-.7
 past<-data.frame(id=999,start=0,stop=1,event_type=0,terminal=0,x=0)
 schedule<-data.frame(id=999,time=c(1,1.5),x=c(0,1))

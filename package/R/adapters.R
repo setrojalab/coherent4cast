@@ -61,7 +61,7 @@ rc_readmission <- function(data = NULL, time_unit = c("years", "days")) {
       time_unit = time_unit, days_per_year = 365.25, observation = "exact",
       interpretation = "Rehospitalization episodes and terminal death; these are not distinct disease-type marks.",
       covariate_policy = "Baseline covariates use the first available interval. recorded_charlson preserves later source values without carrying them into the past.",
-      data_status = "Public clinical data distributed by the source package; no patient rows are bundled in recurcast."))
+      data_status = "Public clinical data distributed by the source package; no patient rows are bundled in coherent4cast."))
 }
 
 .rc_legendre_unit <- function(nodes) {
@@ -178,5 +178,5 @@ rc_colon <- function(data = NULL, nodes = 4L, covariate = c("node4", "nodes"),
       legal_order = "Recorded recurrence precedes recorded death. Same-day pairs are integrated over the within-day triangle; post-death recurrence is excluded.",
       scope = "Illness-death submodel, not repeatable cancer recurrence. Gaussian quadrature approximates the coarsened likelihood; numerical weights are integration masses, not probabilities normalized within a patient.",
       forecast_scope = "These paths use full follow-up and must not be supplied as past information at an earlier landmark. Construct a landmark-specific observation fibre before filtering paths.",
-      data_status = "Public clinical trial data distributed by survival; no patient rows are bundled in recurcast."))
+      data_status = "Public clinical trial data distributed by survival; no patient rows are bundled in coherent4cast."))
 }

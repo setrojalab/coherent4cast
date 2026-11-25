@@ -1,6 +1,6 @@
-# Deterministic scaling benchmark. Run after installing recurcast.
+# Deterministic scaling benchmark. Run after installing coherent4cast.
 # No benchmark is used to tune or select its own verification tolerances.
-library(recurcast)
+library(coherent4cast)
 sizes <- c(1000L, 10000L, 50000L)
 results <- list()
 for (J in sizes) {

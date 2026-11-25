@@ -23,7 +23,7 @@ test_that("legal-path mixture uses quadrature weights and Louis information", {
   base <- function(theta) rc_loglik(theta, d$unit, d$exposure,
                                    as.matrix(d[c("x1", "x2")]), d$event)
   theta <- c(-0.7, 0.25, log(0.6))
-  mix <- function(theta) recurcast:::rc_coarsen(base(theta), owner = c(1, 1, 2, 2),
+  mix <- function(theta) coherent4cast:::rc_coarsen(base(theta), owner = c(1, 1, 2, 2),
                                                log_weights = log(c(.2, .3, .5, .7)))
   fit <- mix(theta)
   expected <- log(sum(exp(base(theta)$subject_loglik[1:2]) * c(.2, .3))) +

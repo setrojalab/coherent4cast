@@ -24,9 +24,9 @@
 #' Observed-information log-determinant stabilization
 #' @export
 rc_regularize <- function(object,maxit=120L,tolerance=1e-8) {
-  if(!inherits(object,"recurcast")||(!is.null(object$frailty)&&object$frailty!="gamma")||object$schema$observation!="exact"||!is.null(object$control$phi_fixed)||
+  if(!inherits(object,"coherent4cast")||(!is.null(object$frailty)&&object$frailty!="gamma")||object$schema$observation!="exact"||!is.null(object$control$phi_fixed)||
      !is.null(object$audit$call$weights))
-    .rc_error("regularization_scope","Requires an unweighted exact-history recurcast fit with estimated positive frailty dispersion.")
+    .rc_error("regularization_scope","Requires an unweighted exact-history coherent4cast fit with estimated positive frailty dispersion.")
   if(length(maxit)!=1L||!is.finite(maxit)||maxit<1||maxit!=floor(maxit)||length(tolerance)!=1L||!is.finite(tolerance)||tolerance<=0)
     .rc_error("regularization_control","Use positive finite controls and an integer maxit.")
   dd<-object$design;p<-ncol(dd$design);n<-object$n

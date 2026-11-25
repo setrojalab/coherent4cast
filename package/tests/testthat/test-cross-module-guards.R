@@ -1,34 +1,34 @@
 test_that("automatic fibres cannot manufacture exposure before delayed entry", {
   d<-data.frame(id=1,start=5,stop=6,event_type="1",terminal=0,x=0)
   expect_error(rc_coarsen_fibre(d,time_unit="years",event_types="1"),
-    "delayed entry",class="recurcast_error")
-  expect_error(recurcast(~x,d,event_types="1",time_unit="years",observation="coarsened",frailty_diagnostics=FALSE),
-    "delayed entry",class="recurcast_error")
+    "delayed entry",class="coherent4cast_error")
+  expect_error(coherent4cast(~x,d,event_types="1",time_unit="years",observation="coarsened",frailty_diagnostics=FALSE),
+    "delayed entry",class="coherent4cast_error")
 })
 
 test_that("exact forecasts reject an unobserved pre-entry history", {
   d<-rc_simulate(n=50,seed=711,time_unit="years")
-  fit<-suppressWarnings(recurcast(~x,d,event_types=c("1","2"),time_unit="years",frailty_diagnostics=FALSE,
-    control=recurcast_control(phi_fixed=.4,history_cap=1L)))
+  fit<-suppressWarnings(coherent4cast(~x,d,event_types=c("1","2"),time_unit="years",frailty_diagnostics=FALSE,
+    control=coherent4cast_control(phi_fixed=.4,history_cap=1L)))
   new<-data.frame(id=100,start=.2,stop=1,event_type="0",terminal=0,x=0)
   expect_error(predict(fit,newdata=new,landmark=.3,horizon=.2,type="risk"),
-    "begin at time zero",class="recurcast_error")
+    "begin at time zero",class="coherent4cast_error")
 })
 
 test_that("conditional targeted prediction enforces its baseline experiment", {
   d<-read.csv(test_path("fixtures","continuous_target_subjects.csv"))
-  fit<-suppressWarnings(recurcast(~x,d,time_unit="year",targeting="continuous",
+  fit<-suppressWarnings(coherent4cast(~x,d,time_unit="year",targeting="continuous",
     targeting_spec=list(horizon=1,censor="censored",strata="x",folds="fold",grid=16,working="pooled")))
   subject<-d[1,,drop=FALSE];subject$start<-.2;subject$stop<-1
   subject$event_type<-"none";subject$terminal<-0;subject$censored<-0
   expect_error(predict(fit,newdata=subject,landmark=.3,horizon=.2,type="risk",interval="none"),
-    "begin at time zero",class="recurcast_error")
+    "begin at time zero",class="coherent4cast_error")
   subject$start<-0
   expect_error(predict(fit,newdata=subject,landmark=.3,horizon=.2,type="unrecognized",interval="none"),
-    "fitted target",class="recurcast_error")
+    "fitted target",class="coherent4cast_error")
   second<-subject;subject$stop<-.2;second$start<-.2;second$x<-1-subject$x
   expect_error(predict(fit,newdata=rbind(subject,second),landmark=.3,horizon=.2,type="risk",interval="none"),
-    "baseline strata",class="recurcast_error")
+    "baseline strata",class="coherent4cast_error")
   # A change after the landmark is unobserved at prediction and must not enter.
   second$start<-.5;subject$stop<-.5
   future<-rbind(subject,second);unchanged<-future;unchanged$x<-subject$x
@@ -39,8 +39,8 @@ test_that("conditional targeted prediction enforces its baseline experiment", {
 test_that("frailty-family comparisons retain identical subject case weights", {
   d<-rc_simulate(60,rates=c(.5,.2),beta=c(.1,.1),history=c(.2,.2),seed=45,time_unit="years")
   weights<-rep(c(1,3),30)
-  fit<-suppressWarnings(recurcast(~x,d,event_types="1",time_unit="years",weights=weights,frailty_diagnostics=FALSE,
-    control=recurcast_control(history_cap=1L,quadrature=16L,quadrature_max=128L,quadrature_tolerance=1e-5,maxit=100L)))
+  fit<-suppressWarnings(coherent4cast(~x,d,event_types="1",time_unit="years",weights=weights,frailty_diagnostics=FALSE,
+    control=coherent4cast_control(history_cap=1L,quadrature=16L,quadrature_max=128L,quadrature_tolerance=1e-5,maxit=100L)))
   diagnostic<-rc_frailty_diagnose(fit,alternatives=TRUE)
   expect_match(diagnostic$comparison_scope,"descriptive weighted criterion")
   expect_match(diagnostic$null_variance_test$calibration,"fixed or exogenous")
@@ -68,8 +68,8 @@ test_that("frailty-family comparisons retain identical subject case weights", {
 
 test_that("a nonregular null nuisance fit cannot produce a boundary p value", {
   d<-rc_simulate(40,rates=c(.5,.2),beta=c(0,0),history=c(0,0),seed=92,time_unit="years")
-  fit<-suppressWarnings(recurcast(~1,d,event_types=c("1","unobserved"),time_unit="years",frailty_diagnostics=FALSE,
-    control=recurcast_control(phi_fixed=.4,history_cap=1L,maxit=100L)))
+  fit<-suppressWarnings(coherent4cast(~1,d,event_types=c("1","unobserved"),time_unit="years",frailty_diagnostics=FALSE,
+    control=coherent4cast_control(phi_fixed=.4,history_cap=1L,maxit=100L)))
   diagnostic<-rc_frailty_diagnose(fit)$null_variance_test
   expect_false(diagnostic$null_regular)
   expect_true(is.na(diagnostic$p.value))

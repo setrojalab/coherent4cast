@@ -1,3 +1,11 @@
+# coherent4cast 0.10.2
+
+- Renamed the package from recurcast to coherent4cast and updated its title, DLL registration, documentation and publication links.
+- The R S3 interface and Rcpp/C++17 architecture are retained. Numerical kernel source files are unchanged.
+- Use library(coherent4cast), coherent4cast() and coherent4cast_control(). The earlier function names remain compatibility aliases; rc_* interfaces retain their names.
+- Returned classes and audit labels use the new package name. Refit saved objects made by the earlier package before using methods from the renamed namespace.
+- This release requires fresh package and platform checks; the historical records below describe earlier releases.
+
 # recurcast 0.10.1 (unpublished targeted revision)
 
 - Add the S12 baseline binary-treatment extension through rc_causal() and

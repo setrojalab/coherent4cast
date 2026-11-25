@@ -55,7 +55,7 @@
 
 #' Forecast a fitted common-law trajectory at a landmark
 #' @export
-predict.recurcast <- function(object,newdata=NULL,landmark,horizon,type=c("risk","burden","survival","rmst","all"),
+predict.coherent4cast <- function(object,newdata=NULL,landmark,horizon,type=c("risk","burden","survival","rmst","all"),
                               quadrature=object$control$quadrature,
                               covariate_evolution=c("freeze","locf","joint_submodel"),newdata_future=NULL,
                               covariate_model=NULL,covariate_draws=100L,covariate_grid=16L,seed=1L,covariate_history=NULL,
@@ -136,7 +136,7 @@ predict.recurcast <- function(object,newdata=NULL,landmark,horizon,type=c("risk"
     }
   }
   if(!length(output)) .rc_error("eligibility","No unit is observed and terminal-event-free at this landmark.")
-  ans<-do.call(rbind,output);rownames(ans)<-NULL;class(ans)<-c("recurcast_prediction","rc_forecast","data.frame")
+  ans<-do.call(rbind,output);rownames(ans)<-NULL;class(ans)<-c("coherent4cast_prediction","rc_forecast","data.frame")
   attr(ans,"excluded_units")<-rejected
   if(length(output_draws))attr(ans,"covariate_draw_forecasts")<-do.call(cbind,output_draws)
   attr(ans,"assumptions")<-c(paste("Future covariate rule:",covariate_evolution),"capped count state determines future intensity",

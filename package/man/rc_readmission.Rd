@@ -14,8 +14,8 @@ if (requireNamespace("frailtypack", quietly = TRUE)) {
   x <- rc_readmission()
   x$metadata[c("patients", "recurrences", "terminal_events")]
   # Fit explicitly when desired:
-  # fit <- recurcast(x$formula, x$data, time_unit="years", event_types="1")
+  # fit <- coherent4cast(x$formula, x$data, time_unit="years", event_types="1")
 }
 }
-\seealso{\code{\link{rc_colon}}, \code{\link{recurcast}}}
+\seealso{\code{\link{rc_colon}}, \code{\link{coherent4cast}}}
 \references{The source-package data dictionary is in the frailtypack reference manual, entry readmission: \url{https://CRAN.R-project.org/package=frailtypack}.}

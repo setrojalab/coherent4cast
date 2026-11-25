@@ -1,6 +1,6 @@
 \name{conformal}
 \alias{conformal}
-\title{RecurCast conformal interface}
+\title{coherent4cast conformal interface}
 \description{S3 or convenience interface for conformal output.}
 \usage{
 conformal(object, ...) 

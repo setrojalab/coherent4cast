@@ -1,10 +1,10 @@
 # Reproduce the R-only 0.10.1 wrappers and audit export without changing kernels.
 arg<-grep("^--file=",commandArgs(FALSE),value=TRUE)
 root<-if(length(arg))normalizePath(file.path(dirname(sub("^--file=","",arg[1])),".."),winslash="/")else normalizePath(".",winslash="/")
-local_library<-Sys.getenv("RECURCAST_LIBRARY","")
+local_library<-Sys.getenv("COHERENT4CAST_LIBRARY","")
 if(nzchar(local_library)).libPaths(c(local_library,.libPaths()))
-library(recurcast)
-outdir<-Sys.getenv("RECURCAST_STANDARD_OUTPUT",file.path(root,"replication/results/standard_regimes"))
+library(coherent4cast)
+outdir<-Sys.getenv("COHERENT4CAST_STANDARD_OUTPUT",file.path(root,"replication/results/standard_regimes"))
 dir.create(outdir,recursive=TRUE,showWarnings=FALSE)
 
 d<-data.frame(id=1:12,time=c(.2,.3,.4,.5,.6,.8,1,1.2,1.3,1.5,1.7,2),
@@ -32,7 +32,7 @@ survfit<-rc_surv(survival::Surv(time,status)~1,survdata,unit="id",time_unit="yea
 write.csv(predict(survfit,newdata=data.frame(id=101),horizon=c(.5,1,2),type="all"),
   file.path(outdir,"toy_survival_forecasts.csv"),row.names=FALSE)
 audit<-rc_audit_report(comp,predictions=pred,
-  source_files=file.path(root,c("package/R/wrappers.R","package/inst/include/librecurcast/sparse_uniformize.hpp")),
+  source_files=file.path(root,c("package/R/wrappers.R","package/inst/include/libcoherent4cast/sparse_uniformize.hpp")),
   format="list")
 audit_json<-rc_audit_report(comp,predictions=pred,source_files=file.path(root,"package/R/wrappers.R"),
   format="json",file=file.path(outdir,"toy_audit.json"))

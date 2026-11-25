@@ -1,11 +1,11 @@
 # Small, wholly synthetic mapping examples; not certified/native adapters.
-# Install recurcast and dependencies first. No external data are downloaded.
+# Install coherent4cast and dependencies first. No external data are downloaded.
 args <- grep("^--file=", commandArgs(FALSE), value = TRUE)
 root <- if (length(args)) normalizePath(file.path(dirname(sub("^--file=", "", args[1])), ".."), winslash = "/") else normalizePath(".", winslash = "/")
-lib <- Sys.getenv("RECURCAST_LIBRARY", "")
+lib <- Sys.getenv("COHERENT4CAST_LIBRARY", "")
 if (nzchar(lib)) .libPaths(c(lib, .libPaths()))
-library(recurcast)
-out <- Sys.getenv("RECURCAST_MAPPING_OUTPUT", file.path(root, "replication/results/standards_mapping"))
+library(coherent4cast)
+out <- Sys.getenv("COHERENT4CAST_MAPPING_OUTPUT", file.path(root, "replication/results/standards_mapping"))
 dir.create(out, recursive = TRUE, showWarnings = FALSE)
 checks <- data.frame(check = character(), passed = logical())
 check <- function(name, value) {

@@ -3,7 +3,7 @@ ct_fixture_fit <- local({
   function() {
     if(is.null(saved)) {
       d<-read.csv(test_path("fixtures","continuous_target_subjects.csv"))
-      saved<<-recurcast(~x,d,time_unit="year",event_types=c("recurrent1","recurrent2"),
+      saved<<-coherent4cast(~x,d,time_unit="year",event_types=c("recurrent1","recurrent2"),
         targeting="continuous",targeting_spec=list(horizon=1,censor="censored",strata="x",folds="fold",
           grid=64,working="pooled",censor_rates=rep(c(.35,.55),5)))
     }
@@ -13,7 +13,7 @@ ct_fixture_fit <- local({
 test_that("continuous primary API reproduces the V5 F2 martingale update", {
   fit<-ct_fixture_fit()
   expected<-read.csv(test_path("fixtures","continuous_target_expected.csv"))
-  expect_s3_class(fit,"recurcast_targeted")
+  expect_s3_class(fit,"coherent4cast_targeted")
   expect_true(fit$convergence$valid)
   expect_equal(unname(fit$estimate),expected$estimate,tolerance=1e-11)
   expect_equal(unname(fit$se),expected$se,tolerance=1e-11)
@@ -66,36 +66,36 @@ test_that("conditional forecasts update one fold-mixture law without using futur
   risk<-predict(fit,newdata=subject,landmark=.2,horizon=.4,type="risk",interval="none")
   surv<-predict(fit,newdata=subject,landmark=.2,horizon=.4,type="survival",interval="none")
   expect_equal(risk$estimate+surv$estimate,1,tolerance=1e-13)
-  expect_error(predict(fit,newdata=subject,landmark=.2,horizon=.4,interval="multiplier"),class="recurcast_error")
-  expect_error(predict(fit,newdata=subject,landmark=.2,horizon=1),class="recurcast_error")
+  expect_error(predict(fit,newdata=subject,landmark=.2,horizon=.4,interval="multiplier"),class="coherent4cast_error")
+  expect_error(predict(fit,newdata=subject,landmark=.2,horizon=1),class="coherent4cast_error")
 })
 test_that("finite-path targeting is exposed through the same fit and predict interface", {
   d<-read.csv(test_path("fixtures","target_subjects.csv"));d$id<-seq_len(nrow(d))
   features<-as.matrix(read.csv(test_path("fixtures","target_features.csv")))
-  z<-recurcast(~strata,d,time_unit="window",targeting="finite_path",
+  z<-coherent4cast(~strata,d,time_unit="window",targeting="finite_path",
      targeting_spec=list(path="path",recorded="recorded",strata="strata",features=features,folds="fold",horizon=2))
   old<-rc_target(d$path,d$recorded,d$strata,features,d$fold)
-  expect_s3_class(z,"recurcast_targeted")
+  expect_s3_class(z,"coherent4cast_targeted")
   expect_equal(z$estimate,old$estimate,tolerance=1e-12)
   expect_equal(z$EIF,old$EIF,tolerance=1e-12)
   p<-predict(z,draws=200)
   expect_equal(nrow(p),ncol(features));expect_true(all(is.finite(p$lower)))
-  expect_error(predict(z,landmark=1,horizon=1),class="recurcast_error")
+  expect_error(predict(z,landmark=1,horizon=1),class="coherent4cast_error")
 })
 test_that("continuous targeting requires explicit censor and baseline observation assumptions", {
   d<-read.csv(test_path("fixtures","continuous_target_subjects.csv"))
   spec<-list(horizon=1,censor="censored",strata="x",folds="fold",grid=16,working="pooled")
-  expect_error(recurcast(~x,d,time_unit="year",targeting="continuous"),class="recurcast_error")
+  expect_error(coherent4cast(~x,d,time_unit="year",targeting="continuous"),class="coherent4cast_error")
   missing<-spec;missing$censor<-"missing"
-  expect_error(recurcast(~x,d,time_unit="year",targeting="continuous",targeting_spec=missing),class="recurcast_error")
+  expect_error(coherent4cast(~x,d,time_unit="year",targeting="continuous",targeting_spec=missing),class="coherent4cast_error")
   bad<-d;bad$censored[]<-0
-  expect_error(recurcast(~x,bad,time_unit="year",targeting="continuous",targeting_spec=spec),class="recurcast_error")
+  expect_error(coherent4cast(~x,bad,time_unit="year",targeting="continuous",targeting_spec=spec),class="coherent4cast_error")
   bad<-d;ids<-which(duplicated(bad$id));bad$x[ids[1]]<-1-bad$x[ids[1]]
-  expect_error(recurcast(~x,bad,time_unit="year",targeting="continuous",targeting_spec=spec),class="recurcast_error")
+  expect_error(coherent4cast(~x,bad,time_unit="year",targeting="continuous",targeting_spec=spec),class="coherent4cast_error")
   singular<-spec;singular$folds<-rep(1,500)
-  expect_error(recurcast(~x,d,time_unit="year",targeting="continuous",targeting_spec=singular),class="recurcast_error")
+  expect_error(coherent4cast(~x,d,time_unit="year",targeting="continuous",targeting_spec=singular),class="coherent4cast_error")
   short<-spec;short$maxit<-0L
-  expect_warning(z<-recurcast(~x,d,time_unit="year",targeting="continuous",targeting_spec=short),"Targeting score")
+  expect_warning(z<-coherent4cast(~x,d,time_unit="year",targeting="continuous",targeting_spec=short),"Targeting score")
   expect_false(z$convergence$valid)
   expect_true(all(is.na(predict(z,interval="logit_gaussian",draws=200)$lower)))
 })
@@ -103,7 +103,7 @@ test_that("continuous targeting requires explicit censor and baseline observatio
 test_that("zero-event Gaussian precision is withheld and bounded uncensored fallback is explicit", {
  d<-data.frame(id=1:40,start=0,stop=1,event_type=rep(c("recurrent1","none"),20),terminal=0,censored=0,x=0)
  spec<-list(horizon=1,censor="censored",strata="x",nfolds=2,grid=16,working="pooled")
- expect_warning(fit<-recurcast(~x,d,time_unit="year",targeting="continuous",event_types=c("recurrent1","recurrent2"),targeting_spec=spec),"boundary")
+ expect_warning(fit<-coherent4cast(~x,d,time_unit="year",targeting="continuous",event_types=c("recurrent1","recurrent2"),targeting_spec=spec),"boundary")
  expect_true(any(fit$zero_event_boundary))
  expect_false(fit$convergence$valid)
  p<-predict(fit,draws=100)
@@ -112,7 +112,7 @@ test_that("zero-event Gaussian precision is withheld and bounded uncensored fall
  expect_match(p$inference_status[1],"unbounded_burden_outer_support")
  expect_true(all(is.na(predict(fit,interval="logit_gaussian",draws=100)$lower)))
  spec$complete_followup<-TRUE
- expect_warning(complete<-recurcast(~x,d,time_unit="year",targeting="continuous",event_types=c("recurrent1","recurrent2"),targeting_spec=spec),"boundary")
+ expect_warning(complete<-coherent4cast(~x,d,time_unit="year",targeting="continuous",event_types=c("recurrent1","recurrent2"),targeting_spec=spec),"boundary")
  bounded<-predict(complete,draws=100)
  expect_identical(unique(bounded$interval),"bounded_coarsening_projection")
  risk<-bounded[bounded$target=="risk",]

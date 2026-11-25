@@ -1,9 +1,9 @@
 # Executed S12 baseline-treatment workflow. All generated subjects are synthetic.
 file_arg <- grep("^--file=", commandArgs(FALSE), value = TRUE)
 here <- if (length(file_arg)) dirname(normalizePath(sub("^--file=", "", file_arg[1]), winslash = "/")) else normalizePath(".", winslash = "/")
-lib <- Sys.getenv("RECURCAST_LIBRARY", "")
+lib <- Sys.getenv("COHERENT4CAST_LIBRARY", "")
 if (nzchar(lib)) .libPaths(c(lib, .libPaths()))
-library(recurcast)
+library(coherent4cast)
 out <- file.path(here, "results"); dir.create(out, recursive = TRUE, showWarnings = FALSE)
 set.seed(20261123)
 n <- 1600L; rows <- list(); index <- 0L

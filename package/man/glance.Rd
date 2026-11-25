@@ -1,7 +1,7 @@
 \name{glance}
 \alias{glance}
-\alias{glance.recurcast}
-\title{RecurCast glance interface}
+\alias{glance.coherent4cast}
+\title{coherent4cast glance interface}
 \description{S3 or convenience interface for glance output.}
 \usage{
 glance(x, ...) 

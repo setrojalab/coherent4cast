@@ -1,3 +1,3 @@
 library(testthat)
-library(recurcast)
-test_check("recurcast")
+library(coherent4cast)
+test_check("coherent4cast")

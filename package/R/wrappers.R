@@ -56,22 +56,22 @@
 .rc_wrapper_dots <- function(dots) {
   if(length(dots)&&(is.null(names(dots))||any(!nzchar(names(dots))))) .rc_error("wrapper_arguments","Additional fit arguments must be named.")
   banned<-c("frailty","unit","start","stop","event_type","terminal","event_types","time_unit","targeting","observation","coarsening","subset","nonrecurrent")
-  if(any(names(dots)%in%banned)) .rc_error("wrapper_scope","Schema, no-frailty, exact observation and ordinary estimation are fixed by these wrappers; use recurcast() for other experiments.")
+  if(any(names(dots)%in%banned)) .rc_error("wrapper_scope","Schema, no-frailty, exact observation and ordinary estimation are fixed by these wrappers; use coherent4cast() for other experiments.")
 }
 
 #' Fit right-censored survival using the existing no-frailty likelihood
 #' @export
 rc_surv <- function(formula,data,time="time",status="status",unit=NULL,start=NULL,
-                    time_unit,breaks=c(0,Inf),control=recurcast_control(),...) {
+                    time_unit,breaks=c(0,Inf),control=coherent4cast_control(),...) {
   .rc_wrapper_dots(list(...))
   spec<-.rc_wrapper_formula(formula,time,status,start)
   spec$unit<-unit;spec$time_unit<-time_unit;spec$censor_code<-0
   d<-.rc_wrapper_data(data,spec)
-  fit<-recurcast(spec$formula,d,unit=".rcw_unit",start=".rcw_start",stop=".rcw_stop",
+  fit<-coherent4cast(spec$formula,d,unit=".rcw_unit",start=".rcw_start",stop=".rcw_stop",
     event_type=".rcw_recurrent",terminal=".rcw_terminal",event_types=character(),
     time_unit=time_unit,breaks=breaks,control=control,frailty="none",...)
   fit$wrapper<-spec;fit$audit$wrapper_call<-match.call()
-  class(fit)<-c("recurcast_surv",class(fit));fit
+  class(fit)<-c("coherent4cast_surv",class(fit));fit
 }
 
 .rc_wrapper_future <- function(future,spec) {
@@ -83,10 +83,10 @@ rc_surv <- function(formula,data,time="time",status="status",unit=NULL,start=NUL
 }
 
 #' @export
-predict.recurcast_surv <- function(object,newdata=NULL,landmark=0,horizon,
+predict.coherent4cast_surv <- function(object,newdata=NULL,landmark=0,horizon,
                                   newdata_future=NULL,covariate_history=NULL,...) {
   d<-if(is.null(newdata))NULL else .rc_wrapper_data(newdata,object$wrapper,profiles=TRUE,landmark=landmark,horizon=horizon)
-  out<-predict.recurcast(object,newdata=d,landmark=landmark,horizon=horizon,
+  out<-predict.coherent4cast(object,newdata=d,landmark=landmark,horizon=horizon,
     newdata_future=.rc_wrapper_future(newdata_future,object$wrapper),
     covariate_history=.rc_wrapper_future(covariate_history,object$wrapper),...)
   if(!is.null(d)&&isTRUE(attr(d,"profile_only"))) attr(out,"profile_assumption")<-"Each supplied covariate profile is declared eligible and event-free at the landmark; synthetic mapping intervals are not observed follow-up."
@@ -97,7 +97,7 @@ predict.recurcast_surv <- function(object,newdata=NULL,landmark=0,horizon,
 #' @export
 rc_competing <- function(formula,data,time="time",status="status",unit=NULL,start=NULL,
                          causes=NULL,censor_code=0,time_unit,breaks=c(0,Inf),
-                         control=recurcast_control(),...) {
+                         control=coherent4cast_control(),...) {
   dots<-list(...);.rc_wrapper_dots(dots)
   spec<-.rc_wrapper_formula(formula,time,status,start)
   if(length(censor_code)!=1L||is.na(censor_code)||!nzchar(as.character(censor_code))) .rc_error("censor_code","Declare one nonmissing censoring code.")
@@ -116,7 +116,7 @@ rc_competing <- function(formula,data,time="time",status="status",unit=NULL,star
     dk<-d;class(dk)<-"data.frame";attr(dk,"rc_schema")<-NULL
     dk$.rcw_terminal<-as.integer(d$.rcw_cause==causes[k]);dk$.rcw_cause<-ifelse(dk$.rcw_terminal==1L,causes[k],"0")
     if(!sum(dk$.rcw_terminal)) .rc_error("no_cause_events",paste("No events support the declared cause",causes[k],"; its hazard is not estimated by this regular wrapper."))
-    fits[[k]]<-recurcast(spec$formula,dk,unit=".rcw_unit",start=".rcw_start",stop=".rcw_stop",
+    fits[[k]]<-coherent4cast(spec$formula,dk,unit=".rcw_unit",start=".rcw_start",stop=".rcw_stop",
       event_type=".rcw_recurrent",terminal=".rcw_terminal",event_types=character(),
       time_unit=time_unit,breaks=breaks,control=control,frailty="none",...)
   }
@@ -137,11 +137,11 @@ rc_competing <- function(formula,data,time="time",status="status",unit=NULL,star
     audit=c(list(call=match.call(),assumptions=c("cause-specific piecewise-exponential proportional hazards",
       "independent units and valid censoring observation model","mutually exclusive absorbing first-event causes",
       "no frailty; cumulative incidence integrates every cause-specific hazard")),.rc_capture_audit_context(d,match.call())))
-  class(out)<-"recurcast_competing";out
+  class(out)<-"coherent4cast_competing";out
 }
 
 #' @export
-predict.recurcast_competing <- function(object,newdata=NULL,landmark=0,horizon,
+predict.coherent4cast_competing <- function(object,newdata=NULL,landmark=0,horizon,
     type=c("cif","survival","risk","rmst","all"),covariate_evolution=c("freeze","locf"),
     newdata_future=NULL,...) {
   if(length(list(...))) .rc_error("unused_argument","Unsupported competing-risk prediction argument.")
@@ -183,7 +183,7 @@ predict.recurcast_competing <- function(object,newdata=NULL,landmark=0,horizon,
     }
   }
   if(!length(output)) .rc_error("eligibility","No unit is event-free and observed at the landmark.")
-  out<-do.call(rbind,output);rownames(out)<-NULL;class(out)<-c("recurcast_prediction","rc_forecast","data.frame")
+  out<-do.call(rbind,output);rownames(out)<-NULL;class(out)<-c("coherent4cast_prediction","rc_forecast","data.frame")
   attr(out,"excluded_units")<-excluded
   attr(out,"assumptions")<-c(object$audit$assumptions,"Forecast numerical bounds exclude sampling and model error.")
   if(isTRUE(attr(d,"profile_only")))attr(out,"profile_assumption")<-"Supplied profiles are declared event-free at the landmark; mapping intervals are not observed follow-up."
@@ -191,28 +191,28 @@ predict.recurcast_competing <- function(object,newdata=NULL,landmark=0,horizon,
 }
 
 #' @export
-print.recurcast_competing <- function(x,...) {cat("RecurCast cause-specific no-frailty competing-risk model\n",x$n,"independent units; causes:",paste(x$causes,collapse=", "),"\n");invisible(x)}
+print.coherent4cast_competing <- function(x,...) {cat("coherent4cast cause-specific no-frailty competing-risk model\n",x$n,"independent units; causes:",paste(x$causes,collapse=", "),"\n");invisible(x)}
 #' @export
-coef.recurcast_competing <- function(object,...)object$coefficients
+coef.coherent4cast_competing <- function(object,...)object$coefficients
 #' @export
-vcov.recurcast_competing <- function(object,...)object$covariance
+vcov.coherent4cast_competing <- function(object,...)object$covariance
 #' @export
-logLik.recurcast_competing <- function(object,...)structure(object$loglik,df=length(object$coefficients),nobs=object$n,class="logLik")
+logLik.coherent4cast_competing <- function(object,...)structure(object$loglik,df=length(object$coefficients),nobs=object$n,class="logLik")
 #' @export
-tidy.recurcast_competing <- function(x,...) {
+tidy.coherent4cast_competing <- function(x,...) {
   se<-sqrt(pmax(0,diag(x$covariance)));data.frame(term=names(x$coefficients),estimate=unname(x$coefficients),std.error=se,
       conf.low=unname(x$coefficients)-stats::qnorm(.975)*se,conf.high=unname(x$coefficients)+stats::qnorm(.975)*se)
 }
 #' @export
-summary.recurcast_competing <- function(object,...)list(coefficients=tidy(object),convergence=object$convergence,
+summary.coherent4cast_competing <- function(object,...)list(coefficients=tidy(object),convergence=object$convergence,
     interval_scope="Regular joint sandwich approximation; no automatic CIF confidence bands.",audit=object$audit)
 #' @export
-glance.recurcast_competing <- function(x,...)data.frame(n=x$n,causes=length(x$causes),logLik=x$loglik,
+glance.coherent4cast_competing <- function(x,...)data.frame(n=x$n,causes=length(x$causes),logLik=x$loglik,
     AIC=-2*x$loglik+2*length(x$coefficients),converged=x$convergence$valid)
 
 #' Validate cause-specific cumulative incidence without censoring competing events
 #' @export
-validate.recurcast_competing <- function(object,time,status,horizon,cause,predicted,
+validate.coherent4cast_competing <- function(object,time,status,horizon,cause,predicted,
     censor_survival=NULL,threshold=.2,strata=NULL,...) {
   if(length(list(...))) .rc_error("unused_argument","Unsupported competing-risk validation argument.")
   if(length(cause)!=1L||!as.character(cause)%in%object$causes) .rc_error("cause","Select one fitted absorbing cause.")

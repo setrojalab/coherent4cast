@@ -41,11 +41,11 @@ test_that("competing cause metadata is explicit and consistent with absorption",
   expect_identical(attr(z, "rc_schema")$terminal_causes_observed, c("cause_A", "cause_B"))
   expect_identical(attr(as_trajectory(z, time_unit = "years"), "rc_schema")$terminal_cause, "cause")
   d$cause[1] <- NA
-  expect_error(as_trajectory(d, time_unit = "years", terminal_cause = "cause"), "absorbing-event row", class = "recurcast_error")
+  expect_error(as_trajectory(d, time_unit = "years", terminal_cause = "cause"), "absorbing-event row", class = "coherent4cast_error")
   d$cause <- c("cause_A", "cause_B", "cause_C")
-  expect_error(as_trajectory(d, time_unit = "years", terminal_cause = "cause"), "only on an absorbing", class = "recurcast_error")
-  expect_error(as_trajectory(d, time_unit = "years", terminal_cause = c("cause", "terminal")), class = "recurcast_error")
-  expect_error(as_trajectory(d, time_unit = "years", terminal_cause = "absent"), "column is absent", class = "recurcast_error")
+  expect_error(as_trajectory(d, time_unit = "years", terminal_cause = "cause"), "only on an absorbing", class = "coherent4cast_error")
+  expect_error(as_trajectory(d, time_unit = "years", terminal_cause = c("cause", "terminal")), class = "coherent4cast_error")
+  expect_error(as_trajectory(d, time_unit = "years", terminal_cause = "absent"), "column is absent", class = "coherent4cast_error")
 })
 
 test_that("observation labels preserve gaps, monitoring and delayed-entry distinctions", {
@@ -59,7 +59,7 @@ test_that("observation labels preserve gaps, monitoring and delayed-entry distin
   expect_identical(attr(late, "observation_process"), "delayed_entry")
   expect_identical(attr(late, "rc_schema")$delayed_entry, 3L)
   expect_false(attr(late, "observation_process_details")$continuous_observation_from_zero)
-  expect_error(recurcast(~x, late, time_unit = "years", frailty_diagnostics = FALSE), "entry", class = "recurcast_error")
+  expect_error(coherent4cast(~x, late, time_unit = "years", frailty_diagnostics = FALSE), "entry", class = "coherent4cast_error")
   d$start[3] <- 0; d$start[2] <- 1.1; d$monitored <- c(TRUE, FALSE, TRUE)
   gaps <- as_trajectory(d, time_unit = "years", observed = "monitored")
   expect_identical(attr(gaps, "observation_process_details")$gap_rows, 2L)
@@ -70,7 +70,7 @@ test_that("observation labels preserve gaps, monitoring and delayed-entry distin
 test_that("audit capture fingerprints data without exporting subject records", {
   d <- as_trajectory(p3_schema_fixture(), time_unit = "years")
   capture <- get(".rc_capture_audit_context", envir = environment(rc_audit_report))
-  ctx <- capture(d, quote(recurcast(formula = ~x, data = data.frame(id = "PRIVATE_SUBJECT"), time_unit = "years")))
+  ctx <- capture(d, quote(coherent4cast(formula = ~x, data = data.frame(id = "PRIVATE_SUBJECT"), time_unit = "years")))
   expect_identical(ctx$data_fingerprint$algorithm, "SHA-256")
   expect_equal(nchar(ctx$data_fingerprint$value), 64)
   expect_identical(ctx$data_fingerprint$value,
@@ -85,7 +85,7 @@ test_that("audit capture fingerprints data without exporting subject records", {
   ctx$captured_at_utc <- "2020-01-01T00:00:00.000000Z"
   fit <- structure(list(data = d, schema = attr(d, "rc_schema"), formula = ~x, n = 2L,
     npaths = 2L, targeting = "none", frailty = "gamma", convergence = list(valid = FALSE, code = "nonregular_fit"),
-    audit = c(list(data_hash = "legacy_md5_value", data_hash_algorithm = "MD5 integrity fingerprint", seed = 7L), ctx)), class = "recurcast")
+    audit = c(list(data_hash = "legacy_md5_value", data_hash_algorithm = "MD5 integrity fingerprint", seed = 7L), ctx)), class = "coherent4cast")
   pred <- data.frame(unit = "PRIVATE_SUBJECT", estimate = .2,
     series_error_bound = c(1e-12, 2e-12), covariate_mcse = c(0, NA_real_))
   report <- rc_audit_report(fit, predictions = pred)
@@ -116,9 +116,9 @@ test_that("source hashes describe only supplied files at export", {
   expect_null(r$export$session)
   expect_match(r$fit_context$status, "not captured")
   expect_equal(nrow(rc_audit_report(d)$source_files), 0)
-  expect_error(rc_audit_report(d, source_files = tempfile()), class = "recurcast_error")
-  expect_error(rc_audit_report(d, source_files = tempdir()), "directories are not scanned", class = "recurcast_error")
-  expect_error(rc_audit_report(d, source_files = NA_character_), class = "recurcast_error")
+  expect_error(rc_audit_report(d, source_files = tempfile()), class = "coherent4cast_error")
+  expect_error(rc_audit_report(d, source_files = tempdir()), "directories are not scanned", class = "coherent4cast_error")
+  expect_error(rc_audit_report(d, source_files = NA_character_), class = "coherent4cast_error")
   changed <- d; changed$x[1] <- 99
   expect_false(identical(r$export$data_fingerprint$value, rc_audit_report(changed)$export$data_fingerprint$value))
 })
@@ -128,18 +128,18 @@ test_that("audit formats write equivalent portable reports and validate their in
   jf <- tempfile(fileext = ".json"); tf <- tempfile(fileext = ".txt"); rf <- tempfile(fileext = ".rds")
   on.exit(unlink(c(jf, tf, rf)), add = TRUE)
   js <- rc_audit_report(d, format = "json", file = jf, include_session = FALSE)
-  expect_identical(jsonlite::fromJSON(jf)$report_type, "recurcast_audit_report")
+  expect_identical(jsonlite::fromJSON(jf)$report_type, "coherent4cast_audit_report")
   expect_identical(jsonlite::fromJSON(js)$export$data_fingerprint$value, rc_audit_report(d)$export$data_fingerprint$value)
   txt <- rc_audit_report(d, format = "text", file = tf, include_session = FALSE)
   expect_identical(readLines(tf), txt)
   lst <- rc_audit_report(d, file = rf)
   expect_identical(readRDS(rf), lst)
-  expect_error(rc_audit_report(list()), class = "recurcast_error")
-  expect_error(rc_audit_report(d, include_session = NA), class = "recurcast_error")
-  expect_error(rc_audit_report(d, file = NA_character_), class = "recurcast_error")
-  expect_error(rc_audit_report(d, predictions = list()), class = "recurcast_error")
-  expect_error(rc_audit_report(d, predictions = data.frame(series_error_bound = "bad")), class = "recurcast_error")
-  p <- data.frame(estimate = .5); class(p) <- c("recurcast_prediction", "data.frame")
+  expect_error(rc_audit_report(list()), class = "coherent4cast_error")
+  expect_error(rc_audit_report(d, include_session = NA), class = "coherent4cast_error")
+  expect_error(rc_audit_report(d, file = NA_character_), class = "coherent4cast_error")
+  expect_error(rc_audit_report(d, predictions = list()), class = "coherent4cast_error")
+  expect_error(rc_audit_report(d, predictions = data.frame(series_error_bound = "bad")), class = "coherent4cast_error")
+  p <- data.frame(estimate = .5); class(p) <- c("coherent4cast_prediction", "data.frame")
   expect_equal(nrow(rc_audit_report(p)$numerical$prediction), 0)
   expect_null(rc_audit_report(p)$export$data_fingerprint)
 })
@@ -154,5 +154,5 @@ test_that("the new competing-risk interface exports an audit without a fictitiou
   expect_true(is.character(r$fit_context$captured_at_utc))
   expect_identical(r$fit_context$data_fingerprint$algorithm, "SHA-256")
   expect_identical(jsonlite::fromJSON(rc_audit_report(fit, format = "json"))$report_type,
-    "recurcast_audit_report")
+    "coherent4cast_audit_report")
 })

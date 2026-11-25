@@ -2,7 +2,7 @@
 
 Copyright 2026 Sunday A. Adetunji and Oluwatimileyin A. Adetunji.
 
-RecurCast is distributed under the GNU General Public License, version 3.
+coherent4cast is distributed under the GNU General Public License, version 3.
 The complete license is available at https://www.gnu.org/licenses/gpl-3.0.html
 and in the R distribution at share/licenses/GPL-3.
 

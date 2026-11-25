@@ -1,8 +1,8 @@
 \name{autoplot}
 \alias{autoplot}
-\alias{autoplot.recurcast_prediction}
-\alias{plot.recurcast_prediction}
-\title{RecurCast autoplot interface}
+\alias{autoplot.coherent4cast_prediction}
+\alias{plot.coherent4cast_prediction}
+\title{coherent4cast autoplot interface}
 \description{S3 or convenience interface for autoplot output.}
 \usage{
 autoplot(object, ...) 

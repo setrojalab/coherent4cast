@@ -13,7 +13,7 @@
 \item{max_perms,draws,seed,max_paths}{Automatic fibre controls; see \code{rc_coarsen_fibre}.}
 }
 \description{Transforms the source paired endpoints into event-time windows and calls the general automatic C++ fibre engine. With the default source data, all 929 patients and five same-day pairs are retained.}
-\value{A \code{recurcast_fibre} object, suggested baseline formula, canonical dataset metadata, and \code{observed_data} containing the source event-window records. The latter can be supplied directly to \code{recurcast(..., observation="coarsened")} without constructing paths manually.}
+\value{A \code{coherent4cast_fibre} object, suggested baseline formula, canonical dataset metadata, and \code{observed_data} containing the source event-window records. The latter can be supplied directly to \code{coherent4cast(..., observation="coarsened")} without constructing paths manually.}
 \details{A recorded day d defines the window (d-1,d] in days, converted using 365.25 days per year. Recurrence is nonrepeatable, terminal death is last, and a recorded recurrence is never discarded to create a death-only alternative. Early termination of recurrence surveillance truncates follow-up consistently with \code{rc_colon}. Binary node4 is retained as supplied; its known inconsistency with nodes is addressed by an explicit sensitivity choice. Full-follow-up fibres cannot be reused for earlier conditional forecasts.}
 \examples{if (requireNamespace("survival", quietly=TRUE)) {
   # Keep the example small while including a recorded same-day pair.

@@ -45,9 +45,9 @@
 
 #' Fit a common shared-gamma recurrent and terminal event law
 #' @export
-recurcast <- function(formula, data, unit="id", start="start", stop="stop", event_type="event_type",
+coherent4cast <- function(formula, data, unit="id", start="start", stop="stop", event_type="event_type",
     terminal="terminal", observed=NULL, event_types=NULL, time_unit, breaks=c(0,Inf),
-    observation=c("exact","coarsened"), targeting="none", control=recurcast_control(),
+    observation=c("exact","coarsened"), targeting="none", control=coherent4cast_control(),
     weights=NULL, subset=NULL, na.action=stats::na.fail, labels=NULL, nonrecurrent=character(),
     coarsening=NULL, intervention=NULL, estimand=NULL, seed=1L,
     frailty=c("gamma","lognormal","discrete","none"),frailty_points=2L,frailty_diagnostics=TRUE,
@@ -191,11 +191,11 @@ recurcast <- function(formula, data, unit="id", start="start", stop="stop", even
       breaks=breaks,control=control,schema=schema,nonrecurrent=nr,labels=labels,coarsening=coarsening,
       convergence=list(code=if(!quadrature_valid)"quadrature_unresolved" else if(valid)"converged" else if(at_bound)"parameter_boundary" else "nonregular_fit",
         optimizer=opt$convergence,message=opt$message,gradient=max(abs(z$gradient)),information_eigenvalues=eig,at_boundary=at_bound,valid=valid),
-      audit=list(version=as.character(utils::packageVersion("recurcast")),seed=seed,call=call,data_hash=unname(tools::md5sum(hashfile)),
+      audit=list(version=as.character(utils::packageVersion("coherent4cast")),seed=seed,call=call,data_hash=unname(tools::md5sum(hashfile)),
        data_hash_algorithm="MD5 integrity fingerprint, not a security signature",omitted_units=omitted,structurally_inactive_coefficients=dd$full_names[-active],estimand=estimand,
        automatic_fibre=fibre_audit,multistart_objectives=multistart_values,quadrature_refinement=quadrature_audit,quadrature_stable=quadrature_valid,
        assumptions=c("independent units","declared observation model","sufficient retained state","predictable covariates","one absorbing terminal event")))
-  class(fit)<-"recurcast"
+  class(fit)<-"coherent4cast"
   fit$frailty_requested<-frailty_requested
   fit$audit<-c(fit$audit,.rc_capture_audit_context(d,call))
   if(isTRUE(frailty_diagnostics))fit$frailty_diagnostics<-rc_frailty_diagnose(fit)

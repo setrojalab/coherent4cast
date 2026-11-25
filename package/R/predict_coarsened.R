@@ -4,7 +4,7 @@ rc_predict_coarsened <- function(object, history, landmark, horizon,
     type=c("risk","burden","survival","rmst","all"),
     quadrature=object$control$quadrature,coarsening_control=list(),...) {
   type<-match.arg(type)
-  if(!inherits(object,"recurcast")) .rc_error("fit","object must be a recurcast fit.")
+  if(!inherits(object,"coherent4cast")) .rc_error("fit","object must be a coherent4cast fit.")
   if(!is.data.frame(history)||!nrow(history)) .rc_error("coarsened_history","Supply the observed history available through the landmark.")
   if(length(landmark)!=1L||!is.numeric(landmark)||!is.finite(landmark)||landmark<=0)
     .rc_error("landmark","Automatic history fibres require a positive finite landmark.")

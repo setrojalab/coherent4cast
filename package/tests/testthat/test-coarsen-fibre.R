@@ -43,17 +43,17 @@ test_that("mixed point and interval observations preserve their different masses
 })
 test_that("exact ties require a declared coarsening resolution", {
   d<-data.frame(id=1,start=c(0,1),stop=c(1,1),event_type=c("a","0"),terminal=c(0,1))
-  expect_error(rc_coarsen_fibre(d,time_unit="days"),class="recurcast_error")
+  expect_error(rc_coarsen_fibre(d,time_unit="days"),class="coherent4cast_error")
   f<-rc_coarsen_fibre(d,time_unit="days",rounding_unit=1)
   expect_equal(fibre_mass(f),.5,tolerance=1e-13)
-  expect_error(rc_coarsen_fibre(d),class="recurcast_error",regexp="time_unit")
+  expect_error(rc_coarsen_fibre(d),class="coherent4cast_error",regexp="time_unit")
 })
 test_that("terminal-before-recurrence observations are not repaired by deleting events", {
-  expect_error(rc_coarsen_fibre(fibre_records(c(2,0),c(3,1),c("a","0"),c(0,1)),time_unit="years"),class="recurcast_error")
+  expect_error(rc_coarsen_fibre(fibre_records(c(2,0),c(3,1),c("a","0"),c(0,1)),time_unit="years"),class="coherent4cast_error")
 })
 test_that("nonrepeatable duplicate events are rejected", {
   expect_error(rc_coarsen_fibre(fibre_records(c(0,1),c(1,2),c("a","a")),
-    time_unit="years",nonrecurrent="a"),class="recurcast_error",regexp="eligibility")
+    time_unit="years",nonrecurrent="a"),class="coherent4cast_error",regexp="eligibility")
 })
 test_that("censor-only subjects retain a unit-mass empty-event path", {
   d<-fibre_records(NA_real_,NA_real_,"0",0,end=3)
@@ -100,11 +100,11 @@ test_that("quadrature does not fabricate a Monte Carlo standard error", {
 })
 test_that("unknown counts in an unrecorded counting-process gap are rejected", {
   d<-data.frame(id=1,start=c(0,2),stop=c(1,3),event_type=c("a","0"),terminal=0)
-  expect_error(rc_coarsen_fibre(d,time_unit="days",rounding_unit=1),class="recurcast_error",regexp="fibre_gap")
+  expect_error(rc_coarsen_fibre(d,time_unit="days",rounding_unit=1),class="coherent4cast_error",regexp="fibre_gap")
 })
 test_that("time-varying covariates are not silently reordered with hidden events", {
   d<-fibre_records(c(0,0),c(1,1),c("a","b"));d$x<-c(0,1)
-  expect_error(rc_coarsen_fibre(d,time_unit="days"),class="recurcast_error",regexp="fibre_covariates")
+  expect_error(rc_coarsen_fibre(d,time_unit="days"),class="coherent4cast_error",regexp="fibre_covariates")
 })
 test_that("custom column names and source identifiers remain traceable", {
   d<-data.frame(person="patient-A",lo=0,hi=1,kind="visit",dead=0,end=2,x=1)
@@ -128,14 +128,14 @@ test_that("the automatic colon generator matches the validated day-coarsening ad
   expect_equal(b$metadata$same_day_ids,c(125,277,324,365,670))
 })
 test_that("the main coarsened fit automatically constructs the same observation likelihood", {
-  if(!"coarsening_control"%in%names(formals(recurcast)))skip("main API integration is not installed in the isolated reference library")
+  if(!"coarsening_control"%in%names(formals(coherent4cast)))skip("main API integration is not installed in the isolated reference library")
   d<-rc_simulate(n=35,horizon=2,rates=c(.45,.2),beta=c(-.1,.1),history=c(.2,.2),seed=7701)
   d$start<-ceiling(d$start*4)/4;d$stop<-ceiling(d$stop*4)/4
   fibre<-rc_coarsen_fibre(d,time_unit="years",rounding_unit=.25,nodes=2,covariates="x")
-  ctl<-recurcast_control(phi_fixed=.4,history_cap=1,maxit=200)
-  manual<-suppressWarnings(recurcast(~x,fibre$data,time_unit="years",observation="coarsened",
+  ctl<-coherent4cast_control(phi_fixed=.4,history_cap=1,maxit=200)
+  manual<-suppressWarnings(coherent4cast(~x,fibre$data,time_unit="years",observation="coarsened",
     coarsening=fibre$coarsening,control=ctl,frailty_diagnostics=FALSE))
-  automatic<-suppressWarnings(recurcast(~x,d,time_unit="years",observation="coarsened",
+  automatic<-suppressWarnings(coherent4cast(~x,d,time_unit="years",observation="coarsened",
     coarsening_control=list(rounding_unit=.25,nodes=2),control=ctl,frailty_diagnostics=FALSE))
   expect_equal(automatic$n,35)
   expect_equal(automatic$loglik,manual$loglik,tolerance=1e-11)

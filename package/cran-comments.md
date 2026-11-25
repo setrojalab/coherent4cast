@@ -1,6 +1,6 @@
 ## Submission summary
 
-This is a new submission of `recurcast` (version 0.10.1). The package fits
+This is a new submission of `coherent4cast` (version 0.10.1). The package fits
 recurrent/terminal event-history models and returns joint-law dynamic
 forecasts, observation-aware sensitivity bounds, targeting diagnostics, and
 validation measures. It also implements baseline binary-treatment causal

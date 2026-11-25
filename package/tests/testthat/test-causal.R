@@ -15,7 +15,7 @@ test_that("S12 martingale terms agree with independent exponential algebra", {
   death <- rep(c(1, 0, 1, 0), 2); censor <- .3; lambda <- .9; e <- .4
   rows <- cbind(0:7, 0, 0, 0, tt, ifelse(death == 1, 0, 1))
   tau <- 1; grid <- 256L
-  z <- recurcast:::rc_cpp_causal_target(rep(lambda, grid), censor, e,
+  z <- coherent4cast:::rc_cpp_causal_target(rep(lambda, grid), censor, e,
      matrix(1L, 1, 1), rep(0L, n), rows[w == 1, , drop = FALSE], grid, tau, 0L, 1e-10)
   A <- function(rate, t) expm1(rate * t) / rate
   risk <- -expm1(-lambda * tau); rmst <- risk / lambda
@@ -34,8 +34,8 @@ test_that("one-arm probability-one reduction reproduces the old native kernel", 
   rows <- cbind(0:5, 0, 0, 0, c(.1, .3, .5, .7, .9, 1), c(0, 0, 0, 0, 0, -1))
   args <- list(rates = rep(.8, 32), censor = .2, next_state = matrix(1L, 1, 1),
       subject_group = rep(0L, 6), records = rows, bins = 32L, horizon = 1, maxit = 40L, tolerance = 1e-8)
-  old <- do.call(recurcast:::rc_cpp_continuous_target, args)
-  new <- do.call(recurcast:::rc_cpp_causal_target, c(args, list(propensity = 1)))
+  old <- do.call(coherent4cast:::rc_cpp_continuous_target, args)
+  new <- do.call(coherent4cast:::rc_cpp_causal_target, c(args, list(propensity = 1)))
   for (field in c("estimate", "initial", "EIF", "covariance", "rates", "score_trace", "values"))
     expect_equal(new[[field]], old[[field]], tolerance = 1e-13)
 })
@@ -45,7 +45,7 @@ test_that("causal public API standardizes both arms and retains joint covariance
   fit <- rc_causal(~x, d, "treatment", 1, "censored", "year", propensity = .5,
        spec = list(complete_followup = TRUE, grid = 32L))
   expect_identical(before, .Random.seed)
-  expect_s3_class(fit, "recurcast_causal")
+  expect_s3_class(fit, "coherent4cast_causal")
   expect_true(fit$convergence$score_solved)
   expect_true(fit$convergence$valid)
   expect_equal(fit$n, nrow(d))
@@ -78,7 +78,7 @@ test_that("causal public API standardizes both arms and retains joint covariance
   expect_equal(glance(fit)$n, nrow(d))
   expect_equal(summary(fit)$estimates$estimate, effect$estimate)
   expect_output(print(fit), "Baseline-treatment")
-  expect_error(logLik(fit), class = "recurcast_error")
+  expect_error(logLik(fit), class = "coherent4cast_error")
   for (f in seq_along(fit$training_subjects))
     expect_false(any(fit$folds[fit$training_subjects[[f]]] == f))
   audit <- rc_audit_report(fit, include_session = FALSE)
@@ -125,7 +125,7 @@ test_that("overlap, baseline, observation and unsupported nuisance inputs fail e
   extra <- z[1, ]; extra$start <- .1; extra$stop <- 1; extra$treatment <- 1 - extra$treatment
   z <- rbind(z, extra); z <- z[order(z$id, z$start), ]
   expect_error(fit(z), "remain fixed")
-  expect_error(rc_causal_contrast(list()), class = "recurcast_error")
+  expect_error(rc_causal_contrast(list()), class = "coherent4cast_error")
 })
 
 test_that("zero-event arms retain results and withhold regular intervals", {

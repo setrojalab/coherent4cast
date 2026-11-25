@@ -1,11 +1,11 @@
-Package: recurcast
+Package: coherent4cast
 Type: Package
-Title: Coherent Forecasts for Recurrent and Terminal Events
-Version: 0.10.1
+Title: Coherent Survival Modelling and Event Forecasting
+Version: 0.10.2
 Authors@R: c(
     person("Sunday A.", "Adetunji", email = "sundayadetunjisa@gmail.com",
            role = c("aut", "cre")),
-    person("Oluwatimileyin A.", "Adetunji", role = "aut"))
+    person("Oluwatimileyin A.", "Adetunji", email = "eniola16.to@gmail.com", role = "aut"))
 Description: Fits shared-frailty event-history models and computes joint-law
     forecasts of recurrence burden, terminal-event risk and restricted survival.
     Provides automatic coarsened-history integration, sparse propagation,
@@ -28,7 +28,9 @@ VignetteBuilder: knitr
 SystemRequirements: C++17
 Config/testthat/edition: 3
 NeedsCompilation: yes
-Packaged: 2026-11-23 10:33:27 UTC; ugorjih
 Author: Sunday A. Adetunji [aut, cre],
   Oluwatimileyin A. Adetunji [aut]
 Maintainer: Sunday A. Adetunji <sundayadetunjisa@gmail.com>
+URL: https://github.com/setrojalab/coherent4cast,
+    https://setrojalab.github.io/coherent4cast/
+BugReports: https://github.com/setrojalab/coherent4cast/issues

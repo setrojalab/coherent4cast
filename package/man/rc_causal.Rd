@@ -23,7 +23,7 @@ rc_causal(formula, data, treatment, horizon, censor, time_unit,
 }
 \description{Estimates arm-specific mean recurrent counts, terminal risk and restricted mean time alive, standardized over the same baseline population. Arm-specific intensity targeting uses inverse treatment probabilities and inverse censor survival. Treatment contrasts retain the full joint influence-function covariance.}
 \details{
-This implements the static binary baseline-treatment extension in Supplement S12 of the accompanying methodological manuscript. It is distinct from prognostic \code{predict.recurcast} output.
+This implements the static binary baseline-treatment extension in Supplement S12 of the accompanying methodological manuscript. It is distinct from prognostic \code{predict.coherent4cast} output.
 
 Let \eqn{v_j^w(0,X)} be the arm-specific backward value for outcome \eqn{j}, \eqn{B_{jk}^w} its jump increment, \eqn{e_w(X)} the treatment probability, and \eqn{G_w(t)} censor survival. The gradient is
 \deqn{D_j^w = v_j^w(0,X)-\psi_j(w) + I(W=w)e_w(X)^{-1}\sum_k\int B_{jk}^w/G_w\{dN_k-\lambda_k^w dt\}.}
@@ -35,7 +35,7 @@ Double robustness concerns a correct event-intensity model or a correct product 
 
 The implementation supports at most 30 baseline strata, six recurrent marks and 128 living states. Time-varying treatment regimes, baseline treatment-confounding sensitivity bounds, arbitrary censor-history regression and automatic coarsened causal likelihoods are not implemented by this function.
 }
-\value{An object of class \code{recurcast_causal} containing arm laws, standardized estimates, differences, individual arm and contrast EIFs, joint covariance, nuisance arrays, fold provenance, overlap diagnostics, numerical diagnostics, assumptions and convergence flags. \code{predict} and \code{tidy} return contrast tables; \code{coef} and \code{vcov} return differences and their covariance. \code{\link{rc_audit_report}} exports its recorded provenance.}
+\value{An object of class \code{coherent4cast_causal} containing arm laws, standardized estimates, differences, individual arm and contrast EIFs, joint covariance, nuisance arrays, fold provenance, overlap diagnostics, numerical diagnostics, assumptions and convergence flags. \code{predict} and \code{tidy} return contrast tables; \code{coef} and \code{vcov} return differences and their covariance. \code{\link{rc_audit_report}} exports its recorded provenance.}
 \references{Rytgaard, H. C., Gerds, T. A. and van der Laan, M. J. (2022). Continuous-time targeted minimum loss-based estimation of intervention-specific mean outcomes. \emph{The Annals of Statistics}, 50, 2469--2491. \doi{10.1214/21-AOS2114}.}
 \seealso{\code{\link{rc_causal_contrast}}, \code{\link{rc_audit_report}}}
 \examples{

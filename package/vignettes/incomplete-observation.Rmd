@@ -9,7 +9,7 @@ vignette: >
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(collapse=TRUE,comment="#>")
-library("recurcast")
+library("coherent4cast")
 ```
 
 ## Specify the complete support
@@ -94,7 +94,7 @@ The adapter loads data from its source package rather than bundling patient rows
 
 ```{r colon, eval=FALSE}
 a <- rc_colon(nodes=4,covariate="node4")
-fit <- recurcast(a$formula,a$data,event_types=a$event_types,
+fit <- coherent4cast(a$formula,a$data,event_types=a$event_types,
                  nonrecurrent=a$nonrecurrent,time_unit="years",
                  breaks=c(0,1,3,Inf),observation="coarsened",
                  coarsening=a$coarsening)

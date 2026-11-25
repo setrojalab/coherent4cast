@@ -58,8 +58,8 @@ test_that("factor-coded competing validation uses event-time weights for competi
 test_that("terminal eligibility and malformed survival formulas fail explicitly", {
   d <- p3_competing_data(); f <- rc_competing(~1, d, unit = "id", time_unit = "years", frailty_diagnostics = FALSE)
   ended <- data.frame(id = c(100, 101), time = c(.4, .3), status = c(1, 0), x = 0)
-  expect_error(predict(f, ended, landmark = .5, horizon = 1), "No unit", class = "recurcast_error")
-  expect_error(rc_surv(survival::Surv(time, status == 1) ~ x, d, time_unit = "years"), "column names", class = "recurcast_error")
+  expect_error(predict(f, ended, landmark = .5, horizon = 1), "No unit", class = "coherent4cast_error")
+  expect_error(rc_surv(survival::Surv(time, status == 1) ~ x, d, time_unit = "years"), "column names", class = "coherent4cast_error")
   binary <- transform(d, status = as.integer(status > 0))
   binary$entry <- 0
   fit <- rc_surv(survival::Surv(entry, time, status) ~ x, binary, unit = "id", time_unit = "years", frailty_diagnostics = FALSE)

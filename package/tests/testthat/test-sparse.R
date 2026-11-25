@@ -19,11 +19,11 @@ test_that("CSR propagation preserves ordered probability and reward calculations
 })
 
 test_that("CSR has explicit malformed-input and computational-budget errors", {
-  expect_error(rc_generator_csr(3, 1, 1, .1), class = "recurcast_error")
-  expect_error(rc_generator_csr(3, 1, 4, .1), class = "recurcast_error")
+  expect_error(rc_generator_csr(3, 1, 1, .1), class = "coherent4cast_error")
+  expect_error(rc_generator_csr(3, 1, 4, .1), class = "coherent4cast_error")
   q <- rc_generator_csr(3, c(1, 2), c(2, 3), c(.1, .2))
   q$offsets <- c(0L, 100L, 2L, 2L)
-  expect_error(rc_propagate_sparse(c(1, 0, 0), q, 1), class = "recurcast_error")
+  expect_error(rc_propagate_sparse(c(1, 0, 0), q, 1), class = "coherent4cast_error")
   q <- rc_generator_csr(2, 1, 2, 100)
   expect_error(rc_propagate_sparse(c(1, 0), q, 1, max_chunks = 1), "max_chunks")
 })

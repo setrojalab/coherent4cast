@@ -1,7 +1,7 @@
 \name{tidy}
 \alias{tidy}
-\alias{tidy.recurcast}
-\title{RecurCast tidy interface}
+\alias{tidy.coherent4cast}
+\title{coherent4cast tidy interface}
 \description{S3 or convenience interface for tidy output.}
 \usage{
 tidy(x, ...) 

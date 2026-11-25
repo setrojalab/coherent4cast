@@ -15,8 +15,8 @@ reference:
   contents:
   - as_trajectory
   - build_history
-  - recurcast
-  - recurcast_control
+  - coherent4cast
+  - coherent4cast_control
   - rc_simulate
   - rc_readmission
   - rc_colon
@@ -24,7 +24,7 @@ reference:
   contents:
   - rc_loglik
   - rc_coarsen
-  - predict.recurcast
+  - predict.coherent4cast
   - rc_propagate
   - rc_filter_paths
   - rc_predict_paths
@@ -44,8 +44,8 @@ reference:
   - rc_bounds
   - rc_bounds_sparse
   - targeting_spec
-  - predict.recurcast_targeted
-  - summary.recurcast_targeted
+  - predict.coherent4cast_targeted
+  - summary.coherent4cast_targeted
   - rc_conformal
   - rc_pivot
   - rc_cornish_fisher
@@ -54,7 +54,7 @@ reference:
   - validate
 - title: Model summaries
   contents:
-  - summary.recurcast
+  - summary.coherent4cast
   - tidy
   - glance
   - augment

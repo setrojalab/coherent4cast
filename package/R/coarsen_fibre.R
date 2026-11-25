@@ -109,13 +109,13 @@ rc_coarsen_fibre <- function(data, unit="id", lower="event_time_lower",
       duplicate_policy="Canonical earliest-deadline matching avoids duplicate same-mark histories under overlapping windows.",
       validity="Deterministic paths use Gaussian quadrature, not an analytic integral. Sampled paths use inverse-proposal integration masses divided by attempted draws; their likelihood and Louis information are Monte Carlo approximations.",
       forecast_scope="Generate a separate history-only fibre at each landmark; never condition earlier forecasts on full follow-up."))
-  class(result)<-c("recurcast_fibre","list");result
+  class(result)<-c("coherent4cast_fibre","list");result
 }
 
 #' Monte Carlo error of an importance-sampled coarsening likelihood
 #' @export
 rc_fibre_mcse <- function(fibre, path_loglik) {
-  if(!inherits(fibre,"recurcast_fibre")||!is.numeric(path_loglik)||length(path_loglik)!=length(fibre$coarsening$owner)||any(!is.finite(path_loglik)))
+  if(!inherits(fibre,"coherent4cast_fibre")||!is.numeric(path_loglik)||length(path_loglik)!=length(fibre$coarsening$owner)||any(!is.finite(path_loglik)))
     .rc_error("fibre_mcse","Supply a generated fibre and one finite complete-path log likelihood per path.")
   ans<-fibre$tie_audit[,c("owner","source_id","method","attempted_draws"),drop=FALSE]
   ans$log_likelihood<-ans$relative_likelihood_mcse<-ans$log_likelihood_mcse_delta<-NA_real_

@@ -1,8 +1,8 @@
 \name{bounds}
 \alias{bounds}
 \alias{bounds.default}
-\alias{bounds.recurcast}
-\title{RecurCast bounds interface}
+\alias{bounds.coherent4cast}
+\title{coherent4cast bounds interface}
 \description{S3 or convenience interface for bounds output.}
 \usage{
 bounds(object, ...) 

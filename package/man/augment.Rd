@@ -1,7 +1,7 @@
 \name{augment}
 \alias{augment}
-\alias{augment.recurcast}
-\title{RecurCast augment interface}
+\alias{augment.coherent4cast}
+\title{coherent4cast augment interface}
 \description{S3 or convenience interface for augment output.}
 \usage{
 augment(x, ...) 

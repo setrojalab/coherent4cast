@@ -1,7 +1,7 @@
 cff-version: 1.2.0
 message: Please cite this software and the accompanying method manuscript.
 type: software
-title: 'recurcast: Coherent Forecasts for Recurrent and Terminal Events'
+title: 'coherent4cast: Coherent Forecasts for Recurrent and Terminal Events'
 version: 0.10.1
 license: GPL-3.0-only
 authors:

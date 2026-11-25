@@ -53,13 +53,13 @@ validate.default <- function(object,time,status,horizon,censor_survival=NULL,thr
 }
 
 #' @export
-validate.recurcast <- function(object,time,status,horizon,predicted,censor_survival=NULL,...) {
+validate.coherent4cast <- function(object,time,status,horizon,predicted,censor_survival=NULL,...) {
   validate.default(predicted,time,status,horizon,censor_survival,...)
 }
 
 #' @export
-print.recurcast <- function(x,...) {
-  if(identical(x$frailty_requested,"none"))cat("RecurCast no-frailty proportional-hazards model\n") else cat("RecurCast shared",if(is.null(x$frailty))"gamma"else x$frailty,"model\n")
+print.coherent4cast <- function(x,...) {
+  if(identical(x$frailty_requested,"none"))cat("coherent4cast no-frailty proportional-hazards model\n") else cat("coherent4cast shared",if(is.null(x$frailty))"gamma"else x$frailty,"model\n")
   cat(x$n,"independent units;",x$design$K,"nonterminal types; time:",x$schema$time_unit,"\n")
   cat("Frailty variance:",format(x$phi)," Convergence:",x$convergence$code,"\n")
   cat("Observation:",x$schema$observation,"; data fingerprint:",x$audit$data_hash,"\n")
@@ -67,44 +67,44 @@ print.recurcast <- function(x,...) {
 }
 
 #' @export
-summary.recurcast <- function(object,...) {
+summary.coherent4cast <- function(object,...) {
   se<-sqrt(pmax(0,diag(object$covariance)));estimate<-object$coefficients
   out<-list(coefficients=data.frame(term=names(estimate),estimate=unname(estimate),std.error=se,
     conf.low=estimate-stats::qnorm(.975)*se,conf.high=estimate+stats::qnorm(.975)*se),
     phi=object$phi,loglik=object$loglik,n=object$n,convergence=object$convergence,
     interval_scope="Regular asymptotic sandwich intervals; not a finite-sample guarantee.",frailty_diagnostics=object$frailty_diagnostics,audit=object$audit)
-  class(out)<-"summary.recurcast";out
+  class(out)<-"summary.coherent4cast";out
 }
 #' @export
-print.summary.recurcast <- function(x,...) {print(x$coefficients,row.names=FALSE);cat("\n",x$interval_scope,"\nConvergence:",x$convergence$code,"\n");if(!is.null(x$frailty_diagnostics)){cat("\nNo-frailty boundary score test:\n");print(x$frailty_diagnostics$null_variance_test);print(x$frailty_diagnostics$comparison,row.names=FALSE)};invisible(x)}
+print.summary.coherent4cast <- function(x,...) {print(x$coefficients,row.names=FALSE);cat("\n",x$interval_scope,"\nConvergence:",x$convergence$code,"\n");if(!is.null(x$frailty_diagnostics)){cat("\nNo-frailty boundary score test:\n");print(x$frailty_diagnostics$null_variance_test);print(x$frailty_diagnostics$comparison,row.names=FALSE)};invisible(x)}
 #' @export
-coef.recurcast <- function(object,...)object$coefficients
+coef.coherent4cast <- function(object,...)object$coefficients
 #' @export
-vcov.recurcast <- function(object,...)object$covariance
+vcov.coherent4cast <- function(object,...)object$covariance
 #' @export
-logLik.recurcast <- function(object,...)structure(object$loglik,df=length(object$coefficients),nobs=object$n,class="logLik")
+logLik.coherent4cast <- function(object,...)structure(object$loglik,df=length(object$coefficients),nobs=object$n,class="logLik")
 #' @export
 tidy <- function(x,...)UseMethod("tidy")
 #' @export
-tidy.recurcast <- function(x,...)summary(x)$coefficients
+tidy.coherent4cast <- function(x,...)summary(x)$coefficients
 #' @export
 glance <- function(x,...)UseMethod("glance")
 #' @export
-glance.recurcast <- function(x,...)data.frame(n=x$n,logLik=x$loglik,AIC=-2*x$loglik+2*length(x$coefficients),frailty_variance=x$phi,converged=x$convergence$valid,gradient_max=x$convergence$gradient)
+glance.coherent4cast <- function(x,...)data.frame(n=x$n,logLik=x$loglik,AIC=-2*x$loglik+2*length(x$coefficients),frailty_variance=x$phi,converged=x$convergence$valid,gradient_max=x$convergence$gradient)
 #' @export
 augment <- function(x,...)UseMethod("augment")
 #' @export
-augment.recurcast <- function(x,newdata=NULL,landmark,horizon,...)predict(x,newdata,landmark,horizon,type="all",...)
+augment.coherent4cast <- function(x,newdata=NULL,landmark,horizon,...)predict(x,newdata,landmark,horizon,type="all",...)
 #' @export
 bounds <- function(object,...)UseMethod("bounds")
 #' @export
 bounds.default <- function(object,...)rc_bounds(p=object,...)
 #' @export
-bounds.recurcast <- function(object,...) .rc_error("bounds_schema","Recording-sensitivity bounds require an explicit finite-support recorded law. Use rc_bounds().")
+bounds.coherent4cast <- function(object,...) .rc_error("bounds_schema","Recording-sensitivity bounds require an explicit finite-support recorded law. Use rc_bounds().")
 #' @export
 conformal <- function(object,...)rc_conformal(scores=object,...)
 #' @export
-plot.recurcast_prediction <- function(x,unit=unique(x$unit)[1],target="risk",...) {
+plot.coherent4cast_prediction <- function(x,unit=unique(x$unit)[1],target="risk",...) {
   d<-x[x$unit==unit & x$target==target,,drop=FALSE]
   if(!nrow(d)) .rc_error("plot","No matching unit and target.")
   d<-d[order(d$horizon),];graphics::plot(d$horizon,d$estimate,type="b",xlab=paste("Horizon",d$time_unit[1]),ylab=target,...);invisible(x)
@@ -112,7 +112,7 @@ plot.recurcast_prediction <- function(x,unit=unique(x$unit)[1],target="risk",...
 #' @export
 autoplot <- function(object,...)UseMethod("autoplot")
 #' @export
-autoplot.recurcast_prediction <- function(object,unit=unique(object$unit)[1],target="risk",...) {
+autoplot.coherent4cast_prediction <- function(object,unit=unique(object$unit)[1],target="risk",...) {
   if(!requireNamespace("ggplot2",quietly=TRUE)) .rc_error("optional_dependency","Install ggplot2 for autoplot(); base plot() is also available.")
   d<-object[object$unit==unit & object$target==target,,drop=FALSE]
   ggplot2::ggplot(d,ggplot2::aes(x=horizon,y=estimate))+ggplot2::geom_line()+ggplot2::geom_point()+ggplot2::labs(x=paste("Horizon",d$time_unit[1]),y=target)

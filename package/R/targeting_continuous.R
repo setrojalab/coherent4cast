@@ -42,7 +42,7 @@
     fit$targeting<-targeting;fit$n<-nrow(data);fit$data<-data;fit$formula<-formula;fit$targeting_spec<-spec
     fit$horizon<-.rc_target_spec_value(spec,"horizon",1);fit$time_unit<-time_unit
     if(isTRUE(spec$complete_followup)){if(any(data[[spec$recorded]]!=1)) .rc_error("complete_followup","The complete-followup declaration conflicts with missing paths.");fit$bounded_data<-as.matrix(spec$features)[data[[spec$path]],,drop=FALSE]}
-    fit$audit<-list(call=call,seed=seed,assumptions=fit$assumptions);class(fit)<-c("recurcast_targeted","recurcast")
+    fit$audit<-list(call=call,seed=seed,assumptions=fit$assumptions);class(fit)<-c("coherent4cast_targeted","coherent4cast")
     return(fit)
   }
   if (targeting != "continuous") .rc_error("targeting", "Unknown targeting route.")
@@ -149,7 +149,7 @@
   out$fold_prior<-matrix(tabulate(group,G),nx,nf);out$fold_prior<-out$fold_prior/rowSums(out$fold_prior)
   out$assumptions<-c("independent subjects; no simultaneous distinct jumps","right censoring conditionally independent given the declared baseline strata","strictly positive censor survival","retained count state sufficient for event intensity","cross-fitted initial nuisances; regular targeting and product remainder conditions for EIF inference","finite assessment vector; controlled time-grid interpolation error")
   out$audit<-list(call=call,seed=seed,assumptions=out$assumptions,numerical_error=out$interpolation_error,minimum_censor_survival=minimum_G,working_model=working)
-  class(out)<-c("recurcast_targeted","recurcast")
+  class(out)<-c("coherent4cast_targeted","coherent4cast")
   if(!out$convergence$valid)warning(paste("Targeting score, variance, or event-count boundary did not meet regular inference criteria:",out$convergence$code,"; point results and diagnostics are retained."),call.=FALSE)
   out
 }
@@ -206,7 +206,7 @@
   ans<-.rc_target_conditional(object,if(is.null(newdata))object$data else newdata,landmark,horizon,type)
   attr(ans,"inference_scope")<-"Conditional forecasts use the common targeted law with Bayes-updated fold weights. Population EIF intervals are not individual-history intervals."
  }
- class(ans)<-c("recurcast_prediction","rc_forecast","data.frame");ans
+ class(ans)<-c("coherent4cast_prediction","rc_forecast","data.frame");ans
 }
 
 .rc_target_conditional <- function(object,data,landmark,horizon,type){
@@ -248,32 +248,32 @@
 }
 
 #' @export
-predict.recurcast_targeted <- function(object,newdata=NULL,landmark=0,horizon=NULL,type="all",interval="auto",level=.95,draws=1000L,seed=1L,...) {
+predict.coherent4cast_targeted <- function(object,newdata=NULL,landmark=0,horizon=NULL,type="all",interval="auto",level=.95,draws=1000L,seed=1L,...) {
  if(length(list(...))) .rc_error("target_argument","An unsupported targeted prediction argument was supplied.")
  .rc_targeted_predict(object,newdata,landmark,horizon,type,interval,level,draws,seed)
 }
 #' @export
-summary.recurcast_targeted <- function(object,...) {
+summary.coherent4cast_targeted <- function(object,...) {
  list(targeting=object$targeting,subjects=object$n,horizon=object$horizon,estimates=data.frame(target=object$target_names,estimate=unname(object$estimate),std_error=unname(object$se),EIF_mean=object$EIF_mean,EIF_variance=object$EIF_variance),convergence=object$convergence,assumptions=object$assumptions)
 }
 #' @export
-print.recurcast_targeted <- function(x,...) {
- cat("RecurCast",x$targeting,"targeted common law\nSubjects:",x$n,"  Horizon:",x$horizon,x$time_unit,"\n")
+print.coherent4cast_targeted <- function(x,...) {
+ cat("coherent4cast",x$targeting,"targeted common law\nSubjects:",x$n,"  Horizon:",x$horizon,x$time_unit,"\n")
  print(data.frame(target=x$target_names,estimate=unname(x$estimate),std_error=unname(x$se)),row.names=FALSE)
  cat("Target score:",x$convergence$score,"  Score and variance checks:",x$convergence$valid,"\n");invisible(x)
 }
 
 #' @export
-tidy.recurcast_targeted <- function(x,interval="auto",level=.95,draws=1000L,seed=1L,...) {
+tidy.coherent4cast_targeted <- function(x,interval="auto",level=.95,draws=1000L,seed=1L,...) {
  p<-.rc_targeted_predict(x,interval=interval,level=level,draws=draws,seed=seed)
  data.frame(term=p$target,estimate=p$estimate,std.error=p$std_error,conf.low=p$lower,conf.high=p$upper,inference_status=p$inference_status)
 }
 #' @export
-glance.recurcast_targeted <- function(x,...) {
+glance.coherent4cast_targeted <- function(x,...) {
  data.frame(n=x$n,targeting=x$targeting,horizon=x$horizon,targets=length(x$estimate),converged=isTRUE(x$convergence$valid),EIF_mean_max=max(abs(x$EIF_mean)),interpolation_error=if(is.null(x$interpolation_error))NA_real_ else x$interpolation_error)
 }
 #' @export
-coef.recurcast_targeted <- function(object,...) object$estimate
+coef.coherent4cast_targeted <- function(object,...) object$estimate
 
 .rc_target_projection <- function(object,level) {
   limits<-object$target_limits;finite<-which(is.finite(limits[1,])&is.finite(limits[2,]))
@@ -292,6 +292,6 @@ coef.recurcast_targeted <- function(object,...) object$estimate
 }
 
 #' @export
-logLik.recurcast_targeted <- function(object,...) {
+logLik.coherent4cast_targeted <- function(object,...) {
  .rc_error("targeted_likelihood","A targeted population functional has no supplied maximized likelihood for AIC; inspect its EIF and targeting score diagnostics.")
 }

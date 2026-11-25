@@ -1,14 +1,14 @@
 \name{rc_surv}
 \alias{rc_surv}
-\alias{predict.recurcast_surv}
+\alias{predict.coherent4cast_surv}
 \title{No-frailty right-censored survival interface}
 \description{Maps ordinary right-censored survival records to the existing
 piecewise-exponential likelihood with frailty variance fixed at zero.}
 \usage{
 rc_surv(formula, data, time = "time", status = "status",
   unit = NULL, start = NULL, time_unit,
-  breaks = c(0, Inf), control = recurcast_control(), ...)
-\method{predict}{recurcast_surv}(object, newdata = NULL,
+  breaks = c(0, Inf), control = coherent4cast_control(), ...)
+\method{predict}{coherent4cast_surv}(object, newdata = NULL,
   landmark = 0, horizon, newdata_future = NULL,
   covariate_history = NULL, ...)
 }
@@ -25,7 +25,7 @@ records; otherwise rows are independent units.}
 \item{start}{Optional interval-start column for start-stop input.}
 \item{time_unit}{Explicit unit for every time and horizon, such as \code{"days"}.}
 \item{breaks}{Baseline-hazard cut points from zero to infinity.}
-\item{control}{Controls from \code{recurcast_control()}. A positive fixed frailty
+\item{control}{Controls from \code{coherent4cast_control()}. A positive fixed frailty
 variance conflicts with this no-frailty interface.}
 \item{object}{An object returned by \code{rc_surv()}.}
 \item{newdata}{Follow-up records using the original column mapping, or one
@@ -33,12 +33,12 @@ covariate-only profile per unit declared event-free at the landmark.}
 \item{landmark}{Nonnegative assessment time measured from the time origin.}
 \item{horizon}{Positive forecast durations after the landmark.}
 \item{newdata_future}{Optional declared future covariate updates; see
-\code{predict.recurcast()}. The unit column uses the original mapping, or
+\code{predict.coherent4cast()}. The unit column uses the original mapping, or
 \code{unit} when no identifier column was supplied.}
 \item{covariate_history}{Optional observed covariate history with the same
 unit-column mapping.}
-\item{...}{Additional named fit arguments passed to \code{recurcast()}, or
-prediction arguments passed to \code{predict.recurcast()}. Schema overrides,
+\item{...}{Additional named fit arguments passed to \code{coherent4cast()}, or
+prediction arguments passed to \code{predict.coherent4cast()}. Schema overrides,
 frailty, targeting, coarsening and observation-model overrides are rejected
 by the fitting wrapper.}
 }
@@ -50,9 +50,9 @@ are subject to the underlying engine's explicit eligibility checks.
 Covariate-only prediction profiles declare eligibility rather than document
 observed follow-up. Numerical propagation bounds exclude estimation and
 model error. The estimates are prognostic, not treatment effects.}
-\value{\code{rc_surv()} returns a \code{recurcast_surv} object inheriting
-\code{recurcast}, including coefficients, covariance, convergence information
-and audit metadata. Its prediction method returns the ordinary RecurCast
+\value{\code{rc_surv()} returns a \code{coherent4cast_surv} object inheriting
+\code{coherent4cast}, including coefficients, covariance, convergence information
+and audit metadata. Its prediction method returns the ordinary coherent4cast
 forecast data frame with assumptions and numerical error diagnostics.}
 \examples{
 d <- data.frame(time = c(1, 2, 3, 4, 2, 4),
@@ -61,6 +61,6 @@ fit <- rc_surv(~ 1, d, time_unit = "years")
 coef(fit)
 predict(fit, landmark = 0, horizon = 1, type = "survival")
 }
-\seealso{\code{\link{recurcast}}, \code{\link{rc_competing}},
+\seealso{\code{\link{coherent4cast}}, \code{\link{rc_competing}},
 \code{\link{rc_audit_report}}}
 \keyword{survival}

@@ -1,45 +1,13 @@
 {
-  "version": "0.10.1",
-  "release_date": "2026-11-23",
-  "repository": "https://github.com/setrojalab/recurcast",
-  "release": "https://github.com/setrojalab/recurcast/releases/tag/v0.10.1",
-  "distribution_status": "Public source release; CRAN submission pending review",
-  "tested_executable_commit": "f8228270a64bede49e92694ff097e00b656d1126",
-  "publication_base_commit": "bcd203f90231e92b2da7c6eaed7300eff316ee6d",
-  "change_scope": "Availability documentation and article links; executable package source unchanged",
-  "package_source_comparison": "158 files match submitted source after line-ending normalization",
-  "validation": {
-    "R_platform_jobs_passed": 6,
-    "native_compiler_sanitizer_jobs_passed": 4,
-    "expectations_per_R_job": 1187,
-    "R_workflow": "https://github.com/setrojalab/recurcast/actions/runs/45324158268",
-    "native_workflow": "https://github.com/setrojalab/recurcast/actions/runs/45324158206"
-  },
-  "artifacts": [
-    {
-      "path": "release/causal/recurcast_0.10.1.tar.gz",
-      "bytes": 296389,
-      "sha256": "cb246be1086c6b8970403df522d8e697d840354b5e0982e77e6ad762a26304dc"
-    },
-    {
-      "path": "release/causal/recurcast_0.10.1_Reference_Manual.pdf",
-      "bytes": 292581,
-      "sha256": "4baf3c33844f1c73f9569c8f8ec5543ff34a8346716b09eb2f6527b3219c1d3a"
-    },
-    {
-      "path": "paper/causal/01_RecurCast_JSS_arXiv_Manuscript.pdf",
-      "bytes": 586314,
-      "sha256": "0cfb22e9f5849255805478019b8df0ec0031437b0d6185373d8a15c386c1a595"
-    },
-    {
-      "path": "paper/causal/RecurCast_JSS_arXiv_LaTeX.zip",
-      "bytes": 76441,
-      "sha256": "7e9e7fadc703e6ec145ff27cef78f8d0d4a5932bae1345c43847f5e5bc199e50"
-    },
-    {
-      "path": "release/causal/RecurCast_JSS_replication.zip",
-      "bytes": 9531635,
-      "sha256": "363fc0ecaf80b15f8562fce54ddf052dbe1bbfd54f9e36abf7f69959a916b726"
-    }
-  ]
+  "package": "coherent4cast",
+  "version": "0.10.2",
+  "date": "2026-11-24",
+  "repository": "https://github.com/setrojalab/coherent4cast",
+  "website": "https://setrojalab.github.io/coherent4cast/",
+  "arxiv": "https://arxiv.org/abs/2611.32075",
+  "predecessor_package": "recurcast",
+  "predecessor_version": "0.10.1",
+  "numerical_kernels_unchanged": true,
+  "cran_status": "rename submission in preparation; acceptance not asserted",
+  "verification": "reviews/rename_0_10_2"
 }

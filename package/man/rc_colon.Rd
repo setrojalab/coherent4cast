@@ -17,7 +17,7 @@
 if (requireNamespace("survival", quietly=TRUE)) {
   x <- rc_colon(nodes=2L)
   x$metadata[c("patients", "same_day_ids")]
-  # fit <- recurcast(x$formula, x$data, time_unit="years",
+  # fit <- coherent4cast(x$formula, x$data, time_unit="years",
   #   event_types="1", nonrecurrent="1", breaks=x$breaks,
   #   observation="coarsened", coarsening=x$coarsening)
 }

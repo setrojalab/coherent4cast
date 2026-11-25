@@ -17,7 +17,7 @@ test_that("survival schema errors cannot silently remap outcomes", {
   missing_status <- d; missing_status$status[1] <- NA
   expect_error(rc_surv(~x,missing_status,time_unit="years"),"cannot be missing")
   expect_error(do.call(rc_surv,c(list(formula=~x,data=d,time="time",status="status",
-    unit=NULL,start=NULL,time_unit="years",breaks=c(0,Inf),control=recurcast_control()),list(1))),"must be named")
+    unit=NULL,start=NULL,time_unit="years",breaks=c(0,Inf),control=coherent4cast_control()),list(1))),"must be named")
   expect_error(rc_surv(~x,d,time_unit="years",observation="coarsened"),"fixed by these wrappers")
   fit <- rc_surv(~x,d,unit="id",time_unit="years",frailty_diagnostics=FALSE)
   expect_error(predict(fit,data.frame(id=c(99,99),x=0),horizon=1),"one covariate-only profile")

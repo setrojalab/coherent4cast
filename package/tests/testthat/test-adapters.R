@@ -42,21 +42,21 @@ test_that("early recurrence surveillance truncation is disclosed", {
   expect_equal(a$data$stop,3/365.25); expect_equal(a$data$terminal,0)
 })
 test_that("recurrence after death is rejected", {
-  expect_error(rc_colon(p4_colon_rows(day=5,death=3)),class="recurcast_error",regexp="adapter_order")
+  expect_error(rc_colon(p4_colon_rows(day=5,death=3)),class="coherent4cast_error",regexp="adapter_order")
 })
 test_that("duplicate endpoint rows are rejected", {
   d <- p4_colon_rows();d$etype <- c(1,1)
-  expect_error(rc_colon(d),class="recurcast_error",regexp="adapter_pair")
+  expect_error(rc_colon(d),class="coherent4cast_error",regexp="adapter_pair")
 })
 test_that("inconsistent paired covariates are not silently reconciled", {
   d <- p4_colon_rows();d$age[2] <- 61
-  expect_error(rc_colon(d),class="recurcast_error",regexp="adapter_covariates")
+  expect_error(rc_colon(d),class="coherent4cast_error",regexp="adapter_covariates")
 })
 test_that("continuous nodes use the declared training median and missing indicator", {
   d <- p4_colon_rows();d$nodes <- NA_real_
   a <- rc_colon(d,covariate="nodes",node_median=7)
   expect_true(all(a$data$nodes_per_5==7/5));expect_true(all(a$data$nodes_missing==1))
-  expect_error(rc_colon(d,covariate="nodes"),class="recurcast_error",regexp="node_median")
+  expect_error(rc_colon(d,covariate="nodes"),class="coherent4cast_error",regexp="node_median")
 })
 test_that("node4 is retained even when count coding differs", {
   d <- p4_colon_rows();d$nodes <- 10;d$node4 <- 0
@@ -64,7 +64,7 @@ test_that("node4 is retained even when count coding differs", {
 })
 test_that("invalid quadrature sizes cannot silently change the observation model", {
   for (n in list(NA_real_,0,1.5,c(2,3),65))
-    expect_error(rc_colon(p4_colon_rows(),nodes=n),class="recurcast_error",regexp="quadrature")
+    expect_error(rc_colon(p4_colon_rows(),nodes=n),class="coherent4cast_error",regexp="quadrature")
 })
 test_that("canonical readmission distinguishes intervals from recurrences", {
   skip_if_not_installed("frailtypack")
@@ -85,12 +85,12 @@ test_that("unknown clinical categories are not silently coded as the reference l
     sex="Female",chemo="Treated",dukes="C",charlson="0")
   for (v in c("sex","chemo","dukes","charlson")) {
     bad <- d;bad[[v]] <- "unknown"
-    expect_error(rc_readmission(bad),class="recurcast_error",regexp="adapter_covariates")
+    expect_error(rc_readmission(bad),class="coherent4cast_error",regexp="adapter_covariates")
   }
 })
 test_that("path forecasts equal direct averaging and reject future data", {
   train <- rc_simulate(n=45,horizon=2,seed=177)
-  fit <- suppressWarnings(recurcast(~x,train,time_unit="years",control=recurcast_control(phi_fixed=.4,maxit=100)))
+  fit <- suppressWarnings(coherent4cast(~x,train,time_unit="years",control=coherent4cast_control(phi_fixed=.4,maxit=100)))
   paths <- data.frame(id=c(1,2,2),start=c(0,0,.4),stop=c(1,.4,1),event_type=c("0","1","0"),terminal=0,x=0)
   a <- rc_predict_paths(fit,paths,owner=c(1,1),log_weights=log(c(.4,.6)),landmark=1,horizon=.25,type="all")
   q <- attr(a,"path_weights")$posterior_weight
@@ -101,7 +101,7 @@ test_that("path forecasts equal direct averaging and reject future data", {
   }
   expect_equal(sum(q),1,tolerance=1e-15)
   future <- paths; future$stop[c(1,3)] <- 1.1
-  expect_error(rc_predict_paths(fit,future,c(1,1),c(0,0),1,.25),class="recurcast_error",regexp="path_future")
+  expect_error(rc_predict_paths(fit,future,c(1,1),c(0,0),1,.25),class="coherent4cast_error",regexp="path_future")
   short <- paths;short$stop[c(1,3)] <- .9
-  expect_error(rc_predict_paths(fit,short,c(1,1),c(0,0),1,.25),class="recurcast_error",regexp="path_history")
+  expect_error(rc_predict_paths(fit,short,c(1,1),c(0,0),1,.25),class="coherent4cast_error",regexp="path_history")
 })

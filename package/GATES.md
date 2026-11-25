@@ -1,4 +1,4 @@
-# Causal revision check record — recurcast 0.10.1
+# Causal revision check record — coherent4cast 0.10.1
 
 These are executed software and numerical checks, not independent professor
 certification or journal acceptance. Earlier records remain in versioned files.
@@ -18,8 +18,8 @@ certification or journal acceptance. Earlier records remain in versioned files.
 | Release | Public v0.10.1. Source archive submitted to CRAN; acceptance pending. No JSS/arXiv submission performed by this update. |
 
 Current artifacts: `release/causal/`. Current check logs: `reviews/causal_revision/`.
-R workflow: https://github.com/setrojalab/recurcast/actions/runs/45324158268
-Native workflow: https://github.com/setrojalab/recurcast/actions/runs/45324158206
+R workflow: https://github.com/setrojalab/coherent4cast/actions/runs/45324158268
+Native workflow: https://github.com/setrojalab/coherent4cast/actions/runs/45324158206
 
 The public-release update changes documentation and availability links only. Tested implementation: f8228270a64bede49e92694ff097e00b656d1126. All 158 audited package source, help, test, vignette and data files match the submitted archive after line-ending normalization. See reviews/public_release/repository_completeness.json.
 

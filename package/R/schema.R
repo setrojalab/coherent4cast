@@ -1,6 +1,6 @@
 .rc_error <- function(code, message) {
   stop(structure(list(message = paste0(code, ": ", message), call = NULL, code = code),
-                 class = c("recurcast_error", "error", "condition")))
+                 class = c("coherent4cast_error", "error", "condition")))
 }
 
 #' Construct validated counting-process trajectories
@@ -124,7 +124,7 @@ build_history <- function(data, cap = 2L, decay = NULL) {
 
 #' Controls for joint gamma estimation and forecasting
 #' @export
-recurcast_control <- function(maxit = 300L, tolerance = 1e-8, history_cap = 2L,
+coherent4cast_control <- function(maxit = 300L, tolerance = 1e-8, history_cap = 2L,
     phi_fixed = NULL, start_phi = 0.5, quadrature = 30L, propagation_tolerance = 1e-12,
     max_states = 50000L, coefficient_bounds = c(-12, 8), log_phi_bounds = c(-5, 2.5),
     quadrature_tolerance=1e-7,quadrature_max=1024L) {

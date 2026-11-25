@@ -1,29 +1,29 @@
 \name{rc_causal_contrast}
 \alias{rc_causal_contrast}
-\alias{predict.recurcast_causal}
-\alias{tidy.recurcast_causal}
-\alias{coef.recurcast_causal}
-\alias{vcov.recurcast_causal}
-\alias{logLik.recurcast_causal}
-\alias{glance.recurcast_causal}
-\alias{summary.recurcast_causal}
-\alias{print.recurcast_causal}
+\alias{predict.coherent4cast_causal}
+\alias{tidy.coherent4cast_causal}
+\alias{coef.coherent4cast_causal}
+\alias{vcov.coherent4cast_causal}
+\alias{logLik.coherent4cast_causal}
+\alias{glance.coherent4cast_causal}
+\alias{summary.coherent4cast_causal}
+\alias{print.coherent4cast_causal}
 \title{Influence-Function Contrasts for Baseline Treatment Effects}
 \usage{
 rc_causal_contrast(object, contrast = c("difference", "ratio", "log_ratio"),
   level = .95, interval = c("wald", "multiplier", "none"),
   draws = 2000L, seed = 1L)
-\method{predict}{recurcast_causal}(object, contrast = "difference", ...)
-\method{tidy}{recurcast_causal}(x, ...)
-\method{coef}{recurcast_causal}(object, ...)
-\method{vcov}{recurcast_causal}(object, ...)
-\method{logLik}{recurcast_causal}(object, ...)
-\method{glance}{recurcast_causal}(x, ...)
-\method{summary}{recurcast_causal}(object, ...)
-\method{print}{recurcast_causal}(x, ...)
+\method{predict}{coherent4cast_causal}(object, contrast = "difference", ...)
+\method{tidy}{coherent4cast_causal}(x, ...)
+\method{coef}{coherent4cast_causal}(object, ...)
+\method{vcov}{coherent4cast_causal}(object, ...)
+\method{logLik}{coherent4cast_causal}(object, ...)
+\method{glance}{coherent4cast_causal}(x, ...)
+\method{summary}{coherent4cast_causal}(object, ...)
+\method{print}{coherent4cast_causal}(x, ...)
 }
 \arguments{
-\item{object,x}{A fitted \code{recurcast_causal} object.}
+\item{object,x}{A fitted \code{coherent4cast_causal} object.}
 \item{contrast}{Treatment 1 minus 0, treatment 1 divided by 0, or log of that ratio. Ratios require positive arm means.}
 \item{level}{Confidence level strictly between zero and one.}
 \item{interval}{Pointwise normal approximation, simultaneous Gaussian multiplier approximation over the reported regular coordinates, or no intervals.}

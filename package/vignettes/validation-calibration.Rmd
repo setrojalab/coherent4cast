@@ -9,7 +9,7 @@ vignette: >
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(collapse=TRUE,comment="#>")
-library("recurcast")
+library("coherent4cast")
 ```
 
 ## Evaluate predictions on eligible held-out subjects

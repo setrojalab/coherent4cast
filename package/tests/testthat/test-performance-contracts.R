@@ -41,7 +41,7 @@ test_that("gamma quadrature converges for a known posterior transform", {
   shape<-2.5;rate<-3.2;hazard<-.7
   truth<-(rate/(rate+hazard))^shape
   estimate<-vapply(c(5L,15L,30L),function(k){
-    q<-recurcast:::.rc_gamma_nodes(shape,rate,k)
+    q<-coherent4cast:::.rc_gamma_nodes(shape,rate,k)
     expect_equal(sum(q$weights),1,tolerance=1e-13)
     expect_true(all(q$nodes>0))
     sum(q$weights*exp(-hazard*q$nodes))
@@ -53,8 +53,8 @@ test_that("gamma quadrature converges for a known posterior transform", {
 
 test_that("forecast coordinates share an analytic constant-rate law", {
   d<-rc_simulate(30,seed=24,time_unit="years")
-  fitted<-suppressWarnings(recurcast(~1,d,event_types=c("1","2"),time_unit="years",
-    control=recurcast_control(phi_fixed=0,history_cap=1L,maxit=100L)))
+  fitted<-suppressWarnings(coherent4cast(~1,d,event_types=c("1","2"),time_unit="years",
+    control=coherent4cast_control(phi_fixed=0,history_cap=1L,maxit=100L)))
   # Set a declared constant-rate law to test propagation independently of fitting.
   rates<-c(.3,.2,.1);fitted$coefficients[]<-0
   for(k in 1:3)fitted$coefficients[(k-1L)*fitted$design$block_size+1L]<-log(rates[k])

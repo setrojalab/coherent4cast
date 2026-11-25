@@ -49,7 +49,7 @@ rc_frailty_loglik <- function(theta,unit,exposure,design,event,frailty=c("gamma"
   if(length(unit)!=nrow(design)||!length(unit)||any(!is.finite(unit))||any(unit<1|unit!=floor(unit))||!identical(sort(unique(as.integer(unit))),seq_len(max(unit)))) .rc_error("frailty","Contiguous positive unit indices required.")
   if(length(exposure)!=length(unit)||length(event)!=length(unit)||any(!is.finite(c(exposure,event)))||any(exposure<0)||any(!event %in% c(0,1))) .rc_error("frailty","Aligned nonnegative exposures and binary events required.")
   if(length(quadrature)!=1L||!is.finite(quadrature)||quadrature<2||quadrature>1024||quadrature!=floor(quadrature)) .rc_error("quadrature","quadrature must be an integer from 2 to 1024.")
-  spec<-.rc_frailty_spec(family,recurcast_control(phi_fixed=phi_fixed,quadrature=quadrature),points)
+  spec<-.rc_frailty_spec(family,coherent4cast_control(phi_fixed=phi_fixed,quadrature=quadrature),points)
   p<-ncol(design);if(length(theta)!=p+length(spec$start)) .rc_error("frailty","Parameter length does not match design and frailty family.")
   z<-.rc_frailty_nodes(theta[-seq_len(p)],spec)
   out<-.rc_kernel_guard(cpp_rc_mixture_lik(theta[seq_len(p)],as.integer(unit),exposure,design,event,z$h,z$g,z$dh,z$dg,z$d2h,z$d2g,information))
@@ -77,7 +77,7 @@ rc_frailty_loglik <- function(theta,unit,exposure,design,event,frailty=c("gamma"
 #' Compare fitted frailty families and test a no-frailty boundary
 #' @export
 rc_frailty_diagnose <- function(object,alternatives=FALSE) {
-  if(!inherits(object,"recurcast")||!is.null(object$targeting)&&object$targeting!="none") .rc_error("frailty","A likelihood-based recurcast fit is required.")
+  if(!inherits(object,"coherent4cast")||!is.null(object$targeting)&&object$targeting!="none") .rc_error("frailty","A likelihood-based coherent4cast fit is required.")
   dd<-object$design;ctl<-object$control;ctl$phi_fixed<-0
   p<-ncol(dd$design);owner<-object$coarsening$owner;lw<-object$coarsening$log_weights
   eval0<-function(b,info=FALSE){z<-.rc_fit_likelihood(b,dd,ctl,information=info);if(!is.null(owner))z<-rc_coarsen(z,owner=owner,log_weights=lw);z}
@@ -113,7 +113,7 @@ rc_frailty_diagnose <- function(object,alternatives=FALSE) {
   fits<-list()
   if(isTRUE(alternatives))for(fam in setdiff(c("gamma","lognormal","discrete"),tab$family[1])) {
     sc<-object$schema;ct<-object$control;ct$phi_fixed<-NULL
-    fit<-suppressWarnings(recurcast(object$formula,object$data,unit=sc$unit,start=sc$start,stop=sc$stop,event_type=sc$event_type,terminal=sc$terminal,event_types=sc$event_types,time_unit=sc$time_unit,breaks=object$breaks,observation=sc$observation,control=ct,weights=sw,nonrecurrent=sc$event_types[object$nonrecurrent],coarsening=object$coarsening,frailty=fam,frailty_diagnostics=FALSE))
+    fit<-suppressWarnings(coherent4cast(object$formula,object$data,unit=sc$unit,start=sc$start,stop=sc$stop,event_type=sc$event_type,terminal=sc$terminal,event_types=sc$event_types,time_unit=sc$time_unit,breaks=object$breaks,observation=sc$observation,control=ct,weights=sw,nonrecurrent=sc$event_types[object$nonrecurrent],coarsening=object$coarsening,frailty=fam,frailty_diagnostics=FALSE))
     fits[[fam]]<-fit;tab<-rbind(tab,data.frame(family=fam,logLik=fit$loglik,parameters=length(fit$coefficients),AIC=-2*fit$loglik+2*length(fit$coefficients),regular=fit$convergence$valid))
   }
   list(null_variance_test=list(statistic=if(is.finite(z))max(0,z)^2 else NA_real_,z=z,p.value=if(!null_regular||!is.finite(z))NA_real_ else if(z<=0)1 else stats::pnorm(z,lower.tail=FALSE),null_converged=opt$convergence==0,

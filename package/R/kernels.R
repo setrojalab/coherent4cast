@@ -1,9 +1,9 @@
 .rc_kernel_guard <- function(code) {
   tryCatch(force(code), error = function(e) {
-    if (inherits(e, "recurcast_error")) stop(e)
+    if (inherits(e, "coherent4cast_error")) stop(e)
     stop(structure(list(message = conditionMessage(e), call = NULL,
                         code = "KERNEL_INPUT_OR_NUMERICAL_ERROR"),
-                   class = c("recurcast_error", "error", "condition")))
+                   class = c("coherent4cast_error", "error", "condition")))
   })
 }
 
