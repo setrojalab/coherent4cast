@@ -1,0 +1,20 @@
+{
+  "package": "coherent4cast",
+  "version": "0.10.2",
+  "source_sha256": "c0a677f6b434e8fcae47813f878bd335b31923042b659ed5319e9b544c8bb2c0",
+  "local_check": {
+    "errors": 0,
+    "warnings": 0,
+    "notes": 1,
+    "note": "New submission",
+    "expectations": 1187,
+    "vignettes": 5,
+    "manuals": [
+      "PDF",
+      "HTML"
+    ]
+  },
+  "numerical_source_files_unchanged": 31,
+  "migration_parity_max_error": 0,
+  "ci_source_commit": "1f4e98c180361a0be76765f932a36142860f06d9"
+}

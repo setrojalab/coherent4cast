@@ -1,0 +1,10 @@
+{
+  "previous_version": "0.10.1",
+  "current_version": "0.10.2",
+  "generator_identical": true,
+  "compatibility_aliases_identical": true,
+  "coefficient_max_absolute_difference": 0,
+  "covariance_max_absolute_difference": 0,
+  "forecast_max_absolute_difference": 0,
+  "new_namespace_and_DLL_loaded": true
+}

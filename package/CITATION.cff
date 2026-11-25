@@ -1,8 +1,8 @@
 cff-version: 1.2.0
 message: Please cite this software and the accompanying method manuscript.
 type: software
-title: 'coherent4cast: Coherent Forecasts for Recurrent and Terminal Events'
-version: 0.10.1
+title: 'coherent4cast: Coherent Survival Modelling and Event Forecasting'
+version: 0.10.2
 license: GPL-3.0-only
 authors:
   - family-names: Adetunji
