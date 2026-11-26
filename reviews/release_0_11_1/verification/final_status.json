@@ -1,0 +1,10 @@
+{
+  "local_check": "0 errors, 0 warnings, 1 NOTE (new submission/maintainer only), with remote incoming checks enabled",
+  "ci": "seven platform jobs (Linux/macOS/Windows release and devel, plus Linux oldrel), four GCC/Clang native configurations including ASAN/UBSAN, and Linux rpy2 all passed",
+  "expectations": 1476,
+  "vignettes": 10,
+  "source_commit": "1f39e037c0e8bf24edd58366dfe46c2e5546ed94",
+  "archive_sha256": "a80cfacbda32461ce076cecbaa7f0536a9919cd9b184b0aa335d5cc4ffcc1e1d",
+  "companion_assertions": 50,
+  "scope": "Local CRAN-style checks and GitHub CI, not CRAN acceptance or regulatory certification."
+}

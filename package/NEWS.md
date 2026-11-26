@@ -1,3 +1,20 @@
+# coherentSurv 0.11.1
+
+- Reject unsupported validation arguments; report undefined calibration slopes
+  under complete or quasi-complete separation.
+- Withhold regular Wald inference for nonregular fits, including competing-risk
+  components, through the supported reporting interfaces.
+- Add validated, explicitly scoped ADaM/OMOP mappings and offline environment
+  diagnostics; these are not regulatory qualification or certified parsers.
+- Make the Python runner fit once by default; optional parity verification and
+  stage timings are explicit. Preserve leading zeros and literal NA identifiers.
+- Expose code-specific error classes and a nonregular-fit warning class while
+  preserving the broad coherentSurv condition classes and existing messages.
+- Preserve declared estimands in targeting audits and expose declaration and
+  source-mapping metadata in audit reports.
+- Correct companion fixed-cost valuation checks and citation/version metadata.
+- Preserve the existing R/C++ numerical algorithms and archived study results.
+
 # coherentSurv 0.11.0
 
 - Adopt coherentSurv as the package identity and cs_ for package-specific functions, classes, attributes and native helpers.

@@ -1,12 +1,16 @@
 {
   "package": "coherentSurv",
-  "version": "0.11.0",
+  "version": "0.11.1",
   "date": "2026-11-26",
+  "paper_title": "coherentSurv: Coherent Survival Modelling and Dynamic Forecasting for Recurrent and Terminal Events in R and Python",
+  "cran_title": "Coherent Survival Modelling and Dynamic Forecasting",
   "repository": "https://github.com/setrojalab/coherentSurv",
   "website": "https://setrojalab.github.io/coherentSurv/",
   "arxiv": "https://arxiv.org/abs/2611.32075",
-  "cran_status": "0.11.0 prepared; submission and acceptance not yet confirmed",
-  "verification": "reviews/release_0_11_0",
-  "source_sha256": "03708aa925066ac9f5dfa308d3fad56d6479e86e35ec39b8d4ef494fdc79d5f7",
-  "source_tested_commit": "73bf0c025f8e752ed20cf8e4b4c6387b76aaa052"
+  "arxiv_replacement": "8431196",
+  "arxiv_status": "submitted",
+  "cran_status": "checked; not submitted in this task",
+  "verification": "reviews/release_0_11_1/publication_status.json",
+  "source_sha256": "fb6f24384908b1b4869dd7a7d6d03b57166e889a7ae9153c72e925efd6c4c469",
+  "source_tested_commit": "d4f41b95a738594d502e80a9ff21c6657f6c9506"
 }

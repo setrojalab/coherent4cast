@@ -1,6 +1,13 @@
 .cs_error <- function(code, message) {
   stop(structure(list(message = paste0(code, ": ", message), call = NULL, code = code),
-                 class = c("coherentSurv_error", "error", "condition")))
+                 class = c(paste0("cs_error_", gsub("[^A-Za-z0-9_]", "_", code)),
+                           "coherentSurv_error", "error", "condition")))
+}
+
+.cs_warning <- function(code, message) {
+  warning(structure(list(message = message, call = NULL, code = code),
+                    class = c(paste0("cs_warning_", gsub("[^A-Za-z0-9_]", "_", code)),
+                              "coherentSurv_warning", "warning", "condition")))
 }
 
 #' Construct validated counting-process trajectories

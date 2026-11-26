@@ -1,8 +1,8 @@
 cff-version: 1.2.0
 message: Please cite this software and the accompanying method manuscript.
 type: software
-title: 'coherentSurv: Coherent Survival Modelling and Event Forecasting'
-version: 0.11.0
+title: 'coherentSurv: Coherent Survival Modelling and Dynamic Forecasting for Recurrent and Terminal Events in R and Python'
+version: 0.11.1
 license: GPL-3.0-only
 authors:
   - family-names: Adetunji
@@ -12,8 +12,10 @@ authors:
     given-names: Oluwatimileyin A.
     affiliation: Bowen University
 abstract: >-
-  Development software for shared-gamma event-history estimation and coherent
-  prognostic forecasts, with finite-support sensitivity and calibration tools.
-  This metadata describes a local development version and does not indicate
-  publication on CRAN or assignment of a DOI.
-
+  R package for coherent survival modelling and dynamic forecasting of
+  recurrent and terminal events, with Python access through rpy2 and Rscript.
+  Observation-aware inference, sensitivity analyses and baseline treatment
+  contrasts retain their explicit assumptions.
+repository-code: https://github.com/setrojalab/coherentSurv
+url: https://setrojalab.github.io/coherentSurv/
+date-released: '2026-11-26'

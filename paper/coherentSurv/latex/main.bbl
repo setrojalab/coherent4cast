@@ -1,4 +1,4 @@
-\begin{thebibliography}{28}
+\begin{thebibliography}{30}
 \newcommand{\enquote}[1]{``#1''}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
@@ -12,6 +12,18 @@
 Adetunji SA, Adetunji OA (2026).
 \newblock \enquote{Coherent Survival Modelling and Dynamic Forecasting of History-Dependent Multitype Recurrent Events and Terminal Risk Under Incomplete Observation.}
 \newblock Unpublished methodological manuscript, Version 13, with Supplement S12.
+
+\bibitem[{Adetunji and Oyewusi(2026)}]{AdetunjiOyewusi2026}
+Adetunji SA, Oyewusi R (2026).
+\newblock \enquote{One-Year Survival After Acute-Care Hospitalization for Uterine, Tubo-Ovarian, and Cervical Malignancies: {Cox} Regression, Restricted Mean Survival Time, and Hierarchical {Bayesian} Time-Varying Survival Modeling.}
+\newblock \emph{International Journal of Clinical Obstetrics and Gynaecology}, \textbf{10}(4), 2761--2789.
+\newblock \doi{10.33545/gynae.2026.v10.i4ah.2816}.
+
+\bibitem[{Adetunji \emph{et~al.}(2026)Adetunji, Oyewusi, Balogun, Adetunji, and Adetunji}]{AdetunjiSurvey2026}
+Adetunji SA, Oyewusi RO, Balogun T, Adetunji B, Adetunji OC (2026).
+\newblock \enquote{Design-Consistent Statistical Learning for Rare Survey Outcomes: A Cardiovascular-Kidney-Metabolic Multimorbidity Plasmode Benchmark in Women.}
+\newblock \emph{Current Biomedicine}, \textbf{5}(1), 7--23.
+\newblock \doi{10.29244/currbiomed.5.1.7}.
 
 \bibitem[{Austin and Steyerberg(2019)}]{Austin2019}
 Austin PC, Steyerberg EW (2019).

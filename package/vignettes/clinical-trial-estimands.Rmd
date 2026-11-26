@@ -1,0 +1,226 @@
+---
+title: "A recurrent-event clinical trial: estimands and baseline treatment contrasts"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{A recurrent-event clinical trial: estimands and baseline treatment contrasts}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+library(coherentSurv)
+```
+
+This example follows synthetic participants for two years after randomized
+baseline assignment. Hospitalizations and adverse-event episodes can recur
+before death. We retain the complete sequence of observed intervals, then
+estimate arm differences in expected counts, death risk and restricted mean
+time alive. These invented event labels and rates illustrate the software;
+they are not clinical evidence about a treatment.
+
+## State the question before fitting
+
+For each assigned arm, the outcomes are the number of each recurrent event
+before death or year two, death by year two, and time alive through year two.
+The population summary is the arm-one mean minus the arm-zero mean, using the
+same baseline population for both arms. A participant who dies contributes
+their observed recurrent events before death; they are not dropped from the
+population.
+
+```{r estimand}
+trial_estimand <- list(
+  population = "All synthetic participants eligible at randomization",
+  treatment = "Baseline assignment 1 versus 0, maintained through two years",
+  endpoint = c(
+    "Hospitalization count before death or year two",
+    "Adverse-event episode count before death or year two",
+    "All-cause death by year two",
+    "Restricted mean time alive through year two"
+  ),
+  intercurrent_events = paste(
+    "Death ends recurrent-event accumulation.",
+    "Independent loss to follow-up is right censoring.",
+    "Switching and treatment discontinuation are not generated."
+  ),
+  population_summary = "Arm-one minus arm-zero standardized mean for each outcome"
+)
+trial_estimand
+```
+
+Death stopping event accumulation is a definition of these outcomes. It is
+**not a while-on-treatment strategy**: treatment discontinuation is a separate
+event that would need a protocol-specific definition and analysis. A lower
+event count can also reflect earlier death, so interpret burden together with
+death risk and time alive. Restricted mean time alive is not automatically
+time free of hospitalization or toxicity.
+
+The optional `estimand` argument preserves this declaration. It does not
+change the implemented estimand or verify a protocol's identification or
+regulatory requirements.
+
+## Generate exact histories under randomized assignment
+
+`cs_simulate()` draws its baseline variable `x` from Bernoulli(0.5). Here we
+interpret that generated variable as randomized assignment and rename it
+`assigned`; its supplied coefficients create treatment effects on the event
+intensities. We use zero latent frailty and a declared count cap of one, so the
+retained count state and assignment are sufficient under the generating law.
+The cap limits the history summary in the intensity, not the number of events
+that can accumulate. Independent loss to follow-up has rate 0.08 per year.
+
+```{r generator}
+simulate_trial <- function(n = 120L, horizon = 2, seed = 20261126L) {
+  d <- cs_simulate(
+    n = n, horizon = horizon,
+    rates = c(.65, .40, .30),
+    beta = c(-.25, -.20, -.15),
+    history = c(.10, .10, .12),
+    dispersion = 0, censor_rate = .08,
+    history_cap = 1L, seed = seed, time_unit = "years"
+  )
+  d$assigned <- d$x
+  d$x <- NULL
+  d$event_type <- c("none", "hospitalization", "adverse_event")[d$event_type + 1L]
+  d$censored <- as.integer(
+    d$event_type == "none" & d$terminal == 0L & d$stop < horizon
+  )
+  d
+}
+
+trial <- simulate_trial()
+head(trial, 6)
+
+# One endpoint row per participant, used only for the cohort summary and OS extract.
+endpoint <- trial[!duplicated(trial$id, fromLast = TRUE), ]
+cohort_summary <- aggregate(
+  cbind(participants = rep(1L, nrow(endpoint)),
+        deaths = endpoint$terminal, early_censoring = endpoint$censored),
+  by = list(assigned = endpoint$assigned), FUN = sum
+)
+cohort_summary
+```
+
+An event row's `terminal` flag records death. The separate `censored` flag marks
+an early loss-to-follow-up endpoint with no concurrent event; it is zero on
+ordinary recurrent-event rows. Administrative follow-up at year two does not
+need an early-censor indicator. All time variables use elapsed years from
+randomization.
+
+## Fit the baseline causal model
+
+The formula `~1` declares no baseline confounder strata in this randomized
+example. Treatment is supplied separately, with its known allocation
+probability. The three cross-fitting folds contain whole participants, and
+the log-linear nuisance model includes the declared retained count state.
+
+```{r causal-fit}
+fit <- cs_causal(
+  formula = ~1, data = trial,
+  treatment = "assigned", horizon = 2, censor = "censored",
+  unit = "id", start = "start", stop = "stop",
+  event_type = "event_type", terminal = "terminal",
+  event_types = c("hospitalization", "adverse_event"),
+  time_unit = "years", propensity = .5,
+  spec = list(nfolds = 3L, history_cap = 1L,
+              working = "loglinear", grid = 32L),
+  seed = 41L, estimand = trial_estimand
+)
+
+contrasts <- cs_causal_contrast(fit, contrast = "difference", interval = "wald")
+knitr::kable(contrasts, digits = 3)
+```
+
+The `arm0` and `arm1` columns are mean counts, death probabilities or years alive,
+according to `target`. `estimate` is their difference. For each arm, a common
+event-history law supplies all four outcomes, and death stops further recurrent
+rewards. The arm contrast retains their joint influence-function covariance.
+It is not obtained by interpreting a prognostic regression coefficient as a
+causal effect. A burden contrast is a difference in expected counts, not a
+difference in occurrence probabilities.
+
+`wald` requests pointwise asymptotic limits. The package also provides a
+simultaneous multiplier calculation over the regular contrast coordinates:
+
+```{r simultaneous-intervals}
+simultaneous <- cs_causal_contrast(
+  fit, contrast = "difference", interval = "multiplier", draws = 300L, seed = 7L
+)
+knitr::kable(simultaneous[c("target", "estimate", "lower", "upper",
+                           "inference_status")], digits = 3)
+fit$convergence
+fit$diagnostics
+```
+
+Inspect `inference_status` for every outcome. A failed score, zero-event boundary
+or invalid variance can leave limits undefined (`NA`); keep that result visible.
+Neither interval construction promises finite-sample coverage for this small
+synthetic trial. The interpolation diagnostic concerns numerical approximation,
+not sampling uncertainty; a substantive analysis should also examine grid
+refinement.
+
+Identification requires consistency, no interference, positive treatment
+probabilities and conditionally independent censoring. Randomization and
+independent censoring hold by construction here. The model also requires a
+sufficient retained state. Influence-function inference additionally requires
+regular targeting and appropriate nuisance convergence; this example establishes
+neither universal efficiency nor validity under latent-history misspecification.
+`cs_causal()` does not implement switching treatments, dynamic policies or
+automatic coarsened causal histories.
+
+## Map a separate ADTTE-style overall-survival extract
+
+Recurrent histories and a selected time-to-first/absorbing endpoint are different
+data products. The following artificial extract contains exactly one overall-
+survival (`OS`) row per participant. For this extract we explicitly define
+`CNSR = 0` as death, `1` as administrative censoring and `2` as early loss to
+follow-up. These code meanings are local declarations, not inferred conventions.
+
+```{r adam-mapping}
+adtte <- data.frame(
+  USUBJID = sprintf("S%03d", endpoint$id),
+  PARAMCD = "OS", AVAL = endpoint$stop, AVALU = "years",
+  CNSR = ifelse(endpoint$terminal == 1L, 0L,
+                ifelse(endpoint$censored == 1L, 2L, 1L))
+)
+adsl <- data.frame(USUBJID = adtte$USUBJID, assigned = endpoint$assigned)
+
+os_history <- cs_from_adam(
+  adtte = adtte, paramcd = "OS", event_codes = 0L, censor_codes = c(1L, 2L),
+  time_unit = "years",
+  duration_definition = "Exact elapsed years from randomization to death or observation end",
+  ascertainment = "Complete synthetic death ascertainment until the recorded observation end",
+  provenance = "Synthetic OS extract derived from simulate_trial(), seed 20261126",
+  adsl = adsl, covariates = "assigned"
+)
+stopifnot(identical(os_history$terminal, as.integer(endpoint$terminal)))
+table(CNSR = adtte$CNSR, terminal = os_history$terminal)
+head(os_history[c("id", "start", "stop", "terminal", "assigned")])
+```
+
+The mapping uses membership in `event_codes`; `1 - CNSR` would incorrectly
+produce a negative event indicator for code 2. `CNSR` describes this selected
+participant endpoint, not censoring at each recurrent-event row. The mapper
+does not reconstruct recurrence, accept repeated ADTTE rows as a complete event
+history, or certify CDISC compliance. The causal fit above used the original
+interval histories, not this reduced OS extract.
+
+## Retain the declaration and audit information
+
+```{r audit}
+report <- cs_audit_report(fit, include_session = FALSE)
+stopifnot(identical(report$model$estimand_declaration, trial_estimand))
+report$model$estimand_declaration
+report$fit_context$data_fingerprint$algorithm
+report$convergence
+
+audit_json <- cs_audit_report(fit, format = "json", include_session = FALSE)
+stopifnot(jsonlite::validate(audit_json))
+attr(os_history, "cs_mapping")[c("paramcd", "event_codes", "censor_codes", "scope")]
+```
+
+The report preserves the analyst declaration, fit diagnostics and a fingerprint
+of serialized input data. It supports traceability; it does not establish causal
+assumptions, protocol compliance, electronic-signature controls or an immutable
+audit trail. Source mappings, outcome definitions and the analysis plan still
+require study-specific review.

@@ -1,0 +1,19 @@
+## Submission summary
+
+This is the coherentSurv 0.11.1 review candidate. It adds guarded inference reporting, scoped ADaM/OMOP mappings, offline environment diagnostics, a single-fit Python bridge and ten executable vignettes. It retains the existing C++17 numerical kernels. GPL-3.
+
+Maintainer: Sunday A. Adetunji <sundayadetunjisa@gmail.com>
+
+Source archive SHA-256: a80cfacbda32461ce076cecbaa7f0536a9919cd9b184b0aa335d5cc4ffcc1e1d
+
+## Test environments
+
+The exact archive was checked on Windows with R-devel using R CMD check --as-cran, with remote incoming checks and PDF/HTML manual generation enabled. GitHub checks for source commit 1f39e037c0e8bf24edd58366dfe46c2e5546ed94 passed on Linux, macOS and Windows under R-release/R-devel and on Linux R-oldrel. Four GCC/Clang native configurations passed, including ASAN/UBSAN. Linux rpy2 transport and numerical parity passed separately.
+
+## Results
+
+0 errors | 0 warnings | 1 note
+
+The incoming-feasibility note identifies the maintainer and new submission only. All 1,476 test expectations passed with zero failures, warnings or skips. Examples, ten vignettes, and PDF/HTML manual checks passed.
+
+This record documents pre-submission checks. It does not state that CRAN has accepted this revision. No new CRAN submission was made during this review.

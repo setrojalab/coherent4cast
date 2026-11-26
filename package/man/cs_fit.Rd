@@ -39,7 +39,7 @@ cs_fit(formula, data, unit = "id", start = "start",
 \item{nonrecurrent}{Event labels that may occur at most once; their post-event eligibility is zero.}
 \item{coarsening}{For enumerated paths, a list with owner (path-to-observed-subject indices) and log_weights (quadrature integration weights).}
 \item{intervention}{Reserved extension argument. A non-NULL value raises an explicit unsupported-causal-analysis error.}
-\item{estimand}{Optional analyst-supplied estimand metadata.}
+\item{estimand}{Optional analyst-supplied declaration retained in the fit audit, summary and audit export. A named list may describe population, treatment, endpoint, intercurrent events and population summary. It does not select a different model, establish identification or certify ICH E9(R1) compliance.}
 \item{seed}{Integer seed recorded in provenance or used by a simulation.}
 \item{frailty}{Mean-one gamma, lognormal or estimated discrete frailty, or 'none' to fix the shared variance to zero through the existing gamma-kernel limit. A positive phi_fixed conflicts with 'none'.}
 \item{frailty_points}{Number of estimated mass points for discrete frailty, from two to eight; three deterministic optimization starts are compared.}

@@ -28,9 +28,52 @@ jobs:
       - name: Compare Python-to-R calls with direct R results
         run: |
           mkdir -p interop-output
-          .python-interop/bin/python package/inst/python/run_rpy2.py --output interop-output/forecasts.csv
+          .python-interop/bin/python package/inst/python/run_rpy2.py --verify-parity --timings --output interop-output/forecasts.csv
           .python-interop/bin/python -m pip freeze > interop-output/python-environment.txt
+          .python-interop/bin/python --version > interop-output/python-version.txt
           Rscript -e 'sessionInfo()' > interop-output/r-session.txt
+      - name: Check identifier preservation and bridge errors
+        run: |
+          Rscript -e 'data("sim_perinatal", package="coherentSurv"); d <- sim_perinatal; ids <- unique(d$id); labels <- paste0("unit", seq_along(ids)); labels[1:3] <- c("001", "1", "NA"); d$id <- labels[match(d$id, ids)]; d$event_type <- as.character(d$event_type); d$event_type[d$event_type == "0"] <- ""; write.csv(d, "interop-output/identifier-input.csv", row.names=FALSE)'
+          .python-interop/bin/python - <<'PY'
+          import csv
+          import json
+          from pathlib import Path
+          import subprocess
+          import sys
+
+          root = Path('interop-output')
+          script = 'package/inst/python/run_rpy2.py'
+          output = root / 'identifier-forecasts.csv'
+          command = [sys.executable, script, '--input', str(root / 'identifier-input.csv'), '--output', str(output)]
+          subprocess.run(command + ['--verify-parity'], check=True)
+          report = Path(str(output) + '.parity.json')
+          assert json.loads(report.read_text())['verification_status'] == 'passed'
+          subprocess.run(command, check=True)
+          assert json.loads(report.read_text())['verification_status'] == 'not_requested'
+          with output.open(newline='') as handle:
+              assert {row['unit'] for row in csv.DictReader(handle)} == {'001'}
+
+          process_output = root / 'process-forecasts.csv'
+          subprocess.run([sys.executable, 'package/inst/python/run_forecast.py',
+                          '--input', str(root / 'identifier-input.csv'),
+                          '--subject-id', '001', '--output', str(process_output)], check=True)
+          with process_output.open(newline='') as handle:
+              assert {row['unit'] for row in csv.DictReader(handle)} == {'001'}
+
+          for name, contents, message in [
+              ('empty.csv', 'id,start,stop,event_type,terminal,x\n', 'no interval rows'),
+              ('missing.csv', 'id,start,stop,event_type,terminal\n001,0,1,1,0\n', 'Missing required interval columns: x'),
+          ]:
+              path = root / name
+              path.write_text(contents)
+              failed_output = root / (name + '.forecasts.csv')
+              for runner in [script, 'package/inst/python/run_forecast.py']:
+                  failed = subprocess.run([sys.executable, runner, '--input', str(path),
+                                           '--output', str(failed_output)], capture_output=True, text=True)
+                  assert failed.returncode != 0 and message in failed.stderr, failed.stderr
+                  assert not failed_output.exists()
+          PY
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:

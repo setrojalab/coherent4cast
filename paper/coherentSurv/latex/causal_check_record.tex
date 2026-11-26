@@ -1,20 +1,23 @@
-Version 0.11.0 passed a full local \code{R CMD check --as-cran}
-under Windows \proglang{R}-devel with 0 errors, 0 warnings and 0 notes;
-remote incoming checks were disabled for this staging check.
-All 1,197 test expectations, five vignettes, examples and PDF/HTML manual
-checks passed. Six additional Linux, macOS and Windows jobs passed under
-\proglang{R}-release and \proglang{R}-devel. All seven standalone native
-fixtures passed four GCC/Clang builds, with and without AddressSanitizer
-and UndefinedBehaviorSanitizer. These checks include the causal kernel.
-The 29 authored native source files were unchanged after identifier
-normalization, and a deterministic cross-version fixture gave identical
-coefficients, covariance matrices and forecasts.
+Version 0.11.1 passed a full local \code{R CMD check --as-cran}
+under Windows \proglang{R}-devel with remote incoming checks enabled:
+0 errors, 0 warnings and one incoming-feasibility note identifying the
+maintainer and new submission. All 1,476 test expectations, ten vignettes,
+examples and PDF/HTML manual checks passed. Seven GitHub platform jobs
+passed: Linux, macOS and Windows under \proglang{R}-release and
+\proglang{R}-devel, and Linux under \proglang{R}-oldrel. The standalone
+native fixtures passed four GCC/Clang configurations, including
+AddressSanitizer and UndefinedBehaviorSanitizer. These checks include
+the causal kernel. All 23 native source and header files in the source
+archive agree with 0.11.0 after line-ending normalization.
 
 The direct \pkg{rpy2} example was executed on Linux with \proglang{R}
 4.6.2, \pkg{rpy2} 3.6.9 and pandas 2.3.3. It returned 15 forecast rows
 and matched direct \proglang{R} calls exactly for coefficients, covariance
-and forecasts. The \code{Rscript} example was executed separately on
-Windows. These checks establish numerical and data-transfer agreement
-for the tested example, not out-of-sample predictive validity.
-The source commit, artifact checksums and environment records accompany
-the release verification materials.
+and forecasts. Identifier preservation and invalid-input checks passed.
+The \code{Rscript} example was executed separately on Windows. All 50
+companion reporting checks passed. The manuscript replication runner
+was executed using the retained experiment outputs; the original Monte
+Carlo studies were not rerun for this interface revision. These checks
+establish agreement for the tested calculations, not external predictive
+validity, regulatory qualification or CRAN acceptance. The source commit,
+archive checksums, environments and executed logs accompany the revision.

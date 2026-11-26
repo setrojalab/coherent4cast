@@ -67,6 +67,7 @@ cs_fit <- function(formula, data, unit="id", start="start", stop="stop", event_t
       .cs_error("targeting_scope","Targeting uses its declared finite-path MAR or continuous-time CAR model. Specify support, folds, strata and time grid through targeting_spec; likelihood-only weights, frailty, coarsening, eligibility and baseline-break arguments cannot be silently reused.")
     targeted_fit<-.cs_targeted_fit(formula,data,unit,start,stop,event_type,terminal,observed,event_types,time_unit,targeting,control,targeting_spec,seed,call)
     targeted_fit$audit<-c(targeted_fit$audit,.cs_capture_audit_context(data,call))
+    targeted_fit$audit$estimand <- estimand
     return(targeted_fit)
   }
   if(!inherits(formula,"formula") || length(formula)!=2L) .cs_error("formula","Supply a one-sided covariate formula such as ~ treatment + age.")
@@ -199,6 +200,6 @@ cs_fit <- function(formula, data, unit="id", start="start", stop="stop", event_t
   fit$frailty_requested<-frailty_requested
   fit$audit<-c(fit$audit,.cs_capture_audit_context(d,call))
   if(isTRUE(frailty_diagnostics))fit$frailty_diagnostics<-cs_frailty_diagnose(fit)
-  if(!valid) warning("Fit is nonregular or did not meet convergence criteria; inspect $convergence. Wald inference is not certified.",call.=FALSE)
+  if(!valid) .cs_warning("nonregular_fit", "Fit is nonregular or did not meet convergence criteria; inspect $convergence. Wald inference is not certified.")
   fit
 }

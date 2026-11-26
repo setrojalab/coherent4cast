@@ -1,14 +1,24 @@
 {
-  "title": "coherentSurv: Coherent Survival Modelling and Event Forecasting",
+  "title": "coherentSurv: Coherent Survival Modelling and Dynamic Forecasting for Recurrent and Terminal Events in R and Python",
   "upload_type": "software",
-  "version": "0.11.0",
+  "version": "0.11.1",
   "description": "Development implementation of coherent event-history forecasts. Public release awaits completion of recorded release gates.",
   "creators": [
-    {"name": "Adetunji, Sunday A.", "affiliation": "Oregon State University"},
-    {"name": "Adetunji, Oluwatimileyin A.", "affiliation": "Bowen University"}
+    {
+      "name": "Adetunji, Sunday A.",
+      "affiliation": "Oregon State University"
+    },
+    {
+      "name": "Adetunji, Oluwatimileyin A.",
+      "affiliation": "Bowen University"
+    }
   ],
   "license": "GPL-3.0-only",
   "access_right": "open",
-  "keywords": ["recurrent events", "survival analysis", "dynamic prediction", "partial identification"]
+  "keywords": [
+    "recurrent events",
+    "survival analysis",
+    "dynamic prediction",
+    "partial identification"
+  ]
 }
-

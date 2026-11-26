@@ -23,6 +23,19 @@
     session_info = capture.output(utils::sessionInfo()))
 }
 
+.cs_audit_mapping <- function(data) {
+  if (is.null(data)) return(NULL)
+  mapping <- attr(data, "cs_mapping")
+  if (is.null(mapping)) return(NULL)
+  # Mapping objects can retain subject-level origins/source rows. Export only
+  # the declared analysis rules, never the raw mapping object or its records.
+  allowed <- c("adapter", "source", "parameter", "paramcd", "event_codes", "censor_codes",
+    "concept_map", "concept_column", "date_column", "time_unit", "days_per_year",
+    "duration_definition", "timing", "ascertainment", "provenance", "episode_rule",
+    "observation", "scope")
+  mapping[intersect(names(mapping), allowed)]
+}
+
 .cs_audit_data_fingerprint <- function(data) {
   raw <- serialize(data, NULL, version = 3L)
   list(algorithm = "SHA-256", value = digest::digest(raw, algo = "sha256", serialize = FALSE),
@@ -134,7 +147,10 @@ cs_audit_report <- function(object, predictions = NULL, source_files = NULL,
     targeting = if (inherits(object, "coherentSurv_competing")) "none" else if (!is_data && !is_prediction) object$targeting else NULL,
     frailty = if (inherits(object, "coherentSurv_competing")) "none" else if (!is_data && !is_prediction) object$frailty else NULL,
     absorbing_causes = if (inherits(object, "coherentSurv_competing")) object$causes else NULL,
-    seed = audit$seed, assumptions = audit$assumptions)
+    seed = audit$seed, estimand_declaration = audit$estimand,
+    estimand_scope = "Analyst-supplied declaration retained verbatim; not a verification of estimand identification or ICH E9(R1) compliance.",
+    mapping_provenance = .cs_audit_mapping(data),
+    assumptions = audit$assumptions)
   numerical <- list(fitting = audit[intersect(names(audit), c("quadrature_refinement", "quadrature_stable", "numerical_error", "minimum_censor_survival"))],
     prediction = .cs_audit_numerical_summary(predictions),
     prediction_assumptions = if (is.null(predictions)) NULL else attr(predictions, "assumptions"),

@@ -17,4 +17,8 @@ requires consistency, exchangeability, positivity and the stated censoring
 conditions; it is not a general time-varying treatment-policy implementation.
 Python examples call the installed R package through rpy2 or Rscript. R and
 the package remain required; there is no independent Python statistical engine.
-OpenMP and clinical-system adapters are outside this release.
+OpenMP and a separate native Python engine are outside this release.
+The ADaM and OMOP mapping helpers validate explicitly declared source rules;
+they do not certify clinical coding, complete ascertainment or standards compliance.
+Environment diagnostics are installation/operation checks, not signed IQ/OQ/PQ
+qualification or FDA/NIH/NHS certification.

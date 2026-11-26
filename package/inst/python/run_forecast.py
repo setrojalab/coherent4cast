@@ -8,6 +8,7 @@ R and coherentSurv must already be installed. Supply --rscript if Rscript is
 not on PATH. The example uses exact interval histories, formula ~ x, recurrent
 marks 1/2, months, landmark 0 and horizons 0.25/0.5/1. Adapt the R_CODE analysis
 specification for your study; it is not an automatic analysis of arbitrary data.
+CSV identifiers and event labels retain their text; an empty event label means no event.
 """
 import argparse
 import csv
@@ -22,13 +23,17 @@ if (!requireNamespace("coherentSurv", quietly = TRUE))
   stop("Install the coherentSurv R package before running this example.")
 library(coherentSurv)
 if (args[1] != "--demo") {
-  d <- read.csv(args[1], stringsAsFactors = FALSE, check.names = FALSE)
+  d <- read.csv(args[1], stringsAsFactors = FALSE, check.names = FALSE,
+                colClasses = c(id = "character", event_type = "character"),
+                na.strings = character())
 } else {
   data("sim_perinatal", package = "coherentSurv")
   d <- sim_perinatal
 }
 needed <- c("id", "start", "stop", "event_type", "terminal", "x")
-if (!all(needed %in% names(d))) stop("Required columns: ", paste(needed, collapse = ", "))
+missing <- setdiff(needed, names(d))
+if (length(missing)) stop("Missing required interval columns: ", paste(missing, collapse = ", "))
+if (!nrow(d)) stop("The input CSV contains no interval rows.")
 subject <- if (args[2] != "--first") args[2] else as.character(d$id[1])
 one <- d[as.character(d$id) == subject, , drop = FALSE]
 if (!nrow(one)) stop("The requested subject ID is absent.")

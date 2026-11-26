@@ -1,14 +1,15 @@
 # coherentSurv
 
-Coherent survival modelling and dynamic forecasting of history-dependent
-multitype recurrent events and terminal risk under incomplete observation.
+**coherentSurv: Coherent Survival Modelling and Dynamic Forecasting for Recurrent and Terminal Events in R and Python**
+
+Modelling of history-dependent multitype recurrent events and terminal risk under incomplete observation.
 
 `coherentSurv` fits one event-history law and derives recurrent burden, terminal
 risk and restricted survival from it. The R interface exposes a C++17 numerical
 core, checks event eligibility and observation assumptions, and retains
 convergence and numerical diagnostics in returned objects.
 
-This release candidate is `0.11.0`. Local verification does not imply
+This is version `0.11.1`. Local verification does not imply
 CRAN acceptance, independent software review or clinical validation.
 
 ## Install the supplied source archive
@@ -18,7 +19,7 @@ for source installation; use Rtools on Windows.
 
 ```r
 install.packages(c("Rcpp", "digest", "jsonlite"))
-install.packages("coherentSurv_0.11.0.tar.gz", repos=NULL, type="source")
+install.packages("coherentSurv_0.11.1.tar.gz", repos=NULL, type="source")
 library("coherentSurv")
 ```
 
@@ -66,7 +67,7 @@ supported finite-state/stratum model and worked example.
 | Fit standard survival or absorbing competing causes | `cs_surv()`, `cs_competing()` |
 | Export captured context, diagnostics and explicit SHA-256 fingerprints | `cs_audit_report()` |
 
-Use `vignette(package="coherentSurv")` for the five worked guides and the help
+Use `vignette(package="coherentSurv")` for the ten worked guides and the help
 pages for precise assumptions. The finite-path, continuous-time likelihood,
 confidence-projection and prediction-set modules have different validity
 conditions. Calling one does not certify all the others.
@@ -110,7 +111,8 @@ It does not infer arbitrary hidden histories without an observation model.
 ## Licence and citation
 
 The software is distributed under GPL-3. Use `citation("coherentSurv")` for the
-development software citation. Publication identifiers will be added only after
-they exist. See `CONTRIBUTING.md`, `SECURITY.md` and `SUPPORT.md` for development
+software citation. The software article is available at
+https://arxiv.org/abs/2611.32075; its final-title replacement was submitted on
+26 November 2026 UTC. This is not a claim of journal or CRAN acceptance. See `CONTRIBUTING.md`, `SECURITY.md` and `SUPPORT.md` for development
 and support policies.
 

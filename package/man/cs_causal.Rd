@@ -6,7 +6,7 @@ cs_causal(formula, data, treatment, horizon, censor, time_unit,
   unit = "id", start = "start", stop = "stop",
   event_type = "event_type", terminal = "terminal",
   observed = NULL, event_types = NULL, folds = NULL,
-  propensity = NULL, spec = list(), seed = 1L)
+  propensity = NULL, spec = list(), seed = 1L, estimand = NULL)
 }
 \arguments{
 \item{formula}{One-sided formula naming baseline confounder strata. Continuous predictors must be discretized into scientifically declared strata or represented through supplied out-of-fold nuisance arrays.}
@@ -20,6 +20,7 @@ cs_causal(formula, data, treatment, horizon, censor, time_unit,
 \item{propensity}{Probability of treatment 1: \code{NULL} for cross-fitted stratum proportions with a 0.5 pseudocount; one known probability for a randomized design; or an externally estimated fold-by-stratum matrix. Supplied estimates must exclude validation outcomes. Matrix rows follow sorted fold labels, columns follow sorted stratum keys.}
 \item{spec}{Named list. Options: \code{strata} (formula variables), \code{nfolds} (5), \code{grid} (64), \code{history_cap} (2), \code{working} (\code{"loglinear"} or \code{"pooled"}), \code{nonrecurrent} (labels), \code{complete_followup} (FALSE), \code{min_propensity} (0.01), \code{min_censor_survival} (0.001), \code{maxit} (100), and \code{tolerance} (\code{1e-7/sqrt(n)}). \code{initial_rates} and \code{censor_rates} may be lists named \code{"0"} and \code{"1"}; each rate array is marks by living states by time grid by fold-stratum, each censor vector has one nonnegative constant hazard per fold-stratum. Groups are ordered first by fold, then stratum. Marks are recurrent labels followed by the terminal mark. Supplied arrays must be fitted outside the corresponding validation fold.}
 \item{seed}{Seed used for fold construction; the caller's random state is restored.}
+\item{estimand}{Optional analyst declaration retained in the audit and summary. A named list may specify population, treatment, endpoint, intercurrent events and population summary. It documents the intended question; it does not change the implemented baseline binary-treatment estimand, validate identification or establish regulatory compliance.}
 }
 \description{Estimates arm-specific mean recurrent counts, terminal risk and restricted mean time alive, standardized over the same baseline population. Arm-specific intensity targeting uses inverse treatment probabilities and inverse censor survival. Treatment contrasts retain the full joint influence-function covariance.}
 \details{

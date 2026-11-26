@@ -75,6 +75,13 @@ block-diagonal observed information; cross-cause covariance is retained.
 Coefficient intervals are regular asymptotic approximations. No automatic
 cumulative-incidence confidence bands are returned. Independent units,
 valid censoring assumptions and the specified hazard model remain required.
+Both the wrapper and every cause-specific fit must have
+\code{convergence$valid = TRUE} before regular Wald limits are returned.
+Otherwise all joint coefficient limits are \code{NA}, and the coefficient
+table and summary retain \code{inference_status = "unavailable_nonregular_fit"}.
+Estimates and numerical standard errors remain available for diagnosis;
+those standard errors do not certify valid inference. Regular fits have
+\code{inference_status = "regular_asymptotic"}.
 The log likelihood is the sum of fitted cause-specific contributions. With
 arbitrary case weights, its AIC-style summary is a weighted descriptive
 criterion and need not have ordinary likelihood calibration. The forecasts

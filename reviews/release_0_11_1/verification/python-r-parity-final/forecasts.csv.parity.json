@@ -1,0 +1,35 @@
+{
+  "package": "coherentSurv",
+  "version": "0.11.1",
+  "verification_status": "passed",
+  "rows": 15,
+  "maximum_absolute_difference_from_direct_r": {
+    "coefficients": 0.0,
+    "covariance": 0.0,
+    "forecasts": 0.0
+  },
+  "r_convergence": {
+    "code": "converged",
+    "optimizer": 0,
+    "message": "CONVERGENCE: REL_REDUCTION_OF_F <= FACTR*EPSMCH",
+    "gradient": 4.20634159817301e-07,
+    "information_eigenvalues": [
+      505.708728998131,
+      234.785442569465,
+      123.404446190718,
+      87.1087401271554,
+      71.1609083362279,
+      45.7215836808413,
+      34.3443343970129,
+      31.6430436016269,
+      25.9020016247074,
+      18.9009467596574,
+      12.764903180994,
+      9.63889992326702,
+      6.30627502145801
+    ],
+    "at_boundary": false,
+    "valid": true
+  },
+  "scope": "Transport and numerical parity on the supplied dataset, not predictive validation."
+}

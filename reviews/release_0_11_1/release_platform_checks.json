@@ -1,0 +1,89 @@
+{
+  "source_commit": "d4f41b95a738594d502e80a9ff21c6657f6c9506",
+  "checks": [
+    {
+      "name": "check (windows-latest, devel)",
+      "status": "completed",
+      "conclusion": "success",
+      "details_url": "https://github.com/setrojalab/coherentSurv/actions/runs/45799248745/job/139837835533",
+      "head_sha": "d4f41b95a738594d502e80a9ff21c6657f6c9506"
+    },
+    {
+      "name": "check (macos-latest, devel)",
+      "status": "completed",
+      "conclusion": "success",
+      "details_url": "https://github.com/setrojalab/coherentSurv/actions/runs/45799248745/job/139837835510",
+      "head_sha": "d4f41b95a738594d502e80a9ff21c6657f6c9506"
+    },
+    {
+      "name": "check (windows-latest, release)",
+      "status": "completed",
+      "conclusion": "success",
+      "details_url": "https://github.com/setrojalab/coherentSurv/actions/runs/45799248745/job/139837835498",
+      "head_sha": "d4f41b95a738594d502e80a9ff21c6657f6c9506"
+    },
+    {
+      "name": "check (ubuntu-latest, release)",
+      "status": "completed",
+      "conclusion": "success",
+      "details_url": "https://github.com/setrojalab/coherentSurv/actions/runs/45799248745/job/139837835484",
+      "head_sha": "d4f41b95a738594d502e80a9ff21c6657f6c9506"
+    },
+    {
+      "name": "native (g++, 1)",
+      "status": "completed",
+      "conclusion": "success",
+      "details_url": "https://github.com/setrojalab/coherentSurv/actions/runs/45799248725/job/139837835440",
+      "head_sha": "d4f41b95a738594d502e80a9ff21c6657f6c9506"
+    },
+    {
+      "name": "check (macos-latest, release)",
+      "status": "completed",
+      "conclusion": "success",
+      "details_url": "https://github.com/setrojalab/coherentSurv/actions/runs/45799248745/job/139837835426",
+      "head_sha": "d4f41b95a738594d502e80a9ff21c6657f6c9506"
+    },
+    {
+      "name": "check (ubuntu-latest, devel)",
+      "status": "completed",
+      "conclusion": "success",
+      "details_url": "https://github.com/setrojalab/coherentSurv/actions/runs/45799248745/job/139837835385",
+      "head_sha": "d4f41b95a738594d502e80a9ff21c6657f6c9506"
+    },
+    {
+      "name": "native (g++, 0)",
+      "status": "completed",
+      "conclusion": "success",
+      "details_url": "https://github.com/setrojalab/coherentSurv/actions/runs/45799248725/job/139837835243",
+      "head_sha": "d4f41b95a738594d502e80a9ff21c6657f6c9506"
+    },
+    {
+      "name": "native (clang++, 0)",
+      "status": "completed",
+      "conclusion": "success",
+      "details_url": "https://github.com/setrojalab/coherentSurv/actions/runs/45799248725/job/139837835238",
+      "head_sha": "d4f41b95a738594d502e80a9ff21c6657f6c9506"
+    },
+    {
+      "name": "check (ubuntu-latest, oldrel)",
+      "status": "completed",
+      "conclusion": "success",
+      "details_url": "https://github.com/setrojalab/coherentSurv/actions/runs/45799248745/job/139837835054",
+      "head_sha": "d4f41b95a738594d502e80a9ff21c6657f6c9506"
+    },
+    {
+      "name": "native (clang++, 1)",
+      "status": "completed",
+      "conclusion": "success",
+      "details_url": "https://github.com/setrojalab/coherentSurv/actions/runs/45799248725/job/139837834868",
+      "head_sha": "d4f41b95a738594d502e80a9ff21c6657f6c9506"
+    },
+    {
+      "name": "rpy2",
+      "status": "completed",
+      "conclusion": "success",
+      "details_url": "https://github.com/setrojalab/coherentSurv/actions/runs/45799248721/job/139837834715",
+      "head_sha": "d4f41b95a738594d502e80a9ff21c6657f6c9506"
+    }
+  ]
+}
