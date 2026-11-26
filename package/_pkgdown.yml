@@ -10,16 +10,28 @@ articles:
   - incomplete-observation
   - validation-calibration
   - extended-workflows
+  - baseline-causal
+  - source-mapping-and-environment
+  - cross-discipline-guide
+  - robotic-fleet-reliability
+  - clinical-trial-estimands
+  - credit-risk-default
 reference:
 - title: Data and model
   contents:
   - cs_as_trajectory
   - cs_build_history
-  - coherentSurv
+  - cs_fit
   - cs_control
   - cs_simulate
   - cs_readmission
   - cs_colon
+  - cs_from_adam
+  - cs_from_omop
+  - cs_surv
+  - cs_competing
+  - cs_audit_report
+  - cs_validate_env
 - title: Likelihood and forecasts
   contents:
   - cs_loglik
@@ -41,6 +53,8 @@ reference:
 - title: Inference and validation
   contents:
   - cs_target
+  - cs_causal
+  - cs_causal_contrast
   - cs_bounds
   - cs_bounds_sparse
   - targeting_spec
@@ -55,6 +69,7 @@ reference:
 - title: Model summaries
   contents:
   - summary.coherentSurv
+  - confint.coherentSurv
   - tidy
   - glance
   - augment

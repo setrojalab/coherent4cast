@@ -1,0 +1,259 @@
+---
+title: "Synthetic credit histories: delinquency, default and restricted account life"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Synthetic credit histories: delinquency, default and restricted account life}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+library(coherentSurv)
+```
+
+This runnable example translates a synthetic event-history model into credit
+terminology. It uses no borrower data and provides no external validation for
+lending, pricing, capital or intervention decisions. The parameters below are
+illustrative; renaming simulated events does not establish a realistic credit
+model.
+
+## Define the analysis before mapping the records
+
+An independent unit is one synthetic account. Recurrent marks represent
+separate delinquency episodes and covenant breaches, with follow-up in years.
+The terminal event is the first default under the analyst's definition, after
+which this analysis stops counting events. An account that can cure and return
+to the risk set would need a different state/eligibility specification; a
+recoverable delinquency status is not automatically an absorbing default.
+
+The simulator below uses the existing `cs_simulate()` engine. Its baseline
+covariate is a Bernoulli group indicator, labelled `leverage_group` for this
+example, rather than an estimated debt ratio. At each jump, each intensity is
+the shared gamma frailty times its baseline rate times
+`exp(beta * leverage_group + history * sum(capped prior counts))`.
+The cap is one prior event per recurrent mark. Actual future counts remain
+uncapped. Independent censoring has rate 0.04 per year and administrative
+follow-up ends after four years. All retained event times are exact in this
+synthetic experiment; quarterly reporting windows are not fabricated from
+them.
+
+```{r credit-generator}
+sim_credit_portfolio <- function(n = 120L, max_years = 4, seed = 808L) {
+  d <- cs_simulate(
+    n = n, horizon = max_years,
+    rates = c(0.50, 0.30, 0.18),
+    beta = c(0.25, 0.15, 0.35),
+    history = c(0.12, 0.10, 0.20),
+    dispersion = 0.40, censor_rate = 0.04,
+    history_cap = 1L, seed = seed, time_unit = "years"
+  )
+  d$account_id <- sprintf("ACCT-%04d", d$id)
+  d$id <- NULL
+  names(d)[names(d) == "x"] <- "leverage_group"
+  labels <- c("0", "delinquency", "covenant_breach")
+  d$event_type <- labels[d$event_type + 1L]
+  d
+}
+
+credit <- sim_credit_portfolio()
+head(credit, 6)
+attr(credit, "truth")
+```
+
+## Fit on complete training-account histories
+
+The split below is fixed by account identifier before inspecting outcomes.
+All intervals from an account stay in the same split. To keep the example
+compact, the frailty variance is fixed at its generating value, 0.40; this is
+a disclosed simulation choice, not a way to learn an unknown real portfolio's
+heterogeneity. The remaining coefficients are estimated. Optimizer and
+regularity diagnostics remain visible.
+
+```{r credit-fit}
+account_ids <- unique(credit$account_id)
+training_ids <- account_ids[seq_len(90L)]
+evaluation_ids <- account_ids[-seq_len(90L)]
+training <- credit[credit$account_id %in% training_ids, , drop = FALSE]
+
+training_trajectory <- cs_as_trajectory(
+  training, unit = "account_id", start = "start", stop = "stop",
+  event_type = "event_type", terminal = "terminal", observed = "observed",
+  event_types = c("delinquency", "covenant_breach"), time_unit = "years"
+)
+fit_credit <- cs_fit(
+  ~ leverage_group, data = training_trajectory, unit = "account_id",
+  observed = "observed", event_types = c("delinquency", "covenant_breach"),
+  time_unit = "years", frailty = "gamma",
+  control = cs_control(phi_fixed = 0.40, history_cap = 1L, maxit = 200L)
+)
+fit_credit$convergence
+```
+
+This fit assumes the declared exact observation process and working intensity
+model. Real bureau reporting can involve uncertain times, incomplete counts,
+changing exposure and informative account closure. Those features require
+their own observation and statistical treatment; merely relabelling interval
+endpoints as report dates does not supply it.
+
+## Forecast using only eligible histories through one year
+
+An evaluation account must still be observed and default-free at the landmark.
+We retain only its history through that time. A follow-up interval crossing
+the landmark is truncated and its later endpoint event is removed. Eligibility
+uses no event after the landmark; the future outcomes of the held-out accounts
+are not inputs to these forecasts. The baseline group is frozen, as explicitly
+requested in `predict()`.
+
+```{r credit-landmark}
+landmark <- 1
+evaluation <- credit[credit$account_id %in% evaluation_ids, , drop = FALSE]
+by_account <- split(evaluation, evaluation$account_id)
+eligible <- vapply(by_account, function(g) {
+  max(g$stop) >= landmark &&
+    !any(g$terminal == 1L & g$stop <= landmark)
+}, logical(1))
+eligible_ids <- names(eligible)[eligible]
+stopifnot(length(eligible_ids) >= 3L)
+
+history_at_landmark <- evaluation[
+  evaluation$account_id %in% eligible_ids & evaluation$start < landmark,
+  , drop = FALSE
+]
+crosses_landmark <- history_at_landmark$stop > landmark
+history_at_landmark$stop[crosses_landmark] <- landmark
+history_at_landmark$event_type[crosses_landmark] <- "0"
+history_at_landmark$terminal[crosses_landmark] <- 0L
+stopifnot(
+  all(history_at_landmark$stop <= landmark),
+  all(history_at_landmark$terminal == 0L),
+  all(tapply(history_at_landmark$stop,
+             history_at_landmark$account_id, max) == landmark)
+)
+
+# Display three accounts selected by identifier, not forecast or later outcome.
+forecast_history <- history_at_landmark[
+  history_at_landmark$account_id %in% head(eligible_ids, 3L), , drop = FALSE
+]
+forecast <- predict(
+  fit_credit, newdata = forecast_history, landmark = landmark,
+  horizon = c(0.5, 1, 2), type = "all", covariate_evolution = "freeze"
+)
+forecast[forecast$unit == forecast$unit[1L],
+         c("unit", "landmark", "horizon", "target", "estimate", "time_unit")]
+```
+
+`risk` is default probability over the future horizon; `survival` is its
+complement. The two `burden_*` outputs are expected additional episode counts,
+not episode probabilities or monetary severity. `rmst` is expected time before
+default restricted to the horizon:
+
+\[
+ E\{\min(T_D-s,\Delta)\mid T_D>s,\mathcal H_s\}
+ =\int_0^\Delta P(T_D>s+u\mid T_D>s,\mathcal H_s)\,du.
+\]
+
+This is restricted **pre-default account life**, sometimes called performing
+life. In this example it includes time spent delinquent before default; it is
+not time with all payments current. It is also not the unrestricted mean time
+to default. All these predictions arise from the same fitted law, with counts
+stopping at default. We can check their basic identities directly.
+
+```{r credit-coherence}
+keys <- c("unit", "landmark", "horizon")
+risk <- forecast[forecast$target == "risk", c(keys, "estimate")]
+survival <- forecast[forecast$target == "survival", c(keys, "estimate")]
+paired <- merge(risk, survival, by = keys, suffixes = c("_risk", "_survival"))
+restricted_life <- forecast[forecast$target == "rmst", ]
+stopifnot(
+  max(abs(paired$estimate_risk + paired$estimate_survival - 1)) < 1e-8,
+  all(forecast$estimate >= -1e-10),
+  all(restricted_life$estimate <= restricted_life$horizon + 1e-8)
+)
+```
+
+The returned series, roundoff and frailty-compression diagnostics concern
+numerical approximation. These likelihood-based point forecasts do not supply
+individual-history confidence intervals through a `std_error` field. A small
+synthetic held-out sample does not establish calibration in a real credit
+population.
+
+## Supply exposure and loss severity separately
+
+Default probability alone is not expected monetary loss. For a deliberately
+simple undiscounted scenario with fixed exposure at default (EAD) and fixed
+loss given default (LGD), conditional expected default loss is
+`PD * EAD * LGD`. Here EAD and LGD are supplied assumptions, not fitted outputs.
+
+```{r credit-loss}
+one_year <- risk[risk$horizon == 1, c("unit", "estimate")]
+names(one_year)[2L] <- "default_probability"
+one_year$exposure_at_default <- 100000
+one_year$loss_given_default <- 0.40
+one_year$expected_default_loss <- with(
+  one_year, default_probability * exposure_at_default * loss_given_default
+)
+one_year
+```
+
+Amounts above are illustrative monetary units. With changing or uncertain EAD,
+LGD, recovery times or discounting, the required target is the expectation of
+the joint loss reward, not generally a product of separate marginal means.
+Recurrent delinquency counts do not estimate claim severity or LGD. Any
+additional per-episode costs must exclude components already included in the
+default-loss reward to avoid double counting. Parameter, price and severity
+uncertainty are not included in this table, and it estimates no causal savings
+from an intervention.
+
+## A separate finite-support recording-sensitivity example
+
+The next calculation is a distinct toy population, not a correction applied to
+`fit_credit` or to the account forecasts. Its complete histories are assumed to
+belong to exactly four declared atoms. The reward is a default indicator, with
+no model-estimated probabilities supplied as category rewards. The counts are
+an illustrative recorded sample, not extracted from the simulated portfolio.
+
+```{r credit-recording-law}
+support <- data.frame(
+  complete_history = c("no episodes; no default", "delinquency; no default",
+                       "covenant breach; default", "two distress episodes; default"),
+  default = c(0, 0, 1, 1),
+  recorded_count = c(50L, 30L, 15L, 5L)
+)
+p_recorded <- support$recorded_count / sum(support$recorded_count)
+support
+
+bounded <- cs_bounds(
+  p = p_recorded, numerator = support$default,
+  kappa = 1.75, recording_fraction = 0.80,
+  counts = support$recorded_count, alpha = 0.05
+)
+stopifnot(is.list(bounded$outer))
+data.frame(
+  layer = c("Identification bounds at recorded empirical law",
+            "Outer projection including recorded-count uncertainty"),
+  lower = c(bounded$lower, bounded$outer$lower),
+  upper = c(bounded$upper, bounded$outer$upper)
+)
+
+# The structural solver targets the same declared finite problem.
+sparse_bounded <- cs_bounds_sparse(
+  p = p_recorded, numerator = support$default,
+  kappa = 1.75, recording_fraction = 0.80,
+  counts = support$recorded_count, alpha = 0.05
+)
+stopifnot(max(abs(c(bounded$lower, bounded$upper) -
+                    c(sparse_bounded$lower, sparse_bounded$upper))) < 1e-8)
+bounded$assumptions
+```
+
+Here 0.80 is a specified probability of recording a **complete history**, not
+the percentage of individual delinquency events captured. `p_recorded` is the
+category distribution conditional on recording. `kappa` restricts marginal
+recording odds under this finite model; it is neither a fitted macroeconomic
+stress coefficient nor a causal policy effect. For independent recorded
+histories with these category counts and the stated recording assumptions, `outer` projects a
+simultaneous recorded-law confidence region, separately from the identification
+bounds. The support, recording fraction and sensitivity restriction remain
+assumed. Neither solver discovers missing credit events, unknown history types
+or the recording fraction from the fitted portfolio.

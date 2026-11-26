@@ -1,0 +1,261 @@
+---
+title: "Robotic fleet reliability with exact and inspection-window histories"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Robotic fleet reliability with exact and inspection-window histories}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+library(coherentSurv)
+```
+
+A robot can accumulate faults before an irrecoverable failure. Here the unit
+is a robot, recurrent marks identify two fault types, and `terminal = 1`
+records irreversible failure. A repair is a recurrent event only if the study
+actually defines and observes it; a sensor warning is not automatically a repair.
+All times below are **thousands of operating hours**. These synthetic examples
+illustrate data contracts, not a deployed maintenance policy or a safety claim.
+
+| Package quantity | Fleet interpretation |
+|---|---|
+| `id`, `start`, `stop` | Robot and observed operating interval |
+| `event_type` | `calibration_drift`, `actuator_fault`, or `0` for no recurrence |
+| `terminal` | Binary irreversible-failure indicator |
+| `workload` | Baseline binary high-duty indicator |
+| `risk`, `survival` | Failure probability and its complement over a stated horizon |
+| `burden_*` | Expected additional fault counts, stopped at irreversible failure |
+| `rmst` | Expected operating time before failure, restricted to that horizon |
+
+Restricted operating time is not unrestricted mean time to failure, downtime,
+fault-free time, or a monetary loss forecast.
+
+## A transparent local generator
+
+The helper delegates simulation to `cs_simulate()` rather than maintaining a
+second event-history engine. For mark or failure type `k`, its intensity is
+`Z * rates[k] * exp(beta[k] * workload + history[k] * H)`, where `Z` is a
+mean-one gamma frailty and `H` is the **sum of the two prior mark counts, each
+capped at one**. Thus failure depends on both prior fault types in this example,
+not exclusively on actuator faults. There is no random censoring; observation
+ends at failure or the administrative horizon.
+
+The return value separates exact simulation traces, generating parameters, and
+inspection records. The inspection table contains complete event counts and
+marks but coarsens recurrence times to inspection windows. Failure is observed
+immediately. It contains no hidden exact recurrence times or interval starts.
+
+```{r simulator}
+sim_robotic_fleet <- function(n = 100L, horizon = 3, inspection_width = .25,
+                             seed = 2026L) {
+  stopifnot(length(inspection_width) == 1L, is.finite(inspection_width),
+            inspection_width > 0)
+  exact <- cs_simulate(n = n, horizon = horizon,
+    rates = c(.45, .25, .12), beta = c(.35, .50, .60),
+    history = c(.12, .18, .22), dispersion = .35, censor_rate = 0,
+    history_cap = 1L, seed = seed, time_unit = "thousand_operating_hours")
+  generating_parameters <- attr(exact, "truth")
+  attr(exact, "truth") <- NULL
+  names(exact)[names(exact) == "x"] <- "workload"
+  exact$id <- sprintf("robot-%03d", exact$id)
+  labels <- c("0", "calibration_drift", "actuator_fault")
+  exact$event_type <- labels[exact$event_type + 1L]
+  windows <- lapply(split(exact, exact$id), function(unit) {
+    end <- max(unit$stop)
+    events <- unit[unit$event_type != "0" | unit$terminal == 1, , drop = FALSE]
+    if (!nrow(events)) return(data.frame(id = unit$id[1],
+      event_time_lower = 0, event_time_upper = 0, event_type = "0",
+      terminal = 0L, followup = end, workload = unit$workload[1]))
+    lower <- floor(events$stop / inspection_width) * inspection_width
+    upper <- pmin(lower + inspection_width, end)
+    failed <- events$terminal == 1L
+    lower[failed] <- upper[failed] <- events$stop[failed]
+    data.frame(id = events$id, event_time_lower = lower,
+      event_time_upper = upper, event_type = events$event_type,
+      terminal = events$terminal, followup = end, workload = events$workload)
+  })
+  observed_windows <- do.call(rbind, windows)
+  rownames(observed_windows) <- NULL
+  list(exact = exact, observed_windows = observed_windows,
+       generating_parameters = generating_parameters)
+}
+
+fleet <- sim_robotic_fleet()
+head(fleet$exact, 4)
+head(fleet$observed_windows, 4)
+stopifnot(!any(c("start", "stop") %in% names(fleet$observed_windows)),
+          is.null(attr(fleet$observed_windows, "truth")))
+```
+
+Window endpoints are observation constraints, not successive counting-process
+interval starts and stops. Unknown numbers of missing faults require a different
+observation model; the window representation does not invent those events.
+
+## Fit exact telemetry and inspect the fit
+
+First consider an experiment with exact telemetry. We fit only the exact table.
+The known simulation frailty variance is fixed at 0.35 to keep this tutorial
+small; this is a declared teaching choice, not an estimator of unknown fleet
+heterogeneity. History effects and workload coefficients are estimated.
+
+```{r exact-fit}
+marks <- c("calibration_drift", "actuator_fault")
+trajectory <- cs_as_trajectory(fleet$exact, unit = "id",
+  event_type = "event_type", event_types = marks,
+  time_unit = "thousand_operating_hours")
+head(cs_build_history(trajectory, cap = 1L)$counts)
+fit <- cs_fit(~ workload, trajectory, event_types = marks,
+  time_unit = "thousand_operating_hours",
+  control = cs_control(history_cap = 1L, phi_fixed = .35),
+  frailty_diagnostics = FALSE)
+fit$convergence
+```
+
+An optimizer completion code does not establish regularity. Inspect the gradient,
+information and boundary diagnostics before using sampling-uncertainty methods.
+The examples below display point forecasts and numerical diagnostics, not
+certified safety margins.
+
+## Forecast only from an eligible robot's past
+
+An independently seeded assessment fleet illustrates the information available
+at 1,000 operating hours. Eligibility requires observation through that landmark
+and no failure at or before it. We remove all later endpoints and their event
+labels before passing the history to prediction. This is a prospective-history
+demonstration; it reports no held-out accuracy metric.
+
+```{r landmark-forecast}
+assessment <- sim_robotic_fleet(n = 12L, seed = 2027L)$exact
+assessment$id <- paste0("assessment-", assessment$id)
+landmark <- 1
+by_robot <- split(assessment, assessment$id)
+eligible <- vapply(by_robot, function(d)
+  max(d$stop) >= landmark && !any(d$terminal == 1L & d$stop <= landmark),
+  logical(1))
+data.frame(robot = names(eligible), eligible = unname(eligible))
+chosen <- head(names(eligible)[eligible], 2L)
+stopifnot(length(chosen) == 2L)
+past <- assessment[assessment$id %in% chosen & assessment$start < landmark, ]
+crosses_landmark <- past$stop > landmark
+past$stop[crosses_landmark] <- landmark
+past$event_type[crosses_landmark] <- "0"
+past$terminal[crosses_landmark] <- 0L
+stopifnot(all(past$stop <= landmark), all(past$terminal == 0L))
+forecast <- predict(fit, past, landmark = landmark,
+  horizon = c(.25, .5), type = "all", quadrature = 15L)
+forecast[, c("unit", "horizon", "target", "estimate", "series_error_bound")]
+probability <- forecast[forecast$target %in% c("risk", "survival"), ]
+totals <- aggregate(estimate ~ unit + horizon, probability, sum)
+stopifnot(max(abs(totals$estimate - 1)) < 1e-12)
+```
+
+The same retained law supplies all targets. Numerical series bounds are distinct
+from uncertainty in estimated parameters, the frailty distribution and event
+time integration. Compare frailty quadrature resolutions when needed:
+
+```{r quadrature-check}
+fine <- predict(fit, past, landmark = landmark,
+  horizon = c(.25, .5), type = "all", quadrature = 30L)
+data.frame(maximum_difference_15_vs_30 =
+  max(abs(forecast$estimate - fine$estimate)))
+```
+
+This difference describes these particular forecasts; it is not a uniform
+quadrature bound.
+
+## Fit a small inspection-window experiment
+
+The next hand-specified service-bench fixture is separate from the simulated
+fleet. Eight robots have complete fault counts and follow-up through two
+thousand hours or observed failure. Recurrence times are windowed, while failure
+times are exact. At most two events are recorded per robot, keeping legal-path
+integration small. This is an executable integration example, not an adequate
+sample for validating a fleet risk model.
+
+```{r window-fit}
+inspections <- data.frame(
+  id = c("bench-A", "bench-A", "bench-B", "bench-B", "bench-C", "bench-C",
+         "bench-D", "bench-E", "bench-F", "bench-G", "bench-H"),
+  event_time_lower = c(.2, 1.5, .4, 1.8, .1, .7, .5, 1.6, .3, 0, 0),
+  event_time_upper = c(.4, 1.5, .6, 1.8, .3, .9, .7, 1.6, .5, 0, 0),
+  event_type = c(marks[1], "0", marks[2], "0", marks[1], marks[2],
+                 marks[2], "0", marks[1], "0", "0"),
+  terminal = c(0L, 1L, 0L, 1L, 0L, 0L, 0L, 1L, 0L, 0L, 0L),
+  followup = c(1.5, 1.5, 1.8, 1.8, 2, 2, 2, 1.6, 2, 2, 2))
+window_fit <- cs_fit(~ 1, inspections, observation = "coarsened",
+  event_types = marks, time_unit = "thousand_operating_hours",
+  control = cs_control(history_cap = 0L, phi_fixed = .35),
+  coarsening_control = list(format = "windows", nodes = 3L,
+    max_perms = 8L, max_paths = 64L, draws = 64L),
+  frailty_diagnostics = FALSE)
+window_fit$convergence
+```
+
+This separate intercept-only working model deliberately omits history effects.
+It integrates compatible histories using numerical quadrature; it does not
+replace windows by midpoints or treat them as missing event counts.
+
+For a new robot inspected through the landmark, construct a **new past-only
+window table**. Do not reuse full-follow-up training fibres or future failure
+records. The supplied window ends before the landmark, and `followup` equals
+the landmark exactly; a straddling window would need a different observation
+question and is rejected by this interface.
+
+```{r window-forecast}
+inspection_history <- data.frame(id = "new-inspected-robot",
+  event_time_lower = .2, event_time_upper = .4,
+  event_type = marks[1], terminal = 0L, followup = landmark)
+window_forecast <- cs_predict_coarsened(window_fit, inspection_history,
+  landmark = landmark, horizon = .5, type = "all", quadrature = 15L,
+  coarsening_control = list(format = "windows", nodes = 3L,
+    max_perms = 8L, max_paths = 64L, draws = 64L))
+window_forecast[, c("unit", "target", "estimate")]
+attr(window_forecast, "automatic_fibre")
+stopifnot(abs(sum(window_forecast$estimate[
+  window_forecast$target %in% c("risk", "survival")]) - 1) < 1e-12)
+```
+
+## A separate sensitivity model for missing whole histories
+
+Here a hypothetical audit observes complete horizon histories for a known
+fraction `rho = 0.8` of all robots. The declared support has three categories:
+no failure/no fault, no failure/at least one fault, and failure. The recorded
+counts below are illustrative audit counts, **not estimates from the fitted
+fleet**. The recording fraction concerns whole histories, not the fraction of
+individual telemetry packets or minor faults captured.
+
+```{r recording-bounds}
+counts <- c(55L, 30L, 15L)
+bound <- cs_bounds(p = counts / sum(counts), numerator = c(0, 0, 1),
+  kappa = 1.5, recording_fraction = .8, counts = counts)
+data.frame(identification_lower = bound$lower,
+  identification_upper = bound$upper,
+  confidence_outer_lower = bound$outer$lower,
+  confidence_outer_upper = bound$outer$upper)
+random_recording <- cs_bounds(p = counts / sum(counts), numerator = c(0, 0, 1),
+  kappa = 1, recording_fraction = .8)
+stopifnot(abs(random_recording$lower - .15) < 1e-10,
+          abs(random_recording$upper - .15) < 1e-10)
+```
+
+Identification bounds are sharp for this declared finite support and recording
+model. The outer projection additionally uses multinomial sampling information.
+Neither interval is a numerical-error bound or a guarantee about arbitrary
+unlogged faults, an unknown recording fraction, repair effectiveness or losses.
+
+## Retain context for review
+
+```{r audit}
+audit_json <- cs_audit_report(window_fit, predictions = window_forecast,
+                              format = "json")
+audit <- jsonlite::fromJSON(audit_json)
+audit$convergence$code
+audit$numerical$scope
+```
+
+The report records assumptions, integrity fingerprints and diagnostics. It is
+mutable and unsigned; it does not certify a maintenance decision, regulatory
+compliance, a clinical device or deployment safety. The local generator is a
+teaching helper, not an exported package API or a calibrated engineering model.

@@ -1,0 +1,106 @@
+---
+title: "One event-history contract across disciplines"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{One event-history contract across disciplines}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+library(coherentSurv)
+```
+
+The same event-history interface can represent subjects in different fields.
+Its applicability still depends on the observation model, independent-unit
+definition, sufficient retained history and absorbing endpoint. Renaming a
+patient as a machine does not verify those assumptions in a new application.
+
+## Cross-discipline translation table
+
+| Contract or target | Clinical trial | Health-system study | Fleet reliability | Credit study |
+|:--|:--|:--|:--|:--|
+| Independent unit (`unit`) | Participant | Patient | Device | Account or borrower; declare which |
+| Time (`time_unit`) | Time since randomization | Time since an eligible index date | Operating hours | Time since origination or another justified process origin |
+| Recurrent marks (`event_types`) | Recurrent admissions or toxicity episodes | Defined acute-care episodes | Faults or repairs | Defined delinquency or covenant episodes |
+| Absorbing endpoint (`terminal`) | Death or another explicitly terminal study endpoint | Death | Irreversible failure | Default defined as irreversible within this analysis |
+| Observation windows | Known episodes detected between scans | Rounded dates with known recorded counts | Batched fault logs | Recorded episodes reported in intervals |
+| Predictable history | Prior defined episodes | Previously observed care | Previous observed faults | Previous recorded distress episodes |
+| Working frailty | Residual subject heterogeneity | Residual patient heterogeneity | Residual device heterogeneity | Residual account heterogeneity |
+| `risk` | Terminal-event probability by the horizon | Death risk by the horizon | Failure probability | Default probability |
+| `burden_<mark>` | Expected episodes before absorption | Expected defined encounters before death | Expected fault/repair counts before failure | Expected distress episodes before default |
+| `survival` | Probability alive/nonterminal at the horizon | Survival probability | Probability operational/nonterminal | Probability not in the terminal default state |
+| `time_alive` | Restricted mean time alive | Restricted mean time alive | Restricted expected time before failure | Restricted expected time before default |
+| Finite-support sensitivity | Declared incomplete recording experiment | Declared out-of-network recording experiment | Declared incomplete logging experiment | Declared incomplete distress reporting experiment |
+
+The package's `unit` argument names the identifier column; its default column is
+`id`. The `event_type` argument names the mark column. No-event rows use `"0"`,
+`"none"` or an empty string, not missing values. `terminal` is binary 0/1. Terminal
+causes in a competing-risk wrapper are distinct from recurrent marks.
+
+The `time_alive` target integrates survival over a finite future horizon. It is
+not automatically time without morbidity, community-dwelling days, quality-
+adjusted survival, unrestricted mean failure time or discounted performing
+value. Those require explicitly defined states, rewards or valuation models.
+Frailty is a working heterogeneity model; it does not identify a biological
+mechanism, stress process or borrower preference.
+
+## A reproducible relabelling check
+
+```{r relabel}
+raw <- cs_simulate(30, horizon = 1, rates = c(.8, .4, .3), seed = 1126,
+                   censor_rate = 0, time_unit = "years")
+clinical <- raw
+clinical$event_type <- c("0", "admission", "toxicity")[raw$event_type + 1L]
+engineering <- raw
+engineering$event_type <- c("0", "repair", "fault")[raw$event_type + 1L]
+a <- cs_as_trajectory(clinical, event_types = c("admission", "toxicity"),
+                       time_unit = "years")
+b <- cs_as_trajectory(engineering, event_types = c("repair", "fault"),
+                       time_unit = "years")
+stopifnot(identical(a$.cs_mark, b$.cs_mark),
+          identical(a$.cs_terminal, b$.cs_terminal),
+          identical(unname(cs_build_history(a)$counts), unname(cs_build_history(b)$counts)))
+data.frame(records = nrow(a), units = length(unique(a$id)),
+           terminal_events = sum(a$terminal))
+```
+
+This verifies only label-invariance of the declared data contract. It is one
+synthetic dataset represented twice, not evidence from two populations.
+
+## Choosing a model and a report
+
+Use `cs_fit()` for the supported shared-law likelihood and `predict()` for
+prognostic forecasts. Use `cs_surv()` or `cs_competing()` for their documented
+standard regimes. Treatment effects use the separate `cs_causal()` interface
+under its baseline-treatment assumptions; a prognostic covariate coefficient
+is not automatically a causal effect.
+
+Use `cs_bounds()` or `cs_bounds_sparse()` only with an explicit finite-support
+recorded law, target payoff and recording restrictions. A timing fibre with
+known counts does not reconstruct episodes that were never recorded. Losses
+from unobserved events, uncertainty about model parameters and numerical
+truncation remain different quantities.
+
+For economics or policy, supply an explicit cost or reward model. Counts do not
+by themselves estimate expenditure, financial expected loss or policy welfare.
+Dependence among accounts of one borrower, devices in one fleet or members of
+one household also requires an appropriate independent-unit/model definition.
+Administrative follow-up loss is not an absorbing clinical or economic event.
+
+## Runnable companion tutorials
+
+- *Predictive maintenance and fleet reliability*: synthetic faults, eligibility
+  and common-law forecasting, with a separately declared observation example.
+- *Clinical-trial estimands*: synthetic baseline randomization and the causal
+  interface, with explicit estimand and censoring definitions.
+- *Credit risk and default*: synthetic distress events and restricted performing
+  life, with separately specified monetary assumptions and sensitivity support.
+- *Source mapping and environment diagnostics*: scoped ADTTE/OMOP mappings,
+  audit provenance and offline numerical checks.
+
+These tutorials are software demonstrations, not external clinical, engineering
+or financial validation. Use the same installed R package from Python through
+the supplied rpy2 or Rscript example; study definitions and observation assumptions
+remain the analyst's responsibility in either language.

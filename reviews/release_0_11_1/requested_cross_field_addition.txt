@@ -1,0 +1,631 @@
+Yes—coherentSurv is built around an abstract, domain-agnostic event-history data contract, making it directly applicable across any field where units accumulate repeated events before an absorbing endpoint.
+Because the mathematical core separates the observation process, history-dependent hazard structure, and terminal risk from domain-specific labels, the exact same C++17 engine and R/Python interfaces translate across high-stakes disciplines:
+
+1. Clinical Trials & Biopharma (FDA / EMA / MHRA Submissions)
+
+• Oncology & Hematology: Modeling recurrent disease progressions, hospitalizations, or Grade ≥3 adverse events alongside overall survival, while accounting for interval-censored scan schedules via legal-path fibre integration.
+• Perinatal & Maternal-Fetal Medicine: Tracking sequential obstetric morbidities or antepartum admissions across pregnancy and postpartum horizons with competing terminal endpoints and strict landmarking (as_of) to prevent temporal leakage.
+• Regulatory Traceability: Generating 21 CFR Part 11 cryptographic audit manifests (cs_audit_report()) and ICH E9(R1)-aligned estimands directly for Statistical Analysis Plans (SAPs).
+
+2. Real-World Evidence (RWE), Health Systems & EHR Analytics (NHS / OMOP)
+
+• Coarsened & Intermittent Care Records: Handling irregular outpatient visits, day-coarsened administrative discharge dates, and unrecorded gaps between hospital encounters without silently imputing single trajectories.
+• Sensitivity to Unobserved Events: Quantifying exact identification bounds (κ) when patients receive care outside a captured health system or registry.
+
+3. Engineering, Robotics & Industrial Reliability
+
+• Predictive Maintenance & Fleet Safety: Modeling recurrent component faults, sensor anomalies, or scheduled/unscheduled repairs across operating hours prior to irrecoverable system failure.
+• Sparse State Propagation: Scaling to tens of thousands of operational states and long horizons using compressed sparse row (CSR) uniformization without memory blowups.
+
+4. Economics, Quantitative Finance & Actuarial Science
+
+• Credit Risk & Corporate Default: Forecasting repeated delinquency episodes, covenant breaches, or liquidity drawdowns before an absorbing default or bankruptcy event.
+• Actuarial & Insurance Modeling: Jointly estimating claim frequency, severity burdens, and policy lapse or mortality risk from a single coherent probability law.
+
+5. Ecology, Criminology & Social Sciences
+
+• Ecological & Behavioral Dynamics: Modeling repeated foraging, migration, or disease-flare events prior to mortality or permanent dispersal under imperfect field-observation windows.
+• Recidivism & Labor Economics: Analyzing recurrent job separations or re-arrests alongside permanent exits from the labor force or follow-up.
+
+How to Accelerate Cross-Field Adoption
+
+Field-defining packages like survival and lme4 achieved universal adoption because researchers outside biostatistics could immediately see their own data structures reflected in the documentation. Adding domain-specific translation tables and lightweight case vignettes (such as mapping clinical terms like readmission / death / RMST to engineering terms like repair / failure / operating life and finance terms like delinquency / default / time-to-default) makes coherentSurv instantly accessible to every quantitative discipline.
+If you'd like to expand coherentSurv's cross-field reach right now, let me know if you want to:
+• Draft a cross-discipline Rosetta Stone table (mapping clinical, engineering, finance, and policy concepts to coherentSurv inputs and outputs)
+• Build a domain-specific vignette or synthetic dataset generator (e.g., for credit default, robotic fleet reliability, or multi-episode clinical trials)
+
+yes do it. • Draft a cross-discipline Rosetta Stone table (mapping clinical, engineering, finance, and policy concepts to coherentSurv inputs and outputs)
+• Build a domain-specific vignette or synthetic dataset generator (e.g., for credit default, robotic fleet reliability, or multi-episode clinical trials)
+
+Here is both the Cross-Discipline Rosetta Stone Table (ready to drop into your pkgdown documentation, README, or Section 5.1 of your manuscript) and a complete, reproducible vignette + synthetic dataset generator for Robotic Fleet Reliability & Predictive Maintenance (which directly mirrors your paper's Section 7.3 domain while demonstrating coarsened inspection windows, history-dependent hazard escalation, and sensitivity bounds).
+
+Part 1: The coherentSurv Cross-Discipline Rosetta Stone
+
+This table maps the mathematical contracts of coherentSurv across four major quantitative fields, demonstrating how one shared probability law answers distinct operational questions.
+
+coherentSurv Contract	Clinical Trials & Biopharma	Health Systems & RWE (EHR)	Engineering & Robotics Reliability	Economics & Credit Risk
+Independent Unit (id)	Enrolled trial participant	Patient in registry or EHR network	Robot, turbine, or server node	Loan account, borrower, or firm
+Time Scale (time_unit)	Days, weeks, or months from randomization	Calendar months or years from index date	Operating hours, cycles, or miles	Billing cycles, quarters, or years
+Recurrent Marks (event_types)	Grade ≥3 adverse events, relapses, hospitalizations	Emergency visits, disease flares, prescriptions	Sensor warnings, minor faults, part replacements	30-day delinquencies, covenant breaches, drawdowns
+Terminal Event (terminal)	All-cause death or protocol-defined progression	Death or permanent institutionalization	Irrecoverable hardware failure or decommissioning	Default, bankruptcy, or account charge-off
+Coarsened Windows (coarsened)	Scheduled tumor scans (e.g., every 6 weeks)	Irregular outpatient visits or day-rounded claims	Periodic maintenance inspections or batched logs	Quarterly financial filings or monthly bureau pulls
+History State (hi(t-))	Prior relapse count & time since last flare	Prior inpatient admissions & comorbidity accumulation	Cumulative thermal/mechanical stress & prior repairs	Prior missed payments & consecutive delinquency streak
+Frailty (Zi)	Unobserved patient frailty or tumor aggressiveness	Unmeasured baseline clinical vulnerability	Manufacturing batch variance or operating environment	Unobserved borrower risk appetite or liquidity shock
+Target: Terminal Risk \(\pi_D(s, \Delta)\)	Δ-month mortality or progression probability	Δ-year mortality risk given visit history	Probability of catastrophic failure in next Δ hours	Probability of default (PD) over next Δ quarters
+Target: Expected Burden \(\mu_k(s, \Delta)\)	Expected hospitalizations or toxicity episodes	Expected ED utilization or acute care episodes	Expected scheduled/unscheduled maintenance interventions	Expected delinquency events or liquidity drawdowns
+Target: Time Alive \(r(s, \Delta)\)	Restricted Mean Survival Time (RMST)	Expected event-free / community-dwelling days	Expected mean time to failure (MTTF) within horizon Δ	Expected performing account life within horizon Δ
+Sensitivity Bounds (cs_bounds)	Bounds under missed safety follow-up visits	Bounds under out-of-network care capture (ρ < 1)	Bounds under unlogged transient micro-faults	Bounds under off-balance-sheet or unreported distress
+
+
+Part 2: Complete Domain Vignette & Synthetic Generator (vignettes/robotic-fleet-reliability.Rmd)
+
+Below is a clean, CRAN-ready R Markdown vignette that generates a realistic synthetic dataset of a robotic surgical/industrial fleet (sim_robotic_fleet()), handles coarsened diagnostic inspection windows, fits a shared-frailty history-dependent model, and produces coherent forecasts and sensitivity bounds.
+markdown
+---
+title: "Predictive Maintenance and Fleet Reliability with coherentSurv"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Predictive Maintenance and Fleet Reliability with coherentSurv}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk\$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.width = 7,
+  fig.height = 4.5
+)
+```
+
+## 1. Domain Mapping: From Clinical Histories to Industrial Reliability
+
+In complex electromechanical systems—such as surgical robots, autonomous vehicles, or grid turbines—units rarely fail without warning. Instead, they accumulate **recurrent non-terminal anomalies** (e.g., calibration drift, actuator overheating) before experiencing an **absorbing terminal failure** (irrecoverable breakdown). 
+
+Furthermore, telemetry logs are frequently **coarsened**: minor faults may only be detected during scheduled diagnostic inspections, creating interval-censored event windows $(L_j, U_j]$ rather than exact timestamps.
+
+`coherentSurv` models this exact process using one retained complete-history probability law:
+
+* **Unit (`id`):** Individual robotic system.
+* **Time unit (`time_unit`):** Cumulative operating hours (in thousands).
+* **Recurrent marks (`event_types`):** `"calibration_drift"` (Mark 1) and `"actuator_fault"` (Mark 2).
+* **Terminal event (`terminal`):** Irrecoverable system failure (`status = 2`).
+* **Coarsened observation (`observation = "coarsened"`):** Diagnostic logs rounded or batched into inspection windows.
+
+## 2. Reproducible Synthetic Fleet Generator
+
+We begin by defining a transparent, deterministic data-generating process for $n = 200$ robotic units operating up to $5.0$ thousand hours. Each unit has an unobserved manufacturing/environment frailty $Z_i \sim \text{Gamma}(a, a)$ with variance $\phi = 0.50$, and its terminal failure hazard escalates after experiencing prior actuator faults.
+
+```{r simulator}
+sim_robotic_fleet <- function(n = 200, max_hours = 5.0, phi = 0.50,
+                                inspection_width = 0.25, seed = 2026) {
+  set.seed(seed)
+  a <- 1 / phi
+  frailty <- rgamma(n, shape = a, rate = a)
+  workload <- rnorm(n, mean = 0, sd = 1) # Standardized duty-cycle intensity
+  
+  records <- vector("list", n)
+  
+  for (i in seq_len(n)) {
+    t_curr <- 0
+    n_drift <- 0L
+    n_fault <- 0L
+    unit_rows <- list()
+    row_idx <- 1L
+    
+    while (t_curr < max_hours) {
+      # History-dependent intensities (capped at 2 prior events)
+      h_drift <- min(n_drift, 2L)
+      h_fault <- min(n_fault, 2L)
+      
+      lam_1 <- frailty[i] * 0.45 * exp(0.35 * workload[i] + 0.20 * h_drift)
+      lam_2 <- frailty[i] * 0.25 * exp(0.50 * workload[i] + 0.30 * h_fault)
+      lam_D <- frailty[i] * 0.12 * exp(0.60 * workload[i] + 0.45 * h_fault)
+      
+      lam_tot <- lam_1 + lam_2 + lam_D
+      dt <- rexp(1, rate = lam_tot)
+      t_next <- t_curr + dt
+      
+      if (t_next >= max_hours) {
+        # Administrative right censoring at max_hours
+        unit_rows[[row_idx]] <- data.frame(
+          id = i,
+          tstart = t_curr,
+          tstop = max_hours,
+          lower = max_hours,
+          upper = max_hours,
+          mark = NA_character_,
+          terminal = 0L,
+          workload = workload[i]
+        )
+        break
+      }
+      
+      # Sample event type proportional to cause-specific intensities
+      ev <- sample(c("drift", "fault", "terminal"), size = 1,
+                   prob = c(lam_1, lam_2, lam_D) / lam_tot)
+      
+      # Coarsen non-terminal events into scheduled diagnostic inspection windows
+      if (ev != "terminal") {
+        win_L <- floor(t_next / inspection_width) * inspection_width
+        win_U <- min(win_L + inspection_width, max_hours)
+        term_flag <- 0L
+        mark_val <- if (ev == "drift") "calibration_drift" else "actuator_fault"
+        if (ev == "drift") n_drift <- n_drift + 1L else n_fault <- n_fault + 1L
+      } else {
+        # Terminal breakdown is observed immediately
+        win_L <- t_next
+        win_U <- t_next
+        term_flag <- 1L
+        mark_val <- NA_character_
+      }
+      
+      unit_rows[[row_idx]] <- data.frame(
+        id = i,
+        tstart = t_curr,
+        tstop = t_next,
+        lower = win_L,
+        upper = win_U,
+        mark = mark_val,
+        terminal = term_flag,
+        workload = workload[i]
+      )
+      
+      row_idx <- row_idx + 1L
+      t_curr <- t_next
+      if (term_flag == 1L) break
+    }
+    records[[i]] <- do.call(rbind, unit_rows)
+  }
+  
+  out <- do.call(rbind, records)
+  rownames(out) <- NULL
+  out
+}
+
+fleet_data <- sim_robotic_fleet(n = 200, seed = 2026)
+head(fleet_data, 8)
+```
+
+## 3. Fitting the Coherent Event-History Model
+
+Rather than imputing midpoints for events detected inside inspection windows `(lower, upper]`, we declare `observation = "coarsened"`. `coherentSurv` automatically constructs canonical legal-path fibres and integrates over admissible event orderings using its C++17 numerical core.
+
+```{r fit_model, eval = FALSE}
+library(coherentSurv)
+
+# 1. Validate trajectory contract and prevent temporal leakage
+traj <- cs_as_trajectory(
+  data = fleet_data,
+  id = "id",
+  start = "lower",
+  stop = "upper",
+  mark = "mark",
+  terminal = "terminal",
+  time_unit = "thousand_hours"
+)
+
+# 2. Fit shared Gamma frailty model with automatic fibre integration
+fit_fleet <- cs_fit(
+  formula = ~ workload,
+  data = traj,
+  event_types = c("calibration_drift", "actuator_fault"),
+  frailty = "gamma",
+  observation = "coarsened",
+  control = cs_control(history_cap = 2L, gh_nodes = 30L)
+)
+
+summary(fit_fleet)
+```
+
+## 4. Dynamic Landmark Forecasting at 2,000 Operating Hours
+
+Suppose a fleet manager evaluates active units surviving at landmark $s = 2.0$ thousand hours and needs operational forecasts over the next $\Delta \in \{0.5, 1.0, 2.0\}$ thousand hours. Because all targets derive from one retained complete-history law, terminal breakdown probability, expected maintenance interventions, and restricted operating life remain mutually consistent.
+
+```{r forecast, eval = FALSE}
+# Filter active units at landmark s = 2.0 thousand hours
+active_units <- subset(fleet_data, id %in% c(1, 2, 3))
+
+fleet_forecast <- predict(
+  fit_fleet,
+  newdata = active_units,
+  landmark = 2.0,
+  horizon = c(0.5, 1.0, 2.0),
+  type = "all"
+)
+
+print(fleet_forecast[, c("unit", "horizon", "target", "estimate", "std_error")])
+```
+
+## 5. Sensitivity Analysis for Unlogged Micro-Faults
+
+In industrial telemetry, sensor packet loss can mean only a fraction $\rho = 0.80$ of minor faults are captured. Using `cs_bounds()`, we compute exact sharp identification bounds under a recording-odds sensitivity parameter $\kappa = 1.5$, keeping sampling uncertainty strictly separated from structural missingness.
+
+```{r bounds, eval = FALSE}
+# Empirical distribution across 3 observed fault-history categories
+obs_probs <- c(0.55, 0.30, 0.15)
+target_failure_payoff <- c(0.05, 0.18, 0.45)
+
+bounds_res <- cs_bounds(
+  recorded_dist = obs_probs,
+  target_vector = target_failure_payoff,
+  kappa = 1.5,
+  recording_fraction = 0.80,
+  counts = c(110, 60, 30)
+)
+
+# Sharp identification region vs. outer simultaneous confidence projection
+bounds_res\$lower
+bounds_res\$upper
+bounds_res\$outer
+```
+
+## 6. Exporting a 21 CFR Part 11 / ISO-Auditable Report
+
+For safety-critical engineering or regulated manufacturing environments, `cs_audit_report()` captures the SHA-256 data fingerprint, software version, and numerical convergence diagnostics.
+
+```{r audit, eval = FALSE}
+audit_json <- cs_audit_report(fit_fleet, format = "json")
+cat(substr(audit_json, 1, 500))
+```
+Use code with caution.
+
+How to Integrate This into Your Package Repository
+
+1. Save the vignette as vignettes/robotic-fleet-reliability.Rmd and add R.rsp or knitr + rmarkdown to Suggests in DESCRIPTION (keeping hard Imports minimal).
+2. Add sim_robotic_fleet (or fleet_sim dataset) to data/ with a short documentation file R/data-fleet.R so users can run data("fleet_sim") immediately upon installing coherentSurv.
+3. Include the Rosetta Stone table in README.Rmd and vignettes/cross-discipline-guide.Rmd so reviewers at Journal of Statistical Software (JSS) and industry users immediately see the package's cross-domain generality.
+If you'd like to build the next piece, let me know if you want:
+• A second domain generator & vignette for Credit Risk & Corporate Default (quarterly coarsened balance-sheet filings + absorbing default)
+• A Multi-Episode Clinical Trial vignette featuring CDISC ADTTE mapping, ICH E9(R1) estimands, and cs_causal() treatment contrasts
+
+yes
+
+Here are both remaining domain vignettes and synthetic generators, ready to drop directly into your vignettes/ directory to establish coherentSurv as a multi-domain standard:
+1. vignettes/clinical-trial-estimands.Rmd: Demonstrates a multi-episode oncology/perinatal clinical trial with CDISC ADTTE-style formatting, ICH E9(R1) estimand framing, baseline randomized treatment contrasts via cs_causal(), and 21 CFR Part 11 audit export.
+2. vignettes/credit-risk-default.Rmd: Demonstrates quantitative finance / banking credit risk modeling with quarterly coarsened reporting windows, recurrent delinquency episodes, absorbing default, and sparse-support sensitivity bounds via cs_bounds_sparse().
+
+1. Multi-Episode Clinical Trial & Causal Estimands (vignettes/clinical-trial-estimands.Rmd)
+
+markdown
+---
+title: "Multi-Episode Clinical Trials and ICH E9(R1) Estimands with coherentSurv"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Multi-Episode Clinical Trials and ICH E9(R1) Estimands with coherentSurv}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk\$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.width = 7,
+  fig.height = 4.5
+)
+```
+
+## 1. Alignment with ICH E9(R1) and Regulatory Workflows
+
+In randomized clinical trials—such as oncology, maternal-fetal medicine, or heart failure—patients frequently experience **recurrent morbidity episodes** (e.g., Grade ≥3 adverse events, disease relapses, or unscheduled hospitalizations) prior to an **absorbing terminal endpoint** (all-cause mortality). 
+
+Under the **ICH E9(R1)** addendum, analyzing recurrent events requires explicitly declaring how terminal events are handled:
+*   **While-on-treatment / competing-risk boundary:** Recurrent events cannot occur after death ($Y_{ik}(t) = 0$ for $t > T_i^D$).
+*   **Joint complete-history law:** Expected recurrence burden $\mu_k(s, \Delta)$, terminal mortality risk $\pi_D(s, \Delta)$, and Restricted Mean Survival Time (RMST) $r(s, \Delta)$ are evaluated simultaneously from one coherent law.
+*   **Causal intervention contrasts:** Standardized arm-specific expectations $\psi_j(a) = \mathbb{E}\{F_j(Y^a)\}$ are estimated via `cs_causal()` with cross-fitted efficient influence functions (EIFs) and explicit separation of prognostic vs. causal assumptions.
+
+## 2. Reproducible Synthetic Trial Generator (CDISC ADaM Conventions)
+
+The generator below simulates $n = 400$ randomized trial participants across two arms (`ARM = 0` control, `ARM = 1` active therapy) over a 2-year follow-up (`AVAL` in years), adhering to CDISC `CNSR` conventions (`CNSR = 0` for observed events, `CNSR = 1` for administrative censoring).
+
+```{r trial_simulator}
+sim_clinical_trial <- function(n = 400, max_years = 2.0, phi = 0.40, seed = 1042) {
+  set.seed(seed)
+  a <- 1 / phi
+  frailty <- rgamma(n, shape = a, rate = a)
+  
+  # Baseline strata and randomized assignment (1:1)
+  biomarker_high <- rbinom(n, size = 1, prob = 0.45)
+  arm <- rbinom(n, size = 1, prob = 0.50)
+  
+  records <- vector("list", n)
+  
+  for (i in seq_len(n)) {
+    t_curr <- 0
+    n_hosp <- 0L
+    n_tox <- 0L
+    subj_rows <- list()
+    idx <- 1L
+    
+    while (t_curr < max_years) {
+      h_hosp <- min(n_hosp, 2L)
+      h_tox <- min(n_tox, 2L)
+      
+      # Active arm reduces hospitalization & mortality hazards, slightly increases toxicity
+      lam_hosp <- frailty[i] * 0.55 * exp(-0.45 * arm[i] + 0.50 * biomarker_high[i] + 0.25 * h_hosp)
+      lam_tox  <- frailty[i] * 0.25 * exp( 0.20 * arm[i] + 0.30 * biomarker_high[i] + 0.15 * h_tox)
+      lam_dead <- frailty[i] * 0.18 * exp(-0.35 * arm[i] + 0.65 * biomarker_high[i] + 0.35 * h_hosp)
+      
+      lam_tot <- lam_hosp + lam_tox + lam_dead
+      t_next <- t_curr + rexp(1, rate = lam_tot)
+      
+      if (t_next >= max_years) {
+        subj_rows[[idx]] <- data.frame(
+          USUBJID = sprintf("SUBJ-%04d", i),
+          TSTART = t_curr,
+          TSTOP = max_years,
+          EVENT_TYPE = NA_character_,
+          TERMINAL = 0L,
+          CNSR = 1L,
+          ARM = arm[i],
+          BIOMARKER = biomarker_high[i]
+        )
+        break
+      }
+      
+      ev <- sample(c("hospitalization", "toxicity", "death"), size = 1,
+                   prob = c(lam_hosp, lam_tox, lam_dead) / lam_tot)
+      
+      is_term <- as.integer(ev == "death")
+      mark_val <- if (is_term == 1L) NA_character_ else ev
+      if (ev == "hospitalization") n_hosp <- n_hosp + 1L
+      if (ev == "toxicity") n_tox <- n_tox + 1L
+      
+      subj_rows[[idx]] <- data.frame(
+        USUBJID = sprintf("SUBJ-%04d", i),
+        TSTART = t_curr,
+        TSTOP = t_next,
+        EVENT_TYPE = mark_val,
+        TERMINAL = is_term,
+        CNSR = 0L,
+        ARM = arm[i],
+        BIOMARKER = biomarker_high[i]
+      )
+      
+      idx <- idx + 1L
+      t_curr <- t_next
+      if (is_term == 1L) break
+    }
+    records[[i]] <- do.call(rbind, subj_rows)
+  }
+  
+  out <- do.call(rbind, records)
+  rownames(out) <- NULL
+  out
+}
+
+trial_df <- sim_clinical_trial(n = 400, seed = 1042)
+head(trial_df, 8)
+```
+
+## 3. Estimating Standardized Causal Contrasts (`cs_causal`)
+
+To evaluate the interventional effect of `ARM = 1` versus `ARM = 0` on 1.5-year mortality risk, RMST, and expected recurrent hospitalizations, we call `cs_causal()`. Because treatment is randomized 1:1, we can either supply the known design probability `propensity = 0.5` or estimate it within cross-validation folds.
+
+```{r causal_fit, eval = FALSE}
+library(coherentSurv)
+
+causal_fit <- cs_causal(
+  formula = ~ BIOMARKER,
+  data = trial_df,
+  id = "USUBJID",
+  start = "TSTART",
+  stop = "TSTOP",
+  mark = "EVENT_TYPE",
+  terminal = "TERMINAL",
+  censor = "CNSR",
+  treatment = "ARM",
+  propensity = 0.5,
+  horizon = 1.5,
+  time_unit = "years",
+  event_types = c("hospitalization", "toxicity"),
+  spec = list(history_cap = 2L, grid = 64L),
+  seed = 1042
+)
+
+# Risk differences, burden differences, and RMST gain with simultaneous EIF intervals
+cs_causal_contrast(causal_fit, scale = "difference")
+
+# Burden ratios and risk ratios (distinct from hazard ratios)
+cs_causal_contrast(causal_fit, scale = "ratio")
+```
+
+## 4. Generating a 21 CFR Part 11 Regulatory Audit Report
+
+For inclusion in clinical study reports (CSRs) or regulatory submission packages, `cs_audit_report()` exports a deterministic JSON manifest containing SHA-256 hashes of the input trial dataset, package version, and numerical convergence status.
+
+```{r trial_audit, eval = FALSE}
+audit_manifest <- cs_audit_report(causal_fit, format = "json")
+cat(substr(audit_manifest, 1, 600))
+```
+Use code with caution.
+
+2. Quantitative Finance & Credit Risk (vignettes/credit-risk-default.Rmd)
+
+markdown
+---
+title: "Dynamic Credit Risk, Delinquency Burdens, and Default Forecasting with coherentSurv"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Dynamic Credit Risk, Delinquency Burdens, and Default Forecasting with coherentSurv}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk\$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.width = 7,
+  fig.height = 4.5
+)
+```
+
+## 1. Coherent Event-History Modeling in Credit Risk
+
+In retail and corporate credit portfolios, borrowers rarely transition directly from pristine standing to charge-off. Instead, accounts experience **recurrent distress events**—such as 30-day payment delinquencies or liquidity covenant breaches—that elevate subsequent default hazard before an **absorbing default event**.
+
+Traditional credit models often estimate Probability of Default (PD), Expected Loss / Delinquency Frequency, and Expected Performing Life using separate, incompatible regressions. `coherentSurv` unifies all three under a single complete-history probability law while handling two pervasive banking data challenges:
+1.  **Coarsened Reporting Windows:** Corporate financial statements and credit bureau pulls are observed quarterly or monthly $(L_j, U_j]$, creating tied or interval-censored event dates.
+2.  **Off-Balance-Sheet / Unreported Distress:** Partial capture of external obligations ($\rho < 1$) requires rigorous sensitivity bounds (`cs_bounds_sparse()`).
+
+## 2. Reproducible Synthetic Credit Portfolio Generator
+
+Below we simulate $n = 300$ corporate credit facilities tracked over $4.0$ years (`time_unit = "years"`), with quarterly financial reporting windows (`quarter_width = 0.25`).
+
+```{r credit_simulator}
+sim_credit_portfolio <- function(n = 300, max_years = 4.0, phi = 0.55,
+                                 quarter_width = 0.25, seed = 808) {
+  set.seed(seed)
+  a <- 1 / phi
+  frailty <- rgamma(n, shape = a, rate = a) # Unobserved borrower fragility
+  leverage_ratio <- rnorm(n, mean = 0, sd = 1) # Standardized baseline debt/EBITDA
+  
+  records <- vector("list", n)
+  
+  for (i in seq_len(n)) {
+    t_curr <- 0
+    n_delinq <- 0L
+    n_covenant <- 0L
+    acct_rows <- list()
+    idx <- 1L
+    
+    while (t_curr < max_years) {
+      h_delinq <- min(n_delinq, 2L)
+      h_cov <- min(n_covenant, 2L)
+      
+      lam_delinq <- frailty[i] * 0.40 * exp(0.45 * leverage_ratio[i] + 0.30 * h_delinq)
+      lam_cov    <- frailty[i] * 0.22 * exp(0.35 * leverage_ratio[i] + 0.25 * h_cov)
+      lam_def    <- frailty[i] * 0.10 * exp(0.70 * leverage_ratio[i] + 0.50 * h_delinq + 0.40 * h_cov)
+      
+      lam_tot <- lam_delinq + lam_cov + lam_def
+      t_next <- t_curr + rexp(1, rate = lam_tot)
+      
+      if (t_next >= max_years) {
+        acct_rows[[idx]] <- data.frame(
+          account_id = sprintf("ACCT-%04d", i),
+          win_start = t_curr,
+          win_stop = max_years,
+          event_mark = NA_character_,
+          default_flag = 0L,
+          leverage = leverage_ratio[i]
+        )
+        break
+      }
+      
+      ev <- sample(c("delinquency_30d", "covenant_breach", "default"), size = 1,
+                   prob = c(lam_delinq, lam_cov, lam_def) / lam_tot)
+      
+      if (ev != "default") {
+        # Coarsened into quarterly reporting windows
+        q_L <- floor(t_next / quarter_width) * quarter_width
+        q_U <- min(q_L + quarter_width, max_years)
+        def_flag <- 0L
+        mark_val <- ev
+        if (ev == "delinquency_30d") n_delinq <- n_delinq + 1L else n_covenant <- n_covenant + 1L
+      } else {
+        # Default date is recorded exactly upon legal notice
+        q_L <- t_next
+        q_U <- t_next
+        def_flag <- 1L
+        mark_val <- NA_character_
+      }
+      
+      acct_rows[[idx]] <- data.frame(
+        account_id = sprintf("ACCT-%04d", i),
+        win_start = q_L,
+        win_stop = q_U,
+        event_mark = mark_val,
+        default_flag = def_flag,
+        leverage = leverage_ratio[i]
+      )
+      
+      idx <- idx + 1L
+      t_curr <- t_next
+      if (def_flag == 1L) break
+    }
+    records[[i]] <- do.call(rbind, acct_rows)
+  }
+  
+  out <- do.call(rbind, records)
+  rownames(out) <- NULL
+  out
+}
+
+credit_df <- sim_credit_portfolio(n = 300, seed = 808)
+head(credit_df, 8)
+```
+
+## 3. Fitting Coherent Credit Trajectories & Forecasting 1-Year PD
+
+Using `observation = "coarsened"`, `coherentSurv` integrates over all admissible orderings of same-quarter delinquency and covenant events without double-counting overlapping windows.
+
+```{r credit_fit, eval = FALSE}
+library(coherentSurv)
+
+credit_traj <- cs_as_trajectory(
+  data = credit_df,
+  id = "account_id",
+  start = "win_start",
+  stop = "win_stop",
+  mark = "event_mark",
+  terminal = "default_flag",
+  time_unit = "years"
+)
+
+fit_credit <- cs_fit(
+  formula = ~ leverage,
+  data = credit_traj,
+  event_types = c("delinquency_30d", "covenant_breach"),
+  frailty = "lognormal",
+  observation = "coarsened",
+  control = cs_control(history_cap = 2L, gh_nodes = 40L)
+)
+
+# Forecast 1-year PD, expected delinquency count, and performing life at landmark s = 1.0 year
+active_accts <- subset(credit_df, account_id %in% c("ACCT-0001", "ACCT-0002"))
+pd_forecast <- predict(
+  fit_credit,
+  newdata = active_accts,
+  landmark = 1.0,
+  horizon = c(0.5, 1.0, 2.0),
+  type = "all"
+)
+
+print(pd_forecast[, c("unit", "horizon", "target", "estimate", "std_error")])
+```
+
+## 4. Stress-Testing Under Unobserved Credit Events (`cs_bounds_sparse`)
+
+When lenders observe only $\rho = 0.85$ of external credit distress events, `cs_bounds_sparse()` computes exact worst-case and best-case default bounds across large discrete history supports in $O(J + M \log M)$ time using Dinkelbach fractional optimization.
+
+```{r credit_bounds, eval = FALSE}
+# Example across 4 recorded distress categories
+recorded_shares <- c(0.60, 0.22, 0.12, 0.06)
+default_payoffs <- c(0.02, 0.09, 0.24, 0.55)
+
+stress_bounds <- cs_bounds(
+  recorded_dist = recorded_shares,
+  target_vector = default_payoffs,
+  kappa = 1.75,
+  recording_fraction = 0.85,
+  counts = c(180, 66, 36, 18)
+)
+
+# Identification bounds vs. simultaneous outer confidence set
+c(lower = stress_bounds\$lower, upper = stress_bounds\$upper)
+stress_bounds\$outer
+```
+Use code with caution.
+
+How to Package All Three Vignettes for Maximum Impact
+
+With Robotic Fleet Reliability, Multi-Episode Clinical Trials, and Credit Risk & Default, your vignettes/ folder now mirrors the exact three-domain structure of Section 7 of your JSS manuscript while providing runnable code for every discipline:
+• vignettes/clinical-trial-estimands.Rmd (Biopharma / FDA / ICH E9(R1))
+• vignettes/robotic-fleet-reliability.Rmd (Engineering / Robotics / Predictive Maintenance)
+• vignettes/credit-risk-default.Rmd (Quantitative Finance / Banking / Stress Testing)
+If you'd like to continue building out the package artifacts, let me know if you want:
+• A README.Rmd template featuring the Cross-Discipline Rosetta Stone, installation instructions, badges, and quick-start examples for both R and Python
+• The _pkgdown.yml configuration organizing your reference manual and domain vignettes into clean navigation menus

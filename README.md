@@ -55,7 +55,35 @@ Install R and this R package first. The [rpy2 example](package/inst/python/run_r
 
 ## Verification
 
-Current checks are recorded in [release verification](reviews/release_0_11_0), with the tested source revision and archive checksum. The local full R-devel check passed all 1,197 expectations, examples, five vignettes and PDF/HTML manuals. Six Linux/macOS/Windows package checks and four native compiler/sanitizer configurations passed. The Linux rpy2 example matched direct R coefficients, covariance and forecasts exactly on the tested fixture; the Rscript example ran separately on Windows. Package checks, data-transfer agreement and statistical validation are reported separately.
+The published 0.11.0 checks are recorded in [release verification](reviews/release_0_11_0), with the tested source revision and archive checksum. The local full R-devel check passed all 1,197 expectations, examples, five vignettes and PDF/HTML manuals. Six Linux/macOS/Windows package checks and four native compiler/sanitizer configurations passed. The Linux rpy2 example matched direct R coefficients, covariance and forecasts exactly on the tested fixture; the Rscript example ran separately on Windows. Package checks, data-transfer agreement and statistical validation are reported separately. The [0.11.1 review record](reviews/release_0_11_1) records the new source, completed tests and remaining development scope separately.
+
+## Applying the event-history contract
+
+| Contract | Clinical study | Reliability | Credit study |
+|---|---|---|---|
+| Independent unit | Participant/patient | Device | Account/borrower, as declared |
+| Recurrent marks | Admissions or toxicity episodes | Faults/repairs | Delinquency/covenant episodes |
+| Absorbing endpoint | Death | Irreversible failure | Default, if absorbing by definition |
+| Expected burden | Episodes before death | Episodes before failure | Episodes before default |
+| Restricted time alive | Time alive within the horizon | Time before failure within the horizon | Time before default within the horizon |
+
+These are translations of a data contract, not independently validated studies.
+Restricted time alive is not automatically event-free time or quality-adjusted
+survival. Monetary loss requires a separate exposure and reward definition.
+Administrative loss to follow-up is not an absorbing outcome.
+
+Runnable tutorials in this candidate:
+
+- [Cross-discipline guide](package/vignettes/cross-discipline-guide.Rmd)
+- [Robotic fleet reliability](package/vignettes/robotic-fleet-reliability.Rmd)
+- [Clinical-trial estimands](package/vignettes/clinical-trial-estimands.Rmd)
+- [Credit risk and default](package/vignettes/credit-risk-default.Rmd)
+- [Source mapping and environment diagnostics](package/vignettes/source-mapping-and-environment.Rmd)
+
+Python users call the same R/C++ engine. See the [Python access guide](package/inst/python/README.txt).
+The rpy2 runner fits once by default; `--verify-parity` requests a second direct-R
+fit, and `--timings` reports observed stages. No native Python wheel, zero-copy
+conversion, fastest-runtime claim or regulatory certification is implied.
 
 Authors: Sunday A. Adetunji and Oluwatimileyin A. Adetunji. Maintainer: sundayadetunjisa@gmail.com. Source license: GPL-3.
 
