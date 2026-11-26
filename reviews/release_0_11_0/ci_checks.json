@@ -1,0 +1,53 @@
+{
+  "package": "coherentSurv",
+  "version": "0.11.0",
+  "source_commit": "73bf0c025f8e752ed20cf8e4b4c6387b76aaa052",
+  "platform_run": 45779213600,
+  "platform_jobs": [
+    {
+      "id": 139770295777,
+      "name": "check (macos-latest, devel)",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 139770296103,
+      "name": "check (ubuntu-latest, devel)",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 139770296190,
+      "name": "check (windows-latest, release)",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 139770296196,
+      "name": "check (macos-latest, release)",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 139770296210,
+      "name": "check (windows-latest, devel)",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 139770296261,
+      "name": "check (ubuntu-latest, release)",
+      "status": "completed",
+      "conclusion": "success"
+    }
+  ],
+  "native_run": 45779213634,
+  "native_jobs_passed": 4,
+  "native_fixtures_per_job": 7,
+  "python_run": 45779213753,
+  "python_job": 139770295866,
+  "python_conclusion": "success",
+  "local_tests": 1197,
+  "local_check": "0 errors | 0 warnings | 0 notes; remote incoming disabled",
+  "scope": "Source validation before assembly of distribution artifacts"
+}

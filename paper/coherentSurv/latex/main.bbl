@@ -1,0 +1,171 @@
+\begin{thebibliography}{28}
+\newcommand{\enquote}[1]{``#1''}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\providecommand{\urlprefix}{URL }
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi:\discretionary{}{}{}#1}\else
+  \providecommand{\doi}{doi:\discretionary{}{}{}\begingroup \urlstyle{rm}\Url}\fi
+\providecommand{\eprint}[2][]{\url{#2}}
+
+\bibitem[{Adetunji and Adetunji(2026)}]{Adetunji2026}
+Adetunji SA, Adetunji OA (2026).
+\newblock \enquote{Coherent Survival Modelling and Dynamic Forecasting of History-Dependent Multitype Recurrent Events and Terminal Risk Under Incomplete Observation.}
+\newblock Unpublished methodological manuscript, Version 13, with Supplement S12.
+
+\bibitem[{Austin and Steyerberg(2019)}]{Austin2019}
+Austin PC, Steyerberg EW (2019).
+\newblock \enquote{The Integrated Calibration Index (ICI) and Related Metrics for Quantifying the Calibration of Logistic Regression Models.}
+\newblock \emph{Statistics in Medicine}, \textbf{38}(21), 4051--4065.
+\newblock \doi{10.1002/sim.8281}.
+
+\bibitem[{Charnes and Cooper(1962)}]{Charnes1962}
+Charnes A, Cooper WW (1962).
+\newblock \enquote{Programming with Linear Fractional Functionals.}
+\newblock \emph{Naval Research Logistics Quarterly}, \textbf{9}(3--4), 181--186.
+\newblock \doi{10.1002/nav.3800090303}.
+
+\bibitem[{Chiou \emph{et~al.}(2023)Chiou, Xu, Yan, and Huang}]{Chiou2023}
+Chiou SH, Xu G, Yan J, Huang CY (2023).
+\newblock \enquote{Regression Modeling for Recurrent Events Possibly with an Informative Terminal Event Using \proglang{R} Package \pkg{reReg}.}
+\newblock \emph{Journal of Statistical Software}, \textbf{105}(5), 1--34.
+\newblock \doi{10.18637/jss.v105.i05}.
+
+\bibitem[{{Clinical Data Interchange Standards Consortium}(2016)}]{CDISCTTE}
+{Clinical Data Interchange Standards Consortium} (2016).
+\newblock \emph{{ADaM} Basic Data Structure for Time-to-Event Analyses, Version 1.0}.
+\newblock Official public overview; accessed November 23, 2026, \urlprefix\url{https://www.cdisc.org/standards/foundational/adam/adam-basic-data-structure-bds-time-event-tte-analyses-v1-0}.
+
+\bibitem[{{Clinical Data Interchange Standards Consortium}(2026)}]{CDISCExample}
+{Clinical Data Interchange Standards Consortium} (2026).
+\newblock \emph{Pancreatic Cancer {ADTTE} Survival and Duration of Follow-up}.
+\newblock Official worked example; accessed November 23, 2026, \urlprefix\url{https://www.cdisc.org/kb/examples/pancreatic-cancer-adtte-survival-and-duration-follow-103759150}.
+
+\bibitem[{{de Wreede} \emph{et~al.}(2011){de Wreede}, Fiocco, and Putter}]{deWreede2011}
+{de Wreede} LC, Fiocco M, Putter H (2011).
+\newblock \enquote{\pkg{mstate}: An \proglang{R} Package for the Analysis of Competing Risks and Multi-State Models.}
+\newblock \emph{Journal of Statistical Software}, \textbf{38}(7), 1--30.
+\newblock \doi{10.18637/jss.v038.i07}.
+
+\bibitem[{Dinkelbach(1967)}]{Dinkelbach1967}
+Dinkelbach W (1967).
+\newblock \enquote{On Nonlinear Fractional Programming.}
+\newblock \emph{Management Science}, \textbf{13}(7), 492--498.
+\newblock \doi{10.1287/mnsc.13.7.492}.
+
+\bibitem[{Eddelbuettel and Fran{\c c}ois(2011)}]{Rcpp}
+Eddelbuettel D, Fran{\c c}ois R (2011).
+\newblock \enquote{\pkg{Rcpp}: Seamless \proglang{R} and \proglang{C++} Integration.}
+\newblock \emph{Journal of Statistical Software}, \textbf{40}(8), 1--18.
+\newblock \doi{10.18637/jss.v040.i08}.
+
+\bibitem[{Fox and Glynn(1988)}]{Fox1988}
+Fox BL, Glynn PW (1988).
+\newblock \enquote{Computing {Poisson} Probabilities.}
+\newblock \emph{Communications of the ACM}, \textbf{31}(4), 440--445.
+\newblock \doi{10.1145/42404.42409}.
+
+\bibitem[{Graf \emph{et~al.}(1999)Graf, Schmoor, Sauerbrei, and Schumacher}]{Graf1999}
+Graf E, Schmoor C, Sauerbrei W, Schumacher M (1999).
+\newblock \enquote{Assessment and Comparison of Prognostic Classification Schemes for Survival Data.}
+\newblock \emph{Statistics in Medicine}, \textbf{18}(17--18), 2529--2545.
+\newblock \doi{10.1002/(SICI)1097-0258(19990915/30)18:17/18<2529::AID-SIM274>3.0.CO;2-5}.
+
+\bibitem[{Heagerty \emph{et~al.}(2000)Heagerty, Lumley, and Pepe}]{Heagerty2000}
+Heagerty PJ, Lumley T, Pepe MS (2000).
+\newblock \enquote{Time-Dependent ROC Curves for Censored Survival Data and a Diagnostic Marker.}
+\newblock \emph{Biometrics}, \textbf{56}(2), 337--344.
+\newblock \doi{10.1111/j.0006-341X.2000.00337.x}.
+
+\bibitem[{Heckman and Singer(1984)}]{Heckman1984}
+Heckman JJ, Singer B (1984).
+\newblock \enquote{A Method for Minimizing the Impact of Distributional Assumptions in Econometric Models for Duration Data.}
+\newblock \emph{Econometrica}, \textbf{52}(2), 271--320.
+\newblock \doi{10.2307/1911491}.
+
+\bibitem[{Hoeffding(1963)}]{Hoeffding1963}
+Hoeffding W (1963).
+\newblock \enquote{Probability Inequalities for Sums of Bounded Random Variables.}
+\newblock \emph{Journal of the American Statistical Association}, \textbf{58}(301), 13--30.
+\newblock \doi{10.1080/01621459.1963.10500830}.
+
+\bibitem[{{International Council for Harmonisation}(2019)}]{ICHE9R1}
+{International Council for Harmonisation} (2019).
+\newblock \emph{{E9(R1)}: Addendum on Estimands and Sensitivity Analysis in Clinical Trials}.
+\newblock Final guideline adopted November 20, 2019, \urlprefix\url{https://database.ich.org/sites/default/files/E9-R1_Step4_Guideline_2019_1203.pdf}.
+
+\bibitem[{{Journal of Statistical Software}(2026)}]{JSS}
+{Journal of Statistical Software} (2026).
+\newblock \emph{Information for Authors and Style Guide}.
+\newblock Accessed November 22, 2026, \urlprefix\url{https://www.jstatsoft.org/authors}.
+
+\bibitem[{Kr{\'o}l \emph{et~al.}(2017)Kr{\'o}l, Mauguen, Mazroui, Laurent, Michiels, and Rondeau}]{Krol2017}
+Kr{\'o}l A, Mauguen A, Mazroui Y, Laurent A, Michiels S, Rondeau V (2017).
+\newblock \enquote{Tutorial in Joint Modeling and Prediction: A Statistical Software for Correlated Longitudinal Outcomes, Recurrent Events and a Terminal Event.}
+\newblock \emph{Journal of Statistical Software}, \textbf{81}(3), 1--52.
+\newblock \doi{10.18637/jss.v081.i03}.
+
+\bibitem[{Laird and Ware(1982)}]{Laird1982}
+Laird NM, Ware JH (1982).
+\newblock \enquote{Random-Effects Models for Longitudinal Data.}
+\newblock \emph{Biometrics}, \textbf{38}(4), 963--974.
+\newblock \doi{10.2307/2529876}.
+
+\bibitem[{Louis(1982)}]{Louis1982}
+Louis TA (1982).
+\newblock \enquote{Finding the Observed Information Matrix When Using the EM Algorithm.}
+\newblock \emph{Journal of the Royal Statistical Society B}, \textbf{44}(2), 226--233.
+\newblock \doi{10.1111/j.2517-6161.1982.tb01203.x}.
+
+\bibitem[{{Observational Health Data Sciences and Informatics}(2026)}]{OMOP54}
+{Observational Health Data Sciences and Informatics} (2026).
+\newblock \emph{{OMOP} Common Data Model, Version 5.4}.
+\newblock Version-specific specification; accessed November 23, 2026, \urlprefix\url{https://ohdsi.github.io/CommonDataModel/cdm54.html}.
+
+\bibitem[{Rao and Teh(2013)}]{Rao2013}
+Rao V, Teh YW (2013).
+\newblock \enquote{Fast {MCMC} Sampling for {Markov} Jump Processes and Extensions.}
+\newblock \emph{Journal of Machine Learning Research}, \textbf{14}(103), 3295--3320.
+\newblock \urlprefix\url{https://www.jmlr.org/papers/v14/rao13a.html}.
+
+\bibitem[{Rizopoulos \emph{et~al.}(2026)Rizopoulos, Miranda-Afonso, and Papageorgiou}]{JMbayes2}
+Rizopoulos D, Miranda-Afonso P, Papageorgiou G (2026).
+\newblock \emph{\pkg{JMbayes2}: Extended Joint Models for Longitudinal and Time-to-Event Data}.
+\newblock Package documentation, version 0.6-6, \urlprefix\url{https://cran.r-project.org/web/packages/JMbayes2/refman/JMbayes2.html}.
+
+\bibitem[{Rondeau \emph{et~al.}(2012)Rondeau, Mazroui, and Gonzalez}]{Rondeau2012}
+Rondeau V, Mazroui Y, Gonzalez JR (2012).
+\newblock \enquote{\pkg{frailtypack}: An \proglang{R} Package for the Analysis of Correlated Survival Data with Frailty Models Using Penalized Likelihood Estimation or Parametrical Estimation.}
+\newblock \emph{Journal of Statistical Software}, \textbf{47}(4), 1--28.
+\newblock \doi{10.18637/jss.v047.i04}.
+
+\bibitem[{Rytgaard \emph{et~al.}(2022)Rytgaard, Gerds, and van~der Laan}]{Rytgaard2022}
+Rytgaard HC, Gerds TA, van~der Laan MJ (2022).
+\newblock \enquote{Continuous-time targeted minimum loss-based estimation of intervention-specific mean outcomes.}
+\newblock \emph{The Annals of Statistics}, \textbf{50}(5), 2469--2491.
+\newblock \doi{10.1214/21-AOS2114}.
+
+\bibitem[{Self and Liang(1987)}]{Self1987}
+Self SG, Liang KY (1987).
+\newblock \enquote{Asymptotic Properties of Maximum Likelihood Estimators and Likelihood Ratio Tests under Nonstandard Conditions.}
+\newblock \emph{Journal of the American Statistical Association}, \textbf{82}(398), 605--610.
+\newblock \doi{10.1080/01621459.1987.10478472}.
+
+\bibitem[{Therneau(2026)}]{survival}
+Therneau TM (2026).
+\newblock \emph{\pkg{survival}: A Package for Survival Analysis in \proglang{R}}.
+\newblock \urlprefix\url{https://CRAN.R-project.org/package=survival}.
+
+\bibitem[{Tibshirani \emph{et~al.}(2019)Tibshirani, Barber, Cand{\`e}s, and Ramdas}]{Tibshirani2019}
+Tibshirani RJ, Barber RF, Cand{\`e}s EJ, Ramdas A (2019).
+\newblock \enquote{Conformal Prediction Under Covariate Shift.}
+\newblock In \emph{Advances in Neural Information Processing Systems}, volume~32.
+\newblock \urlprefix\url{https://proceedings.neurips.cc/paper_files/paper/2019/hash/8fb21ee7a2207526da55a679f0332de2-Abstract.html}.
+
+\bibitem[{Vickers and Elkin(2006)}]{Vickers2006}
+Vickers AJ, Elkin EB (2006).
+\newblock \enquote{Decision Curve Analysis: A Novel Method for Evaluating Prediction Models.}
+\newblock \emph{Medical Decision Making}, \textbf{26}(6), 565--574.
+\newblock \doi{10.1177/0272989X06295361}.
+
+\end{thebibliography}

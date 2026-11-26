@@ -1,0 +1,20 @@
+Version 0.11.0 passed a full local \code{R CMD check --as-cran}
+under Windows \proglang{R}-devel with 0 errors, 0 warnings and 0 notes;
+remote incoming checks were disabled for this staging check.
+All 1,197 test expectations, five vignettes, examples and PDF/HTML manual
+checks passed. Six additional Linux, macOS and Windows jobs passed under
+\proglang{R}-release and \proglang{R}-devel. All seven standalone native
+fixtures passed four GCC/Clang builds, with and without AddressSanitizer
+and UndefinedBehaviorSanitizer. These checks include the causal kernel.
+The 29 authored native source files were unchanged after identifier
+normalization, and a deterministic cross-version fixture gave identical
+coefficients, covariance matrices and forecasts.
+
+The direct \pkg{rpy2} example was executed on Linux with \proglang{R}
+4.6.2, \pkg{rpy2} 3.6.9 and pandas 2.3.3. It returned 15 forecast rows
+and matched direct \proglang{R} calls exactly for coefficients, covariance
+and forecasts. The \code{Rscript} example was executed separately on
+Windows. These checks establish numerical and data-transfer agreement
+for the tested example, not out-of-sample predictive validity.
+The source commit, artifact checksums and environment records accompany
+the release verification materials.

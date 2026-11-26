@@ -1,0 +1,122 @@
+{
+  "files_compared": 29,
+  "all_equal": true,
+  "files": [
+    {
+      "file": "inst/include/libcoherentSurv/causal_target.hpp",
+      "unchanged_after_identifier_normalization": true
+    },
+    {
+      "file": "inst/include/libcoherentSurv/coarsen.hpp",
+      "unchanged_after_identifier_normalization": true
+    },
+    {
+      "file": "inst/include/libcoherentSurv/conformal.hpp",
+      "unchanged_after_identifier_normalization": true
+    },
+    {
+      "file": "inst/include/libcoherentSurv/continuous_target.hpp",
+      "unchanged_after_identifier_normalization": true
+    },
+    {
+      "file": "inst/include/libcoherentSurv/fibre.hpp",
+      "unchanged_after_identifier_normalization": true
+    },
+    {
+      "file": "inst/include/libcoherentSurv/gamma_lik.hpp",
+      "unchanged_after_identifier_normalization": true
+    },
+    {
+      "file": "inst/include/libcoherentSurv/history.hpp",
+      "unchanged_after_identifier_normalization": true
+    },
+    {
+      "file": "inst/include/libcoherentSurv/lp_bounds.hpp",
+      "unchanged_after_identifier_normalization": true
+    },
+    {
+      "file": "inst/include/libcoherentSurv/pivot.hpp",
+      "unchanged_after_identifier_normalization": true
+    },
+    {
+      "file": "inst/include/libcoherentSurv/rng.hpp",
+      "unchanged_after_identifier_normalization": true
+    },
+    {
+      "file": "inst/include/libcoherentSurv/sparse_bounds.hpp",
+      "unchanged_after_identifier_normalization": true
+    },
+    {
+      "file": "inst/include/libcoherentSurv/sparse_uniformize.hpp",
+      "unchanged_after_identifier_normalization": true
+    },
+    {
+      "file": "inst/include/libcoherentSurv/target.hpp",
+      "unchanged_after_identifier_normalization": true
+    },
+    {
+      "file": "inst/include/libcoherentSurv/uniformize.hpp",
+      "unchanged_after_identifier_normalization": true
+    },
+    {
+      "file": "src/causal_bridge.cpp",
+      "unchanged_after_identifier_normalization": true
+    },
+    {
+      "file": "src/continuous_bridge.cpp",
+      "unchanged_after_identifier_normalization": true
+    },
+    {
+      "file": "src/core_bridge.cpp",
+      "unchanged_after_identifier_normalization": true
+    },
+    {
+      "file": "src/fibre_bridge.cpp",
+      "unchanged_after_identifier_normalization": true
+    },
+    {
+      "file": "src/frailty_bridge.cpp",
+      "unchanged_after_identifier_normalization": true
+    },
+    {
+      "file": "src/history_bridge.cpp",
+      "unchanged_after_identifier_normalization": true
+    },
+    {
+      "file": "src/inference_bridge.cpp",
+      "unchanged_after_identifier_normalization": true
+    },
+    {
+      "file": "src/sparse_bridge.cpp",
+      "unchanged_after_identifier_normalization": true
+    },
+    {
+      "file": "tests/core/history_test.cpp",
+      "unchanged_after_identifier_normalization": true
+    },
+    {
+      "file": "tests/core/test_causal.cpp",
+      "unchanged_after_identifier_normalization": true
+    },
+    {
+      "file": "tests/core/test_extra_headers.cpp",
+      "unchanged_after_identifier_normalization": true
+    },
+    {
+      "file": "tests/core/test_inference.cpp",
+      "unchanged_after_identifier_normalization": true
+    },
+    {
+      "file": "tests/core/test_kernels.cpp",
+      "unchanged_after_identifier_normalization": true
+    },
+    {
+      "file": "tests/core/test_rng.cpp",
+      "unchanged_after_identifier_normalization": true
+    },
+    {
+      "file": "tests/core/test_sparse.cpp",
+      "unchanged_after_identifier_normalization": true
+    }
+  ]
+}

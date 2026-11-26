@@ -55,7 +55,7 @@ Install R and this R package first. The [rpy2 example](package/inst/python/run_r
 
 ## Verification
 
-Current checks are recorded in [release verification](reviews/release_0_11_0), with the tested source revision and archive checksum. Earlier package checks do not substitute for validation of this naming revision. Package, native, platform, Python-interface and numerical-parity results are reported separately.
+Current checks are recorded in [release verification](reviews/release_0_11_0), with the tested source revision and archive checksum. The local full R-devel check passed all 1,197 expectations, examples, five vignettes and PDF/HTML manuals. Six Linux/macOS/Windows package checks and four native compiler/sanitizer configurations passed. The Linux rpy2 example matched direct R coefficients, covariance and forecasts exactly on the tested fixture; the Rscript example ran separately on Windows. Package checks, data-transfer agreement and statistical validation are reported separately.
 
 Authors: Sunday A. Adetunji and Oluwatimileyin A. Adetunji. Maintainer: sundayadetunjisa@gmail.com. Source license: GPL-3.
 

@@ -1,0 +1,36 @@
+## Submission summary
+
+New submission of coherentSurv 0.11.0, licensed under GPL-3.
+The package fits recurrent/terminal event-history models and returns
+joint-law dynamic forecasts, observation-sensitivity bounds, targeting
+diagnostics, baseline binary-treatment causal contrasts and validation measures.
+Python examples call the same installed R implementation through rpy2 or Rscript.
+
+Maintainer: Sunday A. Adetunji <sundayadetunjisa@gmail.com>
+This naming revision supersedes earlier pending development-name submissions
+from the same maintainer. Package-specific public operations now use cs_.
+Existing calling scripts need the current function names.
+
+## Test environments and results
+
+Windows x64, R-devel: full R CMD check --as-cran, including examples,
+five vignettes, tests and PDF/HTML manuals, with remote incoming disabled.
+0 errors | 0 warnings | 0 notes. All 1,197 expectations passed.
+
+GitHub Actions: Linux, macOS and Windows under R-release and R-devel,
+six successful package-check jobs. Four native GCC/Clang configurations,
+with and without ASAN/UBSAN, passed all seven standalone fixtures.
+The Linux rpy2 example matched direct R calls exactly for coefficients,
+covariance and forecasts on the supplied synthetic dataset.
+
+Source revision tested: 73bf0c025f8e752ed20cf8e4b4c6387b76aaa052.
+The final archive is rebuilt from the same R/native source and help files;
+build timestamps may differ. Remote CRAN incoming review is not claimed.
+
+## Downstream dependencies
+
+No known downstream dependencies for this first release.
+
+## Submitted archive SHA-256
+
+03708aa925066ac9f5dfa308d3fad56d6479e86e35ec39b8d4ef494fdc79d5f7
