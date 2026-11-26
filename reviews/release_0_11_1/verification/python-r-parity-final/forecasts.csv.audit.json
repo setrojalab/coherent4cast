@@ -1,0 +1,149 @@
+{
+  "report_schema_version": "1.0",
+  "report_type": "coherentSurv_audit_report",
+  "fit_context": {
+    "captured_at_utc": "2026-11-26T09:37:40.539833Z",
+    "session": {
+      "R_version": "R version 4.6.2 (2026-10-29)",
+      "platform": "x86_64-pc-linux-gnu",
+      "coherentSurv_version": "0.11.1",
+      "session_info": ["R version 4.6.2 (2026-10-29)", "Platform: x86_64-pc-linux-gnu", "Running under: Ubuntu 26.04.1 LTS", "", "Matrix products: default", "BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3 ", "LAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/liblapack.so.3;  LAPACK version 3.12.0", "", "locale:", " [1] LC_CTYPE=C.UTF-8       LC_NUMERIC=C           LC_TIME=C.UTF-8       ", " [4] LC_COLLATE=C.UTF-8     LC_MONETARY=C.UTF-8    LC_MESSAGES=C.UTF-8   ", " [7] LC_PAPER=C.UTF-8       LC_NAME=C              LC_ADDRESS=C          ", "[10] LC_TELEPHONE=C         LC_MEASUREMENT=C.UTF-8 LC_IDENTIFICATION=C   ", "", "time zone: UTC", "tzcode source: system (glibc)", "", "attached base packages:", "[1] tools     stats     graphics  grDevices utils     datasets  methods  ", "[8] base     ", "", "other attached packages:", "[1] coherentSurv_0.11.1", "", "loaded via a namespace (and not attached):", "[1] compiler_4.6.2 Rcpp_1.1.2    "]
+    },
+    "data_fingerprint": {
+      "algorithm": "SHA-256",
+      "value": "637db633a3426b23e508e762b3dec446b21ac9a8e3a37888be831c8feaebb07f",
+      "representation": "R serialize(data, NULL, version = 3); SHA-256 of the resulting raw bytes",
+      "serialization_version": 3,
+      "rows": 495,
+      "scope": "Integrity of this serialized object, including its attributes; not semantic equality across R versions, schema reorderings or platforms."
+    },
+    "legacy_fingerprint": {
+      "value": "cd3a57a8c20198f80b926cb3cdfb787b",
+      "algorithm": "MD5 integrity fingerprint, not a security signature",
+      "scope": "Original fit audit value retained verbatim; it has not been relabelled as SHA-256."
+    },
+    "status": "Context captured by the fitting workflow."
+  },
+  "model": {
+    "class": "coherentSurv",
+    "call": "(function (formula, data, unit = \"id\", start = \"start\", stop = \"stop\", event_type = \"event_type\", terminal = \"terminal\", observed = NULL, event_types = NULL, time_unit, breaks = c(0, Inf), observation = c(\"exact\", \"coarsened\"), targeting = \"none\", control = cs_control(), weights = NULL, subset = NULL, na.action = stats::na.fail, labels = NULL, nonrecurrent = character(), coarsening = NULL, intervention = NULL, estimand = NULL, seed = 1L, frailty = c(\"gamma\", \"lognormal\", \"discrete\", \"none\"), frailty_points = 2L,      frailty_diagnostics = TRUE, targeting_spec = NULL, coarsening_control = list())  {     frailty_supplied <- !missing(frailty)     call <- match.call()     observation <- match.arg(observation)     frailty <- match.arg(frailty)     frailty_requested <- frailty     if (frailty == \"none\") {         if (!is.null(control$phi_fixed) && control$phi_fixed != 0)              .cs_error(\"frailty_none\", \"frailty='none' conflicts with a positive fixed dispersion.\")         control$phi_fixed <- 0         frailty <- \"gamma\"     }     targeting <- match.arg(targeting, c(\"none\", \"finite_path\", \"continuous\"))     if (!is.null(intervention))          .cs_error(\"causal_scope\", \"Interventions are not available before version 2.0.0.\")     if (targeting != \"none\") {         if (!is.null(weights) || !is.null(coarsening) || observation != \"exact\" || length(nonrecurrent) || (!missing(subset) && !identical(substitute(subset), quote(NULL))) || frailty_supplied || !identical(breaks, c(0, Inf)))              .cs_error(\"targeting_scope\", \"Targeting uses its declared finite-path MAR or continuous-time CAR model. Specify support, folds, strata and time grid through targeting_spec; likelihood-only weights, frailty, coarsening, eligibility and baseline-break arguments cannot be silently reused.\")         targeted_fit <- .cs_targeted_fit(formula, data, unit, start, stop, event_type, terminal, observed, event_types, time_unit, targeting, control, targeting_spec, seed, call)         targeted_fit$audit <- c(targeted_fit$audit, .cs_capture_audit_context(data, call))         targeted_fit$audit$estimand <- estimand         return(targeted_fit)     }     if (!inherits(formula, \"formula\") || length(formula) != 2L)          .cs_error(\"formula\", \"Supply a one-sided covariate formula such as ~ treatment + age.\")     if (any(all.vars(formula) %in% c(stop, event_type, terminal)))          .cs_error(\"formula_leakage\", \"Interval outcomes and future stop times cannot enter the covariate formula.\")     if (length(breaks) < 2L || breaks[1] != 0 || tail(breaks, 1) != Inf || any(diff(breaks) <= 0) || anyNA(breaks))          .cs_error(\"breaks\", \"Baseline breaks must increase from 0 to Inf.\")     if (!missing(subset) && !identical(substitute(subset), quote(NULL))) {         selected <- eval(substitute(subset), data, parent.frame())         if (length(selected) != nrow(data) || anyNA(selected))              .cs_error(\"subset\", \"subset must select complete units.\")         ids <- data[[unit]]         selected <- as.logical(selected)         if (any(vapply(split(selected, ids), function(x) length(unique(x)) > 1L, logical(1))))              .cs_error(\"subset\", \"Row subsets cannot break histories; select whole units.\")         data <- data[selected, , drop = FALSE]     }     fibre_audit <- NULL     if (observation == \"coarsened\" && is.null(coarsening)) {         permitted <- c(\"lower\", \"upper\", \"followup\", \"format\", \"rounding_unit\", \"nodes\", \"max_perms\", \"draws\", \"seed\", \"max_paths\")         if (!is.list(coarsening_control) || (length(coarsening_control) && (is.null(names(coarsening_control)) || any(!names(coarsening_control) %in% permitted))))              .cs_error(\"coarsening_control\", \"Use named event-window and numerical controls; fitted schema and data cannot be replaced through coarsening_control.\")         if (!is.null(observed)) {             if (!observed %in% names(data) || anyNA(data[[observed]]) || any(!data[[observed]] %in% c(1, TRUE)))                  .cs_error(\"unrecorded_history\", \"Automatic time fibres require known event counts; an unmonitored interval is not a zero-event interval.\")             observed <- NULL         }         fibre_args <- utils::modifyList(list(data = data, unit = unit, start = start, stop = stop, event_type = event_type, terminal = terminal, event_types = event_types, time_unit = time_unit, nonrecurrent = nonrecurrent, breaks = breaks, covariates = all.vars(formula), seed = seed), coarsening_control)         fibre <- do.call(cs_coarsen_fibre, fibre_args)         data <- fibre$data         coarsening <- fibre$coarsening         fibre_audit <- list(metadata = fibre$metadata, tie_audit = fibre$tie_audit)     }     needed <- unique(c(all.vars(formula), unit, start, stop, event_type, terminal, observed))     if (!all(needed %in% names(data)))          .cs_error(\"columns\", \"A formula or trajectory column is absent.\")     missing_rows <- !stats::complete.cases(data[, needed, drop = FALSE])     omitted <- character()     if (any(missing_rows)) {         if (identical(na.action, stats::na.omit) || identical(na.action, \"na.omit\")) {             omitted <- unique(as.character(data[[unit]][missing_rows]))             data <- data[!as.character(data[[unit]]) %in% omitted, , drop = FALSE]         }         else .cs_error(\"missing\", \"Missing values detected. na.omit removes complete units, not isolated history rows.\")     }     d <- cs_as_trajectory(data, unit, start, stop, event_type, terminal, observed, event_types, time_unit, observation)     schema <- attr(d, \"cs_schema\")     if (length(schema$gaps) || any(!d$.cs_observed))          .cs_error(\"unrecorded_history\", \"Exact fitting cannot interpret unmonitored intervals as zero events. Supply compatible paths or use finite-support bounds.\")     if (length(schema$delayed_entry))          .cs_error(\"left_truncation\", \"This fit does not model frailty selection before delayed entry; start the observed history at origin.\")     if (!all(nonrecurrent %in% schema$event_types))          .cs_error(\"nonrecurrent\", \"A non-repeatable label is not in event_types.\")     nr <- match(nonrecurrent, schema$event_types)     if (length(nr) && control$history_cap < 1L)          .cs_error(\"history_cap\", \"Non-repeatable event eligibility needs history_cap >= 1.\")     dd <- .cs_design(d, formula, breaks, control$history_cap, nr)     n <- length(unique(d$.cs_unit))     full_size <- ncol(dd$design)     active <- which(colSums(abs(dd$design) * (dd$exposure > 0 | dd$event > 0)) > 0)     dd$active <- active     dd$full_size <- full_size     dd$full_names <- dd$names     dd$design <- dd$design[, active, drop = FALSE]     dd$names <- dd$names[active]     p <- length(active)     if (!sum(dd$event))          .cs_error(\"no_events\", \"No event of any declared type was observed; likelihood parameters are not identifiable.\")     sw <- if (is.null(weights))          rep(1, n)     else weights     if ((observation == \"exact\" && length(sw) != n) || any(!is.finite(sw)) || any(sw <= 0))          .cs_error(\"weights\", \"weights must contain one positive finite case weight per unit, in first-appearance order.\")     owner <- NULL     lw <- NULL     if (observation == \"coarsened\") {         if (is.null(coarsening) || is.null(coarsening$owner) || is.null(coarsening$log_weights))              .cs_error(\"coarsening\", \"Supply path-to-subject owner and log_weights for legal quadrature paths.\")         owner <- coarsening$owner         lw <- coarsening$log_weights         if (length(owner) != n || length(lw) != n)              .cs_error(\"coarsening\", \"One owner and log weight are required per complete path.\")         nobs <- length(unique(owner))         if (!is.null(weights) && length(weights) != nobs)              .cs_error(\"weights\", \"Coarsened weights must be one per observed subject.\")         sw <- if (is.null(weights))              rep(1, nobs)         else weights     }     start_coef <- numeric(full_size)     for (k in seq_len(dd$K + 1L)) {         rows <- (k - 1L) * nrow(dd$data) + seq_len(nrow(dd$data))         rate <- (sum(dd$event[rows]) + 0.1)/(sum(dd$exposure[rows]) + 0.1)         cols <- (k - 1L) * dd$block_size + seq_len(dd$base_size)         start_coef[cols] <- log(rate)     }     start_coef <- start_coef[active]     frailty_spec <- .cs_frailty_spec(frailty, control, frailty_points)     theta0 <- c(start_coef, frailty_spec$start)     lower <- c(rep(control$coefficient_bounds[1], p), frailty_spec$lower)     upper <- c(rep(control$coefficient_bounds[2], p), frailty_spec$upper)     evaluate <- function(theta, info = FALSE) {         z <- .cs_fit_likelihood(theta, dd, control, frailty, frailty_points, info)         if (!is.null(owner))              z <- cs_coarsen(z$subject_loglik, z$scores, if (info)                  z$information_individual             else NULL, owner, lw)         z$objective <- -sum(sw * z$subject_loglik)/sum(sw)         z$gradient <- -colSums(z$scores * sw)/sum(sw)         z     }     fn <- function(th) evaluate(th)$objective     gr <- function(th) evaluate(th)$gradient     opt <- stats::optim(pmin(pmax(theta0, lower + 0.01), upper - 0.01), fn, gr, method = \"L-BFGS-B\", lower = lower, upper = upper, control = list(maxit = control$maxit, factr = max(1, min(100, control$tolerance/.Machine$double.eps)), pgtol = control$tolerance))     multistart_values <- opt$value     if (frailty == \"discrete\")          for (scale in c(0.5, 1.8)) {             init <- theta0             init[p + seq_along(frailty_spec$start)] <- frailty_spec$start * scale             alt <- stats::optim(pmin(pmax(init, lower + 0.01), upper - 0.01), fn, gr, method = \"L-BFGS-B\", lower = lower, upper = upper, control = list(maxit = control$maxit, factr = max(1, min(100, control$tolerance/.Machine$double.eps)), pgtol = control$tolerance))             multistart_values <- c(multistart_values, alt$value)             if (alt$value < opt$value)                  opt <- alt         }     quadrature_audit <- data.frame()     quadrature_valid <- TRUE     if (frailty == \"lognormal\" && (is.null(control$phi_fixed) || control$phi_fixed > 0)) {         maximum <- if (is.null(control$quadrature_max))              1024L         else control$quadrature_max         qt <- if (is.null(control$quadrature_tolerance))              1e-07         else control$quadrature_tolerance         quadrature_valid <- FALSE         if (control$quadrature == maximum && maximum >= 4L) {             high <- evaluate(opt$par)             control$quadrature <- as.integer(floor(maximum/2))             low <- evaluate(opt$par)             gap <- max(abs(high$subject_loglik - low$subject_loglik))             sgap <- max(abs(high$gradient - low$gradient))             quadrature_audit <- data.frame(nodes_low = control$quadrature, nodes_high = maximum, max_subject_loglik_change = gap, max_mean_score_change = sgap)             control$quadrature <- maximum             quadrature_valid <- gap <= qt && sgap <= qt         }         while (control$quadrature < maximum) {             low <- evaluate(opt$par)             nlow <- control$quadrature             control$quadrature <- min(maximum, 2L * nlow)             high <- evaluate(opt$par)             gap <- max(abs(high$subject_loglik - low$subject_loglik))             sgap <- max(abs(high$gradient - low$gradient))             nnew <- control$quadrature             opt <- stats::optim(opt$par, fn, gr, method = \"L-BFGS-B\", lower = lower, upper = upper, control = list(maxit = control$maxit, factr = max(1, min(100, control$tolerance/.Machine$double.eps)), pgtol = control$tolerance))             high <- evaluate(opt$par)             control$quadrature <- nlow             low <- evaluate(opt$par)             control$quadrature <- nnew             gap <- max(abs(high$subject_loglik - low$subject_loglik))             sgap <- max(abs(high$gradient - low$gradient))             quadrature_audit <- rbind(quadrature_audit, data.frame(nodes_low = nlow, nodes_high = nnew, max_subject_loglik_change = gap, max_mean_score_change = sgap))             if (gap <= qt && sgap <= qt) {                 quadrature_valid <- TRUE                 break             }         }         frailty_spec$points <- control$quadrature     }     z <- evaluate(opt$par, TRUE)     H <- if (length(dim(z$information_individual)) == 3L)          apply(sweep(z$information_individual, 3, sw, \"*\"), c(1, 2), sum)     else z$information     inv <- .cs_inverse(H)     scores <- z$scores * sw     V <- inv %*% crossprod(scores) %*% inv     eig <- eigen((H + t(H))/2, symmetric = TRUE, only.values = TRUE)$values     at_bound <- any(abs(opt$par - lower) < 1e-05 | abs(opt$par - upper) < 1e-05)     valid <- opt$convergence == 0L && min(eig) > 1e-08 && !at_bound && max(abs(z$gradient)) < 1e-04 && quadrature_valid     nm <- c(dd$names, frailty_spec$names)     names(opt$par) <- nm     dimnames(V) <- list(nm, nm)     hashfile <- tempfile()     on.exit(unlink(hashfile), add = TRUE)     saveRDS(data, hashfile, version = 2)     linear_coefficients <- stats::setNames(numeric(full_size), dd$full_names)     linear_coefficients[active] <- opt$par[seq_len(p)]     fit <- list(coefficients = opt$par, linear_coefficients = linear_coefficients, covariance = V, information = H, scores = z$scores, phi = if (frailty == \"gamma\") {         if (is.null(control$phi_fixed)) exp(tail(opt$par, 1)) else control$phi_fixed     } else .cs_frailty_nodes(opt$par[-seq_len(p)], frailty_spec)$variance, frailty = frailty, frailty_spec = frailty_spec, targeting = \"none\", case_weights = sw, loglik = sum(sw * z$subject_loglik), n = length(sw), npaths = n, data = d, design = dd, formula = formula, breaks = breaks, control = control, schema = schema, nonrecurrent = nr, labels = labels, coarsening = coarsening, convergence = list(code = if (!quadrature_valid) \"quadrature_unresolved\" else if (valid) \"converged\" else if (at_bound) \"parameter_boundary\" else \"nonregular_fit\",          optimizer = opt$convergence, message = opt$message, gradient = max(abs(z$gradient)), information_eigenvalues = eig, at_boundary = at_bound, valid = valid), audit = list(version = as.character(utils::packageVersion(\"coherentSurv\")), seed = seed, call = call, data_hash = unname(tools::md5sum(hashfile)), data_hash_algorithm = \"MD5 integrity fingerprint, not a security signature\", omitted_units = omitted, structurally_inactive_coefficients = dd$full_names[-active], estimand = estimand, automatic_fibre = fibre_audit,          multistart_objectives = multistart_values, quadrature_refinement = quadrature_audit, quadrature_stable = quadrature_valid, assumptions = c(\"independent units\", \"declared observation model\", \"sufficient retained state\", \"predictable covariates\", \"one absorbing terminal event\")))     class(fit) <- \"coherentSurv\"     fit$frailty_requested <- frailty_requested     fit$audit <- c(fit$audit, .cs_capture_audit_context(d, call))     if (isTRUE(frailty_diagnostics))          fit$frailty_diagnostics <- cs_frailty_diagnose(fit)     if (!valid)          .cs_warning(\"nonregular_fit\", \"Fit is nonregular or did not meet convergence criteria; inspect $convergence. Wald inference is not certified.\")     fit })(formula = ~x, data = .audit_data_argument_redacted, event_types = c(\"1\", \"2\"), time_unit = \"months\")",
+    "wrapper_call": null,
+    "formula": "~x",
+    "schema": {
+      "unit": "id",
+      "start": "start",
+      "stop": "stop",
+      "event_type": "event_type",
+      "terminal": "terminal",
+      "observed": null,
+      "event_types": ["1", "2"],
+      "time_unit": "months",
+      "observation": "exact",
+      "original_rows": 495,
+      "dropped_rows": 0,
+      "terminal_cause": null,
+      "terminal_causes_observed": [],
+      "regime": "joint_recurrent_terminal"
+    },
+    "regime_details": {
+      "observed_pattern": "recurrent_nonterminal_events_observed",
+      "nonterminal_types_declared": ["1", "2"],
+      "nonterminal_types_observed": ["1", "2"],
+      "maximum_observed_nonterminal_events_per_unit": 13,
+      "units_with_multiple_nonterminal_events": 76,
+      "terminal_events_observed": 59,
+      "terminal_cause_column": null,
+      "terminal_causes_observed": [],
+      "model_inferred": false,
+      "scope": "Observed event counts do not determine whether recurrence is scientifically possible. Competing absorbing causes are described only when terminal_cause was explicitly declared and multiple causes occur. These labels do not select a likelihood, event-eligibility rule or causal model."
+    },
+    "observation_process": "exact",
+    "observation_process_details": {
+      "declaration": "exact",
+      "monitoring_column": null,
+      "unmonitored_rows": [],
+      "gap_rows": [],
+      "delayed_entry_rows": [],
+      "continuous_observation_from_zero": true,
+      "missingness_mechanism": "not identified by schema validation",
+      "scope": "Exact/coarsened is an analyst declaration, not a verified MAR/CAR/MNAR assumption. An observed zero, an unmonitored interval, a between-row gap and delayed entry are distinct. Delayed entry is tagged here; fit and prediction interfaces retain their own supported-observation checks."
+    },
+    "independent_units": 160,
+    "complete_paths": 160,
+    "targeting": "none",
+    "frailty": "gamma",
+    "absorbing_causes": null,
+    "seed": 1,
+    "estimand_declaration": null,
+    "estimand_scope": "Analyst-supplied declaration retained verbatim; not a verification of estimand identification or ICH E9(R1) compliance.",
+    "mapping_provenance": null,
+    "assumptions": ["independent units", "declared observation model", "sufficient retained state", "predictable covariates", "one absorbing terminal event"]
+  },
+  "convergence": {
+    "code": "converged",
+    "optimizer": 0,
+    "message": "CONVERGENCE: REL_REDUCTION_OF_F <= FACTR*EPSMCH",
+    "gradient": 4.20634159817301e-07,
+    "information_eigenvalues": [505.708728998131, 234.785442569465, 123.404446190718, 87.1087401271554, 71.1609083362279, 45.7215836808413, 34.3443343970129, 31.6430436016269, 25.9020016247074, 18.9009467596574, 12.764903180994, 9.63889992326702, 6.30627502145801],
+    "at_boundary": false,
+    "valid": true
+  },
+  "numerical": {
+    "fitting": {
+      "quadrature_refinement": [],
+      "quadrature_stable": true
+    },
+    "prediction": [
+      {
+        "metric": "series_error_bound",
+        "finite": 15,
+        "nonfinite": 0,
+        "minimum": 1.04980486475854e-14,
+        "maximum": 2.11857134555595e-13
+      },
+      {
+        "metric": "probability_roundoff_bound",
+        "finite": 15,
+        "nonfinite": 0,
+        "minimum": 9.17703572579167e-15,
+        "maximum": 9.34202929200145e-15
+      },
+      {
+        "metric": "frailty_compression_bound",
+        "finite": 15,
+        "nonfinite": 0,
+        "minimum": 0,
+        "maximum": 0
+      },
+      {
+        "metric": "covariate_mcse",
+        "finite": 15,
+        "nonfinite": 0,
+        "minimum": 0,
+        "maximum": 0
+      }
+    ],
+    "prediction_assumptions": ["Future covariate rule: freeze", "capped count state determines future intensity", "frailty quadrature and covariate-grid errors are separate from uniformization and Monte Carlo errors"],
+    "scope": "Numerical bounds and simulation errors are not sampling confidence intervals. Quadrature, time-grid, propagation, covariate Monte Carlo and parameter uncertainty remain distinct."
+  },
+  "source_files": [],
+  "export": {
+    "created_at_utc": "2026-11-26T09:37:40.684581Z",
+    "session": {
+      "R_version": "R version 4.6.2 (2026-10-29)",
+      "platform": "x86_64-pc-linux-gnu",
+      "coherentSurv_version": "0.11.1",
+      "session_info": ["R version 4.6.2 (2026-10-29)", "Platform: x86_64-pc-linux-gnu", "Running under: Ubuntu 26.04.1 LTS", "", "Matrix products: default", "BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3 ", "LAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/liblapack.so.3;  LAPACK version 3.12.0", "", "locale:", " [1] LC_CTYPE=C.UTF-8       LC_NUMERIC=C           LC_TIME=C.UTF-8       ", " [4] LC_COLLATE=C.UTF-8     LC_MONETARY=C.UTF-8    LC_MESSAGES=C.UTF-8   ", " [7] LC_PAPER=C.UTF-8       LC_NAME=C              LC_ADDRESS=C          ", "[10] LC_TELEPHONE=C         LC_MEASUREMENT=C.UTF-8 LC_IDENTIFICATION=C   ", "", "time zone: UTC", "tzcode source: system (glibc)", "", "attached base packages:", "[1] tools     stats     graphics  grDevices utils     datasets  methods  ", "[8] base     ", "", "other attached packages:", "[1] coherentSurv_0.11.1", "", "loaded via a namespace (and not attached):", "[1] compiler_4.6.2 Rcpp_1.1.2     digest_0.6.39 "]
+    },
+    "data_fingerprint": {
+      "algorithm": "SHA-256",
+      "value": "637db633a3426b23e508e762b3dec446b21ac9a8e3a37888be831c8feaebb07f",
+      "representation": "R serialize(data, NULL, version = 3); SHA-256 of the resulting raw bytes",
+      "serialization_version": 3,
+      "rows": 495,
+      "scope": "Integrity of this serialized object, including its attributes; not semantic equality across R versions, schema reorderings or platforms."
+    },
+    "fingerprint_scope": "Current object data at export, not a reconstruction of historical fit data or source provenance."
+  },
+  "interpretation": ["Subject-record tables and identifier columns are not exported automatically. Model expressions, category labels and explicitly supplied paths should still be reviewed before sharing. Hashes are integrity fingerprints, not anonymization guarantees.", "Only explicitly supplied source_files are read and hashed. These hashes describe files at export time, not proof that those files produced the fit.", "No success flag certifies model assumptions, causal identification, finite-sample coverage, publication acceptance or regulatory validity.", "A missing fit timestamp/session remains missing. Export metadata is stored separately.", "JSON null represents unavailable or nonfinite numeric values; consult convergence flags and nonfinite counts."]
+}

@@ -1,0 +1,31 @@
+{
+  "package": "coherentSurv",
+  "version": "0.11.1",
+  "verification_status": "not_requested",
+  "rows": 15,
+  "maximum_absolute_difference_from_direct_r": null,
+  "r_convergence": {
+    "code": "converged",
+    "optimizer": 0,
+    "message": "CONVERGENCE: REL_REDUCTION_OF_F <= FACTR*EPSMCH",
+    "gradient": 4.20634397553987e-07,
+    "information_eigenvalues": [
+      505.708728998015,
+      234.785442569441,
+      123.404446190749,
+      87.1087401271417,
+      71.1609083362149,
+      45.721583680829,
+      34.3443343970047,
+      31.6430436016316,
+      25.9020016247035,
+      18.9009467596637,
+      12.7649031809909,
+      9.63889992327514,
+      6.3062750214609
+    ],
+    "at_boundary": false,
+    "valid": true
+  },
+  "scope": "Forecast export; direct-R parity was not requested. Not predictive validation."
+}

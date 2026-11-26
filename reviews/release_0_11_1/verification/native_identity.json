@@ -1,0 +1,170 @@
+{
+  "baseline_archive": "D:\\Research_Projects\\PhD_thesis\\COHERENTSURV_RELEASE_2026-11-25\\03_CRAN\\coherentSurv_0.11.0.tar.gz",
+  "candidate_version": "0.11.1",
+  "files": 23,
+  "all_native_files_byte_identical": false,
+  "all_native_source_identical_after_CRLF_normalization": true,
+  "records": [
+    {
+      "file": "inst/include/libcoherentSurv/causal_target.hpp",
+      "identical": false,
+      "line_normalized_identical": true,
+      "old_sha256": "2a5c13fbac35c1c60efbb872c7917429cd36f0c6e4d548cecc8d01f0fe3d1731",
+      "candidate_sha256": "7fa739ced27321bbbae6a42bce2286420e8c0ab4add65ff7a21160d97b42cbe1"
+    },
+    {
+      "file": "inst/include/libcoherentSurv/coarsen.hpp",
+      "identical": false,
+      "line_normalized_identical": true,
+      "old_sha256": "a8a4b5141acc182ecd2a0cc416ee0dbf0a1c1192f0afb833ab2529a11c153ae5",
+      "candidate_sha256": "8aaaeef96ce24c3fef41d5a7926610bf4d5215be9a2f2e08bd8544e7f2ea9b15"
+    },
+    {
+      "file": "inst/include/libcoherentSurv/conformal.hpp",
+      "identical": false,
+      "line_normalized_identical": true,
+      "old_sha256": "a8ca812184d49f07dc92e6c8b2f837e2d5ee0eb31d2816d8f03cac6989c6ca0d",
+      "candidate_sha256": "6a779526ef5b93bcdccb867c5fe758f768cad14baf4d22076dff2085233bd8b6"
+    },
+    {
+      "file": "inst/include/libcoherentSurv/continuous_target.hpp",
+      "identical": false,
+      "line_normalized_identical": true,
+      "old_sha256": "f32c0bd88ab9888d475f8c160f718291a0f79b6b1b4cd3aed8a5b1cc4df2d250",
+      "candidate_sha256": "4ca8e65bb2ff5f287366d5361b646d7be591f9c8cdaedce0ed880f4780553dba"
+    },
+    {
+      "file": "inst/include/libcoherentSurv/fibre.hpp",
+      "identical": false,
+      "line_normalized_identical": true,
+      "old_sha256": "a94ad42a0af6ff0ff24d2f259bcf032f57e712b2937ffd1fd252c1e4d9093670",
+      "candidate_sha256": "be12455a6c41f0b8340b327a63b32ed97561ce601394221e9f58ff7d8f037ac1"
+    },
+    {
+      "file": "inst/include/libcoherentSurv/gamma_lik.hpp",
+      "identical": false,
+      "line_normalized_identical": true,
+      "old_sha256": "6afd21f61f8972721ee287ad9775373973cc007c54330cbf0db7c3da7f310dfb",
+      "candidate_sha256": "b7bc6fc905202f5aba4cf9c5080e7b5b359ba51320267ca13bba3bf8335fbc66"
+    },
+    {
+      "file": "inst/include/libcoherentSurv/history.hpp",
+      "identical": false,
+      "line_normalized_identical": true,
+      "old_sha256": "683343be6c70c4e5a3567aaa9a5cfa3bc2b45156dc243716c2a2263371bee043",
+      "candidate_sha256": "c4ae476ce65eeac715ba19fc6f2ad4c1384075c87b7569b208714b025fb17eca"
+    },
+    {
+      "file": "inst/include/libcoherentSurv/lp_bounds.hpp",
+      "identical": false,
+      "line_normalized_identical": true,
+      "old_sha256": "8b7d00432280ea4a877f0fbb9fda084006303e2ba88e145291c654191f6fc7cc",
+      "candidate_sha256": "251e31f44f9d758f3cfc2e8464ad901c48c0c7411dd6ba533fa062ae884cd2d7"
+    },
+    {
+      "file": "inst/include/libcoherentSurv/pivot.hpp",
+      "identical": false,
+      "line_normalized_identical": true,
+      "old_sha256": "ed14581b988101387e557555c5012260a3fcba4e2e131338be06036f3736a49c",
+      "candidate_sha256": "3001ce7e43a5122cc267b91cd67986ebe9c7eb1a490ca7b4fc677b772b3b003c"
+    },
+    {
+      "file": "inst/include/libcoherentSurv/rng.hpp",
+      "identical": false,
+      "line_normalized_identical": true,
+      "old_sha256": "f88904c2073c4a423e6dc61f390a529e1f528c379b6c02aca95a3079db57d69e",
+      "candidate_sha256": "827e2ff845b6e3912876098170460ccbf6314ba7c0143e5c74c999b07d02f888"
+    },
+    {
+      "file": "inst/include/libcoherentSurv/sparse_bounds.hpp",
+      "identical": false,
+      "line_normalized_identical": true,
+      "old_sha256": "e15b11c7d693cec6fd9162a3c6c7a675ef8c3f99ab3ab702ad7187dbe06f8252",
+      "candidate_sha256": "778f64a212903ed031a93d2e15902754e46a336e9ef449be85bf0b5fbb78319e"
+    },
+    {
+      "file": "inst/include/libcoherentSurv/sparse_uniformize.hpp",
+      "identical": false,
+      "line_normalized_identical": true,
+      "old_sha256": "2a29189a378509f331329a81a14d9f10e93d79215bd154e7707cf595968cb3f1",
+      "candidate_sha256": "bcca01d9c1d7bea115b94d8f63a118b12e0732d599e4e78c3c0ff78fd19740b3"
+    },
+    {
+      "file": "inst/include/libcoherentSurv/target.hpp",
+      "identical": false,
+      "line_normalized_identical": true,
+      "old_sha256": "283efa75f19280a1d9adc788918ff5352bb9ab5f6b46979fcbd4df9f72b28427",
+      "candidate_sha256": "cf0356045a6c449f85d3bfa3f7bd841dbc811c778199888c627d97e0ffc8fe11"
+    },
+    {
+      "file": "inst/include/libcoherentSurv/uniformize.hpp",
+      "identical": false,
+      "line_normalized_identical": true,
+      "old_sha256": "5237cd096fd066f7d06742237821a0bf66ead7f5088d2f4c2d385970ef802c8b",
+      "candidate_sha256": "261559310b7d74633a75ff783719ac1d6fb3efa0be60f8223e52a95484080349"
+    },
+    {
+      "file": "src/RcppExports.cpp",
+      "identical": false,
+      "line_normalized_identical": true,
+      "old_sha256": "61a28ddd682a8d601c1b53cd2bb22ad7fe9118c3586cc39a86474c0afceabaf7",
+      "candidate_sha256": "506c5a9747903aa5aac31a2281d9a9505982da32fd90599641cb89c90523fb89"
+    },
+    {
+      "file": "src/causal_bridge.cpp",
+      "identical": false,
+      "line_normalized_identical": true,
+      "old_sha256": "8f11ff385d629f956cf74ab2e09679a52a958614230ce86f8cedb03e5c98d3ee",
+      "candidate_sha256": "344e5ea7aed30d8675befc7992a76ea4f56c8d83a53af8b5233d44342d6a7499"
+    },
+    {
+      "file": "src/continuous_bridge.cpp",
+      "identical": false,
+      "line_normalized_identical": true,
+      "old_sha256": "8c97aab95c7fec9cdf86c5652f8683557fcdc466194cede3761accfb94350757",
+      "candidate_sha256": "bb7243b757e5113d5ee6280e70e383419752f5f22e388cb2bfa794319e86d2f3"
+    },
+    {
+      "file": "src/core_bridge.cpp",
+      "identical": false,
+      "line_normalized_identical": true,
+      "old_sha256": "0c5c7e28c098865c7917517e7d640b384c8aba85a0455b6b81d40d0e77dbaad0",
+      "candidate_sha256": "622358cbd707ab1e37cf2104d9c6f2ee2b67935c5f785517a5db536def335e1f"
+    },
+    {
+      "file": "src/fibre_bridge.cpp",
+      "identical": false,
+      "line_normalized_identical": true,
+      "old_sha256": "fa9491b5a999f07f89dde9e9de3dad1a43d315bc1fe4153172a06827ca932eb8",
+      "candidate_sha256": "af0f4a491e552597fe2ea16127e80344cd9c08ce0dec74bea42e2a4d5ac7fffb"
+    },
+    {
+      "file": "src/frailty_bridge.cpp",
+      "identical": false,
+      "line_normalized_identical": true,
+      "old_sha256": "fcf8983dfc1c4c75d83a873bc3a592bd6b6d750d3d6d92fb9a754b94ae15e5c8",
+      "candidate_sha256": "9d38056c32bd31f6293b4e9860282294022d5eb6d7301f1c6b063430267aeb71"
+    },
+    {
+      "file": "src/history_bridge.cpp",
+      "identical": false,
+      "line_normalized_identical": true,
+      "old_sha256": "b7b4fe336942e5d297887ef114e6c81171ececfbe2c6b8cbc6f468518ca0fdec",
+      "candidate_sha256": "a321572556d1ecc88eb9e4510c1c0197f49c0ace53cda41765081c6b0c9a7ddd"
+    },
+    {
+      "file": "src/inference_bridge.cpp",
+      "identical": false,
+      "line_normalized_identical": true,
+      "old_sha256": "d9325bc8f4d47d3c7e54d81f75e769a925b4b56617ea4b350e52d25314964d8e",
+      "candidate_sha256": "708c13c2bc64e3e88b962dc07a2f7ea5e44274dbb4fe6f65e5362a51be2c0a41"
+    },
+    {
+      "file": "src/sparse_bridge.cpp",
+      "identical": false,
+      "line_normalized_identical": true,
+      "old_sha256": "14df72dcee802bc75d49288738851df5e5f490398c0c9a49694a6e44811cdaa3",
+      "candidate_sha256": "1898833d2c6bdceb8c28e8168b6b11c67f80db5e9db55c80d54effe100879f7f"
+    }
+  ]
+}

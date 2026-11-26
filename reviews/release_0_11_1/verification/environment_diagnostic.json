@@ -1,0 +1,246 @@
+{
+  "report_schema_version": "1.0",
+  "report_type": "coherentSurv_environment_diagnostic",
+  "created_at_utc": "2026-11-26T09:15:04.032915Z",
+  "status": "unavailable",
+  "operational_status": "passed",
+  "checks": [
+    {
+      "check": "installed_dependencies",
+      "category": "installation",
+      "status": "passed",
+      "detail": "Version metadata for coherentSurv, Rcpp, digest and jsonlite; no package is installed or downloaded.",
+      "maximum_absolute_error": null,
+      "tolerance": null,
+      "elapsed_seconds": null
+    },
+    {
+      "check": "registered_native_entry_points",
+      "category": "installation",
+      "status": "passed",
+      "detail": "Required fixture entry points must be registered and dynamic symbol lookup disabled.",
+      "maximum_absolute_error": null,
+      "tolerance": null,
+      "elapsed_seconds": null
+    },
+    {
+      "check": "native_file_fingerprint",
+      "category": "installation",
+      "status": "passed",
+      "detail": "SHA-256 of the file currently at the loaded DLL path; this does not authenticate the build.",
+      "maximum_absolute_error": null,
+      "tolerance": null,
+      "elapsed_seconds": null
+    },
+    {
+      "check": "package_build_compiler",
+      "category": "installation",
+      "status": "unavailable",
+      "detail": "Actual compiler identity and flags are not recorded in the installed package metadata. No compiler is guessed or executed.",
+      "maximum_absolute_error": null,
+      "tolerance": null,
+      "elapsed_seconds": null
+    },
+    {
+      "check": "poisson_boundary",
+      "category": "operational",
+      "status": "passed",
+      "detail": "Agrees with the declared analytic reference.",
+      "maximum_absolute_error": 1.11022302462516e-16,
+      "tolerance": 1e-12,
+      "elapsed_seconds": 0
+    },
+    {
+      "check": "dense_absorption",
+      "category": "operational",
+      "status": "passed",
+      "detail": "Agrees with the declared analytic reference.",
+      "maximum_absolute_error": 1.11022302462516e-16,
+      "tolerance": 1e-12,
+      "elapsed_seconds": 0
+    },
+    {
+      "check": "sparse_absorption",
+      "category": "operational",
+      "status": "passed",
+      "detail": "Agrees with the declared analytic reference.",
+      "maximum_absolute_error": 1.11022302462516e-16,
+      "tolerance": 1e-12,
+      "elapsed_seconds": 0
+    },
+    {
+      "check": "louis_mixture",
+      "category": "operational",
+      "status": "passed",
+      "detail": "Agrees with the declared analytic reference.",
+      "maximum_absolute_error": 2.66453525910038e-15,
+      "tolerance": 1e-12,
+      "elapsed_seconds": 0
+    }
+  ],
+  "installation": {
+    "package": {
+      "name": "coherentSurv",
+      "version": "0.11.1",
+      "installed_path": "D:/Research_Projects/PhD_thesis/COHERENTSURV_REVIEW_0_11_1_2026-11-26/build/coherentSurv.Rcheck/coherentSurv",
+      "built": "R 4.7.0; x86_64-w64-mingw32; 2026-11-26 09:10:00 UTC; windows",
+      "needs_compilation": "yes"
+    },
+    "packages": [
+      {
+        "package": "coherentSurv",
+        "version": "0.11.1",
+        "loaded": true,
+        "source": "loaded namespace",
+        "status": "passed"
+      },
+      {
+        "package": "Rcpp",
+        "version": "1.1.2",
+        "loaded": true,
+        "source": "loaded namespace",
+        "status": "passed"
+      },
+      {
+        "package": "digest",
+        "version": "0.6.39",
+        "loaded": true,
+        "source": "loaded namespace",
+        "status": "passed"
+      },
+      {
+        "package": "jsonlite",
+        "version": "2.0.0",
+        "loaded": false,
+        "source": "installed package metadata",
+        "status": "passed"
+      }
+    ],
+    "native": {
+      "status": "passed",
+      "path": "D:/Research_Projects/PhD_thesis/COHERENTSURV_REVIEW_0_11_1_2026-11-26/build/coherentSurv.Rcheck/coherentSurv/libs/x64/coherentSurv.dll",
+      "file_sha256": "604e779407074660a2b9a85bc527d0c205f2fadff3f28a1b112dcca9a9b0f96c",
+      "fingerprint_scope": "Bytes currently on disk at the loaded DLL path; not a signed or historical build attestation.",
+      "dynamic_lookup": false,
+      "registered_calls": ["_coherentSurv_cs_cpp_causal_target", "_coherentSurv_cs_cpp_continuous_target", "_coherentSurv_cpp_cs_loglik", "_coherentSurv_cpp_cs_coarsen", "_coherentSurv_cpp_cs_propagate", "_coherentSurv_cpp_cs_coarsen_fibre", "_coherentSurv_cpp_cs_mixture_lik", "_coherentSurv_cs_cpp_history", "_coherentSurv_cs_cpp_target", "_coherentSurv_cs_cpp_bounds", "_coherentSurv_cs_cpp_conformal", "_coherentSurv_cs_cpp_pivot", "_coherentSurv_cs_cpp_cf", "_coherentSurv_cpp_cs_propagate_sparse", "_coherentSurv_cpp_cs_bounds_sparse"]
+    },
+    "build_compiler": {
+      "status": "unavailable",
+      "compiler": null,
+      "flags": null,
+      "reason": "Actual compiler identity and flags are not recorded in the installed package metadata. No compiler is guessed or executed."
+    }
+  },
+  "session": {
+    "R_version": "R Under development (unstable) (2026-11-17 r90926 ucrt)",
+    "platform": "x86_64-w64-mingw32",
+    "locale": "C",
+    "external_software": {
+      "zlib": "1.3.1",
+      "bzlib": "1.0.8, 13-Jul-2019",
+      "xz": "5.8.2",
+      "libdeflate": "1.25",
+      "zstd": "1.5.7",
+      "PCRE": "10.47 2025-10-21",
+      "ICU": "77.1",
+      "TRE": "TRE 0.8.0 R_fixes (BSD)",
+      "iconv": "win_iconv",
+      "readline": "",
+      "BLAS": ""
+    },
+    "BLAS": {
+      "status": "unavailable",
+      "value": ""
+    },
+    "LAPACK": {
+      "status": "passed",
+      "value": "3.12.1"
+    },
+    "loaded_packages": [
+      {
+        "package": "Rcpp",
+        "version": "1.1.2",
+        "_row": "Rcpp"
+      },
+      {
+        "package": "base",
+        "version": "4.7.0",
+        "_row": "base"
+      },
+      {
+        "package": "coherentSurv",
+        "version": "0.11.1",
+        "_row": "coherentSurv"
+      },
+      {
+        "package": "compiler",
+        "version": "4.7.0",
+        "_row": "compiler"
+      },
+      {
+        "package": "datasets",
+        "version": "4.7.0",
+        "_row": "datasets"
+      },
+      {
+        "package": "digest",
+        "version": "0.6.39",
+        "_row": "digest"
+      },
+      {
+        "package": "grDevices",
+        "version": "4.7.0",
+        "_row": "grDevices"
+      },
+      {
+        "package": "graphics",
+        "version": "4.7.0",
+        "_row": "graphics"
+      },
+      {
+        "package": "methods",
+        "version": "4.7.0",
+        "_row": "methods"
+      },
+      {
+        "package": "stats",
+        "version": "4.7.0",
+        "_row": "stats"
+      },
+      {
+        "package": "tools",
+        "version": "4.7.0",
+        "_row": "tools"
+      },
+      {
+        "package": "utils",
+        "version": "4.7.0",
+        "_row": "utils"
+      }
+    ]
+  },
+  "fixtures": {
+    "poisson_boundary": {
+      "expected": [-1.50397280432594, -0.6, 0.7, -0.6, 0.9],
+      "observed": [-1.50397280432594, -0.6, 0.7, -0.6, 0.9],
+      "result_object_bytes": 608
+    },
+    "dense_absorption": {
+      "expected": [0.548811636094026, 0.451188363905974, 1.50396121301991],
+      "observed": [0.548811636094027, 0.451188363905974, 1.50396121301991],
+      "result_object_bytes": 456
+    },
+    "sparse_absorption": {
+      "expected": [0.548811636094026, 0.451188363905974, 1.50396121301991],
+      "observed": [0.548811636094027, 0.451188363905974, 1.50396121301991],
+      "result_object_bytes": 456
+    },
+    "louis_mixture": {
+      "expected": [-0.693147180559945, 0.2, 0.8, 2.6, 4.96],
+      "observed": [-0.693147180559945, 0.2, 0.8, 2.6, 4.96],
+      "result_object_bytes": 608
+    }
+  },
+  "timings_requested": true,
+  "interpretation": ["Read-only local diagnostics with fixed synthetic fixtures; no patient records, network access, installations or external compiler commands.", "A passed operational check establishes agreement only for these four fixtures at absolute tolerance 1e-12; it is not validation of every model or dataset.", "Unavailable provenance is retained explicitly and is not treated as either an observed failure or a successful qualification.", "Optional timings are single-run elapsed observations; zero can mean below timer resolution. Returned-object sizes are not peak resident memory. These are not machine speed benchmarks or performance qualification.", "This report is unsigned and mutable. It is not IQ/OQ/PQ certification, a signed qualification, 21 CFR Part 11 compliance, or a guarantee of clinical or regulatory fitness.", "File hashes describe current on-disk bytes, not the provenance of an in-memory library or proof that a source/compiler produced it. Environment paths may identify local installations."]
+}

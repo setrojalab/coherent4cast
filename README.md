@@ -19,7 +19,15 @@ fit <- cs_fit(~ x, sim_perinatal, time_unit = "months",
 print(fit)
 ```
 
-Source installation requires a C++17 toolchain (the matching Rtools on Windows). The repository is public; no GitHub subscription is required. Use `build_vignettes = TRUE` with the vignette dependencies installed to build the five tutorials.
+Source installation requires a C++17 toolchain (the matching Rtools on Windows). The repository is public; no GitHub subscription is required. Use `build_vignettes = TRUE` with the vignette dependencies installed to build the tutorials: five in the published 0.11.0 release and ten in this 0.11.1 candidate.
+
+To reproduce the 0.11.1 review candidate described by the revised paper, select its tested source revision explicitly:
+
+```r
+remotes::install_github("setrojalab/coherentSurv", subdir = "package",
+  ref = "1f39e037c0e8bf24edd58366dfe46c2e5546ed94",
+  dependencies = NA, upgrade = "never")
+```
 
 ## Interfaces
 
@@ -52,6 +60,15 @@ Install R and this R package first. The [rpy2 example](package/inst/python/run_r
 - [CRAN source archive](release/coherentSurv/coherentSurv_0.11.0.tar.gz), [reference manual](release/coherentSurv/coherentSurv_0.11.0_Reference_Manual.pdf) and [submission comments](release/coherentSurv/cran-comments.txt).
 - [Complete computational replication archive](release/coherentSurv/coherentSurv_JSS_replication.zip).
 - [Tutorial sources](package/vignettes), [replication scripts](replication) and [release verification](reviews/release_0_11_0).
+
+## Version 0.11.1 review materials
+
+- [Checked source archive](release/coherentSurv/0.11.1-review/coherentSurv_0.11.1.tar.gz), [reference manual](release/coherentSurv/0.11.1-review/coherentSurv-reference-manual.pdf), and [check summary](release/coherentSurv/0.11.1-review/cran-comments.txt).
+- [Complete replication archive](release/coherentSurv/0.11.1-review/coherentSurv_JSS_replication.zip).
+- [Technical review and 40-item scope register](reviews/release_0_11_1/Review_and_40_Item_Register.pdf).
+- [Final verification record](reviews/release_0_11_1/verification/final_status.json) and [artifact checksums](reviews/release_0_11_1/SHA256SUMS.txt).
+
+The tested source revision is `1f39e037c0e8bf24edd58366dfe46c2e5546ed94`. Its full local R-devel check completed with 0 errors, 0 warnings and 1 new-submission NOTE; all 1,476 expectations and ten vignettes passed. Seven platform jobs, four native compiler/sanitizer configurations and the Linux rpy2 check passed. These are package and interface checks, not regulatory certification or new statistical coverage experiments. This review candidate has not been submitted to CRAN.
 
 ## Verification
 

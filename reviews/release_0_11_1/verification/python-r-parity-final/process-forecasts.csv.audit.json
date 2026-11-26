@@ -1,0 +1,149 @@
+{
+  "report_schema_version": "1.0",
+  "report_type": "coherentSurv_audit_report",
+  "fit_context": {
+    "captured_at_utc": "2026-11-26T09:37:47.548661Z",
+    "session": {
+      "R_version": "R version 4.6.2 (2026-10-29)",
+      "platform": "x86_64-pc-linux-gnu",
+      "coherentSurv_version": "0.11.1",
+      "session_info": ["R version 4.6.2 (2026-10-29)", "Platform: x86_64-pc-linux-gnu", "Running under: Ubuntu 26.04.1 LTS", "", "Matrix products: default", "BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3 ", "LAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblasp-r0.3.32.so;  LAPACK version 3.12.0", "", "locale:", " [1] LC_CTYPE=C.UTF-8       LC_NUMERIC=C           LC_TIME=C.UTF-8       ", " [4] LC_COLLATE=C.UTF-8     LC_MONETARY=C.UTF-8    LC_MESSAGES=C.UTF-8   ", " [7] LC_PAPER=C.UTF-8       LC_NAME=C              LC_ADDRESS=C          ", "[10] LC_TELEPHONE=C         LC_MEASUREMENT=C.UTF-8 LC_IDENTIFICATION=C   ", "", "time zone: UTC", "tzcode source: system (glibc)", "", "attached base packages:", "[1] stats     graphics  grDevices utils     datasets  methods   base     ", "", "other attached packages:", "[1] coherentSurv_0.11.1", "", "loaded via a namespace (and not attached):", "[1] compiler_4.6.2 tools_4.6.2    Rcpp_1.1.2    "]
+    },
+    "data_fingerprint": {
+      "algorithm": "SHA-256",
+      "value": "60f10f70ab2d709e605291f05afd32d6f5665a7b6ed502e5f27179a66452bd61",
+      "representation": "R serialize(data, NULL, version = 3); SHA-256 of the resulting raw bytes",
+      "serialization_version": 3,
+      "rows": 495,
+      "scope": "Integrity of this serialized object, including its attributes; not semantic equality across R versions, schema reorderings or platforms."
+    },
+    "legacy_fingerprint": {
+      "value": "55228e251ba3fabaf03a9bd9a4ca9a1f",
+      "algorithm": "MD5 integrity fingerprint, not a security signature",
+      "scope": "Original fit audit value retained verbatim; it has not been relabelled as SHA-256."
+    },
+    "status": "Context captured by the fitting workflow."
+  },
+  "model": {
+    "class": "coherentSurv",
+    "call": "cs_fit(formula = ~x, data = .audit_data_argument_redacted, event_types = c(\"1\", \"2\"), time_unit = \"months\")",
+    "wrapper_call": null,
+    "formula": "~x",
+    "schema": {
+      "unit": "id",
+      "start": "start",
+      "stop": "stop",
+      "event_type": "event_type",
+      "terminal": "terminal",
+      "observed": null,
+      "event_types": ["1", "2"],
+      "time_unit": "months",
+      "observation": "exact",
+      "original_rows": 495,
+      "dropped_rows": 0,
+      "terminal_cause": null,
+      "terminal_causes_observed": [],
+      "regime": "joint_recurrent_terminal"
+    },
+    "regime_details": {
+      "observed_pattern": "recurrent_nonterminal_events_observed",
+      "nonterminal_types_declared": ["1", "2"],
+      "nonterminal_types_observed": ["1", "2"],
+      "maximum_observed_nonterminal_events_per_unit": 13,
+      "units_with_multiple_nonterminal_events": 76,
+      "terminal_events_observed": 59,
+      "terminal_cause_column": null,
+      "terminal_causes_observed": [],
+      "model_inferred": false,
+      "scope": "Observed event counts do not determine whether recurrence is scientifically possible. Competing absorbing causes are described only when terminal_cause was explicitly declared and multiple causes occur. These labels do not select a likelihood, event-eligibility rule or causal model."
+    },
+    "observation_process": "exact",
+    "observation_process_details": {
+      "declaration": "exact",
+      "monitoring_column": null,
+      "unmonitored_rows": [],
+      "gap_rows": [],
+      "delayed_entry_rows": [],
+      "continuous_observation_from_zero": true,
+      "missingness_mechanism": "not identified by schema validation",
+      "scope": "Exact/coarsened is an analyst declaration, not a verified MAR/CAR/MNAR assumption. An observed zero, an unmonitored interval, a between-row gap and delayed entry are distinct. Delayed entry is tagged here; fit and prediction interfaces retain their own supported-observation checks."
+    },
+    "independent_units": 160,
+    "complete_paths": 160,
+    "targeting": "none",
+    "frailty": "gamma",
+    "absorbing_causes": null,
+    "seed": 1,
+    "estimand_declaration": null,
+    "estimand_scope": "Analyst-supplied declaration retained verbatim; not a verification of estimand identification or ICH E9(R1) compliance.",
+    "mapping_provenance": null,
+    "assumptions": ["independent units", "declared observation model", "sufficient retained state", "predictable covariates", "one absorbing terminal event"]
+  },
+  "convergence": {
+    "code": "converged",
+    "optimizer": 0,
+    "message": "CONVERGENCE: REL_REDUCTION_OF_F <= FACTR*EPSMCH",
+    "gradient": 4.2063439742295e-07,
+    "information_eigenvalues": [505.708728998015, 234.785442569441, 123.404446190749, 87.1087401271417, 71.160908336215, 45.721583680829, 34.3443343970047, 31.6430436016316, 25.9020016247036, 18.9009467596637, 12.7649031809909, 9.63889992327518, 6.30627502146094],
+    "at_boundary": false,
+    "valid": true
+  },
+  "numerical": {
+    "fitting": {
+      "quadrature_refinement": [],
+      "quadrature_stable": true
+    },
+    "prediction": [
+      {
+        "metric": "series_error_bound",
+        "finite": 15,
+        "nonfinite": 0,
+        "minimum": 1.04980486476053e-14,
+        "maximum": 2.11857134556272e-13
+      },
+      {
+        "metric": "probability_roundoff_bound",
+        "finite": 15,
+        "nonfinite": 0,
+        "minimum": 9.17703572579165e-15,
+        "maximum": 9.3420292920014e-15
+      },
+      {
+        "metric": "frailty_compression_bound",
+        "finite": 15,
+        "nonfinite": 0,
+        "minimum": 0,
+        "maximum": 0
+      },
+      {
+        "metric": "covariate_mcse",
+        "finite": 15,
+        "nonfinite": 0,
+        "minimum": 0,
+        "maximum": 0
+      }
+    ],
+    "prediction_assumptions": ["Future covariate rule: freeze", "capped count state determines future intensity", "frailty quadrature and covariate-grid errors are separate from uniformization and Monte Carlo errors"],
+    "scope": "Numerical bounds and simulation errors are not sampling confidence intervals. Quadrature, time-grid, propagation, covariate Monte Carlo and parameter uncertainty remain distinct."
+  },
+  "source_files": [],
+  "export": {
+    "created_at_utc": "2026-11-26T09:37:47.721386Z",
+    "session": {
+      "R_version": "R version 4.6.2 (2026-10-29)",
+      "platform": "x86_64-pc-linux-gnu",
+      "coherentSurv_version": "0.11.1",
+      "session_info": ["R version 4.6.2 (2026-10-29)", "Platform: x86_64-pc-linux-gnu", "Running under: Ubuntu 26.04.1 LTS", "", "Matrix products: default", "BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3 ", "LAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblasp-r0.3.32.so;  LAPACK version 3.12.0", "", "locale:", " [1] LC_CTYPE=C.UTF-8       LC_NUMERIC=C           LC_TIME=C.UTF-8       ", " [4] LC_COLLATE=C.UTF-8     LC_MONETARY=C.UTF-8    LC_MESSAGES=C.UTF-8   ", " [7] LC_PAPER=C.UTF-8       LC_NAME=C              LC_ADDRESS=C          ", "[10] LC_TELEPHONE=C         LC_MEASUREMENT=C.UTF-8 LC_IDENTIFICATION=C   ", "", "time zone: UTC", "tzcode source: system (glibc)", "", "attached base packages:", "[1] stats     graphics  grDevices utils     datasets  methods   base     ", "", "other attached packages:", "[1] coherentSurv_0.11.1", "", "loaded via a namespace (and not attached):", "[1] compiler_4.6.2 tools_4.6.2    Rcpp_1.1.2     digest_0.6.39 "]
+    },
+    "data_fingerprint": {
+      "algorithm": "SHA-256",
+      "value": "60f10f70ab2d709e605291f05afd32d6f5665a7b6ed502e5f27179a66452bd61",
+      "representation": "R serialize(data, NULL, version = 3); SHA-256 of the resulting raw bytes",
+      "serialization_version": 3,
+      "rows": 495,
+      "scope": "Integrity of this serialized object, including its attributes; not semantic equality across R versions, schema reorderings or platforms."
+    },
+    "fingerprint_scope": "Current object data at export, not a reconstruction of historical fit data or source provenance."
+  },
+  "interpretation": ["Subject-record tables and identifier columns are not exported automatically. Model expressions, category labels and explicitly supplied paths should still be reviewed before sharing. Hashes are integrity fingerprints, not anonymization guarantees.", "Only explicitly supplied source_files are read and hashed. These hashes describe files at export time, not proof that those files produced the fit.", "No success flag certifies model assumptions, causal identification, finite-sample coverage, publication acceptance or regulatory validity.", "A missing fit timestamp/session remains missing. Export metadata is stored separately.", "JSON null represents unavailable or nonfinite numeric values; consult convergence flags and nonfinite counts."]
+}
