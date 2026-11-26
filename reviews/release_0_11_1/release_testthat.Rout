@@ -1,0 +1,25 @@
+
+R Under development (unstable) (2026-11-17 r90926 ucrt) -- "Unsuffered Consequences"
+Copyright (C) 2026 The R Foundation for Statistical Computing
+Platform: x86_64-w64-mingw32/x64
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> library(testthat)
+> library(coherentSurv)
+> test_check("coherentSurv")
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 1476 ]
+> 
+> proc.time()
+   user  system elapsed 
+  28.64    5.95   39.57 

@@ -1,40 +1,35 @@
 ## Submission summary
 
-This is coherentSurv 0.11.0, replacing the pending 0.10.2 submission.
-All public fitting functions, native namespaces, header paths, help pages,
-installation examples and distributed materials now use one package identity.
-Transitional fitting aliases have been removed. Numerical formulas and
-algorithms are unchanged from 0.10.2. Source is licensed under GPL-3.
+coherentSurv version 0.11.1 provides coherent survival modelling and dynamic
+forecasting for history-dependent recurrent and terminal events, with Python
+access through rpy2 or Rscript. This revision adds guarded inference reporting,
+scoped data mappings, environment diagnostics and ten executable tutorials.
+The existing C++17 numerical kernels are unchanged. Licence: GPL-3.
 
 Maintainer: Sunday A. Adetunji <sundayadetunjisa@gmail.com>
-Source archive SHA-256: 7c095cb3483df9b8f19018f6a086b1dee8762b4f5e4551c698cd64a262efbe77
+Source archive SHA-256: fb6f24384908b1b4869dd7a7d6d03b57166e889a7ae9153c72e925efd6c4c469
 
 ## Test environments
 
-Final submitted archive: Windows 11 x64, R-devel 2026-11-17 r90926 ucrt,
-GCC 14.3.0; built under R 4.6.2. R CMD check --as-cran included remote
-incoming checks, all examples, five vignettes and PDF/HTML manuals.
-
-All six Linux/macOS/Windows R-release/R-devel jobs passed:
-https://github.com/setrojalab/coherentSurv/actions/runs/45570154240
-All four GCC/Clang native builds with and without ASAN/UBSAN passed:
-https://github.com/setrojalab/coherentSurv/actions/runs/45570154250
-Tested source revision: e06edb1ccab4e816d7fe23e44b924c7d8d31976b.
+The exact release archive was rebuilt and checked on Windows with R-devel using
+R CMD check --as-cran, including remote incoming checks and PDF/HTML manuals.
+The release metadata commit is d4f41b95a738594d502e80a9ff21c6657f6c9506.
+Executed GitHub platform, native compiler/sanitizer and rpy2 results are
+recorded with their source revisions in reviews/release_0_11_1/.
+The numerical implementation is unchanged from the verified 0.11.1 source
+1f39e037c0e8bf24edd58366dfe46c2e5546ed94. The release reconciliation changes
+documentation and metadata; archive-member comparisons are supplied.
 
 ## R CMD check results
 
 0 errors | 0 warnings | 1 note
 
-The sole note is CRAN incoming feasibility: New submission.
-All 1,187 test expectations passed, with zero failures, warnings or skips.
+The incoming-feasibility NOTE identifies the maintainer and new submission.
+All 1,476 expectations passed: 0 failures, warnings or skips. All examples,
+ten vignettes and PDF/HTML manual checks passed.
 
-The direct numerical comparison with 0.10.2 gave identical generated data
-and zero maximum absolute differences for coefficients, covariance and forecasts.
-The computational replication script reconstructed tables and figures and
-reran worked examples under 0.11.0. Historical Monte Carlo rows were
-reaggregated; their numerical results were not replaced or claimed as new runs.
+## Submission status
 
-## Downstream dependencies
-
-No CRAN downstream dependencies are known for this first submission.
-
+These are completed pre-submission checks, not a claim of CRAN acceptance.
+Version 0.11.1 has not been submitted to CRAN in this release task.
+There are no known downstream dependencies for this first CRAN submission.
