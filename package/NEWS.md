@@ -1,4 +1,4 @@
-# coherentSurv 0.11.1 (review candidate)
+# coherentSurv 0.11.1
 
 - Reject unsupported validation arguments; report undefined calibration slopes
   under complete or quasi-complete separation.

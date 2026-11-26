@@ -1,14 +1,14 @@
 # coherentSurv naming and interface conventions
 
-This convention applies to the 0.11.0 naming revision. It distinguishes repository requirements, language conventions and project choices. Statistical algorithms remain in one maintained R/C++ implementation.
+This convention applies to coherentSurv 0.11.1. It distinguishes repository requirements, language conventions and project choices. Statistical algorithms remain in one maintained R/C++ implementation.
 
 ## Names and metadata
 
 | Item | Convention |
 |---|---|
 | R package and paper identity | `coherentSurv` |
-| CRAN title | `Coherent Survival Modelling and Dynamic Landmark Forecasting` (60 characters) |
-| Software-paper title | `coherentSurv: Coherent Survival Modelling and Dynamic Landmark Forecasting in R and Python` |
+| CRAN title | `Coherent Survival Modelling and Dynamic Forecasting` (51 characters) |
+| Software-paper title | `coherentSurv: Coherent Survival Modelling and Dynamic Forecasting for Recurrent and Terminal Events in R and Python` |
 | Package-specific public R operations | Lowercase `cs_` names; e.g. `cs_fit()`, `cs_control()`, `cs_as_trajectory()`, `cs_build_history()` |
 | Specialized inference | `cs_target()`, `cs_bounds()`, `cs_causal()`, `cs_causal_contrast()`; retain their distinct estimands and assumptions |
 | Standard R model operations | `predict()`, `summary()`, `print()`, `coef()`, `vcov()`, `logLik()` and existing plotting methods |

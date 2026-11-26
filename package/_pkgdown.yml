@@ -1,7 +1,7 @@
 template:
   bootstrap: 5
 home:
-  title: Coherent recurrent and terminal event forecasts
+  title: Coherent Survival Modelling and Dynamic Forecasting
 articles:
 - title: Workflows
   navbar: Workflows

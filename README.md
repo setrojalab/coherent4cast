@@ -4,14 +4,14 @@
 
 An R package for survival modelling and dynamic forecasts of history-dependent recurrent and terminal events under incomplete observation. It provides a common probability law for recurrent-event burden, terminal-event risk and restricted mean time alive, with explicit observation assumptions and numerical diagnostics.
 
-This branch contains the **0.11.1 review candidate**; the published release remains **0.11.0**. The package uses the S3/Rcpp/C++17 architecture. The review adds diagnostic safeguards and mapping helpers without changing the numerical kernels. CRAN acceptance and regulatory certification are not asserted. The installation command below selects the published release; use `R CMD INSTALL package` for this branch.
+This is version **0.11.1**. The package uses the S3/Rcpp/C++17 architecture. This release adds diagnostic safeguards and mapping helpers without changing the numerical kernels. The installation command below selects the GitHub release. The 0.11.1 CRAN archive has been prepared and checked; CRAN acceptance is not asserted.
 
 ## Install
 
 ```r
 install.packages(c("remotes", "Rcpp", "digest", "jsonlite"))
 remotes::install_github("setrojalab/coherentSurv", subdir = "package",
-  ref = "v0.11.0", dependencies = NA, upgrade = "never")
+  ref = "v0.11.1", dependencies = NA, upgrade = "never")
 library(coherentSurv)
 data(sim_perinatal)
 fit <- cs_fit(~ x, sim_perinatal, time_unit = "months",
@@ -19,9 +19,9 @@ fit <- cs_fit(~ x, sim_perinatal, time_unit = "months",
 print(fit)
 ```
 
-Source installation requires a C++17 toolchain (the matching Rtools on Windows). The repository is public; no GitHub subscription is required. Use `build_vignettes = TRUE` with the vignette dependencies installed to build the tutorials: five in the published 0.11.0 release and ten in this 0.11.1 candidate.
+Source installation requires a C++17 toolchain (the matching Rtools on Windows). The repository is public; no GitHub subscription is required. Use `build_vignettes = TRUE` with the vignette dependencies installed to build the tutorials: ten in version 0.11.1.
 
-To reproduce the 0.11.1 review candidate described by the revised paper, select its tested source revision explicitly:
+The numerical implementation described in the revised paper was tested at source revision `1f39e037c0e8bf24edd58366dfe46c2e5546ed94`. The release adds documentation and metadata corrections; the tagged source is the recommended installation. To reproduce the original verification snapshot explicitly:
 
 ```r
 remotes::install_github("setrojalab/coherentSurv", subdir = "package",
@@ -55,20 +55,22 @@ Install R and this R package first. The [rpy2 example](package/inst/python/run_r
 ## Paper, documentation and source
 
 - [Documentation website](https://setrojalab.github.io/coherentSurv/).
-- [Software paper on arXiv](https://arxiv.org/abs/2611.32075); earlier versions retain their original title.
+- [Software paper on arXiv](https://arxiv.org/abs/2611.32075); replacement 8431196 was submitted with the final title on 26 November 2026 UTC; the public abstract can retain its earlier title until arXiv announces the replacement.
 - [Manuscript PDF](paper/coherentSurv/01_coherentSurv_JSS_arXiv_Manuscript.pdf) and [clean LaTeX source](paper/coherentSurv/coherentSurv_JSS_arXiv_LaTeX.zip).
-- [CRAN source archive](release/coherentSurv/coherentSurv_0.11.0.tar.gz), [reference manual](release/coherentSurv/coherentSurv_0.11.0_Reference_Manual.pdf) and [submission comments](release/coherentSurv/cran-comments.txt).
+- [CRAN source archive](release/coherentSurv/coherentSurv_0.11.1.tar.gz), [reference manual](release/coherentSurv/coherentSurv_0.11.1_Reference_Manual.pdf) and [submission comments](release/coherentSurv/cran-comments.txt).
 - [Complete computational replication archive](release/coherentSurv/coherentSurv_JSS_replication.zip).
-- [Tutorial sources](package/vignettes), [replication scripts](replication) and [release verification](reviews/release_0_11_0).
+- [Tutorial sources](package/vignettes), [replication scripts](replication) and [release verification](reviews/release_0_11_1).
 
-## Version 0.11.1 review materials
+## Version 0.11.1 verification materials
+
+The following preserve the reviewed artifacts used for the arXiv replacement. The current release downloads above include the subsequent documentation-only metadata reconciliation.
 
 - [Checked source archive](release/coherentSurv/0.11.1-review/coherentSurv_0.11.1.tar.gz), [reference manual](release/coherentSurv/0.11.1-review/coherentSurv-reference-manual.pdf), and [check summary](release/coherentSurv/0.11.1-review/cran-comments.txt).
 - [Complete replication archive](release/coherentSurv/0.11.1-review/coherentSurv_JSS_replication.zip).
 - [Technical review and 40-item scope register](reviews/release_0_11_1/Review_and_40_Item_Register.pdf).
 - [Final verification record](reviews/release_0_11_1/verification/final_status.json) and [artifact checksums](reviews/release_0_11_1/SHA256SUMS.txt).
 
-The tested source revision is `1f39e037c0e8bf24edd58366dfe46c2e5546ed94`. Its full local R-devel check completed with 0 errors, 0 warnings and 1 new-submission NOTE; all 1,476 expectations and ten vignettes passed. Seven platform jobs, four native compiler/sanitizer configurations and the Linux rpy2 check passed. These are package and interface checks, not regulatory certification or new statistical coverage experiments. This review candidate has not been submitted to CRAN.
+The tested source revision is `1f39e037c0e8bf24edd58366dfe46c2e5546ed94`. Its full local R-devel check completed with 0 errors, 0 warnings and 1 new-submission NOTE; all 1,476 expectations and ten vignettes passed. Seven platform jobs, four native compiler/sanitizer configurations and the Linux rpy2 check passed. These are package and interface checks, not regulatory certification or new statistical coverage experiments. The 0.11.1 archive has not been submitted to CRAN. The final release metadata reconciliation and archive checksum are recorded in [release verification](reviews/release_0_11_1/publication_status.json).
 
 ## Verification
 
@@ -89,7 +91,7 @@ Restricted time alive is not automatically event-free time or quality-adjusted
 survival. Monetary loss requires a separate exposure and reward definition.
 Administrative loss to follow-up is not an absorbing outcome.
 
-Runnable tutorials in this candidate:
+Runnable tutorials in this release:
 
 - [Cross-discipline guide](package/vignettes/cross-discipline-guide.Rmd)
 - [Robotic fleet reliability](package/vignettes/robotic-fleet-reliability.Rmd)
