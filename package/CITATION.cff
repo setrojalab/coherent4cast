@@ -1,7 +1,7 @@
 cff-version: 1.2.0
 message: Please cite this software and the accompanying method manuscript.
 type: software
-title: 'coherentSurv: Coherent Survival Modelling and Dynamic Landmark Forecasting in R and Python'
+title: 'coherentSurv: Coherent Survival Modelling and Dynamic Forecasting for Recurrent and Terminal Events in R and Python'
 version: 0.11.1
 license: GPL-3.0-only
 authors:

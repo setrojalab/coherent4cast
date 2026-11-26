@@ -1,6 +1,6 @@
 bibentry(
   bibtype = "Manual",
-  title = "coherentSurv: Coherent Survival Modelling and Dynamic Landmark Forecasting in R and Python",
+  title = "coherentSurv: Coherent Survival Modelling and Dynamic Forecasting for Recurrent and Terminal Events in R and Python",
   author = c(person("Sunday A.", "Adetunji"), person("Oluwatimileyin A.", "Adetunji")),
   year = "2026",
   note = paste("R package version", meta$Version),

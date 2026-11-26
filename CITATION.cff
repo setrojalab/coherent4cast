@@ -1,8 +1,8 @@
 cff-version: 1.2.0
 message: "Please cite this software when using coherentSurv."
 type: software
-title: "coherentSurv: Coherent Survival Modelling and Dynamic Landmark Forecasting in R and Python"
-version: 0.11.0
+title: "coherentSurv: Coherent Survival Modelling and Dynamic Forecasting for Recurrent and Terminal Events in R and Python"
+version: 0.11.1
 authors:
   - family-names: Adetunji
     given-names: Sunday A.
@@ -19,5 +19,5 @@ keywords:
   - incomplete observation
 
 
-date-released: "2026-11-24"
+date-released: "2026-11-26"
 url: "https://github.com/setrojalab/coherentSurv"

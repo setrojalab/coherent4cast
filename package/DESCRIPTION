@@ -1,13 +1,17 @@
 Package: coherentSurv
 Type: Package
-Title: Coherent Survival Modelling and Dynamic Landmark Forecasting
+Title: Coherent Survival Modelling and Dynamic Forecasting
 Version: 0.11.1
 Authors@R: c(
     person("Sunday A.", "Adetunji", email = "sundayadetunjisa@gmail.com",
            role = c("aut", "cre")),
     person("Oluwatimileyin A.", "Adetunji", email = "eniola16.to@gmail.com", role = "aut"))
-Description: Fits shared-frailty event-history models and computes joint-law
-    forecasts of recurrence burden, terminal-event risk and restricted survival.
+Description: Provides coherent survival modelling and dynamic forecasting for
+    history-dependent recurrent and terminal events. Fits continuous-time
+    shared-frailty joint intensity models and generates forecasts conditional
+    on observed history at specified landmark times. Computes joint-law
+    recurrence burdens, terminal-event risks and restricted survival, with
+    calibration assessed through validation diagnostics.
     Provides automatic coarsened-history integration, sparse propagation,
     finite-path and continuous-time targeted estimation, scalable finite-support
     recording-sensitivity bounds, evolving-covariate forecasts, alternative frailty

@@ -1,6 +1,6 @@
 # coherentSurv
 
-**Coherent Survival Modelling and Dynamic Landmark Forecasting**
+**Coherent Survival Modelling and Dynamic Forecasting for Recurrent and Terminal Events in R and Python**
 
 An R package for survival modelling and dynamic forecasts of history-dependent recurrent and terminal events under incomplete observation. It provides a common probability law for recurrent-event burden, terminal-event risk and restricted mean time alive, with explicit observation assumptions and numerical diagnostics.
 
