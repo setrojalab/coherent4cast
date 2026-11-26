@@ -31,7 +31,7 @@ patient as a machine does not verify those assumptions in a new application.
 | `risk` | Terminal-event probability by the horizon | Death risk by the horizon | Failure probability | Default probability |
 | `burden_<mark>` | Expected episodes before absorption | Expected defined encounters before death | Expected fault/repair counts before failure | Expected distress episodes before default |
 | `survival` | Probability alive/nonterminal at the horizon | Survival probability | Probability operational/nonterminal | Probability not in the terminal default state |
-| `time_alive` | Restricted mean time alive | Restricted mean time alive | Restricted expected time before failure | Restricted expected time before default |
+| `rmst` (prognostic output) | Restricted mean time alive | Restricted mean time alive | Restricted expected time before failure | Restricted expected time before default |
 | Finite-support sensitivity | Declared incomplete recording experiment | Declared out-of-network recording experiment | Declared incomplete logging experiment | Declared incomplete distress reporting experiment |
 
 The package's `unit` argument names the identifier column; its default column is
@@ -39,7 +39,9 @@ The package's `unit` argument names the identifier column; its default column is
 `"none"` or an empty string, not missing values. `terminal` is binary 0/1. Terminal
 causes in a competing-risk wrapper are distinct from recurrent marks.
 
-The `time_alive` target integrates survival over a finite future horizon. It is
+The prognostic `rmst` target integrates survival over a finite future horizon;
+the causal contrast interface labels its corresponding population target
+`time_alive`. These output labels belong to their respective interfaces. It is
 not automatically time without morbidity, community-dwelling days, quality-
 adjusted survival, unrestricted mean failure time or discounted performing
 value. Those require explicitly defined states, rewards or valuation models.
