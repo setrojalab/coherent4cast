@@ -1,5 +1,5 @@
-library(coherent4cast)
-out<-Sys.getenv("COHERENT4CAST_BENCHMARK_OUT",unset="frailty_boundary_results")
+library(coherentSurv)
+out<-Sys.getenv("COHERENTSURV_BENCHMARK_OUT",unset="frailty_boundary_results")
 dir.create(out,recursive=TRUE,showWarnings=FALSE)
 set.seed(202611230)
 B<-5000L;result<-list()

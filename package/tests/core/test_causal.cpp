@@ -1,4 +1,4 @@
-#include <libcoherent4cast/causal_target.hpp>
+#include <libcoherentSurv/causal_target.hpp>
 #include <cassert>
 #include <cmath>
 #include <iostream>
@@ -8,9 +8,9 @@ int main() {
   const double lambda=.9, censor=.3, e=.4;
   const std::vector<double> times{.1,.4,.7,1.,.1,.4,.7,1.};
   const std::vector<int> events{0,1,0,1,0,1,0,1};
-  std::vector<coherent4cast::CTRecord> rows;
+  std::vector<coherentSurv::CTRecord> rows;
   for(std::size_t i=4;i<n;++i) rows.push_back({i,0,0,0,times[i],events[i]});
-  coherent4cast::CausalContinuousTarget engine(1,bins,1,1,1.,{1},std::vector<std::size_t>(n,0),rows,{censor},{e});
+  coherentSurv::CausalContinuousTarget engine(1,bins,1,1,1.,{1},std::vector<std::size_t>(n,0),rows,{censor},{e});
   auto result=engine.fit(std::vector<double>(bins,lambda),0,1e-10);
   const double risk=-std::expm1(-lambda),rmst=risk/lambda;
   assert(std::abs(result.estimate[0]-risk)<1e-11);
@@ -30,13 +30,13 @@ int main() {
   }
   assert(maximum<2e-9);
   rows.clear();for(std::size_t i=0;i<n;++i)rows.push_back({i,0,0,0,times[i],events[i]});
-  coherent4cast::ContinuousTarget old(1,bins,1,1,1.,{1},std::vector<std::size_t>(n,0),rows,{censor});
-  coherent4cast::CausalContinuousTarget reduced(1,bins,1,1,1.,{1},std::vector<std::size_t>(n,0),rows,{censor},{1.});
+  coherentSurv::ContinuousTarget old(1,bins,1,1,1.,{1},std::vector<std::size_t>(n,0),rows,{censor});
+  coherentSurv::CausalContinuousTarget reduced(1,bins,1,1,1.,{1},std::vector<std::size_t>(n,0),rows,{censor},{1.});
   auto a=old.fit(std::vector<double>(bins,lambda),20,1e-8);
   auto b=reduced.fit(std::vector<double>(bins,lambda),20,1e-8);
   assert(a.estimate==b.estimate && a.eif==b.eif && a.rates==b.rates);
   bool rejected=false;
-  try {coherent4cast::CausalContinuousTarget bad(1,bins,1,1,1.,{1},std::vector<std::size_t>(n,0),rows,{censor},{0.});}
+  try {coherentSurv::CausalContinuousTarget bad(1,bins,1,1,1.,{1},std::vector<std::size_t>(n,0),rows,{censor},{0.});}
   catch(const std::invalid_argument&){rejected=true;}
   assert(rejected);
   std::cout<<"Causal analytic EIF error="<<maximum<<"; probability-one reduction exact; positivity guard passed\n";

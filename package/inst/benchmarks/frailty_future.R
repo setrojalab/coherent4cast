@@ -1,12 +1,12 @@
 # Reproducible revision validation; no target is imposed on fitted estimates.
-library(coherent4cast)
-out<-Sys.getenv("COHERENT4CAST_BENCHMARK_OUT",unset="frailty_future_results")
+library(coherentSurv)
+out<-Sys.getenv("COHERENTSURV_BENCHMARK_OUT",unset="frailty_future_results")
 dir.create(out,showWarnings=FALSE,recursive=TRUE)
 set.seed(1204)
-trace<-list();fits<-list();a<-rc_readmission()
+trace<-list();fits<-list();a<-cs_readmission()
 for(fam in c("gamma","lognormal","discrete")) {
-  elapsed<-system.time(fit<-suppressWarnings(coherent4cast(a$formula,a$data,time_unit="years",event_types="1",frailty=fam,
-    frailty_diagnostics=TRUE,control=coherent4cast_control(history_cap=1,quadrature=40,maxit=500))))[["elapsed"]]
+  elapsed<-system.time(fit<-suppressWarnings(cs_fit(a$formula,a$data,time_unit="years",event_types="1",frailty=fam,
+    frailty_diagnostics=TRUE,control=cs_control(history_cap=1,quadrature=40,maxit=500))))[["elapsed"]]
   fits[[fam]]<-fit
   if(nrow(fit$audit$quadrature_refinement))write.csv(fit$audit$quadrature_refinement,file.path(out,paste0(fam,"_fit_quadrature_audit.csv")),row.names=FALSE)
   diag<-fit$frailty_diagnostics$null_variance_test
@@ -19,12 +19,12 @@ saveRDS(fits,file.path(out,"readmission_frailty_fits.rds"))
 # Direct integration and independent finite differences, retained as numerical evidence.
 th<-c(log(.4),log(.7));v<-log1p(.7)
 truth<-log(.4)+log(integrate(function(t)exp(t)*exp(-.8*exp(t))*dnorm(t,-v/2,sqrt(v)),-12,12,rel.tol=1e-12)$value)
-quad<-do.call(rbind,lapply(c(10,20,40,80),function(q){z<-rc_frailty_loglik(th,1,2,matrix(1,1,1),1,"lognormal",quadrature=q);data.frame(nodes=q,loglik=z$subject_loglik,reference=truth,absolute_error=abs(z$subject_loglik-truth))}))
+quad<-do.call(rbind,lapply(c(10,20,40,80),function(q){z<-cs_frailty_loglik(th,1,2,matrix(1,1,1),1,"lognormal",quadrature=q);data.frame(nodes=q,loglik=z$subject_loglik,reference=truth,absolute_error=abs(z$subject_loglik-truth))}))
 write.csv(quad,file.path(out,"lognormal_quadrature.csv"),row.names=FALSE)
 stopifnot(tail(quad$absolute_error,1)<1e-10)
 # A separate synthetic model gives an independent closed-form forecast check.
-d<-rc_simulate(n=150,seed=321,history_cap=0,dispersion=0)
-f<-suppressWarnings(coherent4cast(~x,d,time_unit="years",frailty_diagnostics=FALSE,control=coherent4cast_control(phi_fixed=0,history_cap=0)))
+d<-cs_simulate(n=150,seed=321,history_cap=0,dispersion=0)
+f<-suppressWarnings(cs_fit(~x,d,time_unit="years",frailty_diagnostics=FALSE,control=cs_control(phi_fixed=0,history_cap=0)))
 f$coefficients[grepl(":x$",names(coef(f)))]<-.7
 past<-data.frame(id=999,start=0,stop=1,event_type=0,terminal=0,x=0)
 schedule<-data.frame(id=999,time=c(1,1.5),x=c(0,1))
@@ -36,7 +36,7 @@ write.csv(data.frame(estimate=p$estimate[p$target=="risk"],oracle=unname(oracle)
 # Fit a longitudinal covariate model and integrate future random coefficients.
 train<-expand.grid(time=0:4,id=1:60);b0<-rnorm(60,0,.5);b1<-rnorm(60,0,.15)
 train$x<-.2*train$time+b0[train$id]+b1[train$id]*train$time+rnorm(nrow(train),0,.2)
-model<-rc_covariate_model(train,variables="x")
+model<-cs_covariate_model(train,variables="x")
 measured<-data.frame(id=999,time=c(0,1),x=c(0,.2))
 future<-do.call(rbind,lapply(c(8L,16L,32L),function(grid){
   pp<-predict(f,past,1,1,type="all",covariate_evolution="joint_submodel",covariate_model=model,

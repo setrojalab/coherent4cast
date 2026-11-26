@@ -1,34 +1,34 @@
 #' Forecast by retaining a mixture of pre-landmark complete histories
 #' @export
-rc_predict_paths <- function(object, paths, owner, log_weights, landmark, horizon,
+cs_predict_paths <- function(object, paths, owner, log_weights, landmark, horizon,
                              type = c("risk", "burden", "survival", "rmst", "all"),
                              quadrature = object$control$quadrature,...) {
   type <- match.arg(type)
-  if (!inherits(object, "coherent4cast")) .rc_error("fit", "object must be a coherent4cast fit.")
+  if (!inherits(object, "coherentSurv")) .cs_error("fit", "object must be a coherentSurv fit.")
   if (length(landmark) != 1L || !is.finite(landmark) || landmark <= 0)
-    .rc_error("landmark", "A path mixture requires a positive finite landmark.")
+    .cs_error("landmark", "A path mixture requires a positive finite landmark.")
   s <- object$schema
-  d <- as_trajectory(paths, s$unit, s$start, s$stop, s$event_type, s$terminal,
+  d <- cs_as_trajectory(paths, s$unit, s$start, s$stop, s$event_type, s$terminal,
     s$observed, s$event_types, s$time_unit, "coarsened")
-  schema <- attr(d, "rc_schema"); n <- length(unique(d$.rc_unit))
-  if (length(schema$gaps) || length(schema$delayed_entry) || any(!d$.rc_observed))
-    .rc_error("path_history", "Each candidate complete history must cover [0,landmark] without gaps or delayed entry.")
-  if (any(d$.rc_stop > landmark) || any(d$.rc_terminal != 0L))
-    .rc_error("path_future", "Paths must contain only information through the landmark and must be terminal-event-free there.")
-  ends <- vapply(split(d$.rc_stop, d$.rc_unit), max, numeric(1))
+  schema <- attr(d, "cs_schema"); n <- length(unique(d$.cs_unit))
+  if (length(schema$gaps) || length(schema$delayed_entry) || any(!d$.cs_observed))
+    .cs_error("path_history", "Each candidate complete history must cover [0,landmark] without gaps or delayed entry.")
+  if (any(d$.cs_stop > landmark) || any(d$.cs_terminal != 0L))
+    .cs_error("path_future", "Paths must contain only information through the landmark and must be terminal-event-free there.")
+  ends <- vapply(split(d$.cs_stop, d$.cs_unit), max, numeric(1))
   if (any(abs(ends - landmark) > 1e-12 * max(1, landmark)))
-    .rc_error("path_history", "Each complete path must end at the declared landmark.")
+    .cs_error("path_history", "Each complete path must end at the declared landmark.")
   if (!is.numeric(owner) || length(owner) != n || any(!is.finite(owner)) ||
       any(owner < 1 | owner != as.integer(owner)) ||
       !identical(sort(unique(as.integer(owner))), seq_len(length(unique(owner)))))
-    .rc_error("path_owner", "owner must map every path to contiguous positive observed-subject integers.")
+    .cs_error("path_owner", "owner must map every path to contiguous positive observed-subject integers.")
   if (!is.numeric(log_weights) || length(log_weights) != n || any(!is.finite(log_weights)))
-    .rc_error("path_weights", "Supply one finite log integration mass per pre-landmark path.")
-  dd <- .rc_design(d, object$formula, object$breaks, object$control$history_cap,
+    .cs_error("path_weights", "Supply one finite log integration mass per pre-landmark path.")
+  dd <- .cs_design(d, object$formula, object$breaks, object$control$history_cap,
     object$nonrecurrent, object$design$terms, object$design$xlevels, object$design$contrasts)
   X <- if (is.null(object$design$active)) dd$design else dd$design[, object$design$active, drop = FALSE]
   dd$design<-X
-  z <- .rc_fit_likelihood(object$coefficients,dd,object$control,
+  z <- .cs_fit_likelihood(object$coefficients,dd,object$control,
     if(is.null(object$frailty))"gamma"else object$frailty,
     if(is.null(object$frailty_spec))2L else object$frailty_spec$points,information=FALSE)
   posterior <- numeric(n)
@@ -42,7 +42,7 @@ rc_predict_paths <- function(object, paths, owner, log_weights, landmark, horizo
   pred <- predict(exact_object, newdata = paths, landmark = landmark,
     horizon = horizon, type = type, quadrature = quadrature,...)
   ids <- unique(as.character(d[[s$unit]])); index <- match(pred$unit, ids)
-  if (anyNA(index)) .rc_error("path_history", "Prediction lost a declared candidate path.")
+  if (anyNA(index)) .cs_error("path_history", "Prediction lost a declared candidate path.")
   pred$owner <- owner[index]; pred$path_weight <- posterior[index]
   groups <- interaction(pred$owner, pred$horizon, pred$target, drop = TRUE)
   draw_values<-attr(pred,"covariate_draw_forecasts")
@@ -59,7 +59,7 @@ rc_predict_paths <- function(object, paths, owner, log_weights, landmark, horizo
     ans
   })
   ans <- do.call(rbind, out); rownames(ans) <- NULL
-  class(ans) <- c("coherent4cast_prediction", "rc_forecast", "data.frame")
+  class(ans) <- c("coherentSurv_prediction", "cs_forecast", "data.frame")
   attr(ans, "path_weights") <- data.frame(path = ids, owner = owner, posterior_weight = posterior)
   family <- if (is.null(object$frailty)) "gamma" else object$frailty
   attr(ans, "assumptions") <- unique(c(

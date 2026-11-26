@@ -1,9 +1,0 @@
-{
-  "pdf_pages": 32,
-  "pdf_sha256": "f4fd4b27b727db20db8c50c808b1f5db2d3493c3d352f5c2c3ee7f83a2d275e9",
-  "undefined_references": false,
-  "overfull_boxes": false,
-  "shell_escape": false,
-  "compiler": "pdfTeX 3.141592653-2.6-1.40.29 (TeX Live 2026)",
-  "class": "jss, article/nojss (prepublication layout; no assigned journal metadata)"
-}

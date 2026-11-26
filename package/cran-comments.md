@@ -1,6 +1,6 @@
 ## Submission summary
 
-This is coherent4cast 0.10.3, replacing the pending 0.10.2 submission.
+This is coherentSurv 0.11.0, replacing the pending 0.10.2 submission.
 All public fitting functions, native namespaces, header paths, help pages,
 installation examples and distributed materials now use one package identity.
 Transitional fitting aliases have been removed. Numerical formulas and
@@ -16,9 +16,9 @@ GCC 14.3.0; built under R 4.6.2. R CMD check --as-cran included remote
 incoming checks, all examples, five vignettes and PDF/HTML manuals.
 
 All six Linux/macOS/Windows R-release/R-devel jobs passed:
-https://github.com/setrojalab/coherent4cast/actions/runs/45570154240
+https://github.com/setrojalab/coherentSurv/actions/runs/45570154240
 All four GCC/Clang native builds with and without ASAN/UBSAN passed:
-https://github.com/setrojalab/coherent4cast/actions/runs/45570154250
+https://github.com/setrojalab/coherentSurv/actions/runs/45570154250
 Tested source revision: e06edb1ccab4e816d7fe23e44b924c7d8d31976b.
 
 ## R CMD check results
@@ -31,7 +31,7 @@ All 1,187 test expectations passed, with zero failures, warnings or skips.
 The direct numerical comparison with 0.10.2 gave identical generated data
 and zero maximum absolute differences for coefficients, covariance and forecasts.
 The computational replication script reconstructed tables and figures and
-reran worked examples under 0.10.3. Historical Monte Carlo rows were
+reran worked examples under 0.11.0. Historical Monte Carlo rows were
 reaggregated; their numerical results were not replaced or claimed as new runs.
 
 ## Downstream dependencies

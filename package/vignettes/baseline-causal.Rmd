@@ -9,12 +9,12 @@ vignette: >
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
-library(coherent4cast)
+library(coherentSurv)
 ```
 
 ## The estimand and its identification
 
-`rc_causal()` implements the baseline binary-treatment extension in Supplement
+`cs_causal()` implements the baseline binary-treatment extension in Supplement
 S12 of the methodological manuscript. It estimates what the mean event burden,
 terminal risk and time alive would be if the baseline population received
 treatment 1, compared with treatment 0. Both arm means use the same baseline
@@ -62,11 +62,11 @@ the generator below contains no treatment effect. This is a software example,
 not clinical evidence about an intervention.
 
 ```{r fit}
-d <- rc_simulate(200, horizon = 1, rates = c(.9, .5, .4),
+d <- cs_simulate(200, horizon = 1, rates = c(.9, .5, .4),
                  dispersion = 0, censor_rate = .1, seed = 701)
 d$treatment <- as.integer(d$id %% 2)
 d$censored <- as.integer(d$event_type == 0 & d$terminal == 0 & d$stop < 1)
-fit <- rc_causal(~x, d, treatment = "treatment", horizon = 1,
+fit <- cs_causal(~x, d, treatment = "treatment", horizon = 1,
   censor = "censored", time_unit = "years", propensity = .5,
   spec = list(history_cap = 2L, working = "loglinear"))
 predict(fit)
@@ -82,7 +82,7 @@ the confounder formula may not include post-treatment variables.
 fit$diagnostics
 lapply(fit$arms, function(a) a$EIF_mean)
 glance(fit)
-rc_causal_contrast(fit, "ratio", interval = "multiplier", draws = 1000, seed = 4)
+cs_causal_contrast(fit, "ratio", interval = "multiplier", draws = 1000, seed = 4)
 ```
 
 The `ratio` is a burden ratio for count outcomes, a risk ratio for terminal
@@ -123,7 +123,7 @@ The separate recording-sensitivity API addresses incomplete event recording;
 its intervals are not silently relabelled as causal treatment bounds.
 
 ```{r audit}
-report <- rc_audit_report(fit, include_session = FALSE)
+report <- cs_audit_report(fit, include_session = FALSE)
 report$model$targeting
 report$convergence
 ```

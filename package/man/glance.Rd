@@ -1,7 +1,7 @@
 \name{glance}
 \alias{glance}
-\alias{glance.coherent4cast}
-\title{coherent4cast glance interface}
+\alias{glance.coherentSurv}
+\title{coherentSurv glance interface}
 \description{S3 or convenience interface for glance output.}
 \usage{
 glance(x, ...) 
@@ -12,4 +12,4 @@ glance(x, ...)
 }
 \details{Arguments are dispatched to the applicable model or finite-support procedure. A fitted continuous-time likelihood is not silently treated as a finite-support sensitivity experiment.}
 \value{A model summary, forecast, sensitivity region or calibration result, according to the method.}
-\seealso{\code{rc_loglik}, \code{rc_target}, \code{rc_bounds}}
+\seealso{\code{cs_loglik}, \code{cs_target}, \code{cs_bounds}}

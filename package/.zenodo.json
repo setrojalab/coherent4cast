@@ -1,7 +1,7 @@
 {
-  "title": "coherent4cast: Coherent Survival Modelling and Event Forecasting",
+  "title": "coherentSurv: Coherent Survival Modelling and Event Forecasting",
   "upload_type": "software",
-  "version": "0.10.3",
+  "version": "0.11.0",
   "description": "Development implementation of coherent event-history forecasts. Public release awaits completion of recorded release gates.",
   "creators": [
     {"name": "Adetunji, Sunday A.", "affiliation": "Oregon State University"},

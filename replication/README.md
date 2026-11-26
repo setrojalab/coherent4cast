@@ -1,9 +1,9 @@
 # Reproduce the software examples
 
-Run these commands from the repository root after installing `coherent4cast` 0.10.1.
+Run these commands from the repository root after installing `coherentSurv` 0.10.1.
 The scripts use the installed package and the files in this repository. They
 do not require the original development workspace or the V5 reference engine.
-An optional `COHERENT4CAST_LIBRARY` environment variable selects a nondefault R
+An optional `COHERENTSURV_LIBRARY` environment variable selects a nondefault R
 library; otherwise the ordinary R library search path is used.
 
 Install the required dependencies in R, then install the supplied source archive
@@ -13,7 +13,7 @@ Historical Windows ZIP files elsewhere in the repository predate the causal exte
 ```r
 install.packages(c("Rcpp", "digest", "jsonlite", "survival",
                    "frailtypack", "nlme", "ggplot2"))
-install.packages("release/causal/coherent4cast_0.10.1.tar.gz", repos = NULL,
+install.packages("release/causal/coherentSurv_0.10.1.tar.gz", repos = NULL,
                  type = "source")
 ```
 
@@ -51,11 +51,11 @@ These full fits can take longer than the compact examples. Public-source
 records may have dataset-specific observation limits; the drivers' diagnostics
 and interpretation files form part of the results.
 
-Use `COHERENT4CAST_STANDARD_OUTPUT`, `COHERENT4CAST_MAPPING_OUTPUT`,
-`COHERENT4CAST_CROSS_FIELD_OUTPUT`, `COHERENT4CAST_CASE_OUTPUT` and
-`COHERENT4CAST_CASE_CACHE` to choose other output directories. Run the plotting
+Use `COHERENTSURV_STANDARD_OUTPUT`, `COHERENTSURV_MAPPING_OUTPUT`,
+`COHERENTSURV_CROSS_FIELD_OUTPUT`, `COHERENTSURV_CASE_OUTPUT` and
+`COHERENTSURV_CASE_CACHE` to choose other output directories. Run the plotting
 script with the same cross-field output setting as its generating script.
-Keep `COHERENT4CAST_REUSE_CASE_FITS` unset or `0` for fresh fitting.
+Keep `COHERENTSURV_REUSE_CASE_FITS` unset or `0` for fresh fitting.
 
 Saved numerical snapshots are examples, not universal performance guarantees.
 Audit timestamps, source locations, session information, runtime and graphics
@@ -68,6 +68,6 @@ this eight-script software-reproduction bundle.
 
 ## Complete article reproduction and causal extension
 
-Download and extract [coherent4cast_JSS_replication.zip](../release/causal/coherent4cast_JSS_replication.zip), then run `Rscript --vanilla code.R` from the extracted `coherent4cast-replication` directory. This reconstructs the article tables and figures, runs the synthetic causal example and verifies the analytic remainder calculation. See its README.txt for fresh fits and longer experiments.
+Download and extract [coherentSurv_JSS_replication.zip](../release/causal/coherentSurv_JSS_replication.zip), then run `Rscript --vanilla code.R` from the extracted `coherentSurv-replication` directory. This reconstructs the article tables and figures, runs the synthetic causal example and verifies the analytic remainder calculation. See its README.txt for fresh fits and longer experiments.
 
 The causal runner and independent oracle are also available under `replication/causal/`. Their reported numerical results concern the explicitly specified synthetic experiments and causal assumptions.

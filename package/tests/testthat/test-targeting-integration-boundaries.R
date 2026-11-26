@@ -5,87 +5,87 @@ targeting_boundary_fixture <- function() {
 test_that("working models and supplied training nuisances generate the same explicit experiment", {
  a<-targeting_boundary_fixture();d<-a$data;spec<-a$spec
  spec$working<-"loglinear"
- z<-coherent4cast(~x,d,time_unit="year",targeting="continuous",targeting_spec=spec)
+ z<-cs_fit(~x,d,time_unit="year",targeting="continuous",targeting_spec=spec)
  expect_true(all(is.finite(z$EIF)));expect_true(all(z$initial_rates>0))
  supplied<-spec;supplied$initial_rates<-z$initial_rates;supplied$censor_rates<-z$censor_rates
- zz<-coherent4cast(~x,d,time_unit="year",targeting="continuous",targeting_spec=supplied)
+ zz<-cs_fit(~x,d,time_unit="year",targeting="continuous",targeting_spec=supplied)
  expect_equal(zz$estimate,z$estimate,tolerance=1e-12)
  expect_equal(zz$EIF,z$EIF,tolerance=1e-11)
  offset<-spec;offset$working<-"pooled";state<-z$states
  offset$rate_offset<-rbind(exp(.3*state[,2]),exp(.35*state[,1]),exp(.45*(state[,1]+state[,2])/2))
- off<-coherent4cast(~x,d,time_unit="year",targeting="continuous",targeting_spec=offset)
+ off<-cs_fit(~x,d,time_unit="year",targeting="continuous",targeting_spec=offset)
  expect_lt(max(abs(off$EIF_mean)),1e-7/sqrt(off$n))
  expect_output(print(off),"targeted common law")
- expect_error(logLik(off),"no supplied maximized likelihood",class="coherent4cast_error")
- expect_error(AIC(off),class="coherent4cast_error")
+ expect_error(logLik(off),"no supplied maximized likelihood",class="coherentSurv_error")
+ expect_error(AIC(off),class="coherentSurv_error")
  for(s in list(modifyList(spec,list(working="unknown")),modifyList(spec,list(rate_offset=matrix(1,2,2))),
    modifyList(spec,list(initial_rates=array(1,c(3,9,4,10)))),modifyList(spec,list(censor_rates=1)),
    modifyList(spec,list(censor_rates=rep(100,10))),modifyList(spec,list(grid=5.5)),
    modifyList(spec,list(history_cap=7)),modifyList(spec,list(folds=rep(NA,500)))))
-   expect_error(coherent4cast(~x,d,time_unit="year",targeting="continuous",targeting_spec=s),class="coherent4cast_error")
+   expect_error(cs_fit(~x,d,time_unit="year",targeting="continuous",targeting_spec=s),class="coherentSurv_error")
 })
 test_that("nonrepeatable mark eligibility is preserved by the exponential fluctuation", {
  a<-targeting_boundary_fixture();d<-a$data;spec<-a$spec
  for(i in unique(d$id)){ix<-which(d$id==i & d$event_type=="recurrent1");if(length(ix)>1)d$event_type[ix[-1]]<-"none"}
  spec$nonrecurrent<-"recurrent1"
- z<-suppressWarnings(coherent4cast(~x,d,time_unit="year",targeting="continuous",event_types=c("recurrent1","recurrent2"),targeting_spec=spec))
+ z<-suppressWarnings(cs_fit(~x,d,time_unit="year",targeting="continuous",event_types=c("recurrent1","recurrent2"),targeting_spec=spec))
  expect_true(all(z$rates[1,z$states[,1]>0,,]==0))
  expect_equal(z$target_limits[2,1],1)
- expect_error(coherent4cast(~x,a$data,time_unit="year",targeting="continuous",targeting_spec=spec),"non-repeatable",class="coherent4cast_error")
+ expect_error(cs_fit(~x,a$data,time_unit="year",targeting="continuous",targeting_spec=spec),"non-repeatable",class="coherentSurv_error")
  spec$nonrecurrent<-"absent"
- expect_error(coherent4cast(~x,d,time_unit="year",targeting="continuous",targeting_spec=spec),class="coherent4cast_error")
+ expect_error(cs_fit(~x,d,time_unit="year",targeting="continuous",targeting_spec=spec),class="coherentSurv_error")
 })
 test_that("observation guards prevent incompatible censoring and baseline strata", {
  a<-targeting_boundary_fixture();d<-a$data;spec<-a$spec
  bad<-d;bad$censored[1]<-2
- expect_error(coherent4cast(~x,bad,time_unit="year",targeting="continuous",targeting_spec=spec),class="coherent4cast_error")
+ expect_error(cs_fit(~x,bad,time_unit="year",targeting="continuous",targeting_spec=spec),class="coherentSurv_error")
  bad<-d;index<-which(duplicated(bad$id,fromLast=TRUE))[1];bad$censored[index]<-1
- expect_error(coherent4cast(~x,bad,time_unit="year",targeting="continuous",targeting_spec=spec),class="coherent4cast_error")
+ expect_error(cs_fit(~x,bad,time_unit="year",targeting="continuous",targeting_spec=spec),class="coherentSurv_error")
  bad<-d;bad$observed<-TRUE;bad$observed[1]<-FALSE
- expect_error(coherent4cast(~x,bad,observed="observed",time_unit="year",targeting="continuous",targeting_spec=spec),class="coherent4cast_error")
+ expect_error(cs_fit(~x,bad,observed="observed",time_unit="year",targeting="continuous",targeting_spec=spec),class="coherentSurv_error")
  bad<-d;bad$x<-bad$id
- expect_error(coherent4cast(~x,bad,time_unit="year",targeting="continuous",targeting_spec=spec),"30",class="coherent4cast_error")
+ expect_error(cs_fit(~x,bad,time_unit="year",targeting="continuous",targeting_spec=spec),"30",class="coherentSurv_error")
  bad<-d;bad$x<-bad$fold
- expect_error(coherent4cast(~x,bad,time_unit="year",targeting="continuous",targeting_spec=spec),"training fold",class="coherent4cast_error")
+ expect_error(cs_fit(~x,bad,time_unit="year",targeting="continuous",targeting_spec=spec),"training fold",class="coherentSurv_error")
  s<-spec;s$strata<-"absent"
- expect_error(coherent4cast(~x,d,time_unit="year",targeting="continuous",targeting_spec=s),class="coherent4cast_error")
+ expect_error(cs_fit(~x,d,time_unit="year",targeting="continuous",targeting_spec=s),class="coherentSurv_error")
  s<-spec;s$complete_followup<-TRUE
- expect_error(coherent4cast(~x,d,time_unit="year",targeting="continuous",targeting_spec=s),"uncensored",class="coherent4cast_error")
+ expect_error(cs_fit(~x,d,time_unit="year",targeting="continuous",targeting_spec=s),"uncensored",class="coherentSurv_error")
 })
 test_that("finite-path schemas do not silently ignore predictors or duplicate subjects", {
  d<-data.frame(id=1:40,path=rep(1:2,20),recorded=1,x=rep(0:1,each=20));f<-matrix(c(0,1),2)
  spec<-list(path="path",recorded="recorded",features=f)
- z<-coherent4cast(~1,d,time_unit="window",targeting="finite_path",targeting_spec=spec)
+ z<-cs_fit(~1,d,time_unit="window",targeting="finite_path",targeting_spec=spec)
  expect_identical(z$target_names,"target_1")
  expect_equal(sum(z$mixture),1,tolerance=1e-13)
- expect_error(coherent4cast(~x,d,time_unit="window",targeting="finite_path",targeting_spec=modifyList(spec,list(strata="id"))),class="coherent4cast_error")
- expect_error(coherent4cast(~1,d,time_unit="window",targeting="finite_path",targeting_spec=list(path="path")),class="coherent4cast_error")
- expect_error(coherent4cast(~1,d,time_unit="window",targeting="finite_path",targeting_spec=modifyList(spec,list(recorded="missing"))),class="coherent4cast_error")
+ expect_error(cs_fit(~x,d,time_unit="window",targeting="finite_path",targeting_spec=modifyList(spec,list(strata="id"))),class="coherentSurv_error")
+ expect_error(cs_fit(~1,d,time_unit="window",targeting="finite_path",targeting_spec=list(path="path")),class="coherentSurv_error")
+ expect_error(cs_fit(~1,d,time_unit="window",targeting="finite_path",targeting_spec=modifyList(spec,list(recorded="missing"))),class="coherentSurv_error")
  bad<-d;bad$id[2]<-bad$id[1]
- expect_error(coherent4cast(~1,bad,time_unit="window",targeting="finite_path",targeting_spec=spec),class="coherent4cast_error")
+ expect_error(cs_fit(~1,bad,time_unit="window",targeting="finite_path",targeting_spec=spec),class="coherentSurv_error")
  d$path[]<-1;d$recorded[1:10]<-0
- rare<-coherent4cast(~1,d,time_unit="window",targeting="finite_path",targeting_spec=spec)
+ rare<-cs_fit(~1,d,time_unit="window",targeting="finite_path",targeting_spec=spec)
  expect_false(rare$convergence$valid)
  projected<-predict(rare)
  expect_identical(projected$interval,"bounded_coarsening_projection")
  expect_equal(projected$lower,0)
  expect_gt(projected$upper,.25)
- expect_error(coherent4cast(~1,d,time_unit="window",targeting="finite_path",targeting_spec=modifyList(spec,list(complete_followup=TRUE))),class="coherent4cast_error")
+ expect_error(cs_fit(~1,d,time_unit="window",targeting="finite_path",targeting_spec=modifyList(spec,list(complete_followup=TRUE))),class="coherentSurv_error")
 })
 test_that("dynamic conditioning includes past recurrence marks and rejects unknown histories", {
- a<-targeting_boundary_fixture();z<-coherent4cast(~x,a$data,time_unit="year",targeting="continuous",targeting_spec=a$spec)
+ a<-targeting_boundary_fixture();z<-cs_fit(~x,a$data,time_unit="year",targeting="continuous",targeting_spec=a$spec)
  d<-a$data;eligible<-vapply(split(d,d$id),function(q)any(q$event_type!="none"&q$stop<.5)&&max(q$stop)>=.5&&!any(q$terminal==1&q$stop<=.5),logical(1))
  id<-as.integer(names(eligible)[which(eligible)[1]]);subject<-d[d$id==id,,drop=FALSE]
  p<-predict(z,subject,landmark=.5,horizon=.2,type="burden",interval="none")
  expect_equal(nrow(p),2L);expect_true(all(p$estimate>=0))
  w<-attr(p,"fold_posterior")[[1]];expect_equal(sum(w),1,tolerance=1e-14)
  x<-z$subject_stratum[id];expect_gt(max(abs(w-z$fold_prior[x,])),1e-8)
- expect_error(predict(z,subject,landmark=.5,horizon=.2,unused=1),class="coherent4cast_error")
+ expect_error(predict(z,subject,landmark=.5,horizon=.2,unused=1),class="coherentSurv_error")
  unknown<-subject;unknown$x<-2
- expect_error(predict(z,unknown,landmark=.5,horizon=.2),"stratum",class="coherent4cast_error")
+ expect_error(predict(z,unknown,landmark=.5,horizon=.2),"stratum",class="coherentSurv_error")
  dead<-d[d$id==d$id[which(d$terminal==1&d$stop<.9)[1]],,drop=FALSE]
- expect_error(predict(z,dead,landmark=.9,horizon=.1),"eligible",class="coherent4cast_error")
- expect_error(predict(z,type="absent"),class="coherent4cast_error")
- expect_error(predict(z,interval="absent"),class="coherent4cast_error")
- expect_error(predict(z,horizon=0),class="coherent4cast_error")
+ expect_error(predict(z,dead,landmark=.9,horizon=.1),"eligible",class="coherentSurv_error")
+ expect_error(predict(z,type="absent"),class="coherentSurv_error")
+ expect_error(predict(z,interval="absent"),class="coherentSurv_error")
+ expect_error(predict(z,horizon=0),class="coherentSurv_error")
 })

@@ -1,11 +1,11 @@
 # Small, wholly synthetic mapping examples; not certified/native adapters.
-# Install coherent4cast and dependencies first. No external data are downloaded.
+# Install coherentSurv and dependencies first. No external data are downloaded.
 args <- grep("^--file=", commandArgs(FALSE), value = TRUE)
 root <- if (length(args)) normalizePath(file.path(dirname(sub("^--file=", "", args[1])), ".."), winslash = "/") else normalizePath(".", winslash = "/")
-lib <- Sys.getenv("COHERENT4CAST_LIBRARY", "")
+lib <- Sys.getenv("COHERENTSURV_LIBRARY", "")
 if (nzchar(lib)) .libPaths(c(lib, .libPaths()))
-library(coherent4cast)
-out <- Sys.getenv("COHERENT4CAST_MAPPING_OUTPUT", file.path(root, "replication/results/standards_mapping"))
+library(coherentSurv)
+out <- Sys.getenv("COHERENTSURV_MAPPING_OUTPUT", file.path(root, "replication/results/standards_mapping"))
 dir.create(out, recursive = TRUE, showWarnings = FALSE)
 checks <- data.frame(check = character(), passed = logical())
 check <- function(name, value) {
@@ -32,10 +32,10 @@ check("ADTTE source censor codes are explicitly declared", all(selected$CNSR %in
 adtte_intervals <- data.frame(id = selected$USUBJID, start = 0,
   stop = selected$AVAL, event_type = "0", terminal = as.integer(selected$CNSR == 0),
   source_parameter = selected$PARAMCD, source_censor_code = selected$CNSR)
-adtte_trajectory <- as_trajectory(adtte_intervals, time_unit = "day", event_types = character())
+adtte_trajectory <- cs_as_trajectory(adtte_intervals, time_unit = "day", event_types = character())
 check("ADTTE positive censor codes map to zero, never negative status", identical(adtte_trajectory$terminal, c(1L, 0L, 0L, 1L)))
-check("ADTTE two observed deaths and two censored subjects retained", sum(adtte_trajectory$.rc_terminal) == 2L && nrow(adtte_trajectory) == 4L)
-check("ADTTE keeps new and legacy trajectory classes", inherits(adtte_trajectory, "rc_trajectory") && inherits(adtte_trajectory, "surv_trajectory"))
+check("ADTTE two observed deaths and two censored subjects retained", sum(adtte_trajectory$.cs_terminal) == 2L && nrow(adtte_trajectory) == 4L)
+check("ADTTE keeps new and legacy trajectory classes", inherits(adtte_trajectory, "cs_trajectory") && inherits(adtte_trajectory, "surv_trajectory"))
 save_csv(adtte, "synthetic_adtte_source")
 save_csv(adtte_intervals, "adtte_os_intervals")
 
@@ -78,12 +78,12 @@ for (id in person$person_id) {
     terminal_cause = c(rep(NA_character_, length(times)), if (terminal) "death" else NA_character_))
 }
 omop_intervals <- do.call(rbind, rows)
-omop_trajectory <- as_trajectory(omop_intervals, event_types = c("A", "B"),
+omop_trajectory <- cs_as_trajectory(omop_intervals, event_types = c("A", "B"),
   observed = "observed", terminal_cause = "terminal_cause", time_unit = "day")
-check("OMOP transformed histories contain five episodes and one death", sum(omop_trajectory$.rc_mark > 0L) == 5L && sum(omop_trajectory$.rc_terminal) == 1L)
+check("OMOP transformed histories contain five episodes and one death", sum(omop_trajectory$.cs_mark > 0L) == 5L && sum(omop_trajectory$.cs_terminal) == 1L)
 check("OMOP person-time stops at death or declared observation end", sum(omop_trajectory$stop - omop_trajectory$start) == 35)
 check("OMOP exact synthetic monitoring has no gaps or delayed entry", isTRUE(attr(omop_trajectory, "observation_process_details")$continuous_observation_from_zero))
-check("OMOP observed pattern does not infer a scientific model", identical(attr(omop_trajectory, "rc_schema")$regime_details$model_inferred, FALSE))
+check("OMOP observed pattern does not infer a scientific model", identical(attr(omop_trajectory, "cs_schema")$regime_details$model_inferred, FALSE))
 save_csv(person, "synthetic_omop_person")
 save_csv(observation_period, "synthetic_omop_observation_period")
 save_csv(condition_occurrence, "synthetic_omop_condition_occurrence")
@@ -91,7 +91,7 @@ save_csv(death, "synthetic_omop_death")
 save_csv(episodes, "omop_toy_episodes")
 save_csv(omop_intervals, "omop_toy_intervals")
 save_csv(checks, "mapping_checks")
-rc_audit_report(omop_trajectory, source_files = file.path(root, "replication/standards_mapping.R"),
+cs_audit_report(omop_trajectory, source_files = file.path(root, "replication/standards_mapping.R"),
   format = "json", file = file.path(out, "mapping_audit.json"))
 writeLines(c(
   "All source rows are constructed synthetic examples. No patient data are present.",

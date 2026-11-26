@@ -14,5 +14,5 @@ test_that("AUROC preserves distinct representable risk scores", {
 
 test_that("no horizon outcome support cannot appear as perfect prediction", {
   expect_error(validate(c(.2,.3),c(.2,.4),c(0,0),horizon=1),
-               "No observed cases or horizon survivors",class="coherent4cast_error")
+               "No observed cases or horizon survivors",class="coherentSurv_error")
 })

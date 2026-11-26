@@ -7,9 +7,14 @@ or confidential institutional information.
 
 Maintainer targets are an initial response within seven days and initial
 security triage within 72 hours. These are service targets, not measured service
-levels. A public issue tracker will be linked when the repository is published.
+levels. Reproducible issues can be reported at
+https://github.com/setrojalab/coherentSurv/issues.
 
-The software supplies prognostic calculations under explicit assumptions. It
-does not supply clinical decision approval, causal treatment effects or a
-regulatory certification. OpenMP, Python bindings and clinical-system adapters
-are separate planned releases.
+The software supplies prognostic calculations and a separate baseline
+binary-treatment causal module under explicit assumptions. It does not supply
+clinical decision approval or regulatory certification. The causal module
+requires consistency, exchangeability, positivity and the stated censoring
+conditions; it is not a general time-varying treatment-policy implementation.
+Python examples call the installed R package through rpy2 or Rscript. R and
+the package remain required; there is no independent Python statistical engine.
+OpenMP and clinical-system adapters are outside this release.

@@ -1,175 +1,175 @@
-.rc_wrapper_formula <- function(formula,time,status,start) {
-  if(!inherits(formula,"formula")) .rc_error("formula","Supply a formula.")
+.cs_wrapper_formula <- function(formula,time,status,start) {
+  if(!inherits(formula,"formula")) .cs_error("formula","Supply a formula.")
   if(length(formula)==3L) {
     lhs<-formula[[2L]]
     name<-if(is.call(lhs))paste(deparse(lhs[[1L]]),collapse="")else ""
     if(!name %in% c("Surv","survival::Surv") || !length(lhs) %in% c(3L,4L) ||
        !all(vapply(as.list(lhs)[-1L],is.symbol,logical(1))))
-      .rc_error("survival_formula","Use Surv(time,status) or Surv(start,stop,status) with column names, or a one-sided formula and named columns.")
+      .cs_error("survival_formula","Use Surv(time,status) or Surv(start,stop,status) with column names, or a one-sided formula and named columns.")
     cols<-vapply(as.list(lhs)[-1L],as.character,character(1))
     start<-if(length(cols)==3L)cols[1L]else NULL
     time<-cols[length(cols)-1L];status<-cols[length(cols)]
     formula<-stats::as.formula(call("~",formula[[3L]]),env=environment(formula))
   }
-  if(length(formula)!=2L) .rc_error("formula","Use a one-sided or supported Surv formula.")
+  if(length(formula)!=2L) .cs_error("formula","Use a one-sided or supported Surv formula.")
   if(any(all.vars(formula) %in% c(time,status,start)))
-    .rc_error("formula_leakage","Outcome times and event labels cannot be predictors.")
+    .cs_error("formula_leakage","Outcome times and event labels cannot be predictors.")
   list(formula=formula,time=time,status=status,start=start)
 }
 
-.rc_wrapper_data <- function(data,spec,competing=FALSE,profiles=FALSE,landmark=0,horizon=1) {
-  if(!is.data.frame(data)||!nrow(data)) .rc_error("data","Supply a nonempty data frame.")
+.cs_wrapper_data <- function(data,spec,competing=FALSE,profiles=FALSE,landmark=0,horizon=1) {
+  if(!is.data.frame(data)||!nrow(data)) .cs_error("data","Supply a nonempty data frame.")
   internal<-c(".rcw_unit",".rcw_start",".rcw_stop",".rcw_recurrent",".rcw_terminal",".rcw_cause")
-  if(any(internal %in% names(data))) .rc_error("reserved_columns","Input columns beginning .rcw_ are reserved for wrapper mappings.")
-  if(!all(all.vars(spec$formula)%in%names(data))) .rc_error("columns","A predictor column is missing.")
+  if(any(internal %in% names(data))) .cs_error("reserved_columns","Input columns beginning .rcw_ are reserved for wrapper mappings.")
+  if(!all(all.vars(spec$formula)%in%names(data))) .cs_error("columns","A predictor column is missing.")
   available<-c(spec$time,spec$status) %in% names(data)
   profile_only<-profiles&&!any(available)
-  if(!profile_only&&!all(available)) .rc_error("columns","Supply both follow-up and status columns, or covariate-only prediction profiles.")
-  if(!is.null(spec$unit)&&!spec$unit%in%names(data)) .rc_error("unit","The declared unit column is missing.")
-  if(!is.null(spec$start)&&is.null(spec$unit)) .rc_error("unit","Start-stop data require an explicit unit column.")
+  if(!profile_only&&!all(available)) .cs_error("columns","Supply both follow-up and status columns, or covariate-only prediction profiles.")
+  if(!is.null(spec$unit)&&!spec$unit%in%names(data)) .cs_error("unit","The declared unit column is missing.")
+  if(!is.null(spec$start)&&is.null(spec$unit)) .cs_error("unit","Start-stop data require an explicit unit column.")
   d<-data
   d$.rcw_unit<-if(is.null(spec$unit))as.character(seq_len(nrow(d)))else as.character(d[[spec$unit]])
   if(profile_only) {
-    if(anyDuplicated(d$.rcw_unit)) .rc_error("profiles","Use one covariate-only profile per eligible unit.")
+    if(anyDuplicated(d$.rcw_unit)) .cs_error("profiles","Use one covariate-only profile per eligible unit.")
     d$.rcw_start<-0;d$.rcw_stop<-landmark+max(horizon)+1
     code<-rep(as.character(spec$censor_code),nrow(d))
   } else {
-    if(!is.null(spec$start)&&!spec$start%in%names(d)) .rc_error("columns","The start column is absent.")
+    if(!is.null(spec$start)&&!spec$start%in%names(d)) .cs_error("columns","The start column is absent.")
     d$.rcw_start<-if(is.null(spec$start))rep(0,nrow(d))else d[[spec$start]]
     d$.rcw_stop<-d[[spec$time]];code<-as.character(d[[spec$status]])
-    if(anyNA(code)) .rc_error("status","Event status cannot be missing.")
-    if(!competing&&!all(code%in%c("0","1"))) .rc_error("status","Survival status must be 0=censored or 1=event.")
+    if(anyNA(code)) .cs_error("status","Event status cannot be missing.")
+    if(!competing&&!all(code%in%c("0","1"))) .cs_error("status","Survival status must be 0=censored or 1=event.")
     if(competing&&is.factor(d[[spec$status]])&&!as.character(spec$censor_code)%in%levels(d[[spec$status]]))
-      .rc_error("censor_code","For a factor cause column, explicitly match censor_code to its censoring level.")
+      .cs_error("censor_code","For a factor cause column, explicitly match censor_code to its censoring level.")
     if(competing&&!all(code%in%c(as.character(spec$censor_code),spec$causes)))
-      .rc_error("cause","A cause label is outside the declared causes.")
+      .cs_error("cause","A cause label is outside the declared causes.")
   }
   d$.rcw_recurrent<-"none";d$.rcw_terminal<-as.integer(code!=as.character(spec$censor_code))
   d$.rcw_cause<-ifelse(d$.rcw_terminal==1L,code,"0")
-  out<-as_trajectory(d,unit=".rcw_unit",start=".rcw_start",stop=".rcw_stop",
+  out<-cs_as_trajectory(d,unit=".rcw_unit",start=".rcw_start",stop=".rcw_stop",
       event_type=".rcw_recurrent",terminal=".rcw_terminal",event_types=character(),
       time_unit=spec$time_unit,terminal_cause=if(competing)".rcw_cause"else NULL)
   attr(out,"profile_only")<-profile_only
   out
 }
 
-.rc_wrapper_dots <- function(dots) {
-  if(length(dots)&&(is.null(names(dots))||any(!nzchar(names(dots))))) .rc_error("wrapper_arguments","Additional fit arguments must be named.")
+.cs_wrapper_dots <- function(dots) {
+  if(length(dots)&&(is.null(names(dots))||any(!nzchar(names(dots))))) .cs_error("wrapper_arguments","Additional fit arguments must be named.")
   banned<-c("frailty","unit","start","stop","event_type","terminal","event_types","time_unit","targeting","observation","coarsening","subset","nonrecurrent")
-  if(any(names(dots)%in%banned)) .rc_error("wrapper_scope","Schema, no-frailty, exact observation and ordinary estimation are fixed by these wrappers; use coherent4cast() for other experiments.")
+  if(any(names(dots)%in%banned)) .cs_error("wrapper_scope","Schema, no-frailty, exact observation and ordinary estimation are fixed by these wrappers; use cs_fit() for other experiments.")
 }
 
 #' Fit right-censored survival using the existing no-frailty likelihood
 #' @export
-rc_surv <- function(formula,data,time="time",status="status",unit=NULL,start=NULL,
-                    time_unit,breaks=c(0,Inf),control=coherent4cast_control(),...) {
-  .rc_wrapper_dots(list(...))
-  spec<-.rc_wrapper_formula(formula,time,status,start)
+cs_surv <- function(formula,data,time="time",status="status",unit=NULL,start=NULL,
+                    time_unit,breaks=c(0,Inf),control=cs_control(),...) {
+  .cs_wrapper_dots(list(...))
+  spec<-.cs_wrapper_formula(formula,time,status,start)
   spec$unit<-unit;spec$time_unit<-time_unit;spec$censor_code<-0
-  d<-.rc_wrapper_data(data,spec)
-  fit<-coherent4cast(spec$formula,d,unit=".rcw_unit",start=".rcw_start",stop=".rcw_stop",
+  d<-.cs_wrapper_data(data,spec)
+  fit<-cs_fit(spec$formula,d,unit=".rcw_unit",start=".rcw_start",stop=".rcw_stop",
     event_type=".rcw_recurrent",terminal=".rcw_terminal",event_types=character(),
     time_unit=time_unit,breaks=breaks,control=control,frailty="none",...)
   fit$wrapper<-spec;fit$audit$wrapper_call<-match.call()
-  class(fit)<-c("coherent4cast_surv",class(fit));fit
+  class(fit)<-c("coherentSurv_surv",class(fit));fit
 }
 
-.rc_wrapper_future <- function(future,spec) {
+.cs_wrapper_future <- function(future,spec) {
   if(is.null(future))return(NULL)
-  if(!is.data.frame(future)) .rc_error("future_covariates","Supply a data frame of future updates.")
+  if(!is.data.frame(future)) .cs_error("future_covariates","Supply a data frame of future updates.")
   column<-if(is.null(spec$unit))"unit"else spec$unit
-  if(!column%in%names(future)) .rc_error("future_covariates",paste("Future updates require unit column",column))
+  if(!column%in%names(future)) .cs_error("future_covariates",paste("Future updates require unit column",column))
   future$.rcw_unit<-as.character(future[[column]]);future
 }
 
 #' @export
-predict.coherent4cast_surv <- function(object,newdata=NULL,landmark=0,horizon,
+predict.coherentSurv_surv <- function(object,newdata=NULL,landmark=0,horizon,
                                   newdata_future=NULL,covariate_history=NULL,...) {
-  d<-if(is.null(newdata))NULL else .rc_wrapper_data(newdata,object$wrapper,profiles=TRUE,landmark=landmark,horizon=horizon)
-  out<-predict.coherent4cast(object,newdata=d,landmark=landmark,horizon=horizon,
-    newdata_future=.rc_wrapper_future(newdata_future,object$wrapper),
-    covariate_history=.rc_wrapper_future(covariate_history,object$wrapper),...)
+  d<-if(is.null(newdata))NULL else .cs_wrapper_data(newdata,object$wrapper,profiles=TRUE,landmark=landmark,horizon=horizon)
+  out<-predict.coherentSurv(object,newdata=d,landmark=landmark,horizon=horizon,
+    newdata_future=.cs_wrapper_future(newdata_future,object$wrapper),
+    covariate_history=.cs_wrapper_future(covariate_history,object$wrapper),...)
   if(!is.null(d)&&isTRUE(attr(d,"profile_only"))) attr(out,"profile_assumption")<-"Each supplied covariate profile is declared eligible and event-free at the landmark; synthetic mapping intervals are not observed follow-up."
   out
 }
 
 #' Fit cause-specific no-frailty hazards and coherent cumulative incidence
 #' @export
-rc_competing <- function(formula,data,time="time",status="status",unit=NULL,start=NULL,
+cs_competing <- function(formula,data,time="time",status="status",unit=NULL,start=NULL,
                          causes=NULL,censor_code=0,time_unit,breaks=c(0,Inf),
-                         control=coherent4cast_control(),...) {
-  dots<-list(...);.rc_wrapper_dots(dots)
-  spec<-.rc_wrapper_formula(formula,time,status,start)
-  if(length(censor_code)!=1L||is.na(censor_code)||!nzchar(as.character(censor_code))) .rc_error("censor_code","Declare one nonmissing censoring code.")
-  if(!is.data.frame(data)||!spec$status%in%names(data)) .rc_error("columns","The status/cause column is missing.")
+                         control=cs_control(),...) {
+  dots<-list(...);.cs_wrapper_dots(dots)
+  spec<-.cs_wrapper_formula(formula,time,status,start)
+  if(length(censor_code)!=1L||is.na(censor_code)||!nzchar(as.character(censor_code))) .cs_error("censor_code","Declare one nonmissing censoring code.")
+  if(!is.data.frame(data)||!spec$status%in%names(data)) .cs_error("columns","The status/cause column is missing.")
   code<-as.character(data[[spec$status]])
   if(is.null(causes))causes<-sort(unique(code[!is.na(code)&code!=as.character(censor_code)]))
   causes<-as.character(causes)
   if(!length(causes)||anyNA(causes)||any(!nzchar(causes))||anyDuplicated(causes)||as.character(censor_code)%in%causes||"0"%in%causes)
-    .rc_error("causes","Declare distinct nonzero absorbing cause labels, excluding the censoring code; cause '0' is reserved for no event.")
+    .cs_error("causes","Declare distinct nonzero absorbing cause labels, excluding the censoring code; cause '0' is reserved for no event.")
   spec$unit<-unit;spec$time_unit<-time_unit;spec$censor_code<-censor_code;spec$causes<-causes
-  d<-.rc_wrapper_data(data,spec,competing=TRUE)
-  if(length(attr(d,"rc_schema")$delayed_entry)) .rc_error("left_truncation","These wrappers currently require histories from the time origin.")
-  if(length(attr(d,"rc_schema")$gaps)) .rc_error("unrecorded_history","Competing-risk fitting requires contiguous observed histories.")
+  d<-.cs_wrapper_data(data,spec,competing=TRUE)
+  if(length(attr(d,"cs_schema")$delayed_entry)) .cs_error("left_truncation","These wrappers currently require histories from the time origin.")
+  if(length(attr(d,"cs_schema")$gaps)) .cs_error("unrecorded_history","Competing-risk fitting requires contiguous observed histories.")
   fits<-stats::setNames(vector("list",length(causes)),causes)
   for(k in seq_along(causes)) {
-    dk<-d;class(dk)<-"data.frame";attr(dk,"rc_schema")<-NULL
+    dk<-d;class(dk)<-"data.frame";attr(dk,"cs_schema")<-NULL
     dk$.rcw_terminal<-as.integer(d$.rcw_cause==causes[k]);dk$.rcw_cause<-ifelse(dk$.rcw_terminal==1L,causes[k],"0")
-    if(!sum(dk$.rcw_terminal)) .rc_error("no_cause_events",paste("No events support the declared cause",causes[k],"; its hazard is not estimated by this regular wrapper."))
-    fits[[k]]<-coherent4cast(spec$formula,dk,unit=".rcw_unit",start=".rcw_start",stop=".rcw_stop",
+    if(!sum(dk$.rcw_terminal)) .cs_error("no_cause_events",paste("No events support the declared cause",causes[k],"; its hazard is not estimated by this regular wrapper."))
+    fits[[k]]<-cs_fit(spec$formula,dk,unit=".rcw_unit",start=".rcw_start",stop=".rcw_stop",
       event_type=".rcw_recurrent",terminal=".rcw_terminal",event_types=character(),
       time_unit=time_unit,breaks=breaks,control=control,frailty="none",...)
   }
   n<-fits[[1]]$n
-  if(any(vapply(fits,function(f)f$n!=n,logical(1)))) .rc_error("competing_alignment","Cause-specific fits must use identical eligible units.")
+  if(any(vapply(fits,function(f)f$n!=n,logical(1)))) .cs_error("competing_alignment","Cause-specific fits must use identical eligible units.")
   all_names<-unlist(lapply(seq_along(fits),function(k)paste0("cause[",causes[k],"]:",names(fits[[k]]$coefficients))))
   coefs<-stats::setNames(unlist(lapply(fits,function(f)unname(f$coefficients))),all_names)
   sizes<-vapply(fits,function(f)length(f$coefficients),integer(1));H<-matrix(0,sum(sizes),sum(sizes));pos<-0L
   for(k in seq_along(fits)){ix<-pos+seq_len(sizes[k]);H[ix,ix]<-fits[[k]]$information;pos<-pos+sizes[k]}
   scores<-do.call(cbind,lapply(fits,`[[`,"scores"));weighted_scores<-scores*fits[[1]]$case_weights
-  inv<-.rc_inverse(H);V<-inv%*%crossprod(weighted_scores)%*%inv;dimnames(V)<-list(all_names,all_names)
+  inv<-.cs_inverse(H);V<-inv%*%crossprod(weighted_scores)%*%inv;dimnames(V)<-list(all_names,all_names)
   converged<-all(vapply(fits,function(f)isTRUE(f$convergence$valid),logical(1)))
   out<-list(causes=causes,fits=fits,coefficients=coefs,covariance=V,information=H,scores=scores,
     loglik=sum(vapply(fits,`[[`,numeric(1),"loglik")),n=n,data=d,wrapper=spec,
-    schema=attr(d,"rc_schema"),breaks=breaks,control=fits[[1]]$control,
+    schema=attr(d,"cs_schema"),breaks=breaks,control=fits[[1]]$control,
     convergence=list(valid=converged,code=if(converged)"converged"else "nonregular_cause_fit",
                      causes=lapply(fits,`[[`,"convergence")),
     audit=c(list(call=match.call(),assumptions=c("cause-specific piecewise-exponential proportional hazards",
       "independent units and valid censoring observation model","mutually exclusive absorbing first-event causes",
-      "no frailty; cumulative incidence integrates every cause-specific hazard")),.rc_capture_audit_context(d,match.call())))
-  class(out)<-"coherent4cast_competing";out
+      "no frailty; cumulative incidence integrates every cause-specific hazard")),.cs_capture_audit_context(d,match.call())))
+  class(out)<-"coherentSurv_competing";out
 }
 
 #' @export
-predict.coherent4cast_competing <- function(object,newdata=NULL,landmark=0,horizon,
+predict.coherentSurv_competing <- function(object,newdata=NULL,landmark=0,horizon,
     type=c("cif","survival","risk","rmst","all"),covariate_evolution=c("freeze","locf"),
     newdata_future=NULL,...) {
-  if(length(list(...))) .rc_error("unused_argument","Unsupported competing-risk prediction argument.")
+  if(length(list(...))) .cs_error("unused_argument","Unsupported competing-risk prediction argument.")
   type<-match.arg(type);mode<-match.arg(covariate_evolution)
   if(length(landmark)!=1L||!is.finite(landmark)||landmark<0||!is.numeric(horizon)||!length(horizon)||any(!is.finite(horizon)|horizon<=0))
-    .rc_error("horizon","Declare a nonnegative landmark and positive finite durations.")
-  d<-if(is.null(newdata))object$data else .rc_wrapper_data(newdata,object$wrapper,TRUE,TRUE,landmark,horizon)
-  sc<-attr(d,"rc_schema")
-  if(length(sc$delayed_entry)||length(sc$gaps)||any(!d$.rc_observed)) .rc_error("observation","Prediction requires contiguous eligible histories from the origin.")
-  future<-.rc_wrapper_future(newdata_future,object$wrapper)
+    .cs_error("horizon","Declare a nonnegative landmark and positive finite durations.")
+  d<-if(is.null(newdata))object$data else .cs_wrapper_data(newdata,object$wrapper,TRUE,TRUE,landmark,horizon)
+  sc<-attr(d,"cs_schema")
+  if(length(sc$delayed_entry)||length(sc$gaps)||any(!d$.cs_observed)) .cs_error("observation","Prediction requires contiguous eligible histories from the origin.")
+  future<-.cs_wrapper_future(newdata_future,object$wrapper)
   base<-object$fits[[1]];C<-length(object$causes);output<-list();excluded<-character()
-  for(rows in split(seq_len(nrow(d)),d$.rc_unit)) {
+  for(rows in split(seq_len(nrow(d)),d$.cs_unit)) {
     ident<-as.character(d$.rcw_unit[rows[1]])
     if(any(d$.rcw_terminal[rows]==1&d$.rcw_stop[rows]<=landmark)||max(d$.rcw_stop[rows])<landmark){excluded<-c(excluded,ident);next}
     current<-tail(rows[d$.rcw_start[rows]<=landmark],1)
     if(!length(current)){excluded<-c(excluded,ident);next}
     for(delta in horizon) {
-      scenario<-.rc_future_scenarios(base,d,rows,current,ident,landmark,delta,mode,future,NULL,1L,1L,1L)
+      scenario<-.cs_future_scenarios(base,d,rows,current,ident,landmark,delta,mode,future,NULL,1L,1L,1L)
       generators<-vector("list",length(scenario$cuts)-1L)
       for(j in seq_along(generators)) {
         bin<-findInterval(scenario$cuts[j],object$breaks,all.inside=TRUE)
         baseline<-numeric(base$design$base_size);baseline[bin]<-1
         v<-c(baseline,scenario$covariates[[1]][j,])
-        rates<-vapply(object$fits,function(f)exp(sum(v*.rc_linear_coef(f))),numeric(1))
-        if(any(!is.finite(rates))) .rc_error("forecast_overflow","Cause-specific rates overflow; rescale predictors.")
-        generators[[j]]<-rc_generator_csr(C+1L,rep(1L,C),seq_len(C)+1L,rates)
+        rates<-vapply(object$fits,function(f)exp(sum(v*.cs_linear_coef(f))),numeric(1))
+        if(any(!is.finite(rates))) .cs_error("forecast_overflow","Cause-specific rates overflow; rescale predictors.")
+        generators[[j]]<-cs_generator_csr(C+1L,rep(1L,C),seq_len(C)+1L,rates)
       }
-      result<-rc_propagate_sparse(c(1,rep(0,C)),generators,diff(scenario$cuts),
+      result<-cs_propagate_sparse(c(1,rep(0,C)),generators,diff(scenario$cuts),
         reward=matrix(c(1,rep(0,C)),ncol=1),tolerance=object$control$propagation_tolerance)
       values<-c(stats::setNames(result$probability[-1L],paste0("cif_",object$causes)),
         survival=result$probability[1],risk=sum(result$probability[-1L]),rmst=result$reward[1])
@@ -182,8 +182,8 @@ predict.coherent4cast_competing <- function(object,newdata=NULL,landmark=0,horiz
         covariate_evolution=mode,stringsAsFactors=FALSE)
     }
   }
-  if(!length(output)) .rc_error("eligibility","No unit is event-free and observed at the landmark.")
-  out<-do.call(rbind,output);rownames(out)<-NULL;class(out)<-c("coherent4cast_prediction","rc_forecast","data.frame")
+  if(!length(output)) .cs_error("eligibility","No unit is event-free and observed at the landmark.")
+  out<-do.call(rbind,output);rownames(out)<-NULL;class(out)<-c("coherentSurv_prediction","cs_forecast","data.frame")
   attr(out,"excluded_units")<-excluded
   attr(out,"assumptions")<-c(object$audit$assumptions,"Forecast numerical bounds exclude sampling and model error.")
   if(isTRUE(attr(d,"profile_only")))attr(out,"profile_assumption")<-"Supplied profiles are declared event-free at the landmark; mapping intervals are not observed follow-up."
@@ -191,35 +191,35 @@ predict.coherent4cast_competing <- function(object,newdata=NULL,landmark=0,horiz
 }
 
 #' @export
-print.coherent4cast_competing <- function(x,...) {cat("coherent4cast cause-specific no-frailty competing-risk model\n",x$n,"independent units; causes:",paste(x$causes,collapse=", "),"\n");invisible(x)}
+print.coherentSurv_competing <- function(x,...) {cat("coherentSurv cause-specific no-frailty competing-risk model\n",x$n,"independent units; causes:",paste(x$causes,collapse=", "),"\n");invisible(x)}
 #' @export
-coef.coherent4cast_competing <- function(object,...)object$coefficients
+coef.coherentSurv_competing <- function(object,...)object$coefficients
 #' @export
-vcov.coherent4cast_competing <- function(object,...)object$covariance
+vcov.coherentSurv_competing <- function(object,...)object$covariance
 #' @export
-logLik.coherent4cast_competing <- function(object,...)structure(object$loglik,df=length(object$coefficients),nobs=object$n,class="logLik")
+logLik.coherentSurv_competing <- function(object,...)structure(object$loglik,df=length(object$coefficients),nobs=object$n,class="logLik")
 #' @export
-tidy.coherent4cast_competing <- function(x,...) {
+tidy.coherentSurv_competing <- function(x,...) {
   se<-sqrt(pmax(0,diag(x$covariance)));data.frame(term=names(x$coefficients),estimate=unname(x$coefficients),std.error=se,
       conf.low=unname(x$coefficients)-stats::qnorm(.975)*se,conf.high=unname(x$coefficients)+stats::qnorm(.975)*se)
 }
 #' @export
-summary.coherent4cast_competing <- function(object,...)list(coefficients=tidy(object),convergence=object$convergence,
+summary.coherentSurv_competing <- function(object,...)list(coefficients=tidy(object),convergence=object$convergence,
     interval_scope="Regular joint sandwich approximation; no automatic CIF confidence bands.",audit=object$audit)
 #' @export
-glance.coherent4cast_competing <- function(x,...)data.frame(n=x$n,causes=length(x$causes),logLik=x$loglik,
+glance.coherentSurv_competing <- function(x,...)data.frame(n=x$n,causes=length(x$causes),logLik=x$loglik,
     AIC=-2*x$loglik+2*length(x$coefficients),converged=x$convergence$valid)
 
 #' Validate cause-specific cumulative incidence without censoring competing events
 #' @export
-validate.coherent4cast_competing <- function(object,time,status,horizon,cause,predicted,
+validate.coherentSurv_competing <- function(object,time,status,horizon,cause,predicted,
     censor_survival=NULL,threshold=.2,strata=NULL,...) {
-  if(length(list(...))) .rc_error("unused_argument","Unsupported competing-risk validation argument.")
-  if(length(cause)!=1L||!as.character(cause)%in%object$causes) .rc_error("cause","Select one fitted absorbing cause.")
+  if(length(list(...))) .cs_error("unused_argument","Unsupported competing-risk validation argument.")
+  if(length(cause)!=1L||!as.character(cause)%in%object$causes) .cs_error("cause","Select one fitted absorbing cause.")
   n<-length(time);code<-as.character(status);cc<-as.character(object$wrapper$censor_code)
   if(!is.numeric(time)||!n||length(code)!=n||length(predicted)!=n||any(!is.finite(time))||any(time<0)||anyNA(code)||!all(code%in%c(cc,object$causes)))
-    .rc_error("validation","Provide aligned nonnegative follow-up, declared cause labels and risks.")
-  if(length(horizon)!=1L||!is.finite(horizon)||horizon<=0) .rc_error("horizon","Supply one finite positive validation horizon.")
+    .cs_error("validation","Provide aligned nonnegative follow-up, declared cause labels and risks.")
+  if(length(horizon)!=1L||!is.finite(horizon)||horizon<=0) .cs_error("horizon","Supply one finite positive validation horizon.")
   if(is.null(censor_survival)) {
     times<-sort(unique(time));at<-vapply(times,function(t)sum(time>=t),numeric(1))
     dc<-vapply(times,function(t)sum(time==t&code==cc),numeric(1));surv<-cumprod(1-dc/at)
@@ -228,13 +228,13 @@ validate.coherent4cast_competing <- function(object,time,status,horizon,cause,pr
     assumption<-"Marginal independent right censoring; competing events are observed noncases for this cumulative-incidence endpoint."
   } else {
     ge<-censor_survival$event;gh<-censor_survival$horizon
-    if(length(ge)!=n||length(gh)!=n) .rc_error("censoring","Supply event=G(T_i-) for every failure and horizon=G(h), each of length n.")
+    if(length(ge)!=n||length(gh)!=n) .cs_error("censoring","Supply event=G(T_i-) for every failure and horizon=G(h), each of length n.")
     assumption<-"Supplied conditional censoring probabilities must be valid and correctly aligned; competing events are not treated as censoring."
   }
-  if(any(!is.finite(c(ge,gh)))||any(c(ge,gh)<0|c(ge,gh)>1)) .rc_error("censoring","Censoring-survival values must lie in [0,1].")
+  if(any(!is.finite(c(ge,gh)))||any(c(ge,gh)<0|c(ge,gh)>1)) .cs_error("censoring","Censoring-survival values must lie in [0,1].")
   other<-code!=cc&code!=as.character(cause)&time<=horizon
   mapped_time<-time;mapped_time[other]<-horizon+max(1,horizon)*.5
-  if(any(!is.finite(mapped_time))) .rc_error("horizon","Rescale the validation time unit to avoid overflow.")
+  if(any(!is.finite(mapped_time))) .cs_error("horizon","Rescale the validation time unit to avoid overflow.")
   gh[other]<-ge[other]
   result<-validate.default(predicted,mapped_time,as.integer(code==as.character(cause)),horizon,
     censor_survival=list(case=ge,horizon=gh),threshold=threshold,strata=strata)

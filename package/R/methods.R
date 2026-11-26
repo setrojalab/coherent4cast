@@ -5,10 +5,10 @@ validate <- function(object,...) UseMethod("validate")
 #' @export
 validate.default <- function(object,time,status,horizon,censor_survival=NULL,threshold=0.2,strata=NULL,...) {
   predicted<-as.numeric(object);n<-length(predicted)
-  if(!n||length(time)!=n||length(status)!=n||any(!is.finite(c(predicted,time)))||any(time<0)||any(!status %in% c(0,1))||anyNA(status)||any(predicted<0|predicted>1)) .rc_error("validation","Provide aligned finite risks, nonnegative times and binary status.")
-  if(length(horizon)!=1L||!is.finite(horizon)||horizon<=0||length(threshold)!=1L||!is.finite(threshold)||threshold<=0||threshold>=1) .rc_error("validation","Require a positive horizon and a threshold strictly between zero and one.")
+  if(!n||length(time)!=n||length(status)!=n||any(!is.finite(c(predicted,time)))||any(time<0)||any(!status %in% c(0,1))||anyNA(status)||any(predicted<0|predicted>1)) .cs_error("validation","Provide aligned finite risks, nonnegative times and binary status.")
+  if(length(horizon)!=1L||!is.finite(horizon)||horizon<=0||length(threshold)!=1L||!is.finite(threshold)||threshold<=0||threshold>=1) .cs_error("validation","Require a positive horizon and a threshold strictly between zero and one.")
   if(!is.null(strata)) {
-    if(length(strata)!=n||anyNA(strata)) .rc_error("strata","Supply one nonmissing stratum per observation.")
+    if(length(strata)!=n||anyNA(strata)) .cs_error("strata","Supply one nonmissing stratum per observation.")
     return(lapply(split(seq_len(n),strata),function(i)validate(predicted[i],time[i],status[i],horizon,
       if(is.null(censor_survival))NULL else list(case=censor_survival$case[i],horizon=censor_survival$horizon[i]),threshold)))
   }
@@ -20,12 +20,12 @@ validate.default <- function(object,time,status,horizon,censor_survival=NULL,thr
     ghorizon<-rep(gh,n);assumption<-"Marginal independent censoring for the Kaplan-Meier censoring estimate. Use supplied conditional probabilities when needed."
   } else {
     gcase<-censor_survival$case;ghorizon<-censor_survival$horizon
-    if(length(gcase)!=n||length(ghorizon)!=n) .rc_error("censoring","Supply case and horizon censoring-survival vectors of length n.")
+    if(length(gcase)!=n||length(ghorizon)!=n) .cs_error("censoring","Supply case and horizon censoring-survival vectors of length n.")
     assumption<-"Supplied censoring probabilities must be valid for the target population and conditioning history."
   }
-  if(any(!is.finite(c(gcase,ghorizon)))||any(gcase<0|gcase>1)||any(ghorizon<0|ghorizon>1)||any(gcase[case]<=0)||any(ghorizon[control]<=0)) .rc_error("positivity","Needed censoring-survival probabilities must be strictly positive and at most one.")
+  if(any(!is.finite(c(gcase,ghorizon)))||any(gcase<0|gcase>1)||any(ghorizon<0|ghorizon>1)||any(gcase[case]<=0)||any(ghorizon[control]<=0)) .cs_error("positivity","Needed censoring-survival probabilities must be strictly positive and at most one.")
   w<-numeric(n);w[case]<-1/gcase[case];w[control]<-1/ghorizon[control];y<-as.numeric(case);valid<-w>0
-  if(!any(valid)) .rc_error("validation_support","No observed cases or horizon survivors are available; use a supported evaluation horizon or dataset.")
+  if(!any(valid)) .cs_error("validation_support","No observed cases or horizon survivors are available; use a supported evaluation horizon or dataset.")
   brier<-sum(w*(y-predicted)^2)/n
   wc<-sum(w[case]);wn<-sum(w[control]);auc<-NA_real_
   if(wc>0&&wn>0) {
@@ -53,13 +53,13 @@ validate.default <- function(object,time,status,horizon,censor_survival=NULL,thr
 }
 
 #' @export
-validate.coherent4cast <- function(object,time,status,horizon,predicted,censor_survival=NULL,...) {
+validate.coherentSurv <- function(object,time,status,horizon,predicted,censor_survival=NULL,...) {
   validate.default(predicted,time,status,horizon,censor_survival,...)
 }
 
 #' @export
-print.coherent4cast <- function(x,...) {
-  if(identical(x$frailty_requested,"none"))cat("coherent4cast no-frailty proportional-hazards model\n") else cat("coherent4cast shared",if(is.null(x$frailty))"gamma"else x$frailty,"model\n")
+print.coherentSurv <- function(x,...) {
+  if(identical(x$frailty_requested,"none"))cat("coherentSurv no-frailty proportional-hazards model\n") else cat("coherentSurv shared",if(is.null(x$frailty))"gamma"else x$frailty,"model\n")
   cat(x$n,"independent units;",x$design$K,"nonterminal types; time:",x$schema$time_unit,"\n")
   cat("Frailty variance:",format(x$phi)," Convergence:",x$convergence$code,"\n")
   cat("Observation:",x$schema$observation,"; data fingerprint:",x$audit$data_hash,"\n")
@@ -67,53 +67,53 @@ print.coherent4cast <- function(x,...) {
 }
 
 #' @export
-summary.coherent4cast <- function(object,...) {
+summary.coherentSurv <- function(object,...) {
   se<-sqrt(pmax(0,diag(object$covariance)));estimate<-object$coefficients
   out<-list(coefficients=data.frame(term=names(estimate),estimate=unname(estimate),std.error=se,
     conf.low=estimate-stats::qnorm(.975)*se,conf.high=estimate+stats::qnorm(.975)*se),
     phi=object$phi,loglik=object$loglik,n=object$n,convergence=object$convergence,
     interval_scope="Regular asymptotic sandwich intervals; not a finite-sample guarantee.",frailty_diagnostics=object$frailty_diagnostics,audit=object$audit)
-  class(out)<-"summary.coherent4cast";out
+  class(out)<-"summary.coherentSurv";out
 }
 #' @export
-print.summary.coherent4cast <- function(x,...) {print(x$coefficients,row.names=FALSE);cat("\n",x$interval_scope,"\nConvergence:",x$convergence$code,"\n");if(!is.null(x$frailty_diagnostics)){cat("\nNo-frailty boundary score test:\n");print(x$frailty_diagnostics$null_variance_test);print(x$frailty_diagnostics$comparison,row.names=FALSE)};invisible(x)}
+print.summary.coherentSurv <- function(x,...) {print(x$coefficients,row.names=FALSE);cat("\n",x$interval_scope,"\nConvergence:",x$convergence$code,"\n");if(!is.null(x$frailty_diagnostics)){cat("\nNo-frailty boundary score test:\n");print(x$frailty_diagnostics$null_variance_test);print(x$frailty_diagnostics$comparison,row.names=FALSE)};invisible(x)}
 #' @export
-coef.coherent4cast <- function(object,...)object$coefficients
+coef.coherentSurv <- function(object,...)object$coefficients
 #' @export
-vcov.coherent4cast <- function(object,...)object$covariance
+vcov.coherentSurv <- function(object,...)object$covariance
 #' @export
-logLik.coherent4cast <- function(object,...)structure(object$loglik,df=length(object$coefficients),nobs=object$n,class="logLik")
+logLik.coherentSurv <- function(object,...)structure(object$loglik,df=length(object$coefficients),nobs=object$n,class="logLik")
 #' @export
 tidy <- function(x,...)UseMethod("tidy")
 #' @export
-tidy.coherent4cast <- function(x,...)summary(x)$coefficients
+tidy.coherentSurv <- function(x,...)summary(x)$coefficients
 #' @export
 glance <- function(x,...)UseMethod("glance")
 #' @export
-glance.coherent4cast <- function(x,...)data.frame(n=x$n,logLik=x$loglik,AIC=-2*x$loglik+2*length(x$coefficients),frailty_variance=x$phi,converged=x$convergence$valid,gradient_max=x$convergence$gradient)
+glance.coherentSurv <- function(x,...)data.frame(n=x$n,logLik=x$loglik,AIC=-2*x$loglik+2*length(x$coefficients),frailty_variance=x$phi,converged=x$convergence$valid,gradient_max=x$convergence$gradient)
 #' @export
 augment <- function(x,...)UseMethod("augment")
 #' @export
-augment.coherent4cast <- function(x,newdata=NULL,landmark,horizon,...)predict(x,newdata,landmark,horizon,type="all",...)
+augment.coherentSurv <- function(x,newdata=NULL,landmark,horizon,...)predict(x,newdata,landmark,horizon,type="all",...)
 #' @export
 bounds <- function(object,...)UseMethod("bounds")
 #' @export
-bounds.default <- function(object,...)rc_bounds(p=object,...)
+bounds.default <- function(object,...)cs_bounds(p=object,...)
 #' @export
-bounds.coherent4cast <- function(object,...) .rc_error("bounds_schema","Recording-sensitivity bounds require an explicit finite-support recorded law. Use rc_bounds().")
+bounds.coherentSurv <- function(object,...) .cs_error("bounds_schema","Recording-sensitivity bounds require an explicit finite-support recorded law. Use cs_bounds().")
 #' @export
-conformal <- function(object,...)rc_conformal(scores=object,...)
+conformal <- function(object,...)cs_conformal(scores=object,...)
 #' @export
-plot.coherent4cast_prediction <- function(x,unit=unique(x$unit)[1],target="risk",...) {
+plot.coherentSurv_prediction <- function(x,unit=unique(x$unit)[1],target="risk",...) {
   d<-x[x$unit==unit & x$target==target,,drop=FALSE]
-  if(!nrow(d)) .rc_error("plot","No matching unit and target.")
+  if(!nrow(d)) .cs_error("plot","No matching unit and target.")
   d<-d[order(d$horizon),];graphics::plot(d$horizon,d$estimate,type="b",xlab=paste("Horizon",d$time_unit[1]),ylab=target,...);invisible(x)
 }
 #' @export
 autoplot <- function(object,...)UseMethod("autoplot")
 #' @export
-autoplot.coherent4cast_prediction <- function(object,unit=unique(object$unit)[1],target="risk",...) {
-  if(!requireNamespace("ggplot2",quietly=TRUE)) .rc_error("optional_dependency","Install ggplot2 for autoplot(); base plot() is also available.")
+autoplot.coherentSurv_prediction <- function(object,unit=unique(object$unit)[1],target="risk",...) {
+  if(!requireNamespace("ggplot2",quietly=TRUE)) .cs_error("optional_dependency","Install ggplot2 for autoplot(); base plot() is also available.")
   d<-object[object$unit==unit & object$target==target,,drop=FALSE]
   ggplot2::ggplot(d,ggplot2::aes(x=horizon,y=estimate))+ggplot2::geom_line()+ggplot2::geom_point()+ggplot2::labs(x=paste("Horizon",d$time_unit[1]),y=target)
 }

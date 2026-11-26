@@ -1,9 +1,9 @@
 # Executed S12 baseline-treatment workflow. All generated subjects are synthetic.
 file_arg <- grep("^--file=", commandArgs(FALSE), value = TRUE)
 here <- if (length(file_arg)) dirname(normalizePath(sub("^--file=", "", file_arg[1]), winslash = "/")) else normalizePath(".", winslash = "/")
-lib <- Sys.getenv("COHERENT4CAST_LIBRARY", "")
+lib <- Sys.getenv("COHERENTSURV_LIBRARY", "")
 if (nzchar(lib)) .libPaths(c(lib, .libPaths()))
-library(coherent4cast)
+library(coherentSurv)
 out <- file.path(here, "results"); dir.create(out, recursive = TRUE, showWarnings = FALSE)
 set.seed(20261123)
 n <- 1600L; rows <- list(); index <- 0L
@@ -27,13 +27,13 @@ for (id in seq_len(n)) {
 }
 d <- do.call(rbind, rows)
 write.csv(d,file.path(out,"synthetic_causal_histories.csv"),row.names=FALSE)
-fit <- rc_causal(~x,d,"treatment",1,"censored","years",event_types=c("1","2"),
+fit <- cs_causal(~x,d,"treatment",1,"censored","years",event_types=c("1","2"),
   spec=list(history_cap=1L,grid=64L),seed=81)
-fine <- rc_causal(~x,d,"treatment",1,"censored","years",event_types=c("1","2"),
+fine <- cs_causal(~x,d,"treatment",1,"censored","years",event_types=c("1","2"),
   folds=fit$folds,spec=list(history_cap=1L,grid=128L),seed=81)
-effects <- rc_causal_contrast(fit)
-simultaneous <- rc_causal_contrast(fit,interval="multiplier",draws=4000,seed=91)
-ratios <- rc_causal_contrast(fit,"ratio")
+effects <- cs_causal_contrast(fit)
+simultaneous <- cs_causal_contrast(fit,interval="multiplier",draws=4000,seed=91)
+ratios <- cs_causal_contrast(fit,"ratio")
 oracle <- read.csv(file.path(out,"dense_gformula_oracle.csv"))
 effects$oracle0 <- oracle$oracle[oracle$arm==0][match(effects$target,oracle$target[oracle$arm==0])]
 effects$oracle1 <- oracle$oracle[oracle$arm==1][match(effects$target,oracle$target[oracle$arm==1])]
@@ -51,7 +51,7 @@ diagnostics <- data.frame(arm=0:1,score=vapply(fit$arms,function(z)z$score,numer
   min_censor_survival=vapply(fit$arms,function(z)exp(-max(z$censor_rates)),numeric(1)),
   interpolation_error=vapply(fit$arms,function(z)z$interpolation_error,numeric(1)))
 write.csv(diagnostics,file.path(out,"causal_diagnostics.csv"),row.names=FALSE)
-rc_audit_report(fit,format="json",file=file.path(out,"causal_audit.json"))
+cs_audit_report(fit,format="json",file=file.path(out,"causal_audit.json"))
 stopifnot(fit$convergence$score_solved,fine$convergence$score_solved,
   max(abs(fit$estimate-fine$estimate))<1e-4,
   max(abs(fit$covariance-cov(fit$EIF)/n))<1e-12)

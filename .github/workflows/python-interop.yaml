@@ -1,0 +1,38 @@
+name: Python access to the R engine
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  rpy2:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - uses: r-lib/actions/setup-r@f9a764fea8d5c63df6ef9a5c7795bf7deb5d7e05
+        with:
+          r-version: release
+          use-public-rspm: true
+      - uses: r-lib/actions/setup-r-dependencies@f9a764fea8d5c63df6ef9a5c7795bf7deb5d7e05
+        with:
+          working-directory: package
+          needs: check
+      - name: Install the single R statistical engine
+        run: R CMD INSTALL package
+      - name: Create the Python bridge environment
+        run: |
+          python3 -m venv .python-interop
+          .python-interop/bin/python -m pip install 'rpy2>=3.6,<3.7' 'pandas>=2.2,<3' numpy
+      - name: Compare Python-to-R calls with direct R results
+        run: |
+          mkdir -p interop-output
+          .python-interop/bin/python package/inst/python/run_rpy2.py --output interop-output/forecasts.csv
+          .python-interop/bin/python -m pip freeze > interop-output/python-environment.txt
+          Rscript -e 'sessionInfo()' > interop-output/r-session.txt
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: python-r-parity
+          path: interop-output

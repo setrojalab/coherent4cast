@@ -1,12 +1,12 @@
 {
-  "package": "coherent4cast",
-  "version": "0.10.3",
-  "date": "2026-11-24",
-  "repository": "https://github.com/setrojalab/coherent4cast",
-  "website": "https://setrojalab.github.io/coherent4cast/",
+  "package": "coherentSurv",
+  "version": "0.11.0",
+  "date": "2026-11-25",
+  "repository": "https://github.com/setrojalab/coherentSurv",
+  "website": "https://setrojalab.github.io/coherentSurv/",
   "arxiv": "https://arxiv.org/abs/2611.32075",
-  "cran_status": "0.10.3 prepared and checked; 0.10.2 previously submitted; acceptance not asserted",
-  "verification": "reviews/release_0_10_3",
-  "source_sha256": "7c095cb3483df9b8f19018f6a086b1dee8762b4f5e4551c698cd64a262efbe77"
+  "cran_status": "0.11.0 in preparation; earlier submission remains separate; acceptance not asserted",
+  "verification": "reviews/release_0_11_0",
+  "source_sha256": null
 }
 

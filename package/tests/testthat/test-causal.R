@@ -15,7 +15,7 @@ test_that("S12 martingale terms agree with independent exponential algebra", {
   death <- rep(c(1, 0, 1, 0), 2); censor <- .3; lambda <- .9; e <- .4
   rows <- cbind(0:7, 0, 0, 0, tt, ifelse(death == 1, 0, 1))
   tau <- 1; grid <- 256L
-  z <- coherent4cast:::rc_cpp_causal_target(rep(lambda, grid), censor, e,
+  z <- coherentSurv:::cs_cpp_causal_target(rep(lambda, grid), censor, e,
      matrix(1L, 1, 1), rep(0L, n), rows[w == 1, , drop = FALSE], grid, tau, 0L, 1e-10)
   A <- function(rate, t) expm1(rate * t) / rate
   risk <- -expm1(-lambda * tau); rmst <- risk / lambda
@@ -34,18 +34,18 @@ test_that("one-arm probability-one reduction reproduces the old native kernel", 
   rows <- cbind(0:5, 0, 0, 0, c(.1, .3, .5, .7, .9, 1), c(0, 0, 0, 0, 0, -1))
   args <- list(rates = rep(.8, 32), censor = .2, next_state = matrix(1L, 1, 1),
       subject_group = rep(0L, 6), records = rows, bins = 32L, horizon = 1, maxit = 40L, tolerance = 1e-8)
-  old <- do.call(coherent4cast:::rc_cpp_continuous_target, args)
-  new <- do.call(coherent4cast:::rc_cpp_causal_target, c(args, list(propensity = 1)))
+  old <- do.call(coherentSurv:::cs_cpp_continuous_target, args)
+  new <- do.call(coherentSurv:::cs_cpp_causal_target, c(args, list(propensity = 1)))
   for (field in c("estimate", "initial", "EIF", "covariance", "rates", "score_trace", "values"))
     expect_equal(new[[field]], old[[field]], tolerance = 1e-13)
 })
 
 test_that("causal public API standardizes both arms and retains joint covariance", {
   d <- causal_demo_data(); set.seed(778); before <- .Random.seed
-  fit <- rc_causal(~x, d, "treatment", 1, "censored", "year", propensity = .5,
+  fit <- cs_causal(~x, d, "treatment", 1, "censored", "year", propensity = .5,
        spec = list(complete_followup = TRUE, grid = 32L))
   expect_identical(before, .Random.seed)
-  expect_s3_class(fit, "coherent4cast_causal")
+  expect_s3_class(fit, "coherentSurv_causal")
   expect_true(fit$convergence$score_solved)
   expect_true(fit$convergence$valid)
   expect_equal(fit$n, nrow(d))
@@ -65,12 +65,12 @@ test_that("causal public API standardizes both arms and retains joint covariance
   effect <- predict(fit)
   expect_equal(effect$estimate, unname(coef(fit)))
   expect_true(all(effect$lower < effect$estimate & effect$upper > effect$estimate))
-  ratio <- rc_causal_contrast(fit, "ratio")
+  ratio <- cs_causal_contrast(fit, "ratio")
   expect_equal(ratio$estimate, effect$arm1 / effect$arm0, tolerance = 1e-14)
   expect_true(all(ratio$lower > 0))
-  log_ratio <- rc_causal_contrast(fit, "log_ratio")
+  log_ratio <- cs_causal_contrast(fit, "log_ratio")
   expect_equal(log_ratio$estimate, log(ratio$estimate))
-  sim <- rc_causal_contrast(fit, interval = "multiplier", draws = 300, seed = 92)
+  sim <- cs_causal_contrast(fit, interval = "multiplier", draws = 300, seed = 92)
   expect_identical(before, .Random.seed)
   expect_true(all(is.finite(sim$lower)))
   expect_true(all(is.na(predict(fit, interval = "none")$lower)))
@@ -78,21 +78,21 @@ test_that("causal public API standardizes both arms and retains joint covariance
   expect_equal(glance(fit)$n, nrow(d))
   expect_equal(summary(fit)$estimates$estimate, effect$estimate)
   expect_output(print(fit), "Baseline-treatment")
-  expect_error(logLik(fit), class = "coherent4cast_error")
+  expect_error(logLik(fit), class = "coherentSurv_error")
   for (f in seq_along(fit$training_subjects))
     expect_false(any(fit$folds[fit$training_subjects[[f]]] == f))
-  audit <- rc_audit_report(fit, include_session = FALSE)
+  audit <- cs_audit_report(fit, include_session = FALSE)
   expect_match(paste(audit$model$assumptions, collapse = " "), "exchangeability")
   expect_identical(audit$fit_context$data_fingerprint$algorithm, "SHA-256")
   expect_match(audit$model$call, "audit_data_argument_redacted")
 })
 
 test_that("multitype counts and absorption remain coherent in causal fits", {
-  d <- rc_simulate(180, horizon = 1, rates = c(.9, .6, .4), censor_rate = .15,
+  d <- cs_simulate(180, horizon = 1, rates = c(.9, .6, .4), censor_rate = .15,
       dispersion = 0, seed = 12)
   d$treatment <- as.integer(d$id %% 2)
   d$censored <- as.integer(d$event_type == 0 & d$terminal == 0 & d$stop < 1)
-  fit <- rc_causal(~1, d, "treatment", 1, "censored", "years",
+  fit <- cs_causal(~1, d, "treatment", 1, "censored", "years",
       propensity = .5, spec = list(grid = 32L, working = "pooled"))
   expect_equal(length(fit$estimate), 4L)
   expect_true(all(is.finite(fit$estimate)))
@@ -110,7 +110,7 @@ test_that("multitype counts and absorption remain coherent in causal fits", {
 
 test_that("overlap, baseline, observation and unsupported nuisance inputs fail explicitly", {
   d <- causal_demo_data(80)
-  fit <- function(z = d, ...) rc_causal(~x, z, "treatment", 1, "censored", "year", ...)
+  fit <- function(z = d, ...) cs_causal(~x, z, "treatment", 1, "censored", "year", ...)
   expect_error(fit(propensity = .001), "overlap range")
   z <- d; z$treatment <- 0; expect_error(fit(z), "Both baseline")
   z <- d; z$treatment <- z$x; expect_error(fit(z), "training fold/stratum")
@@ -125,12 +125,12 @@ test_that("overlap, baseline, observation and unsupported nuisance inputs fail e
   extra <- z[1, ]; extra$start <- .1; extra$stop <- 1; extra$treatment <- 1 - extra$treatment
   z <- rbind(z, extra); z <- z[order(z$id, z$start), ]
   expect_error(fit(z), "remain fixed")
-  expect_error(rc_causal_contrast(list()), class = "coherent4cast_error")
+  expect_error(cs_causal_contrast(list()), class = "coherentSurv_error")
 })
 
 test_that("zero-event arms retain results and withhold regular intervals", {
   d <- causal_demo_data(80); d$stop <- 1; d$terminal <- 0
-  expect_warning(fit <- rc_causal(~x, d, "treatment", 1, "censored", "year",
+  expect_warning(fit <- cs_causal(~x, d, "treatment", 1, "censored", "year",
       spec = list(complete_followup = TRUE, maxit = 0)), "withheld")
   ci <- predict(fit)
   expect_true(all(is.na(ci$lower) & is.na(ci$upper)))

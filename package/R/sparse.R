@@ -1,7 +1,7 @@
 #' Construct a compressed sparse row generator from directed transitions
 #' @export
-rc_generator_csr <- function(n, from = integer(), to = integer(), rate = numeric()) {
- .rc_kernel_guard({
+cs_generator_csr <- function(n, from = integer(), to = integer(), rate = numeric()) {
+ .cs_kernel_guard({
   if (length(n) != 1L || !is.finite(n) || n < 1 || n != floor(n) || n > .Machine$integer.max - 1L)
     stop("n must be a positive integer", call. = FALSE)
   if (!is.numeric(from) || !is.numeric(to) || !is.numeric(rate) ||
@@ -16,24 +16,24 @@ rc_generator_csr <- function(n, from = integer(), to = integer(), rate = numeric
   structure(list(n = as.integer(n), offsets = as.integer(c(0, cumsum(counts))),
                  columns = to - 1L, rates = rate,
                  storage = "CSR off-diagonal rates; diagonal equals negative row sum"),
-            class = "rc_generator_csr")
+            class = "cs_generator_csr")
  })
 }
 
 #' Sparse ordered uniformization with integrated rewards
 #' @export
-rc_propagate_sparse <- function(probability, generator, duration, reward = NULL,
+cs_propagate_sparse <- function(probability, generator, duration, reward = NULL,
                                tolerance = 1e-12, max_terms = 10000L,
                                max_chunks = 100000L) {
- .rc_kernel_guard({
+ .cs_kernel_guard({
   if (!is.numeric(probability) || !length(probability) || any(!is.finite(probability)))
     stop("probability must be a finite numeric vector", call. = FALSE)
-  generators <- if (inherits(generator, "rc_generator_csr")) list(generator) else generator
+  generators <- if (inherits(generator, "cs_generator_csr")) list(generator) else generator
   if (!is.list(generators) || !length(generators) || !is.numeric(duration) ||
       length(duration) != length(generators) || any(!is.finite(duration) | duration < 0))
     stop("supply one nonnegative duration per ordered CSR generator", call. = FALSE)
   n <- length(probability)
-  if (any(!vapply(generators, function(q) inherits(q, "rc_generator_csr") && identical(q$n, as.integer(n)), logical(1))))
+  if (any(!vapply(generators, function(q) inherits(q, "cs_generator_csr") && identical(q$n, as.integer(n)), logical(1))))
     stop("each CSR generator must match the initial probability vector", call. = FALSE)
   if (is.null(reward)) reward <- matrix(numeric(), nrow = n, ncol = 0L)
   rewards <- if (is.list(reward)) reward else rep(list(reward), length(generators))
@@ -50,7 +50,7 @@ rc_propagate_sparse <- function(probability, generator, duration, reward = NULL,
   error <- roundoff <- terms <- chunks <- workspace <- 0
   for (i in seq_along(generators)) {
     q <- generators[[i]]
-    z <- cpp_rc_propagate_sparse(probability, q$offsets, q$columns, q$rates,
+    z <- cpp_cs_propagate_sparse(probability, q$offsets, q$columns, q$rates,
        duration[i], rewards[[i]], tolerance / length(generators), as.integer(max_terms), as.integer(max_chunks))
     if (length(total)) reward_error <- reward_error + z$reward_error_bound +
       error * duration[i] * apply(abs(rewards[[i]]), 2L, max)
@@ -67,24 +67,24 @@ rc_propagate_sparse <- function(probability, generator, duration, reward = NULL,
 
 #' Scalable sharp finite-support sensitivity bounds
 #' @export
-rc_bounds_sparse <- function(p, numerator, denominator = rep(1, length(numerator)),
+cs_bounds_sparse <- function(p, numerator, denominator = rep(1, length(numerator)),
                              kappa, recording_fraction, counts = NULL, alpha = .05,
                              observation_map = seq_along(numerator),
                              tolerance = 1e-10, max_iterations = 1000L) {
- .rc_kernel_guard({
-  .rc_scalar(alpha, "alpha", 0, 1, TRUE)
+ .cs_kernel_guard({
+  .cs_scalar(alpha, "alpha", 0, 1, TRUE)
   if (!is.numeric(p) || !is.numeric(numerator) || !is.numeric(denominator) ||
       length(numerator) != length(denominator) || length(observation_map) != length(numerator) ||
       anyNA(observation_map) || any(observation_map != as.integer(observation_map)) ||
       any(observation_map < 1 | observation_map > length(p)))
     stop("invalid complete support or observation-fibre map", call. = FALSE)
-  .rc_scalar(kappa, "kappa", 1, Inf)
-  .rc_scalar(recording_fraction, "recording_fraction", 0, 1, TRUE)
-  .rc_scalar(tolerance, "tolerance", 0, Inf, TRUE)
-  .rc_scalar(max_iterations, "max_iterations", 1, .Machine$integer.max)
+  .cs_scalar(kappa, "kappa", 1, Inf)
+  .cs_scalar(recording_fraction, "recording_fraction", 0, 1, TRUE)
+  .cs_scalar(tolerance, "tolerance", 0, Inf, TRUE)
+  .cs_scalar(max_iterations, "max_iterations", 1, .Machine$integer.max)
   if (max_iterations != floor(max_iterations)) stop("max_iterations must be integer", call. = FALSE)
   rho <- recording_fraction
-  run <- function(lo, hi) cpp_rc_bounds_sparse(p, numerator, denominator, kappa, rho,
+  run <- function(lo, hi) cpp_cs_bounds_sparse(p, numerator, denominator, kappa, rho,
       lo, hi, as.integer(observation_map - 1L), tolerance, as.integer(max_iterations))
   plugin <- run(rho * p, rho * p); outer <- region <- NULL
   if (!is.null(counts)) {
@@ -112,6 +112,6 @@ rc_bounds_sparse <- function(p, numerator, denominator = rep(1, length(numerator
       assumptions = c("known recording fraction", "finite complete support and declared coarsening fibres",
                       "marginal recording odds bound", "positive conditioning denominator"),
       method = "Exact structural reduction of Charnes-Cooper bounds; sorted fibre allocation and fractional dual certificates"),
-      class = "rc_bounds")
+      class = "cs_bounds")
  })
 }

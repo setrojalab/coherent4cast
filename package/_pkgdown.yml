@@ -13,48 +13,48 @@ articles:
 reference:
 - title: Data and model
   contents:
-  - as_trajectory
-  - build_history
-  - coherent4cast
-  - coherent4cast_control
-  - rc_simulate
-  - rc_readmission
-  - rc_colon
+  - cs_as_trajectory
+  - cs_build_history
+  - coherentSurv
+  - cs_control
+  - cs_simulate
+  - cs_readmission
+  - cs_colon
 - title: Likelihood and forecasts
   contents:
-  - rc_loglik
-  - rc_coarsen
-  - predict.coherent4cast
-  - rc_propagate
-  - rc_filter_paths
-  - rc_predict_paths
-  - rc_regularize
-  - rc_frailty_loglik
-  - rc_frailty_diagnose
-  - rc_covariate_model
-  - rc_coarsen_fibre
-  - rc_colon_fibre
-  - rc_fibre_mcse
-  - rc_predict_coarsened
-  - rc_generator_csr
-  - rc_propagate_sparse
+  - cs_loglik
+  - cs_coarsen
+  - predict.coherentSurv
+  - cs_propagate
+  - cs_filter_paths
+  - cs_predict_paths
+  - cs_regularize
+  - cs_frailty_loglik
+  - cs_frailty_diagnose
+  - cs_covariate_model
+  - cs_coarsen_fibre
+  - cs_colon_fibre
+  - cs_fibre_mcse
+  - cs_predict_coarsened
+  - cs_generator_csr
+  - cs_propagate_sparse
 - title: Inference and validation
   contents:
-  - rc_target
-  - rc_bounds
-  - rc_bounds_sparse
+  - cs_target
+  - cs_bounds
+  - cs_bounds_sparse
   - targeting_spec
-  - predict.coherent4cast_targeted
-  - summary.coherent4cast_targeted
-  - rc_conformal
-  - rc_pivot
-  - rc_cornish_fisher
-  - rc_identify
-  - rc_band
+  - predict.coherentSurv_targeted
+  - summary.coherentSurv_targeted
+  - cs_conformal
+  - cs_pivot
+  - cs_cornish_fisher
+  - cs_identify
+  - cs_band
   - validate
 - title: Model summaries
   contents:
-  - summary.coherent4cast
+  - summary.coherentSurv
   - tidy
   - glance
   - augment

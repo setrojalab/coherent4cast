@@ -1,7 +1,7 @@
 \name{augment}
 \alias{augment}
-\alias{augment.coherent4cast}
-\title{coherent4cast augment interface}
+\alias{augment.coherentSurv}
+\title{coherentSurv augment interface}
 \description{S3 or convenience interface for augment output.}
 \usage{
 augment(x, ...) 
@@ -12,4 +12,4 @@ augment(x, ...)
 }
 \details{Arguments are dispatched to the applicable model or finite-support procedure. A fitted continuous-time likelihood is not silently treated as a finite-support sensitivity experiment.}
 \value{A model summary, forecast, sensitivity region or calibration result, according to the method.}
-\seealso{\code{rc_loglik}, \code{rc_target}, \code{rc_bounds}}
+\seealso{\code{cs_loglik}, \code{cs_target}, \code{cs_bounds}}

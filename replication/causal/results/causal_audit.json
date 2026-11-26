@@ -1,13 +1,13 @@
 {
   "report_schema_version": "1.0",
-  "report_type": "coherent4cast_audit_report",
+  "report_type": "coherentSurv_audit_report",
   "fit_context": {
     "captured_at_utc": "2026-11-25T07:37:22.119235Z",
     "session": {
       "R_version": "R Under development (unstable) (2026-11-17 r90926 ucrt)",
       "platform": "x86_64-w64-mingw32",
-      "coherent4cast_version": "0.10.3",
-      "session_info": ["R Under development (unstable) (2026-11-17 r90926 ucrt)", "Platform: x86_64-w64-mingw32/x64", "Running under: Windows 11 x64 (build 26100)", "", "Matrix products: default", "  LAPACK version 3.12.1", "", "locale:", "[1] LC_COLLATE=English_United States.utf8 ", "[2] LC_CTYPE=C                            ", "[3] LC_MONETARY=English_United States.utf8", "[4] LC_NUMERIC=C                          ", "[5] LC_TIME=English_United States.utf8    ", "system code page: 65001", "", "time zone: America/Los_Angeles", "tzcode source: internal", "", "attached base packages:", "[1] stats     graphics  grDevices utils     datasets  methods   base     ", "", "other attached packages:", "[1] coherent4cast_0.10.3", "", "loaded via a namespace (and not attached):", "[1] compiler_4.7.0 tools_4.7.0    Rcpp_1.1.2    "]
+      "coherentSurv_version": "0.11.0",
+      "session_info": ["R Under development (unstable) (2026-11-17 r90926 ucrt)", "Platform: x86_64-w64-mingw32/x64", "Running under: Windows 11 x64 (build 26100)", "", "Matrix products: default", "  LAPACK version 3.12.1", "", "locale:", "[1] LC_COLLATE=English_United States.utf8 ", "[2] LC_CTYPE=C                            ", "[3] LC_MONETARY=English_United States.utf8", "[4] LC_NUMERIC=C                          ", "[5] LC_TIME=English_United States.utf8    ", "system code page: 65001", "", "time zone: America/Los_Angeles", "tzcode source: internal", "", "attached base packages:", "[1] stats     graphics  grDevices utils     datasets  methods   base     ", "", "other attached packages:", "[1] coherentSurv_0.11.0", "", "loaded via a namespace (and not attached):", "[1] compiler_4.7.0 tools_4.7.0    Rcpp_1.1.2    "]
     },
     "data_fingerprint": {
       "algorithm": "SHA-256",
@@ -21,8 +21,8 @@
     "status": "Context captured by the fitting workflow."
   },
   "model": {
-    "class": ["coherent4cast_causal", "coherent4cast"],
-    "call": "rc_causal(formula = ~x, data = .audit_data_argument_redacted, treatment = \"treatment\", horizon = 1, censor = \"censored\", time_unit = \"years\", event_types = c(\"1\", \"2\"), spec = .audit_data_argument_redacted, seed = 81)",
+    "class": ["coherentSurv_causal", "coherentSurv"],
+    "call": "cs_causal(formula = ~x, data = .audit_data_argument_redacted, treatment = \"treatment\", horizon = 1, censor = \"censored\", time_unit = \"years\", event_types = c(\"1\", \"2\"), spec = .audit_data_argument_redacted, seed = 81)",
     "wrapper_call": null,
     "formula": "~x",
     "schema": {
@@ -93,8 +93,8 @@
     "session": {
       "R_version": "R Under development (unstable) (2026-11-17 r90926 ucrt)",
       "platform": "x86_64-w64-mingw32",
-      "coherent4cast_version": "0.10.3",
-      "session_info": ["R Under development (unstable) (2026-11-17 r90926 ucrt)", "Platform: x86_64-w64-mingw32/x64", "Running under: Windows 11 x64 (build 26100)", "", "Matrix products: default", "  LAPACK version 3.12.1", "", "locale:", "[1] LC_COLLATE=English_United States.utf8 ", "[2] LC_CTYPE=C                            ", "[3] LC_MONETARY=English_United States.utf8", "[4] LC_NUMERIC=C                          ", "[5] LC_TIME=English_United States.utf8    ", "system code page: 65001", "", "time zone: America/Los_Angeles", "tzcode source: internal", "", "attached base packages:", "[1] stats     graphics  grDevices utils     datasets  methods   base     ", "", "other attached packages:", "[1] coherent4cast_0.10.3", "", "loaded via a namespace (and not attached):", "[1] compiler_4.7.0 tools_4.7.0    Rcpp_1.1.2     digest_0.6.39 "]
+      "coherentSurv_version": "0.11.0",
+      "session_info": ["R Under development (unstable) (2026-11-17 r90926 ucrt)", "Platform: x86_64-w64-mingw32/x64", "Running under: Windows 11 x64 (build 26100)", "", "Matrix products: default", "  LAPACK version 3.12.1", "", "locale:", "[1] LC_COLLATE=English_United States.utf8 ", "[2] LC_CTYPE=C                            ", "[3] LC_MONETARY=English_United States.utf8", "[4] LC_NUMERIC=C                          ", "[5] LC_TIME=English_United States.utf8    ", "system code page: 65001", "", "time zone: America/Los_Angeles", "tzcode source: internal", "", "attached base packages:", "[1] stats     graphics  grDevices utils     datasets  methods   base     ", "", "other attached packages:", "[1] coherentSurv_0.11.0", "", "loaded via a namespace (and not attached):", "[1] compiler_4.7.0 tools_4.7.0    Rcpp_1.1.2     digest_0.6.39 "]
     },
     "data_fingerprint": {
       "algorithm": "SHA-256",

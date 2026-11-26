@@ -9,7 +9,7 @@ vignette: >
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(collapse=TRUE,comment="#>")
-library("coherent4cast")
+library("coherentSurv")
 ```
 
 ## Evaluate predictions on eligible held-out subjects
@@ -56,7 +56,7 @@ weighted two-by-two table and the explicitly selected decision threshold.
 ```{r conformal}
 scores <- c(.05,.1,.12,.2,.22,.31,.35,.5,.6,.8)
 candidates <- seq(.1,.9,by=.1)
-sets <- rc_conformal(scores,candidates,alpha=.2)
+sets <- cs_conformal(scores,candidates,alpha=.2)
 sets$candidates
 sets$coverage_guarantee
 ```
@@ -67,7 +67,7 @@ exact finite-sample guarantee. A certified calculation accepts externally
 justified simultaneous weight intervals and charges their error probability:
 
 ```{r certified}
-certified <- rc_conformal(scores,candidates,alpha=.2,
+certified <- cs_conformal(scores,candidates,alpha=.2,
    weight_status="certified",weight_lower=rep(.8,10),
    weight_upper=rep(1.2,10),candidate_weight_upper=rep(1.2,9),
    band_error=.02)
@@ -80,7 +80,7 @@ an entire continuous outcome set or certify arbitrary temporal drift.
 ## Keep uncertainty procedures distinct
 
 ```{r bands}
-b <- rc_band(theta=c(-2,.2),covariance=diag(c(.04,.01)),
+b <- cs_band(theta=c(-2,.2),covariance=diag(c(.04,.01)),
    forecast=function(theta)plogis(theta[1]+theta[2]*c(0,1)),
    draws=1000,seed=21)
 data.frame(estimate=b$estimate,lower=b$lower,upper=b$upper)
@@ -88,8 +88,8 @@ b$method
 ```
 
 This is frequentist Gaussian resampling through a nonlinear forecast. It is not
-a Bayesian posterior or finite-sample confidence projection. `rc_regularize()`
+a Bayesian posterior or finite-sample confidence projection. `cs_regularize()`
 offers observed-information log-determinant stabilization for an eligible
 exact-history fit; it does not guarantee automatic Firth bias cancellation.
 For independent uncensored terminal times with known frailty dispersion and a
-constant baseline, `rc_pivot()` supplies a different, exact model-specific route.
+constant baseline, `cs_pivot()` supplies a different, exact model-specific route.

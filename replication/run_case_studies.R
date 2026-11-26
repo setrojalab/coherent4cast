@@ -1,13 +1,13 @@
-# Execute from the project root with an installed coherent4cast package.
-# Optional environment variable COHERENT4CAST_LIBRARY selects a local R library.
+# Execute from the project root with an installed coherentSurv package.
+# Optional environment variable COHERENTSURV_LIBRARY selects a local R library.
 # Public patient records are loaded from their source packages; outputs are
 # aggregate results. Local fit objects remain under build/case_fits/.
 Sys.unsetenv("LC_ALL")
-library_path <- Sys.getenv("COHERENT4CAST_LIBRARY", "")
+library_path <- Sys.getenv("COHERENTSURV_LIBRARY", "")
 if (nzchar(library_path)) .libPaths(c(library_path, .libPaths()))
-library(coherent4cast)
-output <- Sys.getenv("COHERENT4CAST_CASE_OUTPUT", "replication/results/cases")
-cache_directory <- Sys.getenv("COHERENT4CAST_CASE_CACHE", "build/case_fits")
+library(coherentSurv)
+output <- Sys.getenv("COHERENTSURV_CASE_OUTPUT", "replication/results/cases")
+cache_directory <- Sys.getenv("COHERENTSURV_CASE_CACHE", "build/case_fits")
 dir.create(output, recursive=TRUE, showWarnings=FALSE)
 dir.create(cache_directory, recursive=TRUE, showWarnings=FALSE)
 overview <- metrics <- curves <- list()
@@ -16,14 +16,14 @@ fit_model <- function(label, adapter, control) {
   cat("Fitting", label, "\n"); flush.console()
   warnings <- character(); began <- proc.time()[["elapsed"]]
   cached <- file.path(cache_directory,paste0(label,".rds"))
-  reuse <- identical(Sys.getenv("COHERENT4CAST_REUSE_CASE_FITS"),"1") && file.exists(cached)
+  reuse <- identical(Sys.getenv("COHERENTSURV_REUSE_CASE_FITS"),"1") && file.exists(cached)
   if (reuse) {
     fit <- readRDS(cached)
     checkfile <- tempfile();saveRDS(adapter$data,checkfile,version=2)
     reuse <- identical(unname(tools::md5sum(checkfile)),fit$audit$data_hash)
     unlink(checkfile)
   }
-  if (!reuse) fit <- withCallingHandlers(coherent4cast(adapter$formula, adapter$data,
+  if (!reuse) fit <- withCallingHandlers(cs_fit(adapter$formula, adapter$data,
     time_unit=adapter$metadata$time_unit, event_types=adapter$event_types,
     nonrecurrent=adapter$nonrecurrent, breaks=if(is.null(adapter$breaks))c(0,Inf) else adapter$breaks,
     observation=if(is.null(adapter$coarsening))"exact" else "coarsened",
@@ -76,9 +76,9 @@ exact_adapter <- function(data,formula,synthetic=FALSE) list(data=data,formula=f
     recurrences=sum(data$event_type!=0),terminal_events=sum(data$terminal),
     source_kind=if(synthetic)"synthetic demonstration" else "public clinical cohort"))
 for (name in c("sim_perinatal","sim_oncology","sim_robotics")) {
-  e <- new.env();data(list=name,package="coherent4cast",envir=e);d<-get(name,envir=e)
+  e <- new.env();data(list=name,package="coherentSurv",envir=e);d<-get(name,envir=e)
   a <- exact_adapter(d,~x,TRUE)
-  ctl <- coherent4cast_control(maxit=600,tolerance=1e-10,quadrature=30,history_cap=2)
+  ctl <- cs_control(maxit=600,tolerance=1e-10,quadrature=30,history_cap=2)
   full <- fit_model(name,a,ctl)
   ids <- sort(unique(d$id));test <- ids[seq_along(ids)%%5L==0L]
   train <- a;train$data<-d[!d$id%in%test,,drop=FALSE]
@@ -88,39 +88,39 @@ for (name in c("sim_perinatal","sim_oncology","sim_robotics")) {
   pred <- predict(fit,heldout,landmark=.5,horizon=c(.25,.5,1,1.5,2),type="all")
   collect_forecasts(name,fit,pred,endpoint_exact(heldout),.5)
 }
-readmission <- rc_readmission()
+readmission <- cs_readmission()
 readmission$breaks <- c(0,1,3,Inf)
 readmission$metadata$source_kind <- "public clinical cohort"
-readmission_full <- fit_model("readmission",readmission,coherent4cast_control(maxit=800,tolerance=1e-10,history_cap=3))
+readmission_full <- fit_model("readmission",readmission,cs_control(maxit=800,tolerance=1e-10,history_cap=3))
 ids <- sort(unique(readmission$data$id));test <- ids[seq_along(ids)%%5L==0L]
 train <- readmission;train$data<-readmission$data[!readmission$data$id%in%test,,drop=FALSE]
 train$metadata$recurrences<-sum(train$data$event_type!="0");train$metadata$terminal_events<-sum(train$data$terminal)
-readmission_train <- fit_model("readmission_train",train,coherent4cast_control(maxit=800,tolerance=1e-10,history_cap=3))
+readmission_train <- fit_model("readmission_train",train,cs_control(maxit=800,tolerance=1e-10,history_cap=3))
 heldout<-readmission$data[readmission$data$id%in%test,,drop=FALSE]
 pred <- predict(readmission_train,heldout,landmark=1,horizon=c(.25,.5,1,1.5,2),type="all")
 collect_forecasts("readmission",readmission_train,pred,endpoint_exact(heldout),1)
 
-colon <- rc_colon(nodes=4)
+colon <- cs_colon(nodes=4)
 colon$metadata$terminal_events <- colon$metadata$source_deaths
 colon$metadata$source_kind <- "public randomized clinical trial (prognostic analysis)"
-ctl <- coherent4cast_control(maxit=800,tolerance=1e-10,history_cap=1)
+ctl <- cs_control(maxit=800,tolerance=1e-10,history_cap=1)
 colon_full <- fit_model("colon_node4",colon,ctl)
-continuous <- rc_colon(nodes=4,covariate="nodes")
+continuous <- cs_colon(nodes=4,covariate="nodes")
 continuous$metadata$terminal_events <- continuous$metadata$source_deaths
 continuous$metadata$source_kind <- colon$metadata$source_kind
 colon_nodes <- fit_model("colon_nodes",continuous,ctl)
 # Numerical quadrature audit at the same fitted parameters: no refitting and no
 # target change. Retain per-subject maximum differences, not patient records.
 subject_likelihood <- function(fit,adapter) {
-  d <- as_trajectory(adapter$data,event_types="1",time_unit="years",observation="coarsened")
-  dd <- getFromNamespace(".rc_design","coherent4cast")(d,fit$formula,fit$breaks,
+  d <- cs_as_trajectory(adapter$data,event_types="1",time_unit="years",observation="coarsened")
+  dd <- getFromNamespace(".cs_design","coherentSurv")(d,fit$formula,fit$breaks,
     fit$control$history_cap,fit$nonrecurrent,fit$design$terms,fit$design$xlevels,fit$design$contrasts)
   X <- if(is.null(fit$design$active))dd$design else dd$design[,fit$design$active,drop=FALSE]
-  z <- rc_loglik(fit$coefficients,dd$unit,dd$exposure,X,dd$event,information=FALSE)
-  rc_coarsen(z,owner=adapter$coarsening$owner,
+  z <- cs_loglik(fit$coefficients,dd$unit,dd$exposure,X,dd$event,information=FALSE)
+  cs_coarsen(z,owner=adapter$coarsening$owner,
     log_weights=adapter$coarsening$log_weights)$subject_loglik
 }
-q8 <- rc_colon(nodes=8)
+q8 <- cs_colon(nodes=8)
 delta <- abs(subject_likelihood(colon_full,colon)-subject_likelihood(colon_full,q8))
 qa <- data.frame(case="colon_node4",subjects=colon$metadata$patients,
   same_day_pairs=length(colon$metadata$same_day_ids),paths_4=colon$metadata$paths,
@@ -129,7 +129,7 @@ qa <- data.frame(case="colon_node4",subjects=colon$metadata$patients,
 write.csv(qa,file.path(output,"colon_quadrature_audit.csv"),row.names=FALSE)
 raw <- getExportedValue("survival","colon")
 ids<-sort(unique(raw$id));test<-ids[seq_along(ids)%%5L==0L]
-training <- rc_colon(raw[!raw$id%in%test,],nodes=4)
+training <- cs_colon(raw[!raw$id%in%test,],nodes=4)
 training$metadata$terminal_events<-training$metadata$source_deaths
 training$metadata$source_kind<-colon$metadata$source_kind
 colon_train<-fit_model("colon_train",training,ctl)
@@ -147,8 +147,8 @@ past<-test_raw[test_raw$id%in%eligible,]
 future <- past$time>day
 past$status[future]<-0;past$time[future]<-day
 past$time[past$etype==2]<-day;past$status[past$etype==2]<-0
-histories<-rc_colon(past,nodes=4)
-pred <- rc_predict_paths(colon_train,histories$data,histories$coarsening$owner,
+histories<-cs_colon(past,nodes=4)
+pred <- cs_predict_paths(colon_train,histories$data,histories$coarsening$owner,
   histories$coarsening$log_weights,landmark,c(.25,.5,1,1.5,2),type="all")
 pred$unit<-as.character(histories$metadata$source_ids[as.integer(pred$unit)])
 collect_forecasts("colon_node4",colon_train,pred,ep,landmark)

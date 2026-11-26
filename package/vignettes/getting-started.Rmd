@@ -9,7 +9,7 @@ vignette: >
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(collapse=TRUE,comment="#>",fig.width=6,fig.height=4)
-library("coherent4cast")
+library("coherentSurv")
 ```
 
 ## Define the history and the question
@@ -22,9 +22,9 @@ that an unmonitored interval was event free. Every analysis declares a time unit
 ```{r data}
 data("sim_perinatal")
 head(sim_perinatal)
-trajectory <- as_trajectory(sim_perinatal, event_types=c("1","2"),
+trajectory <- cs_as_trajectory(sim_perinatal, event_types=c("1","2"),
                             time_unit="months")
-history <- build_history(trajectory, cap=2)
+history <- cs_build_history(trajectory, cap=2)
 head(history$counts)
 ```
 
@@ -36,7 +36,7 @@ events occurring after the cap.
 ## Fit one event-history law
 
 ```{r fit}
-fit <- coherent4cast(~x, sim_perinatal, event_types=c("1","2"),
+fit <- cs_fit(~x, sim_perinatal, event_types=c("1","2"),
                 time_unit="months")
 print(fit)
 glance(fit)

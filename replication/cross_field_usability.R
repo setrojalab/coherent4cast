@@ -1,15 +1,15 @@
-# Run from the repository root with an installed coherent4cast 0.10.1.
+# Run from the repository root with an installed coherentSurv 0.10.1.
 # This is one synthetic cohort under six naming conventions, not six validation studies.
-local_library <- Sys.getenv("COHERENT4CAST_LIBRARY", "")
+local_library <- Sys.getenv("COHERENTSURV_LIBRARY", "")
 if (nzchar(local_library)) {
-  if (!dir.exists(local_library)) stop("COHERENT4CAST_LIBRARY is not an existing R library.")
+  if (!dir.exists(local_library)) stop("COHERENTSURV_LIBRARY is not an existing R library.")
   .libPaths(c(local_library, .libPaths()))
 }
-library(coherent4cast)
-out <- Sys.getenv("COHERENT4CAST_CROSS_FIELD_OUTPUT", "replication/results/cross_field_usability")
+library(coherentSurv)
+out <- Sys.getenv("COHERENTSURV_CROSS_FIELD_OUTPUT", "replication/results/cross_field_usability")
 dir.create(out, recursive = TRUE, showWarnings = FALSE)
 writeLines(capture.output(sessionInfo()), file.path(out, "sessionInfo.txt"))
-writeLines(normalizePath(system.file(package = "coherent4cast"), winslash = "/"),
+writeLines(normalizePath(system.file(package = "coherentSurv"), winslash = "/"),
   file.path(out, "loaded_package_path.txt"))
 criteria <- list()
 check <- function(name, observed, requirement, passed, scope) {
@@ -19,7 +19,7 @@ check <- function(name, observed, requirement, passed, scope) {
 }
 
 # Independent subjects; independent simulated censoring; explicit time origin and unit.
-d <- rc_simulate(n = 500, horizon = 4, rates = c(.5, .3, .12, .08),
+d <- cs_simulate(n = 500, horizon = 4, rates = c(.5, .3, .12, .08),
   beta = c(.2, -.2, .1, .2), history = c(.05, .08, .12, .08),
   dispersion = .35, censor_rate = .03, history_cap = 1L,
   seed = 20261123L, time_unit = "years")
@@ -27,9 +27,9 @@ write.csv(d, file.path(out, "synthetic_histories.csv"), row.names = FALSE)
 test_ids <- seq(5, 500, by = 5)
 train <- d[!d$id %in% test_ids, ]
 test <- d[d$id %in% test_ids, ]
-control <- coherent4cast_control(maxit = 500L, tolerance = 1e-9, history_cap = 1L, quadrature = 30L)
+control <- cs_control(maxit = 500L, tolerance = 1e-9, history_cap = 1L, quadrature = 30L)
 warnings <- character()
-fit <- withCallingHandlers(coherent4cast(~ x, train, event_types = c("1", "2", "3"),
+fit <- withCallingHandlers(cs_fit(~ x, train, event_types = c("1", "2", "3"),
   time_unit = "years", control = control, frailty_diagnostics = FALSE), warning = function(w) {
     warnings <<- c(warnings, conditionMessage(w)); invokeRestart("muffleWarning")
   })
@@ -56,7 +56,7 @@ write.csv(reference, file.path(out, "heldout_forecasts.csv"), row.names = FALSE)
 parity <- list()
 for (domain in names(maps)) {
   dd <- test[, canonical]; names(dd) <- maps[[domain]]
-  named <- as_trajectory(dd, unit = maps[[domain]][1], start = maps[[domain]][2],
+  named <- cs_as_trajectory(dd, unit = maps[[domain]][1], start = maps[[domain]][2],
     stop = maps[[domain]][3], event_type = maps[[domain]][4], terminal = maps[[domain]][5],
     observed = maps[[domain]][7], event_types = c("1", "2", "3"), time_unit = "years")
   # Return to canonical columns before forecasting with the already fitted model.
@@ -74,7 +74,7 @@ write.csv(do.call(rbind, parity), file.path(out, "domain_parity.csv"), row.names
 
 # One direct fit through an entirely renamed public schema verifies dispatch as well.
 renamed <- train[, canonical]; names(renamed) <- maps$engineering
-fit_renamed <- withCallingHandlers(coherent4cast(~ baseline_load, renamed,
+fit_renamed <- withCallingHandlers(cs_fit(~ baseline_load, renamed,
   unit = "asset", start = "operation_start", stop = "operation_end",
   event_type = "fault_type", terminal = "decommissioning", observed = "instrumented",
   event_types = c("1", "2", "3"), time_unit = "years", control = control,
@@ -109,7 +109,7 @@ write.csv(data.frame(predicted = at$estimate, time = ep$time - 1, status = ep$st
   file.path(out, "validation_input.csv"), row.names = FALSE)
 if (file.exists("replication/research_metrics.R")) {
   source("replication/research_metrics.R")
-  report <- rc_research_report(at$estimate, time = ep$time - 1, status = ep$status,
+  report <- cs_research_report(at$estimate, time = ep$time - 1, status = ep$status,
     horizon = 1, thresholds = c(.2, .05, .1, .3, .5), bootstrap_reps = 200L, seed = 20261123L,
     false_positive_cost = 1, false_negative_cost = 5, loss_unit = "illustrative loss units")
   saveRDS(report, file.path(out, "companion_report.rds"))
@@ -121,7 +121,7 @@ if (file.exists("replication/research_metrics.R")) {
     report$bootstrap_draws, check.names = FALSE), file.path(out, "companion_bootstrap_draws.csv"), row.names = FALSE)
   if (!is.null(report$bootstrap_errors)) write.csv(data.frame(replicate = seq_along(report$bootstrap_errors),
     error = report$bootstrap_errors), file.path(out, "companion_bootstrap_errors.csv"), row.names = FALSE)
-  valuation <- rc_value_burden(reference, unit_cost = c(burden_1 = 1, burden_2 = 4, burden_3 = 10),
+  valuation <- cs_value_burden(reference, unit_cost = c(burden_1 = 1, burden_2 = 4, burden_3 = 10),
     cost_unit = "illustrative loss units")
   saveRDS(valuation, file.path(out, "companion_valuation.rds"))
   write.csv(valuation$total, file.path(out, "companion_valuation.csv"), row.names = FALSE)
@@ -139,7 +139,7 @@ check("Zero-case uncertainty is explicit", paste(undefined$metrics$metric[!undef
   "A zero event count does not establish perfect discrimination or safety.")
 unsupported <- tryCatch({validate(c(.1, .2), time = c(.1, .2), status = c(0, 0), horizon = 1); NULL}, error = identity)
 check("No observed horizon outcome is rejected", if (is.null(unsupported)) "accepted" else unsupported$code,
-  "structured validation_support error", inherits(unsupported, "coherent4cast_error") && identical(unsupported$code, "validation_support"),
+  "structured validation_support error", inherits(unsupported, "coherentSurv_error") && identical(unsupported$code, "validation_support"),
   "All-censored-before-horizon data cannot provide a zero-error validation score.")
 
 # Independent small finite-path MAR example; this is not an EIF for the frailty fit.
@@ -150,7 +150,7 @@ z <- rbinom(400L, 1L, .5)
 path <- vapply(z, function(x) sample.int(6, 1, prob = if (x == 0) c(.4,.3,.15,.08,.04,.03) else c(.25,.3,.2,.12,.06,.07)), integer(1))
 recorded <- rbinom(length(z), 1, ifelse(z == 0, .8, .65))
 target_data <- data.frame(id = seq_along(z), x = z, path = ifelse(recorded == 1, path, NA), recorded = recorded)
-target <- coherent4cast(~ x, target_data, time_unit = "years", targeting = "finite_path",
+target <- cs_fit(~ x, target_data, time_unit = "years", targeting = "finite_path",
   targeting_spec = list(path = "path", recorded = "recorded", strata = "x", features = features, horizon = 1))
 write.csv(summary(target)$estimates, file.path(out, "finite_path_EIF.csv"), row.names = FALSE)
 outer <- predict(target, interval = "projection", type = "all")
@@ -161,7 +161,7 @@ check("Finite-path common-law agreement", max(abs(target$estimate - as.vector(cr
 check("EIF score equation", max(abs(target$EIF_mean)), "convergence flag true",
   target$convergence$valid, "A solved score is a numerical check; it does not establish finite-sample efficiency.")
 counts <- tabulate(path[recorded == 1], 6)
-b <- rc_bounds(counts / sum(counts), numerator = features[, "risk"], kappa = 2,
+b <- cs_bounds(counts / sum(counts), numerator = features[, "risk"], kappa = 2,
   recording_fraction = .5 * .8 + .5 * .65, counts = counts)
 write.csv(data.frame(plugin_lower = b$lower, plugin_upper = b$upper,
   outer_lower = b$outer$lower, outer_upper = b$outer$upper), file.path(out, "recording_bounds.csv"), row.names = FALSE)
@@ -174,11 +174,11 @@ check("Bound nesting", paste(b$outer$lower, b$lower, b$upper, b$outer$upper, sep
 bad <- test[test$id == test$id[1], ]; bad$start[1] <- .01
 error <- tryCatch({predict(fit, bad, landmark = 1, horizon = 1); NULL}, error = identity)
 check("Delayed entry is rejected", if (is.null(error)) "accepted" else error$code,
-  "structured left_truncation error", inherits(error, "coherent4cast_error") && identical(error$code, "left_truncation"),
+  "structured left_truncation error", inherits(error, "coherentSurv_error") && identical(error$code, "left_truncation"),
   "Unobserved pre-entry histories require an observation model.")
-error2 <- tryCatch({coherent4cast(~ x, train, time_unit = "years", intervention = list(treatment = 1)); NULL}, error = identity)
+error2 <- tryCatch({cs_fit(~ x, train, time_unit = "years", intervention = list(treatment = 1)); NULL}, error = identity)
 check("Unsupported causal request is rejected", if (is.null(error2)) "accepted" else error2$code,
-  "structured causal_scope error", inherits(error2, "coherent4cast_error") && identical(error2$code, "causal_scope"),
+  "structured causal_scope error", inherits(error2, "coherentSurv_error") && identical(error2$code, "causal_scope"),
   "Prognostic scores do not identify intervention effects.")
 writeLines(unique(warnings), file.path(out, "warnings.txt"))
 writeLines(c("One synthetic cohort, six column-name mappings, one independent renamed fit.",

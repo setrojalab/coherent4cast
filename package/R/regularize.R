@@ -1,4 +1,4 @@
-.rc_penalty_score <- function(theta, design, inverse) {
+.cs_penalty_score <- function(theta, design, inverse) {
   X<-design$design; ids<-design$unit; p<-ncol(X); n<-max(ids)
   total<-function(v) as.numeric(rowsum(v,ids,reorder=FALSE)[match(seq_len(n),unique(ids)),,drop=FALSE])
   v<-design$exposure*exp(as.vector(X%*%theta[seq_len(p)]));a<-exp(-theta[p+1L])
@@ -23,32 +23,32 @@
 
 #' Observed-information log-determinant stabilization
 #' @export
-rc_regularize <- function(object,maxit=120L,tolerance=1e-8) {
-  if(!inherits(object,"coherent4cast")||(!is.null(object$frailty)&&object$frailty!="gamma")||object$schema$observation!="exact"||!is.null(object$control$phi_fixed)||
+cs_regularize <- function(object,maxit=120L,tolerance=1e-8) {
+  if(!inherits(object,"coherentSurv")||(!is.null(object$frailty)&&object$frailty!="gamma")||object$schema$observation!="exact"||!is.null(object$control$phi_fixed)||
      !is.null(object$audit$call$weights))
-    .rc_error("regularization_scope","Requires an unweighted exact-history coherent4cast fit with estimated positive frailty dispersion.")
+    .cs_error("regularization_scope","Requires an unweighted exact-history coherentSurv fit with estimated positive frailty dispersion.")
   if(length(maxit)!=1L||!is.finite(maxit)||maxit<1||maxit!=floor(maxit)||length(tolerance)!=1L||!is.finite(tolerance)||tolerance<=0)
-    .rc_error("regularization_control","Use positive finite controls and an integer maxit.")
+    .cs_error("regularization_control","Use positive finite controls and an integer maxit.")
   dd<-object$design;p<-ncol(dd$design);n<-object$n
   evaluate<-function(theta) {
-    z<-rc_loglik(theta,dd$unit,dd$exposure,dd$design,dd$event)
+    z<-cs_loglik(theta,dd$unit,dd$exposure,dd$design,dd$event)
     I<-z$information;ee<-eigen(I,symmetric=TRUE,only.values=TRUE)$values
     if(min(ee)<=1e-10)return(list(value=1e20,gradient=rep(0,length(theta)),valid=FALSE))
-    inv<-solve(I);adjust<-.rc_penalty_score(theta,dd,inv)
+    inv<-solve(I);adjust<-.cs_penalty_score(theta,dd,inv)
     list(value=z$objective-.5*sum(log(ee))/n,gradient=z$gradient-adjust/n,valid=TRUE,raw=z)
   }
-  if(!evaluate(object$coefficients)$valid) .rc_error("positive_information","Starting fit is outside the positive-information domain; no information ridge is silently added.")
+  if(!evaluate(object$coefficients)$valid) .cs_error("positive_information","Starting fit is outside the positive-information domain; no information ridge is silently added.")
   lo<-c(rep(object$control$coefficient_bounds[1],p),object$control$log_phi_bounds[1]);hi<-c(rep(object$control$coefficient_bounds[2],p),object$control$log_phi_bounds[2])
   opt<-stats::optim(object$coefficients,function(t)evaluate(t)$value,function(t)evaluate(t)$gradient,method="L-BFGS-B",lower=lo,upper=hi,
       control=list(maxit=maxit,factr=max(1,min(100,tolerance/.Machine$double.eps)),pgtol=tolerance))
   z<-evaluate(opt$par)
-  if(!z$valid) .rc_error("positive_information","Penalized optimizer left the positive-information domain.")
+  if(!z$valid) .cs_error("positive_information","Penalized optimizer left the positive-information domain.")
   step<-.Machine$double.eps^(1/3)*pmax(1,abs(opt$par));H<-matrix(0,p+1L,p+1L)
   for(j in seq_len(p+1L)) {up<-dn<-opt$par;up[j]<-up[j]+step[j];dn[j]<-dn[j]-step[j];u<-evaluate(up);v<-evaluate(dn)
-    if(!u$valid||!v$valid) .rc_error("penalized_curvature","Finite-difference curvature crosses the information-domain boundary.")
+    if(!u$valid||!v$valid) .cs_error("penalized_curvature","Finite-difference curvature crosses the information-domain boundary.")
     H[,j]<-(u$gradient-v$gradient)/(2*step[j])*n}
   H<-(H+t(H))/2;ev<-eigen(H,symmetric=TRUE,only.values=TRUE)$values
-  if(min(ev)<=1e-8) .rc_error("penalized_curvature","Penalized curvature is not positive definite.")
+  if(min(ev)<=1e-8) .cs_error("penalized_curvature","Penalized curvature is not positive definite.")
   inv<-solve(H);centered<-sweep(z$raw$scores,2,colMeans(z$raw$scores));V<-inv%*%crossprod(centered)%*%inv
   at_bound<-any(abs(opt$par-lo)<1e-5|abs(opt$par-hi)<1e-5)
   valid<-opt$convergence==0L&&!at_bound&&max(abs(z$gradient))<1e-4

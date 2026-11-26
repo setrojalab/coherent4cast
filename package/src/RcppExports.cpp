@@ -10,9 +10,9 @@ Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
 Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
-// rc_cpp_causal_target
-Rcpp::List rc_cpp_causal_target(Rcpp::NumericVector rates, Rcpp::NumericVector censor, Rcpp::NumericVector propensity, Rcpp::IntegerMatrix next_state, Rcpp::IntegerVector subject_group, Rcpp::NumericMatrix records, int bins, double horizon, int maxit, double tolerance);
-RcppExport SEXP _coherent4cast_rc_cpp_causal_target(SEXP ratesSEXP, SEXP censorSEXP, SEXP propensitySEXP, SEXP next_stateSEXP, SEXP subject_groupSEXP, SEXP recordsSEXP, SEXP binsSEXP, SEXP horizonSEXP, SEXP maxitSEXP, SEXP toleranceSEXP) {
+// cs_cpp_causal_target
+Rcpp::List cs_cpp_causal_target(Rcpp::NumericVector rates, Rcpp::NumericVector censor, Rcpp::NumericVector propensity, Rcpp::IntegerMatrix next_state, Rcpp::IntegerVector subject_group, Rcpp::NumericMatrix records, int bins, double horizon, int maxit, double tolerance);
+RcppExport SEXP _coherentSurv_cs_cpp_causal_target(SEXP ratesSEXP, SEXP censorSEXP, SEXP propensitySEXP, SEXP next_stateSEXP, SEXP subject_groupSEXP, SEXP recordsSEXP, SEXP binsSEXP, SEXP horizonSEXP, SEXP maxitSEXP, SEXP toleranceSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -26,13 +26,13 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< double >::type horizon(horizonSEXP);
     Rcpp::traits::input_parameter< int >::type maxit(maxitSEXP);
     Rcpp::traits::input_parameter< double >::type tolerance(toleranceSEXP);
-    rcpp_result_gen = Rcpp::wrap(rc_cpp_causal_target(rates, censor, propensity, next_state, subject_group, records, bins, horizon, maxit, tolerance));
+    rcpp_result_gen = Rcpp::wrap(cs_cpp_causal_target(rates, censor, propensity, next_state, subject_group, records, bins, horizon, maxit, tolerance));
     return rcpp_result_gen;
 END_RCPP
 }
-// rc_cpp_continuous_target
-Rcpp::List rc_cpp_continuous_target(Rcpp::NumericVector rates, Rcpp::NumericVector censor, Rcpp::IntegerMatrix next_state, Rcpp::IntegerVector subject_group, Rcpp::NumericMatrix records, int bins, double horizon, int maxit, double tolerance);
-RcppExport SEXP _coherent4cast_rc_cpp_continuous_target(SEXP ratesSEXP, SEXP censorSEXP, SEXP next_stateSEXP, SEXP subject_groupSEXP, SEXP recordsSEXP, SEXP binsSEXP, SEXP horizonSEXP, SEXP maxitSEXP, SEXP toleranceSEXP) {
+// cs_cpp_continuous_target
+Rcpp::List cs_cpp_continuous_target(Rcpp::NumericVector rates, Rcpp::NumericVector censor, Rcpp::IntegerMatrix next_state, Rcpp::IntegerVector subject_group, Rcpp::NumericMatrix records, int bins, double horizon, int maxit, double tolerance);
+RcppExport SEXP _coherentSurv_cs_cpp_continuous_target(SEXP ratesSEXP, SEXP censorSEXP, SEXP next_stateSEXP, SEXP subject_groupSEXP, SEXP recordsSEXP, SEXP binsSEXP, SEXP horizonSEXP, SEXP maxitSEXP, SEXP toleranceSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -45,13 +45,13 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< double >::type horizon(horizonSEXP);
     Rcpp::traits::input_parameter< int >::type maxit(maxitSEXP);
     Rcpp::traits::input_parameter< double >::type tolerance(toleranceSEXP);
-    rcpp_result_gen = Rcpp::wrap(rc_cpp_continuous_target(rates, censor, next_state, subject_group, records, bins, horizon, maxit, tolerance));
+    rcpp_result_gen = Rcpp::wrap(cs_cpp_continuous_target(rates, censor, next_state, subject_group, records, bins, horizon, maxit, tolerance));
     return rcpp_result_gen;
 END_RCPP
 }
-// cpp_rc_loglik
-List cpp_rc_loglik(NumericVector theta, IntegerVector unit, NumericVector exposure, NumericMatrix design, NumericVector event, double phi_fixed, bool information);
-RcppExport SEXP _coherent4cast_cpp_rc_loglik(SEXP thetaSEXP, SEXP unitSEXP, SEXP exposureSEXP, SEXP designSEXP, SEXP eventSEXP, SEXP phi_fixedSEXP, SEXP informationSEXP) {
+// cpp_cs_loglik
+List cpp_cs_loglik(NumericVector theta, IntegerVector unit, NumericVector exposure, NumericMatrix design, NumericVector event, double phi_fixed, bool information);
+RcppExport SEXP _coherentSurv_cpp_cs_loglik(SEXP thetaSEXP, SEXP unitSEXP, SEXP exposureSEXP, SEXP designSEXP, SEXP eventSEXP, SEXP phi_fixedSEXP, SEXP informationSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -62,13 +62,13 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< NumericVector >::type event(eventSEXP);
     Rcpp::traits::input_parameter< double >::type phi_fixed(phi_fixedSEXP);
     Rcpp::traits::input_parameter< bool >::type information(informationSEXP);
-    rcpp_result_gen = Rcpp::wrap(cpp_rc_loglik(theta, unit, exposure, design, event, phi_fixed, information));
+    rcpp_result_gen = Rcpp::wrap(cpp_cs_loglik(theta, unit, exposure, design, event, phi_fixed, information));
     return rcpp_result_gen;
 END_RCPP
 }
-// cpp_rc_coarsen
-List cpp_rc_coarsen(NumericVector loglik, NumericMatrix scores, NumericVector information, IntegerVector owner, NumericVector log_weights);
-RcppExport SEXP _coherent4cast_cpp_rc_coarsen(SEXP loglikSEXP, SEXP scoresSEXP, SEXP informationSEXP, SEXP ownerSEXP, SEXP log_weightsSEXP) {
+// cpp_cs_coarsen
+List cpp_cs_coarsen(NumericVector loglik, NumericMatrix scores, NumericVector information, IntegerVector owner, NumericVector log_weights);
+RcppExport SEXP _coherentSurv_cpp_cs_coarsen(SEXP loglikSEXP, SEXP scoresSEXP, SEXP informationSEXP, SEXP ownerSEXP, SEXP log_weightsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -77,13 +77,13 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< NumericVector >::type information(informationSEXP);
     Rcpp::traits::input_parameter< IntegerVector >::type owner(ownerSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type log_weights(log_weightsSEXP);
-    rcpp_result_gen = Rcpp::wrap(cpp_rc_coarsen(loglik, scores, information, owner, log_weights));
+    rcpp_result_gen = Rcpp::wrap(cpp_cs_coarsen(loglik, scores, information, owner, log_weights));
     return rcpp_result_gen;
 END_RCPP
 }
-// cpp_rc_propagate
-List cpp_rc_propagate(NumericVector probability, NumericMatrix generator, double duration, NumericMatrix reward, double tolerance, int max_terms);
-RcppExport SEXP _coherent4cast_cpp_rc_propagate(SEXP probabilitySEXP, SEXP generatorSEXP, SEXP durationSEXP, SEXP rewardSEXP, SEXP toleranceSEXP, SEXP max_termsSEXP) {
+// cpp_cs_propagate
+List cpp_cs_propagate(NumericVector probability, NumericMatrix generator, double duration, NumericMatrix reward, double tolerance, int max_terms);
+RcppExport SEXP _coherentSurv_cpp_cs_propagate(SEXP probabilitySEXP, SEXP generatorSEXP, SEXP durationSEXP, SEXP rewardSEXP, SEXP toleranceSEXP, SEXP max_termsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -93,13 +93,13 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< NumericMatrix >::type reward(rewardSEXP);
     Rcpp::traits::input_parameter< double >::type tolerance(toleranceSEXP);
     Rcpp::traits::input_parameter< int >::type max_terms(max_termsSEXP);
-    rcpp_result_gen = Rcpp::wrap(cpp_rc_propagate(probability, generator, duration, reward, tolerance, max_terms));
+    rcpp_result_gen = Rcpp::wrap(cpp_cs_propagate(probability, generator, duration, reward, tolerance, max_terms));
     return rcpp_result_gen;
 END_RCPP
 }
-// cpp_rc_coarsen_fibre
-List cpp_rc_coarsen_fibre(NumericVector lower, NumericVector upper, IntegerVector mark, LogicalVector terminal, double followup, NumericVector breaks, NumericVector nodes, NumericVector weights, int max_perms, int draws, double seed, int max_paths);
-RcppExport SEXP _coherent4cast_cpp_rc_coarsen_fibre(SEXP lowerSEXP, SEXP upperSEXP, SEXP markSEXP, SEXP terminalSEXP, SEXP followupSEXP, SEXP breaksSEXP, SEXP nodesSEXP, SEXP weightsSEXP, SEXP max_permsSEXP, SEXP drawsSEXP, SEXP seedSEXP, SEXP max_pathsSEXP) {
+// cpp_cs_coarsen_fibre
+List cpp_cs_coarsen_fibre(NumericVector lower, NumericVector upper, IntegerVector mark, LogicalVector terminal, double followup, NumericVector breaks, NumericVector nodes, NumericVector weights, int max_perms, int draws, double seed, int max_paths);
+RcppExport SEXP _coherentSurv_cpp_cs_coarsen_fibre(SEXP lowerSEXP, SEXP upperSEXP, SEXP markSEXP, SEXP terminalSEXP, SEXP followupSEXP, SEXP breaksSEXP, SEXP nodesSEXP, SEXP weightsSEXP, SEXP max_permsSEXP, SEXP drawsSEXP, SEXP seedSEXP, SEXP max_pathsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -115,13 +115,13 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< int >::type draws(drawsSEXP);
     Rcpp::traits::input_parameter< double >::type seed(seedSEXP);
     Rcpp::traits::input_parameter< int >::type max_paths(max_pathsSEXP);
-    rcpp_result_gen = Rcpp::wrap(cpp_rc_coarsen_fibre(lower, upper, mark, terminal, followup, breaks, nodes, weights, max_perms, draws, seed, max_paths));
+    rcpp_result_gen = Rcpp::wrap(cpp_cs_coarsen_fibre(lower, upper, mark, terminal, followup, breaks, nodes, weights, max_perms, draws, seed, max_paths));
     return rcpp_result_gen;
 END_RCPP
 }
-// cpp_rc_mixture_lik
-List cpp_rc_mixture_lik(NumericVector beta, IntegerVector unit, NumericVector exposure, NumericMatrix X, NumericVector event, NumericVector h, NumericVector g, NumericMatrix dh, NumericMatrix dg, NumericVector d2h, NumericVector d2g, bool information);
-RcppExport SEXP _coherent4cast_cpp_rc_mixture_lik(SEXP betaSEXP, SEXP unitSEXP, SEXP exposureSEXP, SEXP XSEXP, SEXP eventSEXP, SEXP hSEXP, SEXP gSEXP, SEXP dhSEXP, SEXP dgSEXP, SEXP d2hSEXP, SEXP d2gSEXP, SEXP informationSEXP) {
+// cpp_cs_mixture_lik
+List cpp_cs_mixture_lik(NumericVector beta, IntegerVector unit, NumericVector exposure, NumericMatrix X, NumericVector event, NumericVector h, NumericVector g, NumericMatrix dh, NumericMatrix dg, NumericVector d2h, NumericVector d2g, bool information);
+RcppExport SEXP _coherentSurv_cpp_cs_mixture_lik(SEXP betaSEXP, SEXP unitSEXP, SEXP exposureSEXP, SEXP XSEXP, SEXP eventSEXP, SEXP hSEXP, SEXP gSEXP, SEXP dhSEXP, SEXP dgSEXP, SEXP d2hSEXP, SEXP d2gSEXP, SEXP informationSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -137,13 +137,13 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< NumericVector >::type d2h(d2hSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type d2g(d2gSEXP);
     Rcpp::traits::input_parameter< bool >::type information(informationSEXP);
-    rcpp_result_gen = Rcpp::wrap(cpp_rc_mixture_lik(beta, unit, exposure, X, event, h, g, dh, dg, d2h, d2g, information));
+    rcpp_result_gen = Rcpp::wrap(cpp_cs_mixture_lik(beta, unit, exposure, X, event, h, g, dh, dg, d2h, d2g, information));
     return rcpp_result_gen;
 END_RCPP
 }
-// rc_cpp_history
-Rcpp::List rc_cpp_history(Rcpp::IntegerVector unit, Rcpp::NumericVector start, Rcpp::NumericVector stop, Rcpp::IntegerVector mark, int types, double cap, double decay);
-RcppExport SEXP _coherent4cast_rc_cpp_history(SEXP unitSEXP, SEXP startSEXP, SEXP stopSEXP, SEXP markSEXP, SEXP typesSEXP, SEXP capSEXP, SEXP decaySEXP) {
+// cs_cpp_history
+Rcpp::List cs_cpp_history(Rcpp::IntegerVector unit, Rcpp::NumericVector start, Rcpp::NumericVector stop, Rcpp::IntegerVector mark, int types, double cap, double decay);
+RcppExport SEXP _coherentSurv_cs_cpp_history(SEXP unitSEXP, SEXP startSEXP, SEXP stopSEXP, SEXP markSEXP, SEXP typesSEXP, SEXP capSEXP, SEXP decaySEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -154,13 +154,13 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< int >::type types(typesSEXP);
     Rcpp::traits::input_parameter< double >::type cap(capSEXP);
     Rcpp::traits::input_parameter< double >::type decay(decaySEXP);
-    rcpp_result_gen = Rcpp::wrap(rc_cpp_history(unit, start, stop, mark, types, cap, decay));
+    rcpp_result_gen = Rcpp::wrap(cs_cpp_history(unit, start, stop, mark, types, cap, decay));
     return rcpp_result_gen;
 END_RCPP
 }
-// rc_cpp_target
-Rcpp::List rc_cpp_target(Rcpp::NumericMatrix counts, Rcpp::NumericMatrix initial, Rcpp::NumericMatrix features, Rcpp::NumericVector recording, double n, int maxit, double tolerance);
-RcppExport SEXP _coherent4cast_rc_cpp_target(SEXP countsSEXP, SEXP initialSEXP, SEXP featuresSEXP, SEXP recordingSEXP, SEXP nSEXP, SEXP maxitSEXP, SEXP toleranceSEXP) {
+// cs_cpp_target
+Rcpp::List cs_cpp_target(Rcpp::NumericMatrix counts, Rcpp::NumericMatrix initial, Rcpp::NumericMatrix features, Rcpp::NumericVector recording, double n, int maxit, double tolerance);
+RcppExport SEXP _coherentSurv_cs_cpp_target(SEXP countsSEXP, SEXP initialSEXP, SEXP featuresSEXP, SEXP recordingSEXP, SEXP nSEXP, SEXP maxitSEXP, SEXP toleranceSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -171,13 +171,13 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< double >::type n(nSEXP);
     Rcpp::traits::input_parameter< int >::type maxit(maxitSEXP);
     Rcpp::traits::input_parameter< double >::type tolerance(toleranceSEXP);
-    rcpp_result_gen = Rcpp::wrap(rc_cpp_target(counts, initial, features, recording, n, maxit, tolerance));
+    rcpp_result_gen = Rcpp::wrap(cs_cpp_target(counts, initial, features, recording, n, maxit, tolerance));
     return rcpp_result_gen;
 END_RCPP
 }
-// rc_cpp_bounds
-Rcpp::List rc_cpp_bounds(Rcpp::NumericVector p, Rcpp::NumericVector numerator, Rcpp::NumericVector denominator, double kappa, double rho, Rcpp::NumericVector lower, Rcpp::NumericVector upper, Rcpp::IntegerVector observation_map);
-RcppExport SEXP _coherent4cast_rc_cpp_bounds(SEXP pSEXP, SEXP numeratorSEXP, SEXP denominatorSEXP, SEXP kappaSEXP, SEXP rhoSEXP, SEXP lowerSEXP, SEXP upperSEXP, SEXP observation_mapSEXP) {
+// cs_cpp_bounds
+Rcpp::List cs_cpp_bounds(Rcpp::NumericVector p, Rcpp::NumericVector numerator, Rcpp::NumericVector denominator, double kappa, double rho, Rcpp::NumericVector lower, Rcpp::NumericVector upper, Rcpp::IntegerVector observation_map);
+RcppExport SEXP _coherentSurv_cs_cpp_bounds(SEXP pSEXP, SEXP numeratorSEXP, SEXP denominatorSEXP, SEXP kappaSEXP, SEXP rhoSEXP, SEXP lowerSEXP, SEXP upperSEXP, SEXP observation_mapSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -189,13 +189,13 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< Rcpp::NumericVector >::type lower(lowerSEXP);
     Rcpp::traits::input_parameter< Rcpp::NumericVector >::type upper(upperSEXP);
     Rcpp::traits::input_parameter< Rcpp::IntegerVector >::type observation_map(observation_mapSEXP);
-    rcpp_result_gen = Rcpp::wrap(rc_cpp_bounds(p, numerator, denominator, kappa, rho, lower, upper, observation_map));
+    rcpp_result_gen = Rcpp::wrap(cs_cpp_bounds(p, numerator, denominator, kappa, rho, lower, upper, observation_map));
     return rcpp_result_gen;
 END_RCPP
 }
-// rc_cpp_conformal
-Rcpp::NumericVector rc_cpp_conformal(Rcpp::NumericVector scores, Rcpp::NumericVector candidates, Rcpp::NumericVector lower, Rcpp::NumericVector upper, Rcpp::NumericVector candidate_upper);
-RcppExport SEXP _coherent4cast_rc_cpp_conformal(SEXP scoresSEXP, SEXP candidatesSEXP, SEXP lowerSEXP, SEXP upperSEXP, SEXP candidate_upperSEXP) {
+// cs_cpp_conformal
+Rcpp::NumericVector cs_cpp_conformal(Rcpp::NumericVector scores, Rcpp::NumericVector candidates, Rcpp::NumericVector lower, Rcpp::NumericVector upper, Rcpp::NumericVector candidate_upper);
+RcppExport SEXP _coherentSurv_cs_cpp_conformal(SEXP scoresSEXP, SEXP candidatesSEXP, SEXP lowerSEXP, SEXP upperSEXP, SEXP candidate_upperSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -204,26 +204,26 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< Rcpp::NumericVector >::type lower(lowerSEXP);
     Rcpp::traits::input_parameter< Rcpp::NumericVector >::type upper(upperSEXP);
     Rcpp::traits::input_parameter< Rcpp::NumericVector >::type candidate_upper(candidate_upperSEXP);
-    rcpp_result_gen = Rcpp::wrap(rc_cpp_conformal(scores, candidates, lower, upper, candidate_upper));
+    rcpp_result_gen = Rcpp::wrap(cs_cpp_conformal(scores, candidates, lower, upper, candidate_upper));
     return rcpp_result_gen;
 END_RCPP
 }
-// rc_cpp_pivot
-Rcpp::NumericVector rc_cpp_pivot(Rcpp::NumericVector times, double dispersion, Rcpp::NumericVector quantiles);
-RcppExport SEXP _coherent4cast_rc_cpp_pivot(SEXP timesSEXP, SEXP dispersionSEXP, SEXP quantilesSEXP) {
+// cs_cpp_pivot
+Rcpp::NumericVector cs_cpp_pivot(Rcpp::NumericVector times, double dispersion, Rcpp::NumericVector quantiles);
+RcppExport SEXP _coherentSurv_cs_cpp_pivot(SEXP timesSEXP, SEXP dispersionSEXP, SEXP quantilesSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< Rcpp::NumericVector >::type times(timesSEXP);
     Rcpp::traits::input_parameter< double >::type dispersion(dispersionSEXP);
     Rcpp::traits::input_parameter< Rcpp::NumericVector >::type quantiles(quantilesSEXP);
-    rcpp_result_gen = Rcpp::wrap(rc_cpp_pivot(times, dispersion, quantiles));
+    rcpp_result_gen = Rcpp::wrap(cs_cpp_pivot(times, dispersion, quantiles));
     return rcpp_result_gen;
 END_RCPP
 }
-// rc_cpp_cf
-Rcpp::NumericVector rc_cpp_cf(Rcpp::NumericVector z, double n, double skewness, double kurtosis, int order);
-RcppExport SEXP _coherent4cast_rc_cpp_cf(SEXP zSEXP, SEXP nSEXP, SEXP skewnessSEXP, SEXP kurtosisSEXP, SEXP orderSEXP) {
+// cs_cpp_cf
+Rcpp::NumericVector cs_cpp_cf(Rcpp::NumericVector z, double n, double skewness, double kurtosis, int order);
+RcppExport SEXP _coherentSurv_cs_cpp_cf(SEXP zSEXP, SEXP nSEXP, SEXP skewnessSEXP, SEXP kurtosisSEXP, SEXP orderSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -232,13 +232,13 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< double >::type skewness(skewnessSEXP);
     Rcpp::traits::input_parameter< double >::type kurtosis(kurtosisSEXP);
     Rcpp::traits::input_parameter< int >::type order(orderSEXP);
-    rcpp_result_gen = Rcpp::wrap(rc_cpp_cf(z, n, skewness, kurtosis, order));
+    rcpp_result_gen = Rcpp::wrap(cs_cpp_cf(z, n, skewness, kurtosis, order));
     return rcpp_result_gen;
 END_RCPP
 }
-// cpp_rc_propagate_sparse
-List cpp_rc_propagate_sparse(NumericVector probability, IntegerVector offsets, IntegerVector columns, NumericVector rates, double duration, NumericMatrix reward, double tolerance, int max_terms, int max_chunks);
-RcppExport SEXP _coherent4cast_cpp_rc_propagate_sparse(SEXP probabilitySEXP, SEXP offsetsSEXP, SEXP columnsSEXP, SEXP ratesSEXP, SEXP durationSEXP, SEXP rewardSEXP, SEXP toleranceSEXP, SEXP max_termsSEXP, SEXP max_chunksSEXP) {
+// cpp_cs_propagate_sparse
+List cpp_cs_propagate_sparse(NumericVector probability, IntegerVector offsets, IntegerVector columns, NumericVector rates, double duration, NumericMatrix reward, double tolerance, int max_terms, int max_chunks);
+RcppExport SEXP _coherentSurv_cpp_cs_propagate_sparse(SEXP probabilitySEXP, SEXP offsetsSEXP, SEXP columnsSEXP, SEXP ratesSEXP, SEXP durationSEXP, SEXP rewardSEXP, SEXP toleranceSEXP, SEXP max_termsSEXP, SEXP max_chunksSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -251,13 +251,13 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< double >::type tolerance(toleranceSEXP);
     Rcpp::traits::input_parameter< int >::type max_terms(max_termsSEXP);
     Rcpp::traits::input_parameter< int >::type max_chunks(max_chunksSEXP);
-    rcpp_result_gen = Rcpp::wrap(cpp_rc_propagate_sparse(probability, offsets, columns, rates, duration, reward, tolerance, max_terms, max_chunks));
+    rcpp_result_gen = Rcpp::wrap(cpp_cs_propagate_sparse(probability, offsets, columns, rates, duration, reward, tolerance, max_terms, max_chunks));
     return rcpp_result_gen;
 END_RCPP
 }
-// cpp_rc_bounds_sparse
-List cpp_rc_bounds_sparse(NumericVector p, NumericVector numerator, NumericVector denominator, double kappa, double rho, NumericVector lower, NumericVector upper, IntegerVector observation_map, double tolerance, int max_iterations);
-RcppExport SEXP _coherent4cast_cpp_rc_bounds_sparse(SEXP pSEXP, SEXP numeratorSEXP, SEXP denominatorSEXP, SEXP kappaSEXP, SEXP rhoSEXP, SEXP lowerSEXP, SEXP upperSEXP, SEXP observation_mapSEXP, SEXP toleranceSEXP, SEXP max_iterationsSEXP) {
+// cpp_cs_bounds_sparse
+List cpp_cs_bounds_sparse(NumericVector p, NumericVector numerator, NumericVector denominator, double kappa, double rho, NumericVector lower, NumericVector upper, IntegerVector observation_map, double tolerance, int max_iterations);
+RcppExport SEXP _coherentSurv_cpp_cs_bounds_sparse(SEXP pSEXP, SEXP numeratorSEXP, SEXP denominatorSEXP, SEXP kappaSEXP, SEXP rhoSEXP, SEXP lowerSEXP, SEXP upperSEXP, SEXP observation_mapSEXP, SEXP toleranceSEXP, SEXP max_iterationsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -271,31 +271,31 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< IntegerVector >::type observation_map(observation_mapSEXP);
     Rcpp::traits::input_parameter< double >::type tolerance(toleranceSEXP);
     Rcpp::traits::input_parameter< int >::type max_iterations(max_iterationsSEXP);
-    rcpp_result_gen = Rcpp::wrap(cpp_rc_bounds_sparse(p, numerator, denominator, kappa, rho, lower, upper, observation_map, tolerance, max_iterations));
+    rcpp_result_gen = Rcpp::wrap(cpp_cs_bounds_sparse(p, numerator, denominator, kappa, rho, lower, upper, observation_map, tolerance, max_iterations));
     return rcpp_result_gen;
 END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_coherent4cast_rc_cpp_causal_target", (DL_FUNC) &_coherent4cast_rc_cpp_causal_target, 10},
-    {"_coherent4cast_rc_cpp_continuous_target", (DL_FUNC) &_coherent4cast_rc_cpp_continuous_target, 9},
-    {"_coherent4cast_cpp_rc_loglik", (DL_FUNC) &_coherent4cast_cpp_rc_loglik, 7},
-    {"_coherent4cast_cpp_rc_coarsen", (DL_FUNC) &_coherent4cast_cpp_rc_coarsen, 5},
-    {"_coherent4cast_cpp_rc_propagate", (DL_FUNC) &_coherent4cast_cpp_rc_propagate, 6},
-    {"_coherent4cast_cpp_rc_coarsen_fibre", (DL_FUNC) &_coherent4cast_cpp_rc_coarsen_fibre, 12},
-    {"_coherent4cast_cpp_rc_mixture_lik", (DL_FUNC) &_coherent4cast_cpp_rc_mixture_lik, 12},
-    {"_coherent4cast_rc_cpp_history", (DL_FUNC) &_coherent4cast_rc_cpp_history, 7},
-    {"_coherent4cast_rc_cpp_target", (DL_FUNC) &_coherent4cast_rc_cpp_target, 7},
-    {"_coherent4cast_rc_cpp_bounds", (DL_FUNC) &_coherent4cast_rc_cpp_bounds, 8},
-    {"_coherent4cast_rc_cpp_conformal", (DL_FUNC) &_coherent4cast_rc_cpp_conformal, 5},
-    {"_coherent4cast_rc_cpp_pivot", (DL_FUNC) &_coherent4cast_rc_cpp_pivot, 3},
-    {"_coherent4cast_rc_cpp_cf", (DL_FUNC) &_coherent4cast_rc_cpp_cf, 5},
-    {"_coherent4cast_cpp_rc_propagate_sparse", (DL_FUNC) &_coherent4cast_cpp_rc_propagate_sparse, 9},
-    {"_coherent4cast_cpp_rc_bounds_sparse", (DL_FUNC) &_coherent4cast_cpp_rc_bounds_sparse, 10},
+    {"_coherentSurv_cs_cpp_causal_target", (DL_FUNC) &_coherentSurv_cs_cpp_causal_target, 10},
+    {"_coherentSurv_cs_cpp_continuous_target", (DL_FUNC) &_coherentSurv_cs_cpp_continuous_target, 9},
+    {"_coherentSurv_cpp_cs_loglik", (DL_FUNC) &_coherentSurv_cpp_cs_loglik, 7},
+    {"_coherentSurv_cpp_cs_coarsen", (DL_FUNC) &_coherentSurv_cpp_cs_coarsen, 5},
+    {"_coherentSurv_cpp_cs_propagate", (DL_FUNC) &_coherentSurv_cpp_cs_propagate, 6},
+    {"_coherentSurv_cpp_cs_coarsen_fibre", (DL_FUNC) &_coherentSurv_cpp_cs_coarsen_fibre, 12},
+    {"_coherentSurv_cpp_cs_mixture_lik", (DL_FUNC) &_coherentSurv_cpp_cs_mixture_lik, 12},
+    {"_coherentSurv_cs_cpp_history", (DL_FUNC) &_coherentSurv_cs_cpp_history, 7},
+    {"_coherentSurv_cs_cpp_target", (DL_FUNC) &_coherentSurv_cs_cpp_target, 7},
+    {"_coherentSurv_cs_cpp_bounds", (DL_FUNC) &_coherentSurv_cs_cpp_bounds, 8},
+    {"_coherentSurv_cs_cpp_conformal", (DL_FUNC) &_coherentSurv_cs_cpp_conformal, 5},
+    {"_coherentSurv_cs_cpp_pivot", (DL_FUNC) &_coherentSurv_cs_cpp_pivot, 3},
+    {"_coherentSurv_cs_cpp_cf", (DL_FUNC) &_coherentSurv_cs_cpp_cf, 5},
+    {"_coherentSurv_cpp_cs_propagate_sparse", (DL_FUNC) &_coherentSurv_cpp_cs_propagate_sparse, 9},
+    {"_coherentSurv_cpp_cs_bounds_sparse", (DL_FUNC) &_coherentSurv_cpp_cs_bounds_sparse, 10},
     {NULL, NULL, 0}
 };
 
-RcppExport void R_init_coherent4cast(DllInfo *dll) {
+RcppExport void R_init_coherentSurv(DllInfo *dll) {
     R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
     R_useDynamicSymbols(dll, FALSE);
 }

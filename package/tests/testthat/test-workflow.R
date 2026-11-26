@@ -1,6 +1,6 @@
 test_that("constant terminal model matches its closed-form forecast", {
   d<-data.frame(id=1:8,start=0,stop=c(.5,1,1.5,2,2.5,3,3.5,4),event_type=0,terminal=c(1,1,0,1,0,1,0,0))
-  fit<-coherent4cast(~1,d,time_unit="years",control=coherent4cast_control(phi_fixed=0))
+  fit<-cs_fit(~1,d,time_unit="years",control=cs_control(phi_fixed=0))
   rate<-sum(d$terminal)/sum(d$stop)
   expect_equal(unname(exp(coef(fit))),rate,tolerance=1e-5)
   pred<-predict(fit,newdata=d[8,,drop=FALSE],landmark=0,horizon=c(.2,1),type="all")
@@ -8,13 +8,13 @@ test_that("constant terminal model matches its closed-form forecast", {
   expect_equal(pred$estimate[pred$target=="rmst"],-expm1(-rate*c(.2,1))/rate,tolerance=1e-5)
   expect_equal(pred$estimate[pred$target=="risk"]+pred$estimate[pred$target=="survival"],c(1,1),tolerance=1e-11)
   expect_true(all(pred$series_error_bound>=0))
-  expect_error(predict(fit,landmark=5,horizon=1),class="coherent4cast_error")
-  expect_error(predict(fit,landmark=0,horizon=1,unexpected=TRUE),class="coherent4cast_error")
+  expect_error(predict(fit,landmark=5,horizon=1),class="coherentSurv_error")
+  expect_error(predict(fit,landmark=0,horizon=1,unexpected=TRUE),class="coherentSurv_error")
 })
 
 test_that("landmark prediction never uses future outcomes or future covariates", {
   data(sim_perinatal)
-  fit<-coherent4cast(~x,sim_perinatal,time_unit="months",event_types=c("1","2"))
+  fit<-cs_fit(~x,sim_perinatal,time_unit="months",event_types=c("1","2"))
   d<-sim_perinatal[sim_perinatal$id==1,,drop=FALSE]
   # All event marks lie after the origin; replacing them preserves the same baseline history.
   other<-d;other$event_type<-0;other$terminal<-0
@@ -26,14 +26,14 @@ test_that("landmark prediction never uses future outcomes or future covariates",
   expect_equal(a$estimate[a$target=="survival"]+a$estimate[a$target=="risk"],c(1,1),tolerance=1e-11)
   expect_equal(predict(fit,d,landmark=0,horizon=.5,type="burden")$estimate,a$estimate[a$horizon==.5&grepl("burden",a$target)])
   expect_equal(augment(fit,d,landmark=0,horizon=c(.25,.5))$estimate,a$estimate)
-  expect_s3_class(summary(fit),"summary.coherent4cast")
+  expect_s3_class(summary(fit),"summary.coherentSurv")
   expect_equal(nrow(tidy(fit)),length(coef(fit)))
   expect_equal(dim(vcov(fit)),rep(length(coef(fit)),2))
   expect_equal(as.numeric(logLik(fit)),fit$loglik)
   expect_equal(glance(fit)$n,160)
-  expect_output(print(fit),"coherent4cast")
+  expect_output(print(fit),"coherentSurv")
   expect_output(print(summary(fit)),"sandwich")
-  expect_error(bounds(fit),class="coherent4cast_error")
+  expect_error(bounds(fit),class="coherentSurv_error")
   file<-tempfile(fileext=".pdf");grDevices::pdf(file)
   expect_silent(plot(a));grDevices::dev.off();unlink(file)
   if(requireNamespace("ggplot2",quietly=TRUE))expect_s3_class(autoplot(a),"ggplot")
@@ -41,17 +41,17 @@ test_that("landmark prediction never uses future outcomes or future covariates",
 
 test_that("simulation conserves histories and restores the caller random stream", {
   set.seed(2026);before<-.Random.seed;kind<-RNGkind()
-  a<-rc_simulate(n=25,seed=21,time_unit="hours")
+  a<-cs_simulate(n=25,seed=21,time_unit="hours")
   expect_identical(.Random.seed,before);expect_identical(RNGkind(),kind)
-  expect_identical(a,rc_simulate(n=25,seed=21,time_unit="hours"))
-  tr<-as_trajectory(a,time_unit="hours",event_types=c("1","2"))
-  expect_equal(length(unique(tr$.rc_unit)),25)
+  expect_identical(a,cs_simulate(n=25,seed=21,time_unit="hours"))
+  tr<-cs_as_trajectory(a,time_unit="hours",event_types=c("1","2"))
+  expect_equal(length(unique(tr$.cs_unit)),25)
   expect_true(isTRUE(attr(a,"synthetic")))
-  h<-build_history(tr,decay=.5)
+  h<-cs_build_history(tr,decay=.5)
   expect_true(all(h$counts>=0));expect_true(all(h$recency>=0))
-  a0<-rc_simulate(n=3,rates=.2,beta=0,history=0,dispersion=0,censor_rate=0,seed=7)
+  a0<-cs_simulate(n=3,rates=.2,beta=0,history=0,dispersion=0,censor_rate=0,seed=7)
   expect_true(all(a0$event_type==0))
-  expect_equal(ncol(build_history(as_trajectory(a0,time_unit="years"))$counts),0)
+  expect_equal(ncol(cs_build_history(cs_as_trajectory(a0,time_unit="years"))$counts),0)
 })
 
 test_that("uncensored validation recovers elementary two-by-two calculations", {
@@ -67,22 +67,22 @@ test_that("uncensored validation recovers elementary two-by-two calculations", {
   large<-validate(seq(.05,.95,length.out=20),seq_len(20),rep(c(1,0),10),10,
      censor_survival=list(case=rep(.9,20),horizon=rep(.8,20)))
   expect_true(is.finite(large$metrics$estimate[large$metrics$metric=="CITL"]))
-  expect_error(validate(c(.2,.3),c(1,4),c(1,0),3,censor_survival=list(case=c(0,1),horizon=c(1,1))),class="coherent4cast_error")
+  expect_error(validate(c(.2,.3),c(1,4),c(1,0),3,censor_survival=list(case=c(0,1),horizon=c(1,1))),class="coherentSurv_error")
 })
 
 test_that("regularized analytic score agrees with independent logdet differentiation", {
   data(sim_perinatal)
-  fit<-coherent4cast(~x,sim_perinatal,time_unit="months",event_types=c("1","2"))
+  fit<-cs_fit(~x,sim_perinatal,time_unit="months",event_types=c("1","2"))
   d<-fit$design;b<-coef(fit)
-  info<-function(b)rc_loglik(b,d$unit,d$exposure,d$design,d$event)$information
-  score<-coherent4cast:::.rc_penalty_score(b,d,solve(info(b)))
+  info<-function(b)cs_loglik(b,d$unit,d$exposure,d$design,d$event)$information
+  score<-coherentSurv:::.cs_penalty_score(b,d,solve(info(b)))
   logdet<-function(b).5*as.numeric(determinant(info(b),logarithm=TRUE)$modulus)
   numeric_score<-vapply(seq_along(b),function(j){up<-dn<-b;up[j]<-up[j]+1e-5;dn[j]<-dn[j]-1e-5;(logdet(up)-logdet(dn))/2e-5},numeric(1))
   expect_equal(score,numeric_score,tolerance=1e-7)
-  pen<-rc_regularize(fit)
-  expect_s3_class(pen,"coherent4cast");expect_true(pen$convergence$valid)
+  pen<-cs_regularize(fit)
+  expect_s3_class(pen,"coherentSurv");expect_true(pen$convergence$valid)
   expect_true(min(eigen(vcov(pen),symmetric=TRUE,only.values=TRUE)$values)>0)
   expect_true(grepl("no general Firth",pen$audit$regularization$scope))
   fixed<-fit;fixed$control$phi_fixed<-0
-  expect_error(rc_regularize(fixed),class="coherent4cast_error")
+  expect_error(cs_regularize(fixed),class="coherentSurv_error")
 })

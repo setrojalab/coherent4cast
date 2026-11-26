@@ -1,16 +1,16 @@
-# coherent4cast 0.10.3
+# coherentSurv 0.11.0
 
-- Standardize all public functions, native namespaces, include paths, documentation and distribution files on coherent4cast.
-- The fitting entry points are coherent4cast() and coherent4cast_control(); transitional aliases have been removed.
-- Numerical formulas, algorithms and S3 classes are unchanged from 0.10.2.
-- Fresh package, native-kernel and cross-platform checks are recorded for this source revision.
+- Adopt coherentSurv as the package identity and cs_ for package-specific functions, classes, attributes and native helpers.
+- Use cs_fit(), cs_control(), cs_as_trajectory() and cs_build_history() as the main workflow; preserve standard R generics.
+- This release changes API names. Refit previously serialized model objects with the current package.
+- Statistical algorithms are unchanged by the naming migration. Current validation is recorded separately from earlier results.
 
 ## Earlier development history
 
-# coherent4cast 0.10.1 (unpublished targeted revision)
+# coherentSurv 0.10.1 (unpublished targeted revision)
 
-- Add the S12 baseline binary-treatment extension through rc_causal() and
-  rc_causal_contrast(): common-population g-formula standardization, cross-fitted
+- Add the S12 baseline binary-treatment extension through cs_causal() and
+  cs_causal_contrast(): common-population g-formula standardization, cross-fitted
   arm-specific intensity targeting, treatment/censor weighting, joint EIF
   covariance, differences and ratios, and explicit overlap/boundary diagnostics.
 - Add a separate causal C++17 engine; retain the existing prognostic kernels.
@@ -25,7 +25,7 @@
 - Record causal revision checks separately from the earlier platform and
   sanitizer results; previous runs do not validate newly added code.
 
-# coherent4cast 0.10.0 (unpublished release candidate)
+# coherentSurv 0.10.0 (unpublished release candidate)
 
 - Add automatic coarsened-history fibres and posterior mixtures at forecast origins.
 - Add sparse state propagation and structural finite-support bound calculations.
@@ -38,7 +38,7 @@
 - Keep the 0.9.1 project and its recorded evidence unchanged; verification of
   this revision is recorded separately.
 
-# coherent4cast 0.9.1 (unpublished release candidate)
+# coherentSurv 0.9.1 (unpublished release candidate)
 
 - Assemble the first local release candidate after internal 0.9.0.9000
   development snapshots. This version has not been published to CRAN.
@@ -46,7 +46,7 @@
   floating-point limit, with a regression test.
 - Retain the generated vignette index in source package builds.
 
-Development implementation of the Version 5 coherent4cast computational methods.
+Development implementation of the Version 5 coherentSurv computational methods.
 The release gates, measured checks and unexecuted platform checks are recorded
 outside the installable package. A development version does not indicate CRAN
 acceptance or a published software paper.

@@ -1,7 +1,7 @@
-Package: coherent4cast
+Package: coherentSurv
 Type: Package
-Title: Coherent Survival Modelling and Event Forecasting
-Version: 0.10.3
+Title: Coherent Survival Modelling and Dynamic Landmark Forecasting
+Version: 0.11.0
 Authors@R: c(
     person("Sunday A.", "Adetunji", email = "sundayadetunjisa@gmail.com",
            role = c("aut", "cre")),
@@ -17,6 +17,8 @@ Description: Fits shared-frailty event-history models and computes joint-law
     consistency, exchangeability, positivity and censoring assumptions.
     Observation assumptions and numerical diagnostics are retained in returned
     objects; prognostic forecasts and causal treatment contrasts are distinct.
+    Uses a compiled C++17 core with an R interface and examples for calling
+    the same implementation from 'Python' through 'rpy2' or 'Rscript'.
 License: GPL-3
 Encoding: UTF-8
 Depends: R (>= 4.1.0)
@@ -31,6 +33,6 @@ NeedsCompilation: yes
 Author: Sunday A. Adetunji [aut, cre],
   Oluwatimileyin A. Adetunji [aut]
 Maintainer: Sunday A. Adetunji <sundayadetunjisa@gmail.com>
-URL: https://github.com/setrojalab/coherent4cast,
-    https://setrojalab.github.io/coherent4cast/
-BugReports: https://github.com/setrojalab/coherent4cast/issues
+URL: https://github.com/setrojalab/coherentSurv,
+    https://setrojalab.github.io/coherentSurv/
+BugReports: https://github.com/setrojalab/coherentSurv/issues

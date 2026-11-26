@@ -9,7 +9,7 @@ vignette: >
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(collapse=TRUE,comment="#>")
-library(coherent4cast)
+library(coherentSurv)
 ```
 
 The five revision modules share an interface but retain their own observation
@@ -18,9 +18,9 @@ models and numerical diagnostics. This guide uses synthetic data throughout.
 ## Fit a trajectory law and inspect its assumptions
 
 ```{r fit}
-d <- rc_simulate(100,horizon=2,seed=72,time_unit="years")
-fit <- coherent4cast(~x,d,time_unit="years",
-                 control=coherent4cast_control(history_cap=0,phi_fixed=.4))
+d <- cs_simulate(100,horizon=2,seed=72,time_unit="years")
+fit <- cs_fit(~x,d,time_unit="years",
+                 control=cs_control(history_cap=0,phi_fixed=.4))
 fit$convergence$code
 summary(fit)$frailty_diagnostics$null_variance_test
 ```
@@ -30,13 +30,13 @@ distributions can be fitted by changing one argument. Lognormal fitting checks
 quadrature refinement; discrete fitting estimates normalized support and weights.
 
 ```{r alternative}
-lnfit <- suppressWarnings(coherent4cast(~x,d,time_unit="years",frailty="lognormal",
-  control=coherent4cast_control(history_cap=0,phi_fixed=.4)))
+lnfit <- suppressWarnings(cs_fit(~x,d,time_unit="years",frailty="lognormal",
+  control=cs_control(history_cap=0,phi_fixed=.4)))
 lnfit$audit$quadrature_refinement
 ```
 
 A family comparison is available through
-`rc_frailty_diagnose(fit, alternatives=TRUE)`. Its AIC values compare fitted
+`cs_frailty_diagnose(fit, alternatives=TRUE)`. Its AIC values compare fitted
 working distributions. They are not a chi-square test of nonnested models.
 
 ## Retain uncertainty about an event time
@@ -49,7 +49,7 @@ and mark are complete, while the event time is coarsened.
 ```{r coarsening}
 history <- data.frame(id=901,event_time_lower=.2,event_time_upper=.4,
                       event_type="1",terminal=0,followup=1,x=0)
-fibre <- rc_coarsen_fibre(history,event_types=c("1","2"),
+fibre <- cs_coarsen_fibre(history,event_types=c("1","2"),
                          time_unit="years",nodes=4)
 fibre$tie_audit
 pred <- predict(fit,newdata=history,landmark=1,horizon=.5,type="all",
@@ -72,7 +72,7 @@ predict(fit,history,landmark=1,horizon=.5,type="risk",
         newdata_future=schedule)
 ```
 
-For a stochastic longitudinal submodel, fit `rc_covariate_model()` on a training
+For a stochastic longitudinal submodel, fit `cs_covariate_model()` on a training
 measurement table. Supply `covariate_history` separately to prediction: interval
 boundaries are not repeated biomarker measurements. The model integrates future
 Gaussian random-coefficient trajectories and reports Monte Carlo error. It
@@ -88,8 +88,8 @@ before the administrative horizon identifies a right-censoring time.
 
 ```{r targeting}
 d$censored <- as.integer(d$event_type==0 & d$terminal==0 & d$stop<2)
-targeted <- suppressWarnings(coherent4cast(~x,d,time_unit="years",targeting="continuous",
-  control=coherent4cast_control(history_cap=1),
+targeted <- suppressWarnings(cs_fit(~x,d,time_unit="years",targeting="continuous",
+  control=cs_control(history_cap=1),
   targeting_spec=list(horizon=2,censor="censored",nfolds=3,grid=32)))
 summary(targeted)$estimates
 predict(targeted,draws=300)
@@ -105,10 +105,10 @@ from a distribution-free bounded-reward argument.
 ## Use sparse propagation and large-support sensitivity bounds
 
 ```{r sparse}
-Q <- rc_generator_csr(3,from=c(1,1,2),to=c(2,3,3),rate=c(.3,.1,.2))
-rc_propagate_sparse(c(1,0,0),Q,1,reward=c(1,1,0))
+Q <- cs_generator_csr(3,from=c(1,1,2),to=c(2,3,3),rate=c(.3,.1,.2))
+cs_propagate_sparse(c(1,0,0),Q,1,reward=c(1,1,0))
 p <- rep(1/100,100)
-region <- rc_bounds(p,numerator=seq(0,1,length.out=100),
+region <- cs_bounds(p,numerator=seq(0,1,length.out=100),
                     kappa=2,recording_fraction=.7)
 c(lower=region$lower,upper=region$upper)
 region$method

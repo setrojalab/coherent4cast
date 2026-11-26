@@ -1,9 +1,9 @@
-.rc_kernel_guard <- function(code) {
+.cs_kernel_guard <- function(code) {
   tryCatch(force(code), error = function(e) {
-    if (inherits(e, "coherent4cast_error")) stop(e)
+    if (inherits(e, "coherentSurv_error")) stop(e)
     stop(structure(list(message = conditionMessage(e), call = NULL,
                         code = "KERNEL_INPUT_OR_NUMERICAL_ERROR"),
-                   class = c("coherent4cast_error", "error", "condition")))
+                   class = c("coherentSurv_error", "error", "condition")))
   })
 }
 
@@ -23,9 +23,9 @@
 #'   gradient, subject log likelihoods and scores, cumulative hazards and counts.
 #'   Information matrices are included when requested.
 #' @export
-rc_loglik <- function(theta, unit, exposure, design, event, phi_fixed = NULL,
+cs_loglik <- function(theta, unit, exposure, design, event, phi_fixed = NULL,
                       information = TRUE) {
- .rc_kernel_guard({
+ .cs_kernel_guard({
   if (!is.matrix(design) || !is.numeric(design) || !ncol(design) ||
       !is.numeric(theta) || any(!is.finite(theta))) {
     stop("design must be a numeric matrix and theta must be finite", call. = FALSE)
@@ -46,16 +46,16 @@ rc_loglik <- function(theta, unit, exposure, design, event, phi_fixed = NULL,
       !is.finite(phi_fixed) || phi_fixed < 0)) {
     stop("phi_fixed must be NULL or one finite nonnegative variance", call. = FALSE)
   }
-  cpp_rc_loglik(theta, as.integer(unit), exposure, design, event,
+  cpp_cs_loglik(theta, as.integer(unit), exposure, design, event,
                if (is.null(phi_fixed)) -1 else phi_fixed, information)
  })
 }
 
 # Aggregate already enumerated legal paths. Quadrature weights are integration
 # weights and must not be normalized separately within observed subjects.
-rc_coarsen <- function(loglik, scores = NULL, information = NULL, owner,
+cs_coarsen <- function(loglik, scores = NULL, information = NULL, owner,
                        log_weights) {
- .rc_kernel_guard({
+ .cs_kernel_guard({
   if (is.list(loglik)) {
     scores <- loglik$scores
     information <- loglik$information_individual
@@ -75,7 +75,7 @@ rc_coarsen <- function(loglik, scores = NULL, information = NULL, owner,
       !identical(dim(information), c(ncol(scores), ncol(scores), nrow(scores))))) {
     stop("path information must have dimensions parameter by parameter by path", call. = FALSE)
   }
-  cpp_rc_coarsen(loglik, scores, if (is.null(information)) numeric() else as.numeric(information),
+  cpp_cs_coarsen(loglik, scores, if (is.null(information)) numeric() else as.numeric(information),
                 as.integer(owner), log_weights)
  })
 }
@@ -95,9 +95,9 @@ rc_coarsen <- function(loglik, scores = NULL, information = NULL, owner,
 #' @return A list with the final probability, integrated reward, series truncation
 #'   bounds, a separate floating-point roundoff bound, and computational counts.
 #' @export
-rc_propagate <- function(probability, generator, duration, reward = NULL,
+cs_propagate <- function(probability, generator, duration, reward = NULL,
                          tolerance = 1e-12, max_terms = 10000L) {
- .rc_kernel_guard({
+ .cs_kernel_guard({
   if (!is.numeric(probability) || !length(probability) || any(!is.finite(probability))) {
     stop("probability must be a finite numeric vector", call. = FALSE)
   }
@@ -128,7 +128,7 @@ rc_propagate <- function(probability, generator, duration, reward = NULL,
   accumulated <- numeric(ncol(rewards[[1L]])); error <- 0; roundoff <- 0
   reward_error <- accumulated; terms <- squarings <- 0
   for (i in seq_along(generators)) {
-    z <- cpp_rc_propagate(probability, generators[[i]], duration[i], rewards[[i]],
+    z <- cpp_cs_propagate(probability, generators[[i]], duration[i], rewards[[i]],
                           tolerance / length(generators), as.integer(max_terms))
     if (length(reward_error)) {
       reward_error <- reward_error + z$reward_error_bound +

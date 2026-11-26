@@ -5,7 +5,7 @@ using namespace Rcpp;
 // General mean-one discrete quadrature likelihood. Louis' identity is applied
 // within each subject; derivatives of nodes and weights are supplied analytically.
 // [[Rcpp::export]]
-List cpp_rc_mixture_lik(NumericVector beta, IntegerVector unit, NumericVector exposure,
+List cpp_cs_mixture_lik(NumericVector beta, IntegerVector unit, NumericVector exposure,
  NumericMatrix X, NumericVector event, NumericVector h, NumericVector g,
  NumericMatrix dh, NumericMatrix dg, NumericVector d2h, NumericVector d2g, bool information) {
  int m=X.nrow(),p=X.ncol(),q=dh.ncol(),L=h.size(),n=max(unit),P=p+q;

@@ -1,15 +1,15 @@
-# Companion reporting functions, sourced explicitly; not coherent4cast exports.
+# Companion reporting functions, sourced explicitly; not coherentSurv exports.
 # One independent validation unit per row at a prespecified landmark/horizon.
 # The package fit and censoring assumptions remain necessary.
 
-rc_research_report <- function(predicted, time, status, horizon,
+cs_research_report <- function(predicted, time, status, horizon,
                                thresholds = c(0.1, 0.2, 0.5),
                                censor_survival = NULL, bootstrap_reps = 0L,
                                seed = 20261123L, level = 0.95,
                                false_positive_cost = NULL,
                                false_negative_cost = NULL,
                                loss_unit = NULL) {
-  if (!requireNamespace("coherent4cast", quietly = TRUE)) stop("Install coherent4cast first.")
+  if (!requireNamespace("coherentSurv", quietly = TRUE)) stop("Install coherentSurv first.")
   if (!is.numeric(thresholds) || !length(thresholds) || anyNA(thresholds) ||
       any(!is.finite(thresholds)) || any(thresholds <= 0 | thresholds >= 1) ||
       anyDuplicated(thresholds)) stop("Use unique thresholds strictly inside (0,1).")
@@ -26,7 +26,7 @@ rc_research_report <- function(predicted, time, status, horizon,
     stop("Supply both nonnegative finite costs and a nonempty loss_unit.")
 
   calculate <- function(p, tt, ss, gg) {
-    ans <- coherent4cast::validate(p, tt, ss, horizon, censor_survival = gg,
+    ans <- coherentSurv::validate(p, tt, ss, horizon, censor_survival = gg,
                               threshold = thresholds[1L])
     w <- ans$weights; y <- as.numeric(ss == 1 & tt <= horizon)
     if(any(!is.finite(w)))stop("Inverse censoring weights exceed the finite numerical range; revise the horizon or censoring model.")
@@ -123,7 +123,7 @@ rc_research_report <- function(predicted, time, status, horizon,
   out
 }
 
-rc_value_burden <- function(predictions, unit_cost, cost_unit) {
+cs_value_burden <- function(predictions, unit_cost, cost_unit) {
   required <- c("unit","landmark","horizon","target","estimate","time_unit")
   if (!is.data.frame(predictions) || !all(required %in% names(predictions)))
     stop("Use a forecast table containing unit, landmark, horizon, target, estimate and time_unit.")
