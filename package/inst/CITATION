@@ -3,6 +3,6 @@ bibentry(
   title = "coherentSurv: Coherent Survival Modelling and Dynamic Landmark Forecasting in R and Python",
   author = c(person("Sunday A.", "Adetunji"), person("Oluwatimileyin A.", "Adetunji")),
   year = "2026",
-  note = "R package version 0.10.2",
+  note = paste("R package version", meta$Version),
   url = "https://github.com/setrojalab/coherentSurv"
 )

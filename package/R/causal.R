@@ -5,7 +5,7 @@ cs_causal <- function(formula, data, treatment, horizon, censor, time_unit,
                       unit = "id", start = "start", stop = "stop",
                       event_type = "event_type", terminal = "terminal",
                       observed = NULL, event_types = NULL, folds = NULL,
-                      propensity = NULL, spec = list(), seed = 1L) {
+                      propensity = NULL, spec = list(), seed = 1L, estimand = NULL) {
   call <- match.call()
   if (!inherits(formula, "formula") || length(formula) != 2L)
     .cs_error("causal_formula", "Use a one-sided formula for baseline confounder strata.")
@@ -216,7 +216,7 @@ cs_causal <- function(formula, data, treatment, horizon, censor, time_unit,
           minimum_censor_survival = min(vapply(arms, function(z) exp(-max(z$censor_rates) * horizon), numeric(1))),
           interpolation_error = max(vapply(arms, function(z) z$interpolation_error, numeric(1))),
           propensity_source = if (is.null(propensity)) "cross-fitted stratum proportions with 0.5 pseudocount" else "analyst-supplied known or out-of-fold probabilities"),
-      audit = list(call = call, seed = seed, assumptions = assumptions))
+      audit = list(call = call, seed = seed, estimand = estimand, assumptions = assumptions))
   ans$audit$numerical_error <- ans$diagnostics$interpolation_error
   ans$audit$minimum_censor_survival <- ans$diagnostics$minimum_censor_survival
   ans$audit$captured_at_utc <- .cs_audit_time()
@@ -283,7 +283,8 @@ glance.coherentSurv_causal <- function(x, ...) data.frame(n = x$n, horizon = x$h
     minimum_censor_survival = x$diagnostics$minimum_censor_survival,
     interpolation_error = x$diagnostics$interpolation_error)
 summary.coherentSurv_causal <- function(object, ...) list(estimates = cs_causal_contrast(object, ...),
-    diagnostics = object$diagnostics, assumptions = object$assumptions, convergence = object$convergence)
+    diagnostics = object$diagnostics, assumptions = object$assumptions, convergence = object$convergence,
+    estimand_declaration = object$audit$estimand)
 print.coherentSurv_causal <- function(x, ...) {
   cat("Baseline-treatment causal extension (conditional on stated identification assumptions)\n")
   print(cs_causal_contrast(x, ...), row.names = FALSE)

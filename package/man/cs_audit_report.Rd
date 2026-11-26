@@ -36,7 +36,9 @@ arguments. Schema and model metadata may still contain analyst-supplied labels o
 expressions, which should be reviewed before sharing.
 
 Numerical bounds, quadrature diagnostics and covariate Monte Carlo errors remain
-distinct from sampling uncertainty. The report preserves failed convergence flags.
+distinct from sampling uncertainty. The report preserves failed convergence flags, analyst-supplied estimand
+declarations and source mapping metadata when available. A declaration is not
+checked for identification or compliance with ICH E9(R1).
 It does not certify model assumptions, causal identification, coverage, safety,
 regulatory acceptance or publication readiness. JSON null encodes missing or
 nonfinite numerical values; inspect diagnostic flags and nonfinite counts.

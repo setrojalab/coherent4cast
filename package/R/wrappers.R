@@ -200,12 +200,23 @@ vcov.coherentSurv_competing <- function(object,...)object$covariance
 logLik.coherentSurv_competing <- function(object,...)structure(object$loglik,df=length(object$coefficients),nobs=object$n,class="logLik")
 #' @export
 tidy.coherentSurv_competing <- function(x,...) {
-  se<-sqrt(pmax(0,diag(x$covariance)));data.frame(term=names(x$coefficients),estimate=unname(x$coefficients),std.error=se,
-      conf.low=unname(x$coefficients)-stats::qnorm(.975)*se,conf.high=unname(x$coefficients)+stats::qnorm(.975)*se)
+  se<-sqrt(pmax(0,diag(x$covariance)))
+  regular<-isTRUE(x$convergence$valid)&&length(x$fits)>0L&&
+    all(vapply(x$fits,function(f)isTRUE(f$convergence$valid),logical(1)))
+  lower<-upper<-rep(NA_real_,length(x$coefficients))
+  if(regular){lower<-unname(x$coefficients)-stats::qnorm(.975)*se;upper<-unname(x$coefficients)+stats::qnorm(.975)*se}
+  data.frame(term=names(x$coefficients),estimate=unname(x$coefficients),std.error=se,
+    conf.low=lower,conf.high=upper,
+    inference_status=if(regular)"regular_asymptotic" else "unavailable_nonregular_fit")
 }
 #' @export
-summary.coherentSurv_competing <- function(object,...)list(coefficients=tidy(object),convergence=object$convergence,
-    interval_scope="Regular joint sandwich approximation; no automatic CIF confidence bands.",audit=object$audit)
+summary.coherentSurv_competing <- function(object,...) {
+  coefficients<-tidy(object)
+  regular<-all(coefficients$inference_status=="regular_asymptotic")
+  list(coefficients=coefficients,convergence=object$convergence,
+    inference_status=if(regular)"regular_asymptotic" else "unavailable_nonregular_fit",
+    interval_scope=if(regular)"Regular joint sandwich approximation; no automatic CIF confidence bands." else "Regular joint sandwich intervals withheld: the wrapper or a cause-specific fit did not meet convergence and regularity criteria; no automatic CIF confidence bands. Standard errors are numerical diagnostics only.",audit=object$audit)
+}
 #' @export
 glance.coherentSurv_competing <- function(x,...)data.frame(n=x$n,causes=length(x$causes),logLik=x$loglik,
     AIC=-2*x$loglik+2*length(x$coefficients),converged=x$convergence$valid)

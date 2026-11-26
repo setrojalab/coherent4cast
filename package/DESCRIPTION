@@ -1,7 +1,7 @@
 Package: coherentSurv
 Type: Package
 Title: Coherent Survival Modelling and Dynamic Landmark Forecasting
-Version: 0.11.0
+Version: 0.11.1
 Authors@R: c(
     person("Sunday A.", "Adetunji", email = "sundayadetunjisa@gmail.com",
            role = c("aut", "cre")),

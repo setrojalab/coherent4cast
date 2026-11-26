@@ -1,20 +1,22 @@
 # Reproduce the software examples
 
-Run these commands from the repository root after installing `coherentSurv` 0.10.1.
+Run these commands from the repository root after installing `coherentSurv` 0.11.1 for this review candidate.
 The scripts use the installed package and the files in this repository. They
 do not require the original development workspace or the V5 reference engine.
 An optional `COHERENTSURV_LIBRARY` environment variable selects a nondefault R
 library; otherwise the ordinary R library search path is used.
 
 Install the required dependencies in R, then install the supplied source archive
-or run `R CMD INSTALL package` with a C++17 toolchain. The current causal source archive is the portable route for this release.
+or run `R CMD INSTALL package` with a C++17 toolchain. Use the source package from the same revision as these scripts.
 Historical Windows ZIP files elsewhere in the repository predate the causal extension.
 
 ```r
 install.packages(c("Rcpp", "digest", "jsonlite", "survival",
                    "frailtypack", "nlme", "ggplot2"))
-install.packages("release/causal/coherentSurv_0.10.1.tar.gz", repos = NULL,
-                 type = "source")
+# Install the source package from this checkout (requires a C++17 toolchain):
+# R CMD INSTALL package
+# Alternatively, install the accompanying candidate tarball:
+install.packages("coherentSurv_0.11.1.tar.gz", repos = NULL, type = "source")
 ```
 
 The compact examples and companion checks can then be run as follows:
@@ -68,6 +70,6 @@ this eight-script software-reproduction bundle.
 
 ## Complete article reproduction and causal extension
 
-Download and extract [coherentSurv_JSS_replication.zip](../release/causal/coherentSurv_JSS_replication.zip), then run `Rscript --vanilla code.R` from the extracted `coherentSurv-replication` directory. This reconstructs the article tables and figures, runs the synthetic causal example and verifies the analytic remainder calculation. See its README.txt for fresh fits and longer experiments.
+Download and extract [coherentSurv_JSS_replication.zip](https://github.com/setrojalab/coherentSurv/releases/tag/v0.11.0), then run `Rscript --vanilla code.R` from the extracted `coherentSurv-replication` directory. This reconstructs the article tables and figures, runs the synthetic causal example and verifies the analytic remainder calculation. See its README.txt for fresh fits and longer experiments.
 
 The causal runner and independent oracle are also available under `replication/causal/`. Their reported numerical results concern the explicitly specified synthetic experiments and causal assumptions.

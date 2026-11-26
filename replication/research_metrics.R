@@ -130,10 +130,22 @@ cs_value_burden <- function(predictions, unit_cost, cost_unit) {
   d <- as.data.frame(predictions[grepl("^burden_",predictions$target),required,drop=FALSE])
   if (!nrow(d) || any(!is.finite(d$estimate)) || any(d$estimate<0) || anyNA(d))
     stop("Require nonnegative finite burden forecasts and nonmissing keys.")
+  d$target <- as.character(d$target)
   if (anyDuplicated(d[c("unit","landmark","horizon","target")])) stop("Duplicate burden rows would double count costs.")
   if (!is.numeric(unit_cost) || is.null(names(unit_cost)) || anyDuplicated(names(unit_cost)) ||
-      any(!is.finite(unit_cost)) || any(unit_cost<0) || !setequal(names(unit_cost),unique(d$target)))
+      anyNA(names(unit_cost)) || any(!nzchar(names(unit_cost))) ||
+      any(!is.finite(unit_cost)) || any(unit_cost<0))
+    stop("Supply uniquely named, finite, nonnegative costs with nonmissing, nonempty burden target names.")
+  if (any(!d$target %in% names(unit_cost)))
+    stop("Unknown burden target: every forecast target must have a supplied unit cost.")
+  if (!setequal(names(unit_cost),unique(d$target)))
     stop("Supply one named, finite, nonnegative cost for each and only each burden target.")
+  component_counts <- stats::aggregate(target~unit+landmark+horizon,d,length)
+  if (any(component_counts$target != length(unit_cost)))
+    stop("Each unit/landmark/horizon must contain every supplied burden target; missing components are not zero costs.")
+  time_unit_counts <- stats::aggregate(time_unit~unit+landmark+horizon,d,function(x)length(unique(x)))
+  if (any(time_unit_counts$time_unit != 1L))
+    stop("Each unit/landmark/horizon must use one consistent time_unit across burden components.")
   if(length(cost_unit)!=1L || is.na(cost_unit) || !nzchar(cost_unit))stop("Declare cost_unit, including currency/year where applicable.")
   d$unit_cost <- unname(unit_cost[d$target]); d$expected_cost <- d$estimate*d$unit_cost
   if(any(!is.finite(d$expected_cost)))stop("Expected-cost multiplication exceeds the finite numerical range; rescale cost units.")

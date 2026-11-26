@@ -4,7 +4,7 @@
 
 An R package for survival modelling and dynamic forecasts of history-dependent recurrent and terminal events under incomplete observation. It provides a common probability law for recurrent-event burden, terminal-event risk and restricted mean time alive, with explicit observation assumptions and numerical diagnostics.
 
-This is version **0.11.0**. The package uses the S3/Rcpp/C++17 architecture. This naming revision is being prepared for CRAN; acceptance is not asserted.
+This branch contains the **0.11.1 review candidate**; the published release remains **0.11.0**. The package uses the S3/Rcpp/C++17 architecture. The review adds diagnostic safeguards and mapping helpers without changing the numerical kernels. CRAN acceptance and regulatory certification are not asserted. The installation command below selects the published release; use `R CMD INSTALL package` for this branch.
 
 ## Install
 

@@ -1,0 +1,128 @@
+---
+title: "Source mapping and environment diagnostics"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Source mapping and environment diagnostics}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+library(coherentSurv)
+```
+
+This tutorial uses constructed records only. Mapping a table establishes a data
+contract; it does not establish complete ascertainment, independent censoring,
+causal identification or regulatory compliance.
+
+## Selected ADTTE endpoint
+
+Select one endpoint parameter before fitting. Preserve the supplied duration
+definition. Declare which censor codes represent events and which represent
+censoring; subtracting CNSR from one is incorrect for multi-code censoring.
+
+```{r adam}
+adtte <- data.frame(USUBJID = c("001", "1", "003"), PARAMCD = "OS",
+                    AVAL = c(5, 8, 10), CNSR = c(0L, 1L, 2L))
+adsl <- data.frame(USUBJID = c("001", "1", "003"), age = c(51, 62, 47))
+history <- cs_from_adam(adtte, paramcd = "OS", event_codes = 0,
+  censor_codes = c(1, 2), time_unit = "days",
+  duration_definition = "Constructed elapsed follow-up in days",
+  ascertainment = "Complete endpoint follow-up by construction",
+  provenance = "Synthetic tutorial; no patient records",
+  adsl = adsl, covariates = "age")
+history[, c("id", "start", "stop", "terminal", "age")]
+stopifnot(identical(history$id, c("001", "1", "003")),
+          identical(history$terminal, c(1L, 0L, 0L)))
+```
+
+The adapter requires one selected endpoint row per person. The analyst must
+justify the endpoint and time origin. It does not turn a single-endpoint ADTTE
+extract into unobserved recurrent histories.
+
+## Reviewed OMOP-style extract
+
+Real OMOP date fields often coarsen event times. This example explicitly assumes
+events at exact day boundaries, one continuous observation period per person,
+and a process origin equal to its start. Use this mapping only when those
+assumptions are justified. Ambiguous same-day ordering needs a separate
+coarsening model; the adapter never adds jitter.
+
+```{r omop}
+origin <- as.Date("2020-01-01")
+person <- data.frame(person_id = c("001", "1"))
+period <- data.frame(person_id = person$person_id,
+  observation_period_start_date = origin,
+  observation_period_end_date = origin + 10)
+events <- data.frame(person_id = c("001", "1"),
+  condition_concept_id = c("EXAMPLE_A", "EXAMPLE_A"),
+  condition_start_date = origin + c(3, 4))
+death <- data.frame(person_id = "001", death_date = origin + 8)
+mapped <- cs_from_omop(person, period, events,
+  concept_map = c(EXAMPLE_A = "episode"), origin = rep(origin, 2),
+  time_unit = "days", timing = "exact_day_boundaries",
+  ascertainment = "Continuous complete ascertainment by construction",
+  provenance = "Artificial source labels; not real standard OMOP concepts",
+  death = death)
+mapped[, c("id", "start", "stop", "event_type", "terminal")]
+stopifnot(sum(mapped$.cs_mark > 0) == 2, sum(mapped$terminal) == 1)
+```
+
+The supplied concept map must have been reviewed for the actual study. Table
+presence alone cannot establish that all episodes or deaths were observed.
+Multiple observation periods, delayed entry and unknown event counts are not
+reconstructed by this adapter. Source-row mappings stay with the local object;
+the audit export includes declared mapping rules but omits subject-level origins.
+
+## Scientific declarations and provenance
+
+For a treatment-effect analysis, define the population, treatment conditions,
+endpoint, intercurrent-event strategy and population-level summary in advance.
+`cs_fit()` and `cs_causal()` retain an optional `estimand` declaration. This
+metadata does not select new estimands or make observational effects identified.
+The causal entry point still requires its documented baseline binary-treatment
+and observation assumptions.
+
+```{r audit}
+audit <- cs_audit_report(history, include_session = FALSE)
+audit$model$mapping_provenance$adapter
+audit$export$data_fingerprint$algorithm
+```
+
+Hashes compare the specified bytes. They are not anonymization, a protected
+record history, a digital signature or an immutable archive. Review free-text
+labels and paths before sharing an audit report.
+
+## Offline diagnostic checks
+
+```{r environment}
+diagnostic <- cs_validate_env()
+diagnostic$checks[, c("check", "status", "maximum_absolute_error")]
+stopifnot(identical(diagnostic$operational_status, "passed"))
+```
+
+Four small analytic references check the Poisson boundary likelihood, dense and
+sparse absorbing-state propagation, and Louis mixture information. Unavailable
+compiler provenance remains unavailable; a compiler currently on PATH is not
+proof of which compiler built the installed binary. The optional `timings=TRUE`
+records elapsed fixture times and returned-object sizes, not peak memory or
+comparative throughput. JSON/text reports are unsigned diagnostics, not formal
+IQ/OQ/PQ qualification or FDA, NIH or NHS certification.
+
+All these runtime examples are offline once R, coherentSurv and its dependencies
+are installed. Air-gapped installation requires staging those dependencies and
+the appropriate toolchain separately.
+
+## Python and workflow conditions
+
+The installed `python/run_rpy2.py` example fits once and retains its R object.
+`--verify-parity` deliberately adds a second fit to compare direct-R transport;
+`--timings` records stages. `python/run_forecast.py` offers an Rscript route.
+These examples use the same R/C++ engine, not an independent Python model.
+
+Errors raised by the R validation helpers inherit a specific `cs_error_<code>`
+class and the broad `coherentSurv_error` class. For example, code can handle
+`cs_error_interval` without searching error-message text. A nonregular ordinary
+fit raises `cs_warning_nonregular_fit`; reporting methods withhold unsupported
+Wald intervals. Native/system errors can still use their underlying classes.
