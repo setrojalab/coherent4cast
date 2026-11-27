@@ -10,7 +10,7 @@ This is version **0.11.1**. The package uses the S3/Rcpp/C++17 architecture. Thi
 
 ```r
 install.packages(c("remotes", "Rcpp", "digest", "jsonlite"))
-remotes::install_github("setrojalab/coherentSurv", subdir = "package",
+remotes::install_github("setrojalabs/coherentSurv", subdir = "package",
   ref = "v0.11.1", dependencies = NA, upgrade = "never")
 library(coherentSurv)
 data(sim_perinatal)
@@ -24,7 +24,7 @@ Source installation requires a C++17 toolchain (the matching Rtools on Windows).
 The numerical implementation described in the revised paper was tested at source revision `1f39e037c0e8bf24edd58366dfe46c2e5546ed94`. The release adds documentation and metadata corrections; the tagged source is the recommended installation. To reproduce the original verification snapshot explicitly:
 
 ```r
-remotes::install_github("setrojalab/coherentSurv", subdir = "package",
+remotes::install_github("setrojalabs/coherentSurv", subdir = "package",
   ref = "1f39e037c0e8bf24edd58366dfe46c2e5546ed94",
   dependencies = NA, upgrade = "never")
 ```
@@ -54,7 +54,7 @@ Install R and this R package first. The [rpy2 example](package/inst/python/run_r
 
 ## Paper, documentation and source
 
-- [Documentation website](https://setrojalab.github.io/coherentSurv/).
+- [Documentation website](https://setrojalabs.github.io/coherentSurv/).
 - [Software paper on arXiv](https://arxiv.org/abs/2611.32075); replacement 8431196 was submitted with the final title on 26 November 2026 UTC; the public abstract can retain its earlier title until arXiv announces the replacement.
 - [Manuscript PDF](paper/coherentSurv/01_coherentSurv_JSS_arXiv_Manuscript.pdf) and [clean LaTeX source](paper/coherentSurv/coherentSurv_JSS_arXiv_LaTeX.zip).
 - [CRAN source archive](release/coherentSurv/coherentSurv_0.11.1.tar.gz), [reference manual](release/coherentSurv/coherentSurv_0.11.1_Reference_Manual.pdf) and [submission comments](release/coherentSurv/cran-comments.txt).
