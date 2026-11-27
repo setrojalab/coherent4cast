@@ -1,3 +1,9 @@
+# coherentSurv 0.11.2
+
+* Update repository, website, issue-tracker and citation links after the
+  organization rename to SetrojaLabs (setrojalabs).
+* No changes to statistical calculations, public interfaces or numerical kernels.
+
 # coherentSurv 0.11.1
 
 - Reject unsupported validation arguments; report undefined calibration slopes

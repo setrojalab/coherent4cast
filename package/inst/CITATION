@@ -4,5 +4,5 @@ bibentry(
   author = c(person("Sunday A.", "Adetunji"), person("Oluwatimileyin A.", "Adetunji")),
   year = "2026",
   note = paste("R package version", meta$Version),
-  url = "https://github.com/setrojalab/coherentSurv"
+  url = "https://github.com/setrojalabs/coherentSurv"
 )

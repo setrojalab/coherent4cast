@@ -1,7 +1,7 @@
 Package: coherentSurv
 Type: Package
 Title: Coherent Survival Modelling and Dynamic Forecasting
-Version: 0.11.1
+Version: 0.11.2
 Authors@R: c(
     person("Sunday A.", "Adetunji", email = "sundayadetunjisa@gmail.com",
            role = c("aut", "cre")),
@@ -37,6 +37,6 @@ NeedsCompilation: yes
 Author: Sunday A. Adetunji [aut, cre],
   Oluwatimileyin A. Adetunji [aut]
 Maintainer: Sunday A. Adetunji <sundayadetunjisa@gmail.com>
-URL: https://github.com/setrojalab/coherentSurv,
-    https://setrojalab.github.io/coherentSurv/
-BugReports: https://github.com/setrojalab/coherentSurv/issues
+URL: https://github.com/setrojalabs/coherentSurv,
+    https://setrojalabs.github.io/coherentSurv/
+BugReports: https://github.com/setrojalabs/coherentSurv/issues

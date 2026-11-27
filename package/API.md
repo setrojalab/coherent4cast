@@ -1,7 +1,7 @@
 # Public API and statistical scope
 
 This development API implements the accompanying coherentSurv method.
-The current 0.11.1 release includes `cs_causal()` and
+The current 0.11.2 release includes `cs_causal()` and
 `cs_causal_contrast()` from Version 13 Supplement S12. The older theorem
 references in the retained prognostic table below keep their Version 5 provenance. The theorem
 numbers below refer to the supplied, unpublished Version 5 manuscript; they are
