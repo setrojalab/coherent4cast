@@ -9,7 +9,7 @@ risk and restricted survival from it. The R interface exposes a C++17 numerical
 core, checks event eligibility and observation assumptions, and retains
 convergence and numerical diagnostics in returned objects.
 
-This is version `0.11.1`. Local verification does not imply
+This is version `0.11.2`. Local verification does not imply
 CRAN acceptance, independent software review or clinical validation.
 
 ## Install the supplied source archive
@@ -19,7 +19,7 @@ for source installation; use Rtools on Windows.
 
 ```r
 install.packages(c("Rcpp", "digest", "jsonlite"))
-install.packages("coherentSurv_0.11.1.tar.gz", repos=NULL, type="source")
+install.packages("coherentSurv_0.11.2.tar.gz", repos=NULL, type="source")
 library("coherentSurv")
 ```
 

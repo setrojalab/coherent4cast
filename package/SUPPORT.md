@@ -8,7 +8,7 @@ or confidential institutional information.
 Maintainer targets are an initial response within seven days and initial
 security triage within 72 hours. These are service targets, not measured service
 levels. Reproducible issues can be reported at
-https://github.com/setrojalab/coherentSurv/issues.
+https://github.com/setrojalabs/coherentSurv/issues.
 
 The software supplies prognostic calculations and a separate baseline
 binary-treatment causal module under explicit assumptions. It does not supply

@@ -2,7 +2,7 @@ cff-version: 1.2.0
 message: Please cite this software and the accompanying method manuscript.
 type: software
 title: 'coherentSurv: Coherent Survival Modelling and Dynamic Forecasting for Recurrent and Terminal Events in R and Python'
-version: 0.11.1
+version: 0.11.2
 license: GPL-3.0-only
 authors:
   - family-names: Adetunji
@@ -16,6 +16,6 @@ abstract: >-
   recurrent and terminal events, with Python access through rpy2 and Rscript.
   Observation-aware inference, sensitivity analyses and baseline treatment
   contrasts retain their explicit assumptions.
-repository-code: https://github.com/setrojalab/coherentSurv
-url: https://setrojalab.github.io/coherentSurv/
+repository-code: https://github.com/setrojalabs/coherentSurv
+url: https://setrojalabs.github.io/coherentSurv/
 date-released: '2026-11-26'
